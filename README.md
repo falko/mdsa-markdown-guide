@@ -58,5 +58,9 @@ These changes to the template files are proposed for `containerized-spec` as wel
   version), `texlive_repository=` (fixed CTAN mirror for tlmgr) and `core=` (local
   `mdsa-omg-core` checkout) variables.
 - `Dockerfile`: optional `TEXLIVE_REPOSITORY` build argument; `inkscape` and the
-  `catchfile` LaTeX package, which the `svg` package needs to convert SVG images.
+  `catchfile` LaTeX package, which the `svg` package needs to convert SVG images;
+  `tlmgr update --self` before installing packages.
+- `Dockerfile` and `Makefile`: new versions of `mdsa-omg-core` and `mdsa-tools` are
+  picked up without `make forcebuild` (commit lookup with `git ls-remote`, falling
+  back to the version stored in the image if the lookup fails).
 - `_Specification_AuthorSettings.tex`: `showstringspaces=false` for code listings.
