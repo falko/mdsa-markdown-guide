@@ -1,2 +1,11 @@
-# Empty .bib file, fill with your own bibliography entries
-# See https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX
+% Specification-specific bibliography entries.
+% Entries for OMG, ISO and W3C specifications belong in mdsa-omg-core (omg.bib, iso.bib, w3.bib).
+% Use the same @standard + shorthand style, so biblatex (style=alphabetic) renders [DMN].
+
+@standard{DMN16, shorthand={DMN}, title={Decision Model and Notation (DMN)}, version={1.6}, note={OMG Specification}, url={https://www.omg.org/spec/DMN/1.6}, organization={Object Management Group}}
+
+@standard{SCE10, shorthand={SCE}, title={Specification Common Elements (SCE)}, version={1.0}, note={OMG Specification}, url={https://www.omg.org/spec/SCE/1.0}, organization={Object Management Group}}
+
+@manual{PANDOC, shorthand={Pandoc}, title={Pandoc User's Guide}, author={MacFarlane, John}, url={https://pandoc.org/MANUAL.html}}
+
+@manual{CROSSREF, shorthand={pandoc-crossref}, title={pandoc-crossref Manual}, author={Lierdakil}, url={https://lierdakil.github.io/pandoc-crossref/}}

@@ -21,6 +21,12 @@ ENV PATH="/app/venv/bin:${PATH}"
 # Set working directory (set up user account?)
 WORKDIR /app
 
+# Optional: fixed TeX Live package repository (CTAN mirror or tlnet archive)
+# instead of the mirror.ctan.org redirector, e.g.
+#   make texlive_repository=https://mirrors.mit.edu/CTAN/systems/texlive/tlnet
+ARG TEXLIVE_REPOSITORY=
+RUN if [ -n "${TEXLIVE_REPOSITORY}" ]; then tlmgr option repository "${TEXLIVE_REPOSITORY}"; fi
+
 # Get the necessary LaTeX piece for MDSA templates
 RUN tlmgr install \
   appendix \

@@ -1,0 +1,29 @@
+# Pandoc settings for converting Markdown clause files to LaTeX.
+#
+# PROPOSED replacement for mdsa-omg-core/omgLaTeX.yaml. Changes from the core
+# version are marked "NEW". Everything else is unchanged.
+#
+# See https://pandoc.org/MANUAL.html#defaults-files
+
+to: latex
+table-caption-position: below
+figure-caption-position: below
+top-level-division: section
+number-sections: true
+listings: true
+
+# NEW: numbered cross-references (@sec:id, @fig:id, @tbl:id).
+# pandoc-crossref is included in the pandoc/latex Docker images.
+# It must run before citations are processed.
+filters:
+  - pandoc-crossref
+
+# NEW: write citations ([@DMN16]) as biblatex \autocite commands, matching the
+# biblatex setup (style=alphabetic) of the MDSA specification template.
+cite-method: biblatex
+
+# NEW: pandoc-crossref settings, see https://lierdakil.github.io/pandoc-crossref/
+metadata:
+  figPrefix: [Figure, Figures]
+  tblPrefix: [Table, Tables]
+  secPrefix: [Section, Sections]

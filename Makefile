@@ -60,40 +60,55 @@ _base := texlive/texlive
 _basetag := latest-small
 _baseimage := ${_base}:${_basetag}
 
+# pandoc/latex image for `make pandoc`. Pinned because pandoc-crossref (included
+# in the image) only works with the pandoc version it was built for; the
+# 'latest' tags can combine mismatched versions. Upgrade deliberately.
+pandoc_tag ?= 3.11-ubuntu
+
+# Optional: TeX Live package repository used by tlmgr during the image build,
+# e.g. make texlive_repository=https://mirrors.mit.edu/CTAN/systems/texlive/tlnet
+texlive_repository ?=
+_buildargs = --build-arg BASEIMAGE=${_baseimage} --build-arg TEXLIVE_REPOSITORY=${texlive_repository}
+
+# Optional: use a local checkout of mdsa-omg-core instead of the one in the image,
+# e.g. to test core changes before they are published: make core=../mdsa-omg-core pandoc run
+core ?=
+_runargs = -v "${CURDIR}:/source" $(if ${core},-v "$(abspath ${core}):/app/mdsa-omg-core:ro")
+
 # If you wish to use pandoc by default, set the above _suffix and _image to the values in the following
 # rule. Otherwise, `make pandoc <other commands>` will use pandoc as needed.
 pandoc:
 	$(eval _suffix := .pandoc)
 	$(eval _image := omg/mdsa${_suffix}:${tag})
 	$(eval _base := pandoc/latex)
-	$(eval _basetag := latest-ubuntu)
+	$(eval _basetag := ${pandoc_tag})
 	$(eval _baseimage := ${_base}:${_basetag})
 	@echo Using ${_image}
 
 build: Dockerfile user-pkgs.txt
 	@echo Building from ${_baseimage} to ${_image}
-	docker build --build-arg BASEIMAGE=${_baseimage} -t ${_image} --file Dockerfile .
+	docker build ${_buildargs} -t ${_image} --file Dockerfile .
 
 forcebuild: Dockerfile user-pkgs.txt
 	@echo Forcing build from ${_baseimage} to ${_image}
-	docker build --build-arg BASEIMAGE=${_baseimage} -t ${_image} --no-cache --file Dockerfile .
+	docker build ${_buildargs} -t ${_image} --no-cache --file Dockerfile .
 
 interactive:
 	@sed -e 's|ENTRYPOINT .*$$|ENTRYPOINT ["/bin/bash"]|g' Dockerfile > Dockerfile.interactive
-	@docker build --build-arg BASEIMAGE=${_baseimage} -t ${_image} --file Dockerfile.interactive .
+	@docker build ${_buildargs} -t ${_image} --file Dockerfile.interactive .
 	@rm Dockerfile.interactive
 	@echo
 	@echo INTERACTIVE MODE - /app/launch.sh to invoke LaTeX processing, Ctrl-D to exit
 	@echo
-	@docker run -it -v "${CURDIR}:/source" ${_image}
+	@docker run -it ${_runargs} ${_image}
 
 run: build
 	@echo Building PDF
-	@docker run --rm -v "${CURDIR}:/source" ${_image}
+	@docker run --rm ${_runargs} ${_image}
 
 debug: build
 	@echo Debugging PDF run
-	docker run --rm -v "${CURDIR}:/source" ${_image} debug
+	docker run --rm ${_runargs} ${_image} debug
 
 clean:
 	@echo Removing image ${_image}
