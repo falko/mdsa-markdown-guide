@@ -22,8 +22,9 @@ moves.
 Every heading has an identifier, generated from its text the same way GitHub
 does it for its anchors: lower case, spaces become hyphens, punctuation is
 dropped. "Object Semantics" becomes `object-semantics`, and "5.2.4 Types" would
-become `524-types`. Refer to a heading with `sec:` and its identifier, e.g.
-`@sec:object-semantics` (see @sec:cross-references). Do not write identifiers
+become `524-types`. Refer to a heading with `sec:` and its identifier, written as a link to the
+heading so that it is clickable on GitHub, e.g.
+`[@sec:object-semantics](#object-semantics)` (see [@sec:cross-references](11_Cross-references.md#cross-references)). Do not write identifiers
 in headings: GitHub would show `{#sec:...}` as part of the heading.
 
 Figures and tables have no text to generate an identifier from. Give each one

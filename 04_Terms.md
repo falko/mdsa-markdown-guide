@@ -12,4 +12,4 @@ pandoc-crossref
 
 Identifier
 :   Label of a section, figure or table, such as `sec:figures`, used to
-    refer to it (see @sec:identifiers).
+    refer to it (see [@sec:identifiers](08_Sections.md#identifiers)).

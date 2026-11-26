@@ -34,7 +34,7 @@ Specification Authoring) pipeline. It serves two purposes:
 | Unnumbered headings | `## Title {-}` | [`08_Sections.md`](08_Sections.md) |
 | SVG figures with captions | `![Caption](Images/file.svg){#fig:id}` | [`07_Markdown_in_the_MDSA_Pipeline.md`](07_Markdown_in_the_MDSA_Pipeline.md), [`09_Figures.md`](09_Figures.md), [`Images/`](Images/) |
 | Captioned tables, long tables | `Table: Caption {#tbl:id}` | [`05_Symbols.md`](05_Symbols.md), [`10_Tables.md`](10_Tables.md) |
-| Cross-references, also between files | `@sec:heading-anchor`, `@fig:id`, `@tbl:id` | [`11_Cross-references.md`](11_Cross-references.md), all Markdown files |
+| Cross-references, also between files | `[@sec:anchor](08_Sections.md#anchor)`, `@fig:id`, `@tbl:id` | [`11_Cross-references.md`](11_Cross-references.md), all Markdown files |
 | Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`01_Scope.md`](01_Scope.md), [`specification.bib`](specification.bib) |
 | Terms and definitions | definition lists | [`04_Terms.md`](04_Terms.md) |
 | Links to sections, working on GitHub and in the PDF | `[Text](#heading-anchor)`, `[Text](09_Figures.md#figures)` | [`11_Cross-references.md`](11_Cross-references.md) |
@@ -71,10 +71,12 @@ Changes are mostly reviewed in GitHub's preview of the Markdown files, so the
 pipeline reads Markdown the way GitHub does:
 
 - Headings carry no `{#sec:...}` identifiers. Each heading's identifier is the
-  anchor GitHub generates for it, and it is referenced as `@sec:` plus that anchor
-  (`# Figures` as `@sec:figures`).
-- Links to headings written for GitHub (`[Figures](#figures)`,
-  `[Figures](09_Figures.md#figures)`) work in the PDF too.
+  anchor GitHub generates for it.
+- A section is referenced as a link whose text is the reference:
+  `[@sec:figures](09_Figures.md#figures)`. GitHub shows a clickable
+  "@sec:figures", the PDF "Section 9" with the number generated.
+- Links with their own text (`[Figures](09_Figures.md#figures)`) work in the PDF
+  too.
 - Lists and headings directly after a line of text, without a blank line, are
   lists and headings in the PDF too, as on GitHub. Before, they became plain text.
 - Bare web addresses become links, and GitHub's `> [!NOTE]` blocks are supported.

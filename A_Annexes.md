@@ -16,7 +16,7 @@ acronym and version (`MDTEST_1.0.pdf`).
 Check the generated PDF:
 
 1. Clauses and subclauses are numbered once; the unnumbered subclause in
-   @sec:sections has no number.
+   [@sec:sections](08_Sections.md#sections) has no number.
 2. @fig:build-pipeline is shown with its caption, and the list of figures
    contains it.
 3. The list of tables contains all captioned tables, from @tbl:abbreviations
@@ -28,7 +28,7 @@ Check the generated PDF:
    References".
 6. The header row of @tbl:long repeats on every page.
 7. The terms in Clause 4 are formatted as a definition list.
-8. The links in @sec:links-to-sections point to the right clauses, and the
-   note in @sec:reviewing-on-github is shown as a paragraph headed "Note".
+8. The links in [@sec:links-to-sections](11_Cross-references.md#links-to-sections) point to the right clauses, and the
+   note in [@sec:reviewing-on-github](15_Reviewing_on_GitHub.md#reviewing-on-github) is shown as a paragraph headed "Note".
 9. On GitHub, no file shows `{#sec:` in a heading, and every list and heading
    in GitHub's preview is also a list or heading in the PDF.
