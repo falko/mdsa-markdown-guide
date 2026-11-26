@@ -28,6 +28,11 @@ WORKDIR /app
 ARG TEXLIVE_REPOSITORY=
 RUN if [ -n "${TEXLIVE_REPOSITORY}" ]; then tlmgr option repository "${TEXLIVE_REPOSITORY}"; fi
 
+# tlmgr refuses to install packages if the repository requires a newer tlmgr
+# ("tlmgr itself needs to be updated"), e.g. with an older cached base image.
+# Uses the same repository as 'tlmgr install' below; does nothing if up to date.
+RUN tlmgr update --self
+
 # Get the necessary LaTeX piece for MDSA templates
 RUN tlmgr install \
   appendix \
