@@ -16,19 +16,22 @@ acronym and version (`MDTEST_1.0.pdf`).
 Check the generated PDF:
 
 1. Clauses and subclauses are numbered once; the unnumbered subclause in
-   [@sec:sections](08_Sections.md#sections) has no number.
+   [Sections](08_Sections.md) has no number.
 2. @fig:build-pipeline is shown with its caption, and the list of figures
    contains it.
 3. The list of tables contains all captioned tables, from @tbl:abbreviations
    to @tbl:citations.
-4. Every "Section", "Figure" and "Table" reference shows a number. No "??",
-   no "¿", and no raw `@` reference appears anywhere.
+4. Every link to a section shows a number ("Clause 8", "11.1", "Annex A",
+   "A.2"), and every reference to a figure or table "Figure" or "Table" and a
+   number. No "??", no "¿", and no raw `@` reference appears anywhere.
 5. Citations show "[DMN]", "[SCE]", "[UML]" and "[Pandoc]". DMN and UML
    appear under "Normative References", the others under "Non-normative
    References".
 6. The header row of @tbl:long repeats on every page.
 7. The terms in Clause 4 are formatted as a definition list.
-8. The links in [@sec:links-to-sections](11_Cross-references.md#links-to-sections) point to the right clauses, and the
-   note in [@sec:reviewing-on-github](15_Reviewing_on_GitHub.md#reviewing-on-github) is shown as a paragraph headed "Note".
+8. The example links in [Links to sections](11_Cross-references.md#links-to-sections)
+   show "Clause 10", "10.1", "8.2", "Clause 9" and "11.1", and the note in
+   [Reviewing on GitHub](15_Reviewing_on_GitHub.md) is shown as a paragraph
+   headed "Note".
 9. On GitHub, no file shows `{#sec:` in a heading, and every list and heading
    in GitHub's preview is also a list or heading in the PDF.

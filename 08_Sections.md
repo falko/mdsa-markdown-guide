@@ -19,31 +19,26 @@ moves.
 
 ## Identifiers
 
-Every heading has an identifier, generated from its text the same way GitHub
-does it for its anchors: lower case, spaces become hyphens, punctuation is
-dropped. "Object Semantics" becomes `object-semantics`, and "5.2.4 Types" would
-become `524-types`. Refer to a heading with `sec:` and its identifier, written as a link to the
-heading so that it is clickable on GitHub, e.g.
-`[@sec:object-semantics](#object-semantics)` (see [@sec:cross-references](11_Cross-references.md#cross-references)). Do not write identifiers
-in headings: GitHub would show `{#sec:...}` as part of the heading.
+Headings need no identifiers. Link to a heading the way GitHub does, with the
+anchor GitHub generates from its text: lower case, spaces become hyphens,
+punctuation is dropped. "Object Semantics" becomes `#object-semantics`. In the
+PDF, the link becomes the section number (see
+[Cross-references](11_Cross-references.md#cross-references)).
 
 Figures and tables have no text to generate an identifier from. Give each one
-that is referenced an explicit identifier with a type prefix:
+that is referenced an identifier with a type prefix:
 
-| Prefix | Used for | Example                                 |
-|--------|----------|-----------------------------------------|
-| `sec:` | Sections | `@sec:object-semantics` (generated)     |
-| `fig:` | Figures  | `{#fig:build-pipeline}`                 |
-| `tbl:` | Tables   | `{#tbl:files}`                          |
+| Prefix | Used for | Example                  |
+|--------|----------|--------------------------|
+| `fig:` | Figures  | `{#fig:build-pipeline}`  |
+| `tbl:` | Tables   | `{#tbl:files}`           |
 
 Table: Identifier prefixes {#tbl:prefixes}
 
-A heading identifier changes when the heading text changes, and `make check`
-then reports the references that still use the old one. Two headings with the
-same text, even in different files, get the same identifier; `make check`
-reports these as "multiply defined". In that case, or to keep a stable
-identifier, a heading can still be given one explicitly, as in
-`## Overview {#sec:object-model-overview}`.
+A heading's anchor changes when its text changes. The build then reports the
+links that still use the old anchor. Two headings with the same text, even in
+different files, get the same anchor, which the build reports as "multiply
+defined"; give one of them a different title.
 
 ## Unnumbered headings {-}
 
