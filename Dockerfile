@@ -56,8 +56,13 @@ RUN tlmgr install \
 FROM mdsa-base AS mdsa
 
 # Install the MDSA core and tools
+# Each ADD fetches the latest commit of the repository on every build. Docker
+# reuses the cached clone only if that commit has not changed, so new versions of
+# the core and tools are picked up without 'make forcebuild'.
+ADD https://api.github.com/repos/ObjectManagementGroup/mdsa-tools/commits/main /tmp/mdsa-tools-version.json
 RUN git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-tools.git ./mdsa-tools
 RUN cd ./mdsa-tools ; pip --no-cache-dir install -e . ; cd ..
+ADD https://api.github.com/repos/ObjectManagementGroup/mdsa-omg-core/commits/main /tmp/mdsa-omg-core-version.json
 RUN git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-omg-core.git ./mdsa-omg-core
 
 # Set up latexmk / texliveonfly integration
