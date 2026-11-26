@@ -29,14 +29,15 @@ Specification Authoring) pipeline. It serves two purposes:
 
 | Feature | Markdown syntax | Example in |
 |---|---|---|
-| Numbered clauses and subclauses | `# Title {#sec:id}` (never type numbers) | [`7+_Technical_Content.md`](7+_Technical_Content.md) |
-| Unnumbered headings | `## Title {-}` | [`7+_Technical_Content.md`](7+_Technical_Content.md) |
-| SVG figures with captions | `![Caption](Images/file.svg){#fig:id}` | [`7+_Technical_Content.md`](7+_Technical_Content.md), [`Images/`](Images/) |
-| Captioned tables, long tables | `Table: Caption {#tbl:id}` | [`5_Symbols.md`](5_Symbols.md), [`7+_Technical_Content.md`](7+_Technical_Content.md) |
-| Cross-references, also between files | `@sec:id`, `@fig:id`, `@tbl:id` | all Markdown files |
-| Citations, normative and non-normative | `[@DMN16]` | [`1_Scope.md`](1_Scope.md), [`specification.bib`](specification.bib) |
+| One file per clause from Clause 7 on | `7_Title.md`, `8_Title.md`, … listed in `7+_Technical_Content.tex` | [`7+_Technical_Content.tex`](7+_Technical_Content.tex) |
+| Numbered clauses and subclauses | `# Title {#sec:id}` (never type numbers) | [`8_Sections.md`](8_Sections.md) |
+| Unnumbered headings | `## Title {-}` | [`8_Sections.md`](8_Sections.md) |
+| SVG figures with captions | `![Caption](Images/file.svg){#fig:id}` | [`7_Markdown_in_the_MDSA_Pipeline.md`](7_Markdown_in_the_MDSA_Pipeline.md), [`9_Figures.md`](9_Figures.md), [`Images/`](Images/) |
+| Captioned tables, long tables | `Table: Caption {#tbl:id}` | [`5_Symbols.md`](5_Symbols.md), [`10_Tables.md`](10_Tables.md) |
+| Cross-references, also between files | `@sec:id`, `@fig:id`, `@tbl:id` | [`11_Cross-references.md`](11_Cross-references.md), all Markdown files |
+| Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`1_Scope.md`](1_Scope.md), [`specification.bib`](specification.bib) |
 | Terms and definitions | definition lists | [`4_Terms.md`](4_Terms.md) |
-| Lists, footnotes, code | standard Markdown | [`7+_Technical_Content.md`](7+_Technical_Content.md) |
+| Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](13_Other_Elements.md) |
 | Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](A_Annexes.md) |
 | Table of contents, lists of figures and tables | generated | — |
 
@@ -50,8 +51,15 @@ with the OMG LaTeX templates from
 [mdsa-omg-core](https://github.com/ObjectManagementGroup/mdsa-omg-core). Everything
 runs in a Docker container, so no local LaTeX or Pandoc installation is needed.
 
-In every Markdown file, `#` is a clause and `##` a subclause. Files whose clause
-heading comes from the template, such as `1_Scope.md`, start with `##` or with text.
+The technical content starts at Clause 7, with one file per clause, named after its
+number and title (`7_Markdown_in_the_MDSA_Pipeline.md`, `8_Sections.md`, …). The
+template includes only `7+_Technical_Content`, so that file lists the clause files
+in order, one `\subimport{}{...}` line each; to add a clause, create its file and
+add its line.
+
+In every Markdown file, `#` is a clause and `##` a subclause. A clause file from
+Clause 7 on starts with one `#` heading, its title. Files whose clause heading comes
+from the template, such as `1_Scope.md`, start with `##` or with text.
 
 ## Building locally
 
@@ -123,7 +131,10 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 
 | File | Content |
 |---|---|
-| `1_Scope.md`, `4_Terms.md`, `5_Symbols.md`, `7+_Technical_Content.md`, `A_Annexes.md` | The Markdown content |
+| `1_Scope.md`, `4_Terms.md`, `5_Symbols.md` | Markdown content of Clauses 1, 4 and 5 |
+| `7_Markdown_in_the_MDSA_Pipeline.md` … `15_Known_Limitations.md` | Clauses 7 to 15, one Markdown file each |
+| `7+_Technical_Content.tex` | Order of the clause files from Clause 7 on |
+| `A_Annexes.md` | Annex A |
 | `0_*.tex`, `2_*.tex`, `6_Additional.tex` | Clauses kept from the template (LaTeX) |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `specification.bib` | Bibliography entries of this specification |

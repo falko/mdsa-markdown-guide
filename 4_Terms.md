@@ -1,5 +1,5 @@
 MDSA
-:   Model Driven Specification Architecture: the OMG templates and tools for
+:   Model Driven Specification Authoring: the OMG templates and tools for
     producing specification documents from LaTeX, Markdown and models.
 
 Pandoc
