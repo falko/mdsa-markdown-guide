@@ -29,26 +29,34 @@ It was created from the template
 ## Building
 
 ```bash
-make pandoc build run
+make pandoc check
 ```
 
-The PDF is written to `MDTEST_1.0.pdf`. Check it against the checklist in Annex A.
+This builds the PDF (`MDTEST_1.0.pdf`) and then checks the build for undefined
+references and citations and for Markdown references that pandoc did not process.
+It fails if it finds any. `make pandoc build run` builds the PDF without the check.
+The visual aspects (layout, figure rendering, page breaks in tables) still need to be
+checked against the checklist in Annex A.
 
 This test suite currently needs proposed changes to `mdsa-omg-core`
 (branch `markdown-pipeline-fixes`). Until they are published, build with a local
 checkout of that branch:
 
 ```bash
-make core=../mdsa-omg-core pandoc build run
+make core=../mdsa-omg-core pandoc check
 ```
+
+The `latest-ubuntu` pandoc image may print "pandoc-crossref was compiled with pandoc
+… but is being run through …" for each Markdown file. This warning can be ignored;
+`make check` verifies the result.
 
 ## Changes to the template in this repository
 
 These changes to the template files are proposed for `containerized-spec` as well:
 
-- `Makefile`: `pandoc/latex` image pinned to `3.11-ubuntu` (pandoc and
-  pandoc-crossref versions match); optional `texlive_repository=` (fixed CTAN mirror
-  for tlmgr) and `core=` (local `mdsa-omg-core` checkout) variables.
+- `Makefile`: `check` target; optional `pandoc_tag=` (pin the `pandoc/latex` image
+  version), `texlive_repository=` (fixed CTAN mirror for tlmgr) and `core=` (local
+  `mdsa-omg-core` checkout) variables.
 - `Dockerfile`: optional `TEXLIVE_REPOSITORY` build argument; `inkscape` and the
   `catchfile` LaTeX package, which the `svg` package needs to convert SVG images.
 - `_Specification_AuthorSettings.tex`: `showstringspaces=false` for code listings.

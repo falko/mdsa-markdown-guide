@@ -22,7 +22,7 @@
 # To use a pandoc based workflow, use 'make pandoc' instead of 'make'. i.e. `make pandoc build` or `make pandoc all`
 #
 
-.PHONY: all build run debug clean help pandoc
+.PHONY: all build run debug check clean help pandoc
 
 help:
 	    @echo "Makefile arguments:"
@@ -41,6 +41,7 @@ help:
 		@echo "Commands for debugging:"
 		@echo "forcebuild  - Builds image with --no-cache, to force a fresh rebuild"
 		@echo "debug       - 'run', but shows debugging output from LaTeX processing"
+		@echo "check       - .run., then report undefined references, citations and unprocessed Markdown"
 		@echo "interactive - Builds image and runs container, opens a bash shell for interactive use"
 		@echo ""
 		@echo "Commands can be chained as needed:"
@@ -60,10 +61,11 @@ _base := texlive/texlive
 _basetag := latest-small
 _baseimage := ${_base}:${_basetag}
 
-# pandoc/latex image for `make pandoc`. Pinned because pandoc-crossref (included
-# in the image) only works with the pandoc version it was built for; the
-# 'latest' tags can combine mismatched versions. Upgrade deliberately.
-pandoc_tag ?= 3.11-ubuntu
+# pandoc/latex image tag for `make pandoc`. Override to pin a version, e.g.
+# make pandoc_tag=3.11-ubuntu pandoc build run
+# Note: in some 'latest' images, pandoc-crossref was built for an older pandoc
+# version and prints a warning during conversion. The output is still correct.
+pandoc_tag ?= latest-ubuntu
 
 # Optional: TeX Live package repository used by tlmgr during the image build,
 # e.g. make texlive_repository=https://mirrors.mit.edu/CTAN/systems/texlive/tlnet
@@ -105,6 +107,10 @@ interactive:
 run: build
 	@echo Building PDF
 	@docker run --rm ${_runargs} ${_image}
+
+check: build
+	@echo Building and checking PDF
+	@docker run --rm ${_runargs} ${_image} check
 
 debug: build
 	@echo Debugging PDF run
