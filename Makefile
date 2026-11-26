@@ -70,7 +70,19 @@ pandoc_tag ?= latest-ubuntu
 # Optional: TeX Live package repository used by tlmgr during the image build,
 # e.g. make texlive_repository=https://mirrors.mit.edu/CTAN/systems/texlive/tlnet
 texlive_repository ?=
-_buildargs = --build-arg BASEIMAGE=${_baseimage} --build-arg TEXLIVE_REPOSITORY=${texlive_repository}
+
+# Latest commits of the MDSA core and tools, so that a rebuild picks up new versions
+# (see Dockerfile). If a lookup fails (e.g. offline), the version recorded in the
+# existing image is used, so the cached installation is kept.
+git ?= git
+_mdsa_url := https://github.com/ObjectManagementGroup
+_lsremote = $(shell ${git} ls-remote ${_mdsa_url}/$(1).git HEAD 2>/dev/null | cut -f1)
+_imagelabel = $(shell docker image inspect -f '{{index .Config.Labels "$(1)"}}' ${_image} 2>/dev/null)
+_version = $(or $(call _lsremote,$(1)),$(call _imagelabel,org.omg.mdsa.$(2).version))
+
+_buildargs = --build-arg BASEIMAGE=${_baseimage} --build-arg TEXLIVE_REPOSITORY=${texlive_repository} \
+	--build-arg MDSA_TOOLS_VERSION=$(call _version,mdsa-tools,tools) \
+	--build-arg MDSA_CORE_VERSION=$(call _version,mdsa-omg-core,core)
 
 # Optional: use a local checkout of mdsa-omg-core instead of the one in the image,
 # e.g. to test core changes before they are published: make core=../mdsa-omg-core pandoc run

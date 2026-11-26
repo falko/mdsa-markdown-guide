@@ -56,14 +56,17 @@ RUN tlmgr install \
 FROM mdsa-base AS mdsa
 
 # Install the MDSA core and tools
-# Each ADD fetches the latest commit of the repository on every build. Docker
-# reuses the cached clone only if that commit has not changed, so new versions of
-# the core and tools are picked up without 'make forcebuild'.
-ADD https://api.github.com/repos/ObjectManagementGroup/mdsa-tools/commits/main /tmp/mdsa-tools-version.json
-RUN git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-tools.git ./mdsa-tools
+# MDSA_TOOLS_VERSION and MDSA_CORE_VERSION are the latest commits of the two
+# repositories, looked up by the Makefile with 'git ls-remote'. Docker re-runs a
+# clone only when its value changes, so new versions are picked up without
+# 'make forcebuild', and the cached clone is reused otherwise. The values are kept
+# as image labels, so the Makefile can reuse them if a lookup fails (e.g. offline).
+ARG MDSA_TOOLS_VERSION=
+RUN echo "mdsa-tools ${MDSA_TOOLS_VERSION}" && git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-tools.git ./mdsa-tools
 RUN cd ./mdsa-tools ; pip --no-cache-dir install -e . ; cd ..
-ADD https://api.github.com/repos/ObjectManagementGroup/mdsa-omg-core/commits/main /tmp/mdsa-omg-core-version.json
-RUN git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-omg-core.git ./mdsa-omg-core
+ARG MDSA_CORE_VERSION=
+RUN echo "mdsa-omg-core ${MDSA_CORE_VERSION}" && git clone --depth 1 https://github.com/ObjectManagementGroup/mdsa-omg-core.git ./mdsa-omg-core
+LABEL org.omg.mdsa.tools.version="${MDSA_TOOLS_VERSION}" org.omg.mdsa.core.version="${MDSA_CORE_VERSION}"
 
 # Set up latexmk / texliveonfly integration
 RUN <<EOF cat > /app/.latexmkrc
