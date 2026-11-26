@@ -15,7 +15,7 @@ Refer to a labelled element with `@` followed by its identifier:
 Table: Cross-reference syntax and output {#tbl:crossref-output}
 
 References work across files: @sec:testing is in `A_Annexes.md`, and
-@tbl:abbreviations is in `5_Symbols.md`.
+@tbl:abbreviations is in `05_Symbols.md`.
 
 ## How cross-references work {#sec:crossref-how}
 

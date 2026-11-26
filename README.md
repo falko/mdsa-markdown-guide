@@ -29,22 +29,23 @@ Specification Authoring) pipeline. It serves two purposes:
 
 | Feature | Markdown syntax | Example in |
 |---|---|---|
-| One file per clause from Clause 7 on | `7_Title.md`, `8_Title.md`, … listed in `7+_Technical_Content.tex` | [`7+_Technical_Content.tex`](7+_Technical_Content.tex) |
-| Numbered clauses and subclauses | `# Title {#sec:id}` (never type numbers) | [`8_Sections.md`](8_Sections.md) |
-| Unnumbered headings | `## Title {-}` | [`8_Sections.md`](8_Sections.md) |
-| SVG figures with captions | `![Caption](Images/file.svg){#fig:id}` | [`7_Markdown_in_the_MDSA_Pipeline.md`](7_Markdown_in_the_MDSA_Pipeline.md), [`9_Figures.md`](9_Figures.md), [`Images/`](Images/) |
-| Captioned tables, long tables | `Table: Caption {#tbl:id}` | [`5_Symbols.md`](5_Symbols.md), [`10_Tables.md`](10_Tables.md) |
+| One file per clause from Clause 7 on, included automatically | `07_Title.md`, `08_Title.md`, … | [`07_Markdown_in_the_MDSA_Pipeline.md`](07_Markdown_in_the_MDSA_Pipeline.md) to [`15_Known_Limitations.md`](15_Known_Limitations.md) |
+| Numbered clauses and subclauses | `# Title {#sec:id}` (never type numbers) | [`08_Sections.md`](08_Sections.md) |
+| Unnumbered headings | `## Title {-}` | [`08_Sections.md`](08_Sections.md) |
+| SVG figures with captions | `![Caption](Images/file.svg){#fig:id}` | [`07_Markdown_in_the_MDSA_Pipeline.md`](07_Markdown_in_the_MDSA_Pipeline.md), [`09_Figures.md`](09_Figures.md), [`Images/`](Images/) |
+| Captioned tables, long tables | `Table: Caption {#tbl:id}` | [`05_Symbols.md`](05_Symbols.md), [`10_Tables.md`](10_Tables.md) |
 | Cross-references, also between files | `@sec:id`, `@fig:id`, `@tbl:id` | [`11_Cross-references.md`](11_Cross-references.md), all Markdown files |
-| Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`1_Scope.md`](1_Scope.md), [`specification.bib`](specification.bib) |
-| Terms and definitions | definition lists | [`4_Terms.md`](4_Terms.md) |
+| Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`01_Scope.md`](01_Scope.md), [`specification.bib`](specification.bib) |
+| Terms and definitions | definition lists | [`04_Terms.md`](04_Terms.md) |
 | Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](13_Other_Elements.md) |
 | Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](A_Annexes.md) |
 | Table of contents, lists of figures and tables | generated | — |
 
 ## How it works
 
-Each clause of an MDSA specification is a file, such as `1_Scope.tex`. A Markdown
-file with the same name (`1_Scope.md`) replaces it. The build converts each Markdown
+Each clause of an MDSA specification is a file named with a two-digit clause number,
+such as `01_Scope.tex`. A Markdown file with the same name (`01_Scope.md`) replaces
+it. The build converts each Markdown
 file to LaTeX with [Pandoc](https://pandoc.org/), resolves cross-references with
 [pandoc-crossref](https://lierdakil.github.io/pandoc-crossref/), and builds the PDF
 with the OMG LaTeX templates from
@@ -52,14 +53,15 @@ with the OMG LaTeX templates from
 runs in a Docker container, so no local LaTeX or Pandoc installation is needed.
 
 The technical content starts at Clause 7, with one file per clause, named after its
-number and title (`7_Markdown_in_the_MDSA_Pipeline.md`, `8_Sections.md`, …). The
-template includes only `7+_Technical_Content`, so that file lists the clause files
-in order, one `\subimport{}{...}` line each; to add a clause, create its file and
-add its line.
+two-digit number and title (`07_Markdown_in_the_MDSA_Pipeline.md`, `08_Sections.md`,
+…). The build includes all files from `07_` to `99_` in name order, so adding a
+clause means adding its file; the two-digit numbers keep them in clause order, also
+with ten or more clauses. A specification that needs a different order can list its
+clause files in `07+_Technical_Content.tex` instead.
 
 In every Markdown file, `#` is a clause and `##` a subclause. A clause file from
 Clause 7 on starts with one `#` heading, its title. Files whose clause heading comes
-from the template, such as `1_Scope.md`, start with `##` or with text.
+from the template, such as `01_Scope.md`, start with `##` or with text.
 
 ## Building locally
 
@@ -109,14 +111,16 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 - [Pull requests to mdsa-omg-core](https://github.com/ObjectManagementGroup/mdsa-omg-core/pulls?q=is%3Apr+author%3Afalko):
   fixes for SVG images, tables, annexes and local overrides, cross-references and
   citations, a preamble generated from Pandoc's own template, lists of figures and
-  tables, and `make check`.
+  tables, and `make check`; in a second step, zero-padded clause file names and the
+  automatic inclusion of the clause files from Clause 7 on (older specifications with
+  unpadded names keep working).
 - [Pull requests to mdsa-omg-spec](https://github.com/ObjectManagementGroup/mdsa-omg-spec/pulls?q=is%3Apr+author%3Afalko):
-  `mdsa-omg-core` submodule from the OMG repository.
+  `mdsa-omg-core` submodule from the OMG repository; zero-padded clause file names.
 - To follow for `containerized-spec` (already applied here in `Dockerfile` and
-  `Makefile`): Inkscape and the `catchfile` LaTeX package for SVG images,
-  `tlmgr update --self`, picking up new core versions without `make forcebuild`, and
-  the `check`, `core=`, `pandoc_tag=`, `texlive_repository=` and `docker_build_opts=`
-  options.
+  `Makefile`): zero-padded clause file names, Inkscape and the `catchfile` LaTeX
+  package for SVG images, `tlmgr update --self`, picking up new core versions without
+  `make forcebuild`, and the `check`, `core=`, `pandoc_tag=`, `texlive_repository=`
+  and `docker_build_opts=` options.
 
 ## Known limitations
 
@@ -131,11 +135,10 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 
 | File | Content |
 |---|---|
-| `1_Scope.md`, `4_Terms.md`, `5_Symbols.md` | Markdown content of Clauses 1, 4 and 5 |
-| `7_Markdown_in_the_MDSA_Pipeline.md` … `15_Known_Limitations.md` | Clauses 7 to 15, one Markdown file each |
-| `7+_Technical_Content.tex` | Order of the clause files from Clause 7 on |
+| `01_Scope.md`, `04_Terms.md`, `05_Symbols.md` | Markdown content of Clauses 1, 4 and 5 |
+| `07_Markdown_in_the_MDSA_Pipeline.md` … `15_Known_Limitations.md` | Clauses 7 to 15, one Markdown file each |
 | `A_Annexes.md` | Annex A |
-| `0_*.tex`, `2_*.tex`, `6_Additional.tex` | Clauses kept from the template (LaTeX) |
+| `00_*.tex`, `02_*.tex`, `06_Additional.tex` | Clauses kept from the template (LaTeX) |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `specification.bib` | Bibliography entries of this specification |
 | `Images/` | SVG figures |

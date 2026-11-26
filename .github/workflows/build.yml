@@ -26,7 +26,7 @@ env:
   # ObjectManagementGroup/mdsa-omg-core. Afterwards, remove these two lines and
   # the "Check out mdsa-omg-core" step; the image then uses the official core.
   CORE_REPOSITORY: falko/mdsa-omg-core
-  CORE_REF: markdown-pipeline-fixes
+  CORE_REF: clause-autoinclude
 
 jobs:
   build:
