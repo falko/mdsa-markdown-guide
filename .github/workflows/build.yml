@@ -1,0 +1,51 @@
+# Builds the specification PDF with the containerized MDSA pipeline, exactly as an
+# author does locally ('make pandoc check'): the repository's own Dockerfile and
+# Makefile build the image, then the image builds and checks the PDF. No separate
+# CI image or build script is involved.
+#
+# The resulting PDF is kept as a workflow artifact ("specification-pdf").
+
+name: Build specification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # mdsa-omg-core with the Markdown pipeline fixes, until they are merged into
+  # ObjectManagementGroup/mdsa-omg-core. Afterwards, remove these two lines and
+  # the "Check out mdsa-omg-core" step; the image then uses the official core.
+  CORE_REPOSITORY: falko/mdsa-omg-core
+  CORE_REF: markdown-pipeline-fixes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out specification
+        uses: actions/checkout@v4
+
+      - name: Check out mdsa-omg-core
+        if: env.CORE_REPOSITORY != ''
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.CORE_REPOSITORY }}
+          ref: ${{ env.CORE_REF }}
+          path: .ci/mdsa-omg-core
+
+      - name: Build and check PDF
+        run: make pandoc check ${CORE_REPOSITORY:+core=.ci/mdsa-omg-core}
+
+      - name: Upload PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: specification-pdf
+          path: "*.pdf"
+          if-no-files-found: error

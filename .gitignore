@@ -24,3 +24,6 @@ svg_inkscape
 # Local build space
 build/
 archivedTex/
+
+# CI checkout of mdsa-omg-core
+.ci/
