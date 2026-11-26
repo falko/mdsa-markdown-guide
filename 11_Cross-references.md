@@ -35,26 +35,31 @@ Links to web pages stay links. Links to other files in the repository, such as
 models, cannot be followed in the PDF; the build warns about them. Refer to
 other documents with citations instead (see [Citations](12_Citations.md)).
 
-## Figures and tables
+## Links to figures and tables
 
-Refer to a figure or table with `@` and its identifier:
+Figures and tables are referenced the same way: with a link whose text is the
+caption. A link to a figure points to its image file (see
+[Figures](09_Figures.md)), a link to a table to its caption heading (see
+[Table captions](10_Tables.md#table-captions)). In the PDF, the link is
+replaced by "Figure" or "Table" and the number:
 
-| You write                      | Output                         |
-|--------------------------------|--------------------------------|
-| `@fig:build-pipeline`          | @fig:build-pipeline            |
-| `@tbl:files`                   | @tbl:files                     |
-| `[@tbl:prefixes; @tbl:files]`  | [@tbl:prefixes; @tbl:files]    |
-| `@tbl:abbreviations` (other file) | @tbl:abbreviations          |
+###### Table: Links to figures and tables
+| You write                                                              | PDF |
+|------------------------------------------------------------------------|-----|
+| `[Build pipeline for Markdown content](Images/build-pipeline.svg)`     | [Build pipeline for Markdown content](Images/build-pipeline.svg) |
+| `[Abbreviations](05_Symbols.md#table-abbreviations)`                   | [Abbreviations](05_Symbols.md#table-abbreviations) |
+| `[Link targets](08_Sections.md#table-link-targets)`                    | [Link targets](08_Sections.md#table-link-targets) |
 
-Table: References to figures and tables {#tbl:crossref-output}
-
-GitHub shows these as typed: GitHub has no anchors for figures and tables.
+On GitHub, a link to a figure opens the image, and a link to a table jumps to
+its caption.
 
 ## How cross-references work
 
 Headings get GitHub's anchors as identifiers (pandoc's `gfm_auto_identifiers`),
 and pandoc-crossref [@CROSSREF] prefixes them with `sec:`
-(`autoSectionLabels`). The filter `section-links.lua` of `mdsa-omg-core` turns
-each link to a heading into a reference to its prefixed identifier.
-pandoc-crossref turns references to figures, tables and sections into a LaTeX
+(`autoSectionLabels`). The filter `crossref-links.lua` of `mdsa-omg-core`
+names each figure after its image file (`fig:build-pipeline`), turns each
+`###### Table:` heading into the caption of the table below it
+(`tbl:table-abbreviations`), and turns each link to a heading, image or table
+caption into a reference. pandoc-crossref turns these references into a LaTeX
 `\ref`, and LaTeX fills in the numbers, so references between files work.

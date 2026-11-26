@@ -7,7 +7,7 @@ per clause, named with a two-digit clause number, such as `01_Scope.tex` for
 Clause 1. Any of these files can be replaced by a Markdown file with the same
 name and the extension `.md`, e.g. `01_Scope.md`. The build converts each
 Markdown file to LaTeX with Pandoc [@PANDOC] and then includes it in the
-specification template, as shown in @fig:build-pipeline.
+specification template, as shown in [Build pipeline for Markdown content](Images/build-pipeline.svg).
 
 The technical content starts at Clause 7 and has as many clauses as the
 specification needs. Write each of them as a separate file, named after its
@@ -21,7 +21,7 @@ also with ten or more clauses. A specification that needs a different order can
 list its clause files in a file `07+_Technical_Content.tex`, one
 `\subimport{}{...}` line per clause; that list then replaces the automatic one.
 
-![Build pipeline for Markdown content](Images/build-pipeline.svg){#fig:build-pipeline width=80%}
+![Build pipeline for Markdown content](Images/build-pipeline.svg)
 
 Each Markdown file is converted separately, using the Pandoc settings in the
 file `omgLaTeX.yaml`. The default settings come from `mdsa-omg-core`. A file
@@ -29,9 +29,10 @@ file `omgLaTeX.yaml`. The default settings come from `mdsa-omg-core`. A file
 
 ## Files of this test suite
 
-@tbl:files lists the Markdown files of this document and the features they
+[Markdown files of this test suite](#table-markdown-files-of-this-test-suite) lists the Markdown files of this document and the features they
 test.
 
+###### Table: Markdown files of this test suite
 | File                                  | Clause  | Features tested                                |
 |---------------------------------------|---------|------------------------------------------------|
 | `01_Scope.md`                         | 1       | Citations, references to other files           |
@@ -49,5 +50,3 @@ test.
 | `16_Known_Limitations.md`             | 16      | Bullet list                                    |
 | `A_Annexes.md`                        | Annex A | Annex numbering, references back into clauses  |
 | `specification.bib`                   | 3       | Specification-specific bibliography entries    |
-
-Table: Markdown files of this test suite {#tbl:files}

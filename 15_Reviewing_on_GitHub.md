@@ -10,28 +10,27 @@ should use standard Markdown wherever possible:
 - Pandoc reads lists, headings and block quotes that follow a line of text
   without a blank line in between, as GitHub does. Without this, such a list
   or heading would look right on GitHub but be plain text in the PDF.
-- Links to headings are ordinary Markdown links, which work on GitHub and
-  become section numbers in the PDF (see
+- Links to sections, figures and tables are ordinary Markdown links, which
+  work on GitHub and become numbers in the PDF (see
   [Links to sections](11_Cross-references.md#links-to-sections)).
 - Web addresses such as https://www.omg.org become links in both.
 
-@tbl:github lists how GitHub shows the Markdown elements of a specification.
+[Markdown elements in GitHub's preview](#table-markdown-elements-in-githubs-preview) lists how GitHub shows the Markdown elements of a specification.
 
+###### Table: Markdown elements in GitHub's preview
 | Element                          | Markdown                         | GitHub preview               |
 |----------------------------------|----------------------------------|------------------------------|
 | Headings                         | `# Title`                        | as in the PDF, unnumbered    |
-| Figures                          | `![Caption](file.svg){#fig:id}`  | image, then `{#fig:id}` text |
+| Figures                          | `![Caption](file.svg)`           | image, without caption       |
 | Tables                           | pipe tables                      | as in the PDF                |
-| Table captions                   | `Table: Caption {#tbl:id}`       | text paragraph               |
-| Links to sections                | `[Title](File.md#anchor)`        | link (PDF: section number)   |
-| References to figures, tables    | `@fig:id`, `@tbl:id`             | text                         |
+| Table captions                   | `###### Table: Caption`          | small heading above table    |
+| Links to sections, tables        | `[Title](File.md#anchor)`        | link (PDF: number)           |
+| Links to figures                 | `[Caption](Images/file.svg)`     | link (PDF: number)           |
 | Citations                        | `[@DMN16]`                       | text                         |
 | Footnotes                        | `[^note]`                        | as in the PDF                |
 | Notes                            | `> [!NOTE]`                      | note box                     |
 | Definition lists (Clause 4)      | `Term` and `: Definition`        | one paragraph                |
 | Code                             | fenced code blocks               | as in the PDF                |
-
-Table: Markdown elements in GitHub's preview {#tbl:github}
 
 > [!NOTE]
 > This is a note written with GitHub's syntax for notes. The PDF shows it as a

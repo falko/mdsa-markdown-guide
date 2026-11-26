@@ -2,25 +2,39 @@
 
 ## Table captions
 
-A paragraph that starts with `Table:` directly before or after a table is its
-caption. The identifier goes at the end of the caption:
+A level-6 heading that starts with `Table:`, directly before a table, is the
+table's caption:
 
 ```markdown
-| Feature | Syntax |
-|---------|--------|
-| Figure  | `![Caption](file.svg){#fig:id}` |
+###### Table: Syntax per feature
 
-Table: Syntax per feature {#tbl:syntax}
+| Feature | Syntax                     |
+|---------|----------------------------|
+| Figure  | `![Caption](file.svg)`     |
 ```
 
-All captioned tables, such as @tbl:prefixes and @tbl:abbreviations in
-Clause 5, are numbered and appear in the list of tables.
+On GitHub, the caption is a small heading above the table, and it appears in
+the file's outline. In the PDF, it becomes the numbered caption below the
+table. To refer to a table, link to its caption heading, with the caption as
+link text; the anchor is the caption heading's text in GitHub's form:
+
+```markdown
+The syntax is listed in [Syntax per feature](#table-syntax-per-feature).
+```
+
+All captioned tables, such as [Link targets](08_Sections.md#table-link-targets)
+and [Abbreviations](05_Symbols.md#table-abbreviations), are numbered and appear in
+the list of tables. A `Table:` heading that is not directly followed by a table
+stays a heading, and the build warns about it.
 
 ## Long tables
 
-Tables continue across page breaks. @tbl:long has enough rows to need more
-than one page. Its header row must repeat on every page.
+Tables continue across page breaks.
+[Long table that spans several pages](#table-long-table-that-spans-several-pages)
+has enough rows to need more than one page. Its header row must repeat on
+every page, and its caption is below its last row.
 
+###### Table: Long table that spans several pages
 | Row | Purpose                                         |
 |-----|-------------------------------------------------|
 | 1   | Filler row 1 to force a page break in the table |
@@ -83,5 +97,3 @@ than one page. Its header row must repeat on every page.
 | 58  | Filler row 58 to force a page break in the table |
 | 59  | Filler row 59 to force a page break in the table |
 | 60  | Filler row 60 to force a page break in the table |
-
-Table: Long table that spans several pages {#tbl:long}

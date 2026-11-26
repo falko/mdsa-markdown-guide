@@ -25,20 +25,21 @@ punctuation is dropped. "Object Semantics" becomes `#object-semantics`. In the
 PDF, the link becomes the section number (see
 [Cross-references](11_Cross-references.md#cross-references)).
 
-Figures and tables have no text to generate an identifier from. Give each one
-that is referenced an identifier with a type prefix:
+Figures and tables need no identifiers either. A link to a figure points to its
+image file, a link to a table to its caption heading:
 
-| Prefix | Used for | Example                  |
-|--------|----------|--------------------------|
-| `fig:` | Figures  | `{#fig:build-pipeline}`  |
-| `tbl:` | Tables   | `{#tbl:files}`           |
-
-Table: Identifier prefixes {#tbl:prefixes}
+###### Table: Link targets
+| Element  | Link target                    | Example                      |
+|----------|--------------------------------|------------------------------|
+| Sections | heading                        | `#object-semantics`          |
+| Tables   | caption heading (`###### Table: ...`) | `#table-link-targets` |
+| Figures  | image file                     | `Images/build-pipeline.svg`  |
 
 A heading's anchor changes when its text changes. The build then reports the
-links that still use the old anchor. Two headings with the same text, even in
-different files, get the same anchor, which the build reports as "multiply
-defined"; give one of them a different title.
+links that still use the old anchor. Headings with the same text in different
+files, such as an "Overview" in every clause, are no problem. Within one file,
+GitHub numbers repeated anchors: the second "Overview" is `#overview-1`, the
+third `#overview-2`.
 
 ## Unnumbered headings {-}
 

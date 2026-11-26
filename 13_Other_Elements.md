@@ -19,11 +19,21 @@ written like this.[^note]
 
 ## Code listings
 
-Fenced code blocks become code listings. Use only languages known to the
-LaTeX `listings` package, such as `xml`:
+Fenced code blocks become code listings. With a language after the opening
+backticks, the code is highlighted, here as `xml`:
 
 ```xml
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/">
   <decision id="decision1" name="Decision 1"/>
 </definitions>
+```
+
+Code is formatted by pandoc, not by the LaTeX `listings` package, so it may
+contain characters such as curly quotes or dashes, which are often pasted in
+from a word processor or a PDF by mistake. Inline code may too:
+`name = ‘Decision 1’ – draft`.
+
+```
+// copied from a PDF: “quoted” and ‘single-quoted’ text, an ellipsis …
+decision ‘Approve loan’ – status: “approved”
 ```
