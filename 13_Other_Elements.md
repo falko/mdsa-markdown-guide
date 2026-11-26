@@ -1,6 +1,6 @@
-# Other Elements {#sec:other-elements}
+# Other Elements
 
-## Text formatting {#sec:text-formatting}
+## Text formatting
 
 *Emphasis*, **strong emphasis**, `inline code` and
 [links](https://www.omg.org) are written as usual in Markdown. A footnote is
@@ -8,16 +8,16 @@ written like this.[^note]
 
 [^note]: Footnotes are numbered automatically.
 
-## Lists {#sec:lists-markdown}
+## Lists
 
 1. Numbered lists
-    a. can be nested,
-    b. with letters on the second level.
+    - can be nested,
+    - with bullets on the second level.
 2. Bullet lists:
     - first item
     - second item
 
-## Code listings {#sec:code-listings}
+## Code listings
 
 Fenced code blocks become code listings. Use only languages known to the
 LaTeX `listings` package, such as `xml`:

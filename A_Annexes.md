@@ -1,6 +1,6 @@
-# Building and Testing {#sec:testing}
+# Building and Testing
 
-## Building the PDF {#sec:building}
+## Building the PDF
 
 Build the PDF with the containerized MDSA pipeline from the repository root:
 
@@ -11,7 +11,7 @@ make pandoc build run
 The PDF is written to the repository root, named after the specification
 acronym and version (`MDTEST_1.0.pdf`).
 
-## Test checklist {#sec:checklist}
+## Test checklist
 
 Check the generated PDF:
 
@@ -28,3 +28,7 @@ Check the generated PDF:
    References".
 6. The header row of @tbl:long repeats on every page.
 7. The terms in Clause 4 are formatted as a definition list.
+8. The links in @sec:links-to-sections point to the right clauses, and the
+   note in @sec:reviewing-on-github is shown as a paragraph headed "Note".
+9. On GitHub, no file shows `{#sec:` in a heading, and every list and heading
+   in GitHub's preview is also a list or heading in the PDF.

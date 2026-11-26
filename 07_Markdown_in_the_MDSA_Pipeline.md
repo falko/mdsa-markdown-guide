@@ -1,6 +1,6 @@
-# Markdown in the MDSA Pipeline {#sec:pipeline}
+# Markdown in the MDSA Pipeline
 
-## How Markdown files are built {#sec:how-built}
+## How Markdown files are built
 
 A specification repository created from the MDSA template contains one file
 per clause, named with a two-digit clause number, such as `01_Scope.tex` for
@@ -27,7 +27,7 @@ Each Markdown file is converted separately, using the Pandoc settings in the
 file `omgLaTeX.yaml`. The default settings come from `mdsa-omg-core`. A file
 `omgLaTeX.yaml` in the specification repository replaces them.
 
-## Files of this test suite {#sec:files}
+## Files of this test suite
 
 @tbl:files lists the Markdown files of this document and the features they
 test.
@@ -45,7 +45,8 @@ test.
 | `12_Citations.md`                     | 12      | Normative and non-normative references         |
 | `13_Other_Elements.md`                | 13      | Lists, footnotes, code listings                |
 | `14_Lists_of_Figures_and_Tables.md`   | 14      | Generated lists                                |
-| `15_Known_Limitations.md`             | 15      | Bullet list                                    |
+| `15_Reviewing_on_GitHub.md`           | 15      | GitHub notes, compatibility table              |
+| `16_Known_Limitations.md`             | 16      | Bullet list                                    |
 | `A_Annexes.md`                        | Annex A | Annex numbering, references back into clauses  |
 | `specification.bib`                   | 3       | Specification-specific bibliography entries    |
 

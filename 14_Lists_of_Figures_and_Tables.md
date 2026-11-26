@@ -1,4 +1,4 @@
-# Lists of Figures and Tables {#sec:lists}
+# Lists of Figures and Tables
 
 The table of contents, the list of figures and the list of tables are
 generated from the numbered headings and the captions. Nothing has to be

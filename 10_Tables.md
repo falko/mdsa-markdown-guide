@@ -1,6 +1,6 @@
-# Tables {#sec:tables}
+# Tables
 
-## Table captions {#sec:table-captions}
+## Table captions
 
 A paragraph that starts with `Table:` directly before or after a table is its
 caption. The identifier goes at the end of the caption:
@@ -16,7 +16,7 @@ Table: Syntax per feature {#tbl:syntax}
 All captioned tables, such as @tbl:prefixes and @tbl:abbreviations in
 Clause 5, are numbered and appear in the list of tables.
 
-## Long tables {#sec:long-tables}
+## Long tables
 
 Tables continue across page breaks. @tbl:long has enough rows to need more
 than one page. Its header row must repeat on every page.

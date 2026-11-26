@@ -1,4 +1,4 @@
-# Citations {#sec:citations}
+# Citations
 
 Cite a bibliography entry by its key:
 
