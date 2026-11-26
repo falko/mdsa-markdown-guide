@@ -4,7 +4,7 @@ time serves as its test suite.
 
 Every Markdown feature described here is also used in this document. If a
 feature does not work, the generated PDF shows it: a missing number, a "??"
-or a raw `@` reference. Annex A (@sec:testing) lists what to check.
+or a raw `@` reference. @sec:checklist lists what to check.
 
 The document is a complete OMG specification built from the
 [MDSA specification template](https://github.com/ObjectManagementGroup/mdsa-omg-spec).

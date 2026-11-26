@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
   latexmk \
   python3-full \
   python3-pip \
+  inkscape \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -31,6 +32,7 @@ RUN if [ -n "${TEXLIVE_REPOSITORY}" ]; then tlmgr option repository "${TEXLIVE_R
 RUN tlmgr install \
   appendix \
   changebar \
+  catchfile \
   changepage \
   courier \
   csquotes \
