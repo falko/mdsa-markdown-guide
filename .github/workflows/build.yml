@@ -3,7 +3,12 @@
 # Makefile build the image, then the image builds and checks the PDF. No separate
 # CI image or build script is involved.
 #
-# The resulting PDF is kept as a workflow artifact ("specification-pdf").
+# - Docker layers are cached between runs in the GitHub Actions cache. The Makefile
+#   passes the latest mdsa-omg-core and mdsa-tools commits as build arguments, so
+#   cached layers are reused until one of them, or the Dockerfile, changes.
+# - The PDF is kept as the workflow artifact "specification-pdf".
+# - Builds of 'main' are published as the release "latest", so the PDF has a stable
+#   download URL: https://github.com/<owner>/<repo>/releases/latest/download/<file>.pdf
 
 name: Build specification
 
@@ -39,8 +44,22 @@ jobs:
           ref: ${{ env.CORE_REF }}
           path: .ci/mdsa-omg-core
 
+      # 'docker build' (used by the Makefile) runs on BuildKit, which can store
+      # layers in the GitHub Actions cache ...
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          install: true
+
+      # ... with the cache credentials of the runner exposed to the shell
+      - name: Expose GitHub Actions cache to Docker
+        uses: crazy-max/ghaction-github-runtime@v3
+
       - name: Build and check PDF
-        run: make pandoc check ${CORE_REPOSITORY:+core=.ci/mdsa-omg-core}
+        run: >-
+          make pandoc check
+          ${CORE_REPOSITORY:+core=.ci/mdsa-omg-core}
+          docker_build_opts="--cache-from type=gha,scope=mdsa-pandoc --cache-to type=gha,scope=mdsa-pandoc,mode=max --load"
 
       - name: Upload PDF
         if: always()
@@ -49,3 +68,29 @@ jobs:
           name: specification-pdf
           path: "*.pdf"
           if-no-files-found: error
+
+  release:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-latest
+    steps:
+      - name: Download PDF
+        uses: actions/download-artifact@v4
+        with:
+          name: specification-pdf
+
+      - name: Publish release "latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh release delete latest --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
+          gh release create latest *.pdf \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Latest build of main" \
+            --notes "PDF built from ${GITHUB_SHA::7} on $(date -u '+%Y-%m-%d %H:%M UTC') by [this workflow run]($RUN_URL). Replaced by every build of main."

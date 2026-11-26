@@ -80,9 +80,14 @@ _lsremote = $(shell ${git} ls-remote ${_mdsa_url}/$(1).git HEAD 2>/dev/null | cu
 _imagelabel = $(shell docker image inspect -f '{{index .Config.Labels "$(1)"}}' ${_image} 2>/dev/null)
 _version = $(or $(call _lsremote,$(1)),$(call _imagelabel,org.omg.mdsa.$(2).version))
 
+# Optional: additional options for 'docker build', e.g. a layer cache in CI:
+# make docker_build_opts="--cache-from type=gha --cache-to type=gha,mode=max --load" pandoc check
+docker_build_opts ?=
+
 _buildargs = --build-arg BASEIMAGE=${_baseimage} --build-arg TEXLIVE_REPOSITORY=${texlive_repository} \
 	--build-arg MDSA_TOOLS_VERSION=$(call _version,mdsa-tools,tools) \
-	--build-arg MDSA_CORE_VERSION=$(call _version,mdsa-omg-core,core)
+	--build-arg MDSA_CORE_VERSION=$(call _version,mdsa-omg-core,core) \
+	${docker_build_opts}
 
 # Optional: use a local checkout of mdsa-omg-core instead of the one in the image,
 # e.g. to test core changes before they are published: make core=../mdsa-omg-core pandoc run

@@ -2,8 +2,8 @@
 
 [![Build specification](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml/badge.svg)](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml?query=branch%3Amain)
 
-**Latest PDF:** open the [latest successful build](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml?query=branch%3Amain+is%3Asuccess)
-and download the artifact `specification-pdf` (requires a GitHub login).
+**Latest PDF: [MDTEST_1.0.pdf](https://github.com/falko/mdsa-markdown-guide/releases/latest/download/MDTEST_1.0.pdf)**
+(built from `main` by the [workflow](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml?query=branch%3Amain), see the [release](https://github.com/falko/mdsa-markdown-guide/releases/tag/latest))
 
 This repository is a small but complete OMG specification, written mostly in
 Markdown and built with the containerized
@@ -82,8 +82,17 @@ The `latest-ubuntu` Pandoc image may print "pandoc-crossref was compiled with pa
 
 The workflow [`.github/workflows/build.yml`](.github/workflows/build.yml) runs the
 same `make pandoc check` on every push and pull request, using this repository's own
-`Dockerfile` and `Makefile` (no separate CI image), and keeps the PDF as the artifact
-`specification-pdf`. A pull request that breaks a feature fails the check.
+`Dockerfile` and `Makefile` (no separate CI image). A pull request that breaks a
+feature fails the check.
+
+- **Docker layer cache:** the image layers are kept in the GitHub Actions cache. The
+  Makefile passes the latest `mdsa-omg-core` and `mdsa-tools` commits as build
+  arguments, so cached layers are reused until one of them, or the `Dockerfile`,
+  changes. The cache options are handed to `docker build` with the Makefile option
+  `docker_build_opts`.
+- **PDF:** every run keeps the PDF as the artifact `specification-pdf`. Builds of
+  `main` also replace the release [`latest`](https://github.com/falko/mdsa-markdown-guide/releases/tag/latest),
+  so the PDF has the stable download link at the top of this page.
 
 ## Status of the pipeline changes
 
@@ -98,7 +107,8 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 - To follow for `containerized-spec` (already applied here in `Dockerfile` and
   `Makefile`): Inkscape and the `catchfile` LaTeX package for SVG images,
   `tlmgr update --self`, picking up new core versions without `make forcebuild`, and
-  the `check`, `core=`, `pandoc_tag=` and `texlive_repository=` options.
+  the `check`, `core=`, `pandoc_tag=`, `texlive_repository=` and `docker_build_opts=`
+  options.
 
 ## Known limitations
 
