@@ -970,6 +970,8 @@ local function text_references(inls, file)
       if word == 'Figure' or word == 'figure' or word == 'Figures' or word == 'figures' then kind = 'fig'
       elseif word == 'Table' or word == 'table' or word == 'Tables' or word == 'tables' then kind = 'tbl'
       elseif word and SEC_WORDS[word] then kind = 'sec'
+      -- "(see 10.3.2.2)": a subclause number without "clause"
+      elseif (word == 'see' or word == 'See') and x.text:match('^%d+%.%d[%.%d]*') then kind = 'sec'
       elseif word == 'Annex' or word == 'annex' then kind = 'annex'
       elseif mode and word and (word == 'and' or word == 'or' or word == 'to') then kind = mode
       elseif mode and out[#out] and out[#out].t == 'Space' and prev and prev.t == 'Str' and prev.text:match('[,;]$') then kind = mode
