@@ -1,3 +1,5 @@
+# Additional information
+
 ## Acknowledgements
 
 The following companies submitted version 1.0 of this specification:
@@ -212,29 +214,29 @@ The submitters contributed this work to OMG on a RF on RAND basis.
 
 ## Guide to the Specification
 
-Clause 1 summarizes the goals of the specification.
+[Scope](01_Scope.md#scope) summarizes the goals of the specification.
 
-Clause 2 defines three levels of conformance with the specification: Conformance Level 1, Conformance Level 2, and Conformance Level 3.
+[Conformance](02_Conformance.md#conformance) defines three levels of conformance with the specification: Conformance Level 1, Conformance Level 2, and Conformance Level 3.
 
 Clause 3 lists normative references.
 
-[Requirements (DRG and DRD)](08_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) provides additional information useful in understanding the background to and structure of the specification.
+[Additional information](#additional-information) provides additional information useful in understanding the background to and structure of the specification.
 
-[Introduction to DMN](07_Introduction_to_DMN.md#introduction-to-dmn) discusses the scope and uses of **DMN** and introduces the principal concepts, including the two levels of **DMN**: the decision requirements level and the decision logic level.
+[Introduction to DMN](05_Introduction_to_DMN.md#introduction-to-dmn) discusses the scope and uses of **DMN** and introduces the principal concepts, including the two levels of **DMN**: the decision requirements level and the decision logic level.
 
-[Requirements (DRG and DRD)](08_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) defines the decision requirements level of **DMN**: the Decision Requirements Graph (DRG) and its notation as a Decision Requirements Diagram (DRD).
+[Requirements (DRG and DRD)](06_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) defines the decision requirements level of **DMN**: the Decision Requirements Graph (DRG) and its notation as a Decision Requirements Diagram (DRD).
 
-[Relating Decision Logic to Decision Requirements](09_Relating_Decision_Logic_to_Decision_Requirements.md#relating-decision-logic-to-decision-requirements) introduces the principles by which decision logic may be associated with elements in a DRG: i.e., how the decision requirements level and decision logic level are related to each other. Clauses [Decision Table](10_Decision_Table.md#decision-table), [Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) and [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel) then define the decision logic level of **DMN**:
+[Relating Decision Logic to Decision Requirements](07_Relating_Decision_Logic_to_Decision_Requirements.md#relating-decision-logic-to-decision-requirements) introduces the principles by which decision logic may be associated with elements in a DRG: i.e., how the decision requirements level and decision logic level are related to each other. Clauses [Decision Table](08_Decision_Table.md#decision-table), [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) and [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel) then define the decision logic level of **DMN**:
 
-- [Decision Table](10_Decision_Table.md#decision-table) defines the notation and syntax of Decision Tables in **DMN**.
+- [Decision Table](08_Decision_Table.md#decision-table) defines the notation and syntax of Decision Tables in **DMN**.
 
-- [Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) defines S-FEEL: a subset of FEEL to support decision tables.
+- [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) defines S-FEEL: a subset of FEEL to support decision tables.
 
-- [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel) defines the full syntax and semantics of FEEL: the default expression language used for the Decision Logic level of **DMN**.
+- [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel) defines the full syntax and semantics of FEEL: the default expression language used for the Decision Logic level of **DMN**.
 
-[B-FEEL](13_B-FEEL.md#b-feel) provides examples of **DMN** used to model human and automated decision-making.
+[B-FEEL](11_B-FEEL.md#b-feel) provides examples of **DMN** used to model human and automated decision-making.
 
-[DMN Examples](14_DMN_Examples.md#dmn-examples) addresses exchange formats and provides references to machine-readable files (XSD and XMI). The Annexes provide non-normative background information:
+[DMN Examples](12_DMN_Examples.md#dmn-examples) addresses exchange formats and provides references to machine-readable files (XSD and XMI). The Annexes provide non-normative background information:
 
 - [Relation to BPMN (informative)](A_Annexes.md#relation-to-bpmn-informative). discusses the relationship between **DMN** and **BPMN**.
 

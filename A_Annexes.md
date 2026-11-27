@@ -46,11 +46,14 @@ From this example we can see that even a simple business process in **BPMN** may
 
 ## Types of BPMN Tasks relevant to DMN
 
-**BPMN** defines[^2] different types of tasks that can be considered for decision-making roles. The relevant tasks are as shown in [BPMN tasks relevant to DMN](Images/bpmn-tasks-relevant-to-dmn.svg):
+**BPMN** defines[^2] different types of tasks that can be considered for decision-making roles. The relevant tasks are as shown in [BPMN tasks relevant to DMN](#table-bpmn-tasks-relevant-to-dmn):
 
-![BPMN tasks relevant to DMN](Images/bpmn-tasks-relevant-to-dmn.svg)
+###### Table: BPMN tasks relevant to DMN
 
-A future version of **BPMN** may choose to clarify and extend the definitions of task to better match decision modeling requirements and **DMN** – to wit, to define a **BPMN** Decision Task as some task used to make a decision modeled with **DMN**. In the meantime, the Business Rule Task is the most natural way to express this functionality. However, as noted in clauses [Modeling requirements for automated decision-making](07_Introduction_to_DMN.md#modeling-requirements-for-automated-decision-making) and [Artifact metamodel](08_Requirements_DRG_and_DRD.md#artifact-metamodel), a Decision in **DMN** can be associated with any Task, allowing for flexibility in implementation.
+| ![](Images/bpmn-tasks-relevant-to-dmn.svg) |
+|--------------------------------------------|
+
+A future version of **BPMN** may choose to clarify and extend the definitions of task to better match decision modeling requirements and **DMN** – to wit, to define a **BPMN** Decision Task as some task used to make a decision modeled with **DMN**. In the meantime, the Business Rule Task is the most natural way to express this functionality. However, as noted in clauses [Modeling requirements for automated decision-making](05_Introduction_to_DMN.md#modeling-requirements-for-automated-decision-making) and [Artifact metamodel](06_Requirements_DRG_and_DRD.md#artifact-metamodel), a Decision in **DMN** can be associated with any Task, allowing for flexibility in implementation.
 
 ## Process gateways and Decisions
 
@@ -68,7 +71,7 @@ In the latter case, a Decision Task (task used to make a decision using **DMN**)
 
 ### a) Associating Decisions with Tasks and Processes {-}
 
-As described in clause [Artifact metamodel](08_Requirements_DRG_and_DRD.md#artifact-metamodel), in **DMN**, the process context for an instance of Decision is defined by its association with any number of usingProcesses, which are instances of Process as defined in OMG **BPMN 2**, and any number of usingTasks, which are instances of Task as defined in OMG **BPMN 2**. Each decision may therefore be associated with one or more business processes (to indicate that the decision is taken during those processes), and/or with one or more specific tasks (to indicate that the tasks involve making the decision). An implementation SHALL allow these associations to be defined for each decision.
+As described in clause [Artifact metamodel](06_Requirements_DRG_and_DRD.md#artifact-metamodel), in **DMN**, the process context for an instance of Decision is defined by its association with any number of usingProcesses, which are instances of Process as defined in OMG **BPMN 2**, and any number of usingTasks, which are instances of Task as defined in OMG **BPMN 2**. Each decision may therefore be associated with one or more business processes (to indicate that the decision is taken during those processes), and/or with one or more specific tasks (to indicate that the tasks involve making the decision). An implementation SHALL allow these associations to be defined for each decision.
 
 An implementation MAY perform validation over the two (**BPMN** and **DMN**) models, to check, for example, that:
 

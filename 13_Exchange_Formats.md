@@ -20,7 +20,7 @@ All machine-readable files, including XSD, XMI and XML files, can be found at <h
 
 - For the **DMN** XSD Interchange (supporting Conformance Levels 1, 2 and 3), the main file is DMN.xsd.
 
-- XML serializations of the examples in [DMN Examples](14_DMN_Examples.md#dmn-examples) are provided as a non-normative zip file.
+- XML serializations of the examples in [DMN Examples](12_DMN_Examples.md#dmn-examples) are provided as a non-normative zip file.
 
 ## XSD
 

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**DMN** defines the friendly enough expression language (FEEL) for the purpose of giving standard executable semantics to many kinds of expressions in decision model (see [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)).
+**DMN** defines the friendly enough expression language (FEEL) for the purpose of giving standard executable semantics to many kinds of expressions in decision model (see [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)).
 
 This section defines a simple subset of FEEL, S-FEEL, for the purpose of giving standard executable semantics to decision models that use only simple expressions: in particular, decision models where the decision logic is modeled mostly or only using decision tables.
 
@@ -10,7 +10,7 @@ Experience with DMN since its release has shown that few if any complete decisio
 
 ## S-FEEL syntax
 
-The syntax for the S-FEEL expressions used in this section is specified in the EBNF below: it is a subset of the FEEL syntax specified in clause [Grammar rules](12_Expression_Language_FEEL.md#grammar-rules).
+The syntax for the S-FEEL expressions used in this section is specified in the EBNF below: it is a subset of the FEEL syntax specified in clause [Grammar rules](10_Expression_Language_FEEL.md#grammar-rules).
 
 **Grammar rules**:
 
@@ -76,13 +76,13 @@ S-FEEL does not support FEEL date and time. However, it supports the *date* type
 
 S-FEEL supports the FEEL *days and time duration* and *years and months duration* datatypes. FEEL *days and time duration* and *years and months duration* have the same literal and value spaces as the XPath Data Model dayTimeDuration and yearMonthDuration datatypes, respectively. That is, FEEL *days and time duration* is derived from the XML Schema duration datatype by restricting its lexical representation to contain only the days, hours, minutes, and seconds components, and FEEL *years and months duration* is derived from the XML Schema duration datatype by restricting its lexical representation to contain only the year and month components.
 
-The FEEL data types are specified in detail in clause [Equality, Identity and Equivalence](12_Expression_Language_FEEL.md#equality-identity-and-equivalence).
+The FEEL data types are specified in detail in clause [Equality, Identity and Equivalence](10_Expression_Language_FEEL.md#equality-identity-and-equivalence).
 
 ## S-FEEL semantics
 
 S-FEEL contains only a limited set of basic features that are common to most expression and programming languages, and on the semantics of which most expression and programming languages agree.
 
-The semantics of S-FEEL expressions are defined in this section, in terms of the semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data Model datatypes, and in terms of the corresponding functions and operators defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:” below). A complete standalone specification of the semantics is to be found in clause [Semantics](12_Expression_Language_FEEL.md#semantics), as part of the definition of FEEL. Within the scope of S- FEEL, the two definitions are equivalent and equally normative.
+The semantics of S-FEEL expressions are defined in this section, in terms of the semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data Model datatypes, and in terms of the corresponding functions and operators defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:” below). A complete standalone specification of the semantics is to be found in clause [Semantics](10_Expression_Language_FEEL.md#semantics), as part of the definition of FEEL. Within the scope of S- FEEL, the two definitions are equivalent and equally normative.
 
 Arithmetic addition and subtraction (grammar rule 2.a) have the same semantics as:
 

@@ -55,16 +55,29 @@ with the OMG LaTeX templates from
 [mdsa-omg-core](https://github.com/ObjectManagementGroup/mdsa-omg-core). Everything
 runs in a Docker container, so no local LaTeX or Pandoc installation is needed.
 
-The technical content starts at Clause 7, with one file per clause, named after its
-two-digit number and title (`07_Introduction_to_DMN.md`,
-`08_Requirements_DRG_and_DRD.md`, …). The build includes all files from `07_` to `99_` in name order, so adding a
-clause means adding its file; the two-digit numbers keep them in clause order, also
-with ten or more clauses. A specification that needs a different order can list its
-clause files in `07+_Technical_Content.tex` instead.
+DMN keeps its own clause structure, which differs from the OMG template's: it has no
+clauses for terms and symbols, and its references are Clause 3. The repository
+therefore has its own `Specification_Template.tex`, which replaces the template of
+`mdsa-omg-core` (a local file replaces the core file of the same name). It includes:
 
-In every Markdown file, `#` is a clause and `##` a subclause. A clause file from
-Clause 7 on starts with one `#` heading, its title. Files whose clause heading comes
-from the template, such as `01_Scope.md`, start with `##` or with text.
+- the notices and the preface of DMN (`00_Notices.md`, `00_Preface.md`), after
+  the cover page and copyrights (`\maketitle` and `\copyrights` in
+  `_Specification_AuthorSettings.tex`) and before the table of contents;
+- Clauses 1, 2 and 4 (`01_Scope.md`, `02_Conformance.md`,
+  `04_Additional_information.md`) and Clause 3, References, from
+  `specification.bib`;
+- the clauses listed in `07+_Technical_Content.tex`, Clauses 5 to 14
+  (`05_Introduction_to_DMN.md` … `14_DMN_Diagram_Interchange_DMN_DI.md`), and the
+  annexes (`A_Annexes.md`).
+
+Each clause file is named after its two-digit clause number and title, and starts
+with one `#` heading, its title. In every Markdown file, `#` is a clause and `##` a
+subclause.
+
+`omgLaTeX.yaml` replaces the Pandoc settings of `mdsa-omg-core` to put table
+captions above the tables, and `_Specification_AuthorSettings.tex` sets DMN's
+numbering (Figure 6-1, Table 1 to 111, headings numbered to the sixth level),
+cover page, footers and figure placement.
 
 ## Made for GitHub's preview
 
@@ -129,13 +142,14 @@ Neither file is in the repository. The conversion overwrites the clause files an
 `Images/`, and writes its notes (figures, tables, references it resolved or could
 not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 
-- Clauses 5 to 14 of DMN become files `07_…` to `16_…`, the annexes
-  `A_Annexes.md`. Clauses 1, 2 and 4 of DMN become `01_Scope.md`,
-  `02_Basic_Conformance.md` and `06_Additional.md`, and the references of
-  Clause 3 the entries of `specification.bib`.
+- Each clause of DMN becomes a file named after its number and title
+  (`01_Scope.md` … `14_DMN_Diagram_Interchange_DMN_DI.md`, listed from Clause 5
+  on in `07+_Technical_Content.tex`), the annexes `A_Annexes.md`, the notices and
+  the preface `00_Notices.md` and `00_Preface.md`, and the references of Clause 3
+  the entries of `specification.bib`.
 - References to clauses, figures and tables, linked in Word or written as text
   ("see clause 10.3.4", "Figure 8-5"), become links to the heading, image or
-  table caption, so that the PDF shows the new numbers.
+  table caption, so that the PDF shows the generated numbers.
 - Tables become pipe tables with a `###### Table:` caption. Content that a pipe
   table cannot hold is put on one line: paragraphs and line breaks joined, list
   items with bullets, merged cells split.
@@ -148,22 +162,16 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 
 ### Differences from the Word PDF
 
-The PDF has the content of the PDF made with Word, in the layout of the OMG
-template:
+The PDF has the structure and content of the PDF made with Word: the same cover
+page, copyrights and notices, preface, clauses, headings and numbers, figures and
+tables with the same numbers and captions, and annexes. LaTeX sets the text, so
+lines and pages break differently (about 260 pages instead of 270), and:
 
-- The cover page and its "Submitted by:" list come from the template; it shows
-  "Beta 1" and "Version 1.7" on two lines.
-- The template always has Clause 4 "Terms and Definitions" and Clause 5
-  "Symbols", which DMN does not have, so DMN Clauses 5 to 14 are Clauses 7 to 16,
-  and "Additional information" is Clause 6. All references show the new numbers.
-- Some titles come from the template: 2.1 "Basic Conformance" (DMN: "Conformance
-  levels"), 3.1 "Normative References" and 3.2 "Non-normative References", and the
-  references are formatted by biblatex.
-- Figures and tables are numbered per clause (Figure 8.1, Table 8.1), and table
-  captions are below the tables. The template adds lists of figures and tables.
-- The image of "Table 111: BPMN tasks relevant to DMN" in Annex A is a figure.
-- The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11, 10-13 to 10-15
-  and 10-28 of DMN) is part of the image.
+- References are formatted by biblatex.
+- The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11,
+  10-13 to 10-15 and 10-28) is part of the image.
+- Word numbers two tables "Table 111"; the second, "BPMN tasks relevant to DMN"
+  in Annex A, is Table 112.
 - The pages "This page intentionally left blank" are left out.
 
 ## Continuous build
@@ -225,13 +233,14 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 
 | File | Content |
 |---|---|
-| `01_Scope.md`, `02_Basic_Conformance.md`, `06_Additional.md` | Clauses 1, 2 and 6 |
-| `07_Introduction_to_DMN.md` … `16_DMN_Diagram_Interchange_DMN_DI.md` | Clauses 7 to 16, one Markdown file each |
+| `00_Notices.md`, `00_Preface.md` | Notices and preface |
+| `01_Scope.md`, `02_Conformance.md`, `04_Additional_information.md` | Clauses 1, 2 and 4 |
+| `05_Introduction_to_DMN.md` … `14_DMN_Diagram_Interchange_DMN_DI.md` | Clauses 5 to 14, one Markdown file each, listed in `07+_Technical_Content.tex` |
 | `A_Annexes.md` | Annexes A and B |
-| `00_*.tex`, `02_*_Conformance.tex`, `04_Terms.tex`, `05_Symbols.tex` | Clauses kept from the template (LaTeX), empty where DMN has no content |
-| `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `specification.bib` | References of DMN (Clause 3) |
 | `Images/` | SVG figures |
+| `Specification_Template.tex`, `omgLaTeX.yaml` | DMN's versions of the template and Pandoc settings of `mdsa-omg-core` |
+| `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `tools/` | Conversion of the Word source: `convert.sh`, `docx2md.lua`, `images.py`, `unnumbered.py` |
 | `guide/` | The guide to writing OMG specifications in Markdown, with its own figure (not built) |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |
