@@ -157,7 +157,7 @@ Two examples of DRDs providing partial views of a DRG are shown in [DRDs as part
 
 ![DRDs as partial views of a DRG](Images/drds-as-partial-views-of-a-drg.svg)
 
-DRDs can be interchanged using the Diagram Interchange mechanism defined in [DMN Diagram Interchange (DMN DI)](16_DMN_Diagram_Interchange_DMN_DI.md#dmn-diagram-interchange-dmn-di).
+DRDs can be interchanged using the Diagram Interchange mechanism defined in [DMN Diagram Interchange (DMN DI)](14_DMN_Diagram_Interchange_DMN_DI.md#dmn-diagram-interchange-dmn-di).
 
 ### Decision service
 
@@ -237,7 +237,7 @@ Definitions is a kind of NamedElement, from which an instance of Definitions inh
 
 An instance of Definitions has a namespace, which is a String. The namespace identifies the default target namespace for the elements in the Definitions and follows the convention established by XML Schema.
 
-An instance of Definitions may specify an expressionLanguage, which is a URI that identifies the default expression language used in elements within the scope of this Definitions. This value may be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. The default expression language is FEEL ([Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)), indicated by the URI: "https://www.omg.org/spec/DMN/FEEL/". If FEEL is used in other languages, e.g. as an expression language in a **BPMN** process model, a version number MUST be added to the URL, i.e. "https://www.omg.org/spec/DMN/FEEL/1.7". The simple expression language S-FEEL ([Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel)), being a subset of FEEL, is indicated by the same URI. **DMN** provides a URI for expression languages that are not meant to be interpreted automatically (e.g., pseudo-code that may resemble FEEL but is not): "http://www.omg.org/spec/DMN/uninterpreted/20140801".
+An instance of Definitions may specify an expressionLanguage, which is a URI that identifies the default expression language used in elements within the scope of this Definitions. This value may be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. The default expression language is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)), indicated by the URI: "https://www.omg.org/spec/DMN/FEEL/". If FEEL is used in other languages, e.g. as an expression language in a **BPMN** process model, a version number MUST be added to the URL, i.e. "https://www.omg.org/spec/DMN/FEEL/1.7". The simple expression language S-FEEL ([Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel)), being a subset of FEEL, is indicated by the same URI. **DMN** provides a URI for expression languages that are not meant to be interpreted automatically (e.g., pseudo-code that may resemble FEEL but is not): "http://www.omg.org/spec/DMN/uninterpreted/20140801".
 
 An instance of Definitions may specify a typeLanguage, which is a URI that identifies the default type language used in elements within the scope of this Definitions. For example, a typeLanguage value of
 
@@ -264,9 +264,9 @@ Definitions inherits all the attributes and model associations from NamedElement
 | **Attribute** | **Description** |
 |-----------------------------------|-------------------------------------|
 | **namespace**: anyURI \[1\] | This attribute identifies the namespace associated with this Definitions and follows the convention established by XML Schema. |
-| **dmnVersion:** string \[1\] | This attribute identifies the concrete DMN version used in this Definitions (see clause [Document Structure](15_Exchange_Formats.md#document-structure) for its use in the XML serialization). |
-| **expressionLanguage**: anyURI \[0.. 1\] | This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. |
-| **typeLanguage**: anyURI \[0.. 1\] | This attribute identifies the type language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual ItemDefinition. The language SHALL be specified in a URI format. |
+| **dmnVersion:** string \[1\] | This attribute identifies the concrete DMN version used in this Definitions (see clause [Document Structure](13_Exchange_Formats.md#document-structure) for its use in the XML serialization). |
+| **expressionLanguage**: anyURI \[0.. 1\] | This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. |
+| **typeLanguage**: anyURI \[0.. 1\] | This attribute identifies the type language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual ItemDefinition. The language SHALL be specified in a URI format. |
 | **exporter**: string \[0..1\] | This attribute names the tool used to export the XML serialization. |
 | **exporterVersion**: string \[0.. 1\] | This attribute names the version of the tool used to export the XML serialization. |
 | **itemDefinition**: ItemDefinition \[\*\] | This attribute lists the instances of ItemDefinition that are contained in this Definitions. |
@@ -275,7 +275,7 @@ Definitions inherits all the attributes and model associations from NamedElement
 | **elementCollection:** ElementCollection \[\*\] | This attribute lists the instances of ElementCollection that are contained in this Definitions. |
 | **import**: Import \[\*\] | This attribute is used to import externally defined elements and make them available for use by elements in this Definitions. |
 | **artifact:** Artifact \[0..\*\] | Artifacts include text annotations, groups, and associations among DMN elements. |
-| **dmnDI**: DMNDI \[0..1\] | This attribute contains the Diagram Interchange information contained within this Definitions (see [Exchange Formats](15_Exchange_Formats.md#exchange-formats) for more information on the DMN Diagram Interchange). |
+| **dmnDI**: DMNDI \[0..1\] | This attribute contains the Diagram Interchange information contained within this Definitions (see [Exchange Formats](13_Exchange_Formats.md#exchange-formats) for more information on the DMN Diagram Interchange). |
 
 ### Import metamodel
 
@@ -696,6 +696,6 @@ The ExtensionAttribute element contains an Element or a reference to an Element 
 
 ## Examples
 
-Examples of DRDs are provided in clause [The decision requirements level](14_DMN_Examples.md#the-decision-requirements-level).
+Examples of DRDs are provided in clause [The decision requirements level](12_DMN_Examples.md#the-decision-requirements-level).
 
 The page intentionally left blank

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In **DMN**, all decision logic is represented as *boxed expressions*. Clause [Notation](09_Relating_Decision_Logic_to_Decision_Requirements.md#notation) introduced the concept of the boxed expression and defined two simple kinds: boxed literal expressions and boxed invocations. [Decision Table](10_Decision_Table.md#decision-table) defined decision tables, a very important kind of boxed expression*.* This section completes the graphical notation for decision logic, by defining other kinds of boxed expressions.
+In **DMN**, all decision logic is represented as *boxed expressions*. Clause [Notation](07_Relating_Decision_Logic_to_Decision_Requirements.md#notation) introduced the concept of the boxed expression and defined two simple kinds: boxed literal expressions and boxed invocations. [Decision Table](08_Decision_Table.md#decision-table) defined decision tables, a very important kind of boxed expression*.* This section completes the graphical notation for decision logic, by defining other kinds of boxed expressions.
 
 The expressions 'in the boxes' are FEEL expressions. FEEL stands for Friendly Enough Expression Language, and it has the following features:
 
@@ -26,7 +26,7 @@ FEEL has two roles in **DMN**:
 
 ### Boxed Expressions
 
-This section builds on the generic notation for decision logic and boxed expressions defined in clause [Notation](09_Relating_Decision_Logic_to_Decision_Requirements.md#notation).
+This section builds on the generic notation for decision logic and boxed expressions defined in clause [Notation](07_Relating_Decision_Logic_to_Decision_Requirements.md#notation).
 
 We define a graphical notation for decision logic called **boxed expressions**. This notation serves to decompose the decision logic model into small pieces that can be associated with DRG artifacts. The DRG plus the boxed expressions form a complete, mostly graphical language that completely specifies Decision Models.
 
@@ -64,7 +64,7 @@ Graphical tools are expected to support appropriate graphical links, for example
 
 #### Decision Tables
 
-The executable decision tables defined here use the same notation as the decision tables defined in [Decision Table](10_Decision_Table.md#decision-table). Their execution semantics is defined in clause [Decision Table](#decision-table).
+The executable decision tables defined here use the same notation as the decision tables defined in [Decision Table](08_Decision_Table.md#decision-table). Their execution semantics is defined in clause [Decision Table](#decision-table).
 
 #### Boxed FEEL expression
 
@@ -78,7 +78,7 @@ It is usually good practice to make *e* relatively simple and compose small boxe
 
 #### Boxed Invocation
 
-The syntax for boxed invocation is described in clause [Boxed invocation](09_Relating_Decision_Logic_to_Decision_Requirements.md#boxed-invocation). This syntax may be used to invoke any function (e.g., business knowledge model, FEEL built-in function, boxed function definition).
+The syntax for boxed invocation is described in clause [Boxed invocation](07_Relating_Decision_Logic_to_Decision_Requirements.md#boxed-invocation). This syntax may be used to invoke any function (e.g., business knowledge model, FEEL built-in function, boxed function definition).
 
 The box labeled 'invoked business knowledge model' can be any boxed expression whose value is a function, as shown in [Boxed invocation](Images/boxed-invocation-2.svg):
 
@@ -222,7 +222,7 @@ Here we give a "feel" for the language by starting with some simple examples.
 
 #### Comparison of ranges
 
-Ranges and lists of ranges appear in decision table input entry, input value, and output value cells. In the examples in [FEEL range comparisons](#table-feel-range-comparisons), this portion of the syntax is shown underlined. Strings, dates, times, and durations also may be compared, using typographical literals defined in section [Typographical string literals](09_Relating_Decision_Logic_to_Decision_Requirements.md#typographical-string-literals).
+Ranges and lists of ranges appear in decision table input entry, input value, and output value cells. In the examples in [FEEL range comparisons](#table-feel-range-comparisons), this portion of the syntax is shown underlined. Strings, dates, times, and durations also may be compared, using typographical literals defined in section [Typographical string literals](07_Relating_Decision_Logic_to_Decision_Requirements.md#typographical-string-literals).
 
 ###### Table: FEEL range comparisons
 
@@ -257,7 +257,7 @@ FEEL numbers and calculations are exemplified in [FEEL numbers and calculations]
 
 ## Full FEEL Syntax and Semantics
 
-[Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) introduced a subset of FEEL sufficient to support decision tables for Conformance Level 2 (see clause 2). The full **DMN** friendly-enough expression language (FEEL) required for Conformance Level 3 is specified here.
+[Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) introduced a subset of FEEL sufficient to support decision tables for Conformance Level 2 (see [Conformance](02_Conformance.md#conformance)). The full **DMN** friendly-enough expression language (FEEL) required for Conformance Level 3 is specified here.
 
 FEEL is a simple language with inspiration drawn from Java, JavaScript, XPath, SQL, PMML, Lisp, and many others.
 
@@ -709,7 +709,7 @@ The semantics of comparison expressions involving ranges (grammar rules 49c and 
 
 #### Functions
 
-The FEEL function literal is given by grammar rule 55. Functions can also be specified in **DMN** via Function Definitions (see [Business Knowledge Model metamodel](08_Requirements_DRG_and_DRD.md#business-knowledge-model-metamodel)). The constructed type (*T*1, . . . , *Tn*) → *U* contains the function values that take arguments of types *T1, . . . , Tn* and yield results of type *U,* regardless of the way the function syntax (e.g., FEEL literal or **DMN** Function Definition). In the case of exactly one argument type *T* → *U* is a shorthand for (*T* ) → *U*.
+The FEEL function literal is given by grammar rule 55. Functions can also be specified in **DMN** via Function Definitions (see [Business Knowledge Model metamodel](06_Requirements_DRG_and_DRD.md#business-knowledge-model-metamodel)). The constructed type (*T*1, . . . , *Tn*) → *U* contains the function values that take arguments of types *T1, . . . , Tn* and yield results of type *U,* regardless of the way the function syntax (e.g., FEEL literal or **DMN** Function Definition). In the case of exactly one argument type *T* → *U* is a shorthand for (*T* ) → *U*.
 
 #### Relations between types
 
@@ -970,10 +970,10 @@ In the example below, before binding variable *decision_003* to value *"123"* th
 
 #### Decision Table
 
-The normative notation for decision tables is specified in [Decision Table](10_Decision_Table.md#decision-table). Each input expression SHALL be a textual expression (grammar rule 2). Each list of input values SHALL be an instance of unary tests (grammar rule 15). The value that is tested is the value of the input expression of the containing InputClause. Each list of output values SHALL be an instance of unary tests (grammar rule 15).  
+The normative notation for decision tables is specified in [Decision Table](08_Decision_Table.md#decision-table). Each input expression SHALL be a textual expression (grammar rule 2). Each list of input values SHALL be an instance of unary tests (grammar rule 15). The value that is tested is the value of the input expression of the containing InputClause. Each list of output values SHALL be an instance of unary tests (grammar rule 15).  
 The value that is tested is the value of a selected output entry of the containing OutputClause. Each input entry SHALL be an instance of unary tests (grammar rule 15). Rule annotations are ignored in the execution semantics.
 
-The decision table components are shown in [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg): Rules as rows – schematic layout, and also correspond to the metamodel in clause [Metamodel](10_Decision_Table.md#metamodel) For convenience, [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg) is reproduced here.
+The decision table components are shown in [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg): Rules as rows – schematic layout, and also correspond to the metamodel in clause [Metamodel](08_Decision_Table.md#metamodel) For convenience, [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg) is reproduced here.
 
 | **information item name** |  |  |  |
 |-------|----------------------|-----------------------|---------------------|
@@ -1563,7 +1563,7 @@ Contexts are defined in [Semantics of contexts](#table-semantics-of-contexts).
 
 #### Error Handling
 
-Errors in FEEL expressions are handled according to section [Error Handling](09_Relating_Decision_Logic_to_Decision_Requirements.md#error-handling).
+Errors in FEEL expressions are handled according to section [Error Handling](07_Relating_Decision_Logic_to_Decision_Requirements.md#error-handling).
 
 ### XML Data
 
@@ -1695,7 +1695,7 @@ The following schema and instance are equivalent to the following FEEL:
 
 When a decision model is evaluated, its input data described by an item definition such as an XML Schema element
 
-(clause [UnaryTests Metamodel](09_Relating_Decision_Logic_to_Decision_Requirements.md#unarytests-metamodel)) is bound to case data mapped to the FEEL domain. The case data can be in various formats, such as XML. We can notate case data as an equivalent boxed context, as above. Decision logic can reference entries in the context using expressions such as *Context.tns\$Employee.tns\$salary*, which has a value of 13000.
+(clause [UnaryTests Metamodel](07_Relating_Decision_Logic_to_Decision_Requirements.md#unarytests-metamodel)) is bound to case data mapped to the FEEL domain. The case data can be in various formats, such as XML. We can notate case data as an equivalent boxed context, as above. Decision logic can reference entries in the context using expressions such as *Context.tns\$Employee.tns\$salary*, which has a value of 13000.
 
 ### Built-in functions
 
@@ -2002,7 +2002,7 @@ where
 
 The definitions of the FEEL libraries are platform-independent, they do not contain any information about the execution platform (e.g. Java). The discovery mechanism of the definitions of the libraries and the artifacts needed to execute the functions (e.g. Java jars or Python modules) is vendor-specific. The mapping of the FEEL types to the native platforms (e.g. Java) is defined in [Mapping between FEEL and other domains](#table-mapping-between-feel-and-other-domains): Mapping between FEEL and other domains.
 
-The functions defined in a library become visible in the scope of the evaluation (see [Scope and context stack](#scope-and-context-stack)) once they are imported in a DMN file (see [Import metamodel](08_Requirements_DRG_and_DRD.md#import-metamodel)) with the import type equal to the FEEL namespace (e.g. <https://www.omg.org/spec/DMN/20240513/FEEL/> ).
+The functions defined in a library become visible in the scope of the evaluation (see [Scope and context stack](#scope-and-context-stack)) once they are imported in a DMN file (see [Import metamodel](06_Requirements_DRG_and_DRD.md#import-metamodel)) with the import type equal to the FEEL namespace (e.g. <https://www.omg.org/spec/DMN/20240513/FEEL/> ).
 
 The functions defined in a library are invoked in the same way as the imported BKMs or Decision Services (e.g. prefix.f(a, b, c)).
 
@@ -2068,7 +2068,7 @@ XML elements SHALL map to the FEEL semantic domain as specified in section [XML 
 
 The class Expression is extended to support the four new kinds of boxed expressions introduced by FEEL, namely: Context, FunctionDefinition, Relation and List.
 
-Boxed expressions are Expressions that have a standard diagrammatic representation (see clauses [Expressions](09_Relating_Decision_Logic_to_Decision_Requirements.md#expressions) and [Boxed Expressions](#boxed-expressions)). FEEL *contexts*, *function definitions*, *relations* and *lists* SHOULD be modeled as Context, FunctionDefinition, Relation and List elements, respectively, and represented as a boxed expression whenever possible; that is, when they are top-level expressions, since an instance of LiteralExpression cannot contain another Expression element.
+Boxed expressions are Expressions that have a standard diagrammatic representation (see clauses [Expressions](07_Relating_Decision_Logic_to_Decision_Requirements.md#expressions) and [Boxed Expressions](#boxed-expressions)). FEEL *contexts*, *function definitions*, *relations* and *lists* SHOULD be modeled as Context, FunctionDefinition, Relation and List elements, respectively, and represented as a boxed expression whenever possible; that is, when they are top-level expressions, since an instance of LiteralExpression cannot contain another Expression element.
 
 ### Context metamodel
 

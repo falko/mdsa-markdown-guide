@@ -1,0 +1,81 @@
+% DMN's own version of the Specification_Template.tex of mdsa-omg-core (a local
+% file replaces the core one). It keeps DMN's structure, so that the PDF is
+% equivalent to the DMN document made with Word:
+% - the cover page, copyrights and notices of DMN (\maketitle and \copyrights in
+%   _Specification_AuthorSettings.tex, notices in 00_Notices.md), the table of
+%   contents, and the preface of DMN (00_Preface.md); no lists of figures and
+%   tables
+% - Clauses 1 to 4 as in DMN: 01_Scope.md, 02_Conformance.md, the references
+%   (Clause 3, from specification.bib) and 04_Additional_information.md, then
+%   the clauses listed in 07+_Technical_Content.tex and the annexes. There are
+%   no clauses for terms and symbols, and no submission clause.
+\usepackage{omg_specification}
+
+%% User added packages
+\usepackage{import}
+
+% LaTeX definitions required by content converted from Markdown with pandoc.
+\InputIfFileExists{pandoc-preamble.tex}{}{}
+
+\newcommand{\userfiles}{./}
+\newcommand{\genfiles}{GeneratedContent/}
+
+\subimport{\userfiles}{_Specification_Setup}
+\subimport{\userfiles}{_Specification_AuthorSettings}
+\setvalue{\title}{\specname (\specacro) \version}
+
+\graphicspath{{../Images/}{Images/}{./\genfiles/Images/}}
+
+\hypersetup{
+    pdfauthor ={\pdfauthor},
+    pdftitle ={\title},
+    pdfsubject ={\title},
+    pdfcreator ={\copyrightomg},
+    pdfproducer ={LaTeX}
+}
+
+\buildauthornames
+
+\begin{document}
+
+\maketitle
+\fontfamily{ptm}\selectfont
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+%%%%% Copyrights and notices
+\copyrights
+
+\subimport{\userfiles}{00_Notices}
+\clearpage
+
+\tableofcontents{}
+\clearpage
+
+\subimport{\userfiles}{00_Preface}
+\clearpage
+
+%%%%% Clauses
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\subimport{\userfiles}{01_Scope}
+\subimport{\userfiles}{02_Conformance}
+
+\chapter{References}
+\defbibheading{normative}{\section{Normative}}
+\printbibliography[heading={normative}, category={normative}]
+\defbibheading{non-normative}{\section{Non-normative}}
+\printbibliography[heading={non-normative}, notcategory={normative}]
+
+\subimport{\userfiles}{04_Additional_information}
+
+\subimport{\userfiles}{07+_Technical_Content}
+
+%%%%% Annexes
+\appendix
+% Annex figures are numbered A.1, A.2, ...
+\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\subimport{\userfiles}{A_Annexes}
+
+\end{document}

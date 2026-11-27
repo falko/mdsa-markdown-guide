@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**DMN** defines the friendly enough expression language (FEEL) for the purpose of giving standard executable semantics to many kinds of expressions in a decision model (see [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)).
+**DMN** defines the friendly enough expression language (FEEL) for the purpose of giving standard executable semantics to many kinds of expressions in a decision model (see [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)).
 
 This chapter defines a dialect of FEEL: B-FEEL (Business Friendly Enough Expression Language). B-FEEL shares the same grammar as FEEL but alters the semantics to be friendlier and more intuitive toward non-IT users.
 
@@ -11,7 +11,7 @@ In FEEL, the **null** value is used to both represent missing data or an executi
 To use B-FEEL instead of FEEL, the expression language must be set to: "https://www.omg.org/spec/DMN/B-FEEL/"  
 If FEEL is used in other languages, e.g. as an expression language in a BPMN process model, a version number MUST be added to the URL, i.e. "https://www.omg.org/spec/DMN/B-FEEL/1.7".
 
-The following sections present the semantics of B-FEEL and compare it to the semantics of FEEL. Anything not covered in this chapter has the behavior described for FEEL in [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel).
+The following sections present the semantics of B-FEEL and compare it to the semantics of FEEL. Anything not covered in this chapter has the behavior described for FEEL in [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel).
 
 ## Operator and built-in functions returning a Boolean
 
@@ -136,19 +136,19 @@ The FEEL built-in function range() returns a range result. In B-FEEL, that funct
 
 ## Semantics of addition and subtraction
 
-In B-FEEL, the semantics of addition and subtraction are modified when the types of e1 and e2 in [General semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-general-semantics-of-addition-and-subtraction) do not match.
+In B-FEEL, the semantics of addition and subtraction are modified when the types of e1 and e2 in [General semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-general-semantics-of-addition-and-subtraction) do not match.
 
-The following rules are added after the rules in [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) in order of precedence:
+The following rules are added after the rules in [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) in order of precedence:
 
 | If type(e₁) or type(e₂) is … | e₁ + e₂ / e₁ - e₂ |
 |---------------------|---------------------------------------------------|
-| string | The non-string value is converted to a string using the string B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. Subtraction returns an empty string. |
-| number | The non-number value is converted to a number using the number B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
-| date and time | The non-date and time value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
-| date | The non-date value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
-| time | The non-time value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
-| years and months duration | The non-years and months duration value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
-| days and time duration | The non-days and time duration value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](12_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| string | The non-string value is converted to a string using the string B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. Subtraction returns an empty string. |
+| number | The non-number value is converted to a number using the number B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| date and time | The non-date and time value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| date | The non-date value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| time | The non-time value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| years and months duration | The non-years and months duration value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
+| days and time duration | The non-days and time duration value is converted to a duration using the duration B-FEEL function and [Specific semantics of addition and subtraction](10_Expression_Language_FEEL.md#table-specific-semantics-of-addition-and-subtraction) applies. |
 
 | **Expression**         | **FEEL** | **B-FEEL**            |
 |------------------------|----------|-----------------------|
@@ -163,15 +163,15 @@ The following rules are added after the rules in [Specific semantics of addition
 
 ## Semantics of multiplication and division
 
-In B-FEEL, the semantics of multiplication and division are modified when the types of e1 and e2 in [General semantics of multiplication and division](12_Expression_Language_FEEL.md#table-general-semantics-of-multiplication-and-division) do not match.
+In B-FEEL, the semantics of multiplication and division are modified when the types of e1 and e2 in [General semantics of multiplication and division](10_Expression_Language_FEEL.md#table-general-semantics-of-multiplication-and-division) do not match.
 
-The following rules are added after the rules in [Specific semantics of multiplication and division](12_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) in order of precedence:
+The following rules are added after the rules in [Specific semantics of multiplication and division](10_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) in order of precedence:
 
 | If type(e₁) or type(e₂) is … | e₁ \* e₂ and e₁ / e₂ |
 |--------------------|----------------------------------------------------|
-| number | The non-number type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](12_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
-| years and months duration | The non-years and months duration type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](12_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
-| days and time duration | The non-days and time duration type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](12_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
+| number | The non-number type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](10_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
+| years and months duration | The non-years and months duration type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](10_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
+| days and time duration | The non-days and time duration type is converted to a number using the number B-FEEL function and [Specific semantics of multiplication and division](10_Expression_Language_FEEL.md#table-specific-semantics-of-multiplication-and-division) applies. |
 
 | **Expression**          | **FEEL** | **B-FEEL**      |
 |-------------------------|----------|-----------------|
@@ -181,4 +181,4 @@ The following rules are added after the rules in [Specific semantics of multipli
 
 ## Semantics of exponentiation
 
-The FEEL semantics of exponentiation described in [Semantics of exponentiation](12_Expression_Language_FEEL.md#table-semantics-of-exponentiation) (grammar rule 23) are used and B-FEEL further specifies that each operand is converted to a number using the number B-FEEL function.
+The FEEL semantics of exponentiation described in [Semantics of exponentiation](10_Expression_Language_FEEL.md#table-semantics-of-exponentiation) (grammar rule 23) are used and B-FEEL further specifies that each operand is converted to a number using the number B-FEEL function.

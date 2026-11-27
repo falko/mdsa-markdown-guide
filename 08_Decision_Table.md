@@ -68,7 +68,7 @@ If tables are allowed to contain overlapping rules, the table hit policy indicat
 
 ## Notation
 
-This section builds on the generic notation for decision logic and boxed expressions defined in clause [Notation](09_Relating_Decision_Logic_to_Decision_Requirements.md#notation). A decision table representation standardizes:
+This section builds on the generic notation for decision logic and boxed expressions defined in clause [Notation](07_Relating_Decision_Logic_to_Decision_Requirements.md#notation). A decision table representation standardizes:
 
 - The orientation (rules as rows, columns, or crosstab), as shown by the table.
 
@@ -300,7 +300,7 @@ If the hitPolicy associated with an instance of DecisionTable is PRIORITY or OUT
 
 If the hitPolicy that is associated with an instance of DecisionTable is COLLECT, the DecisionTable MAY have an associated aggregation, which is one of the enumerated BuiltinAggregator (see clause [Hit policy](#hit-policy)).
 
-As a kind of Expression, an instance of DecisionTable has a value, which depends on the outputs of the associated rules, the associated hitPolicy and the associated aggregation, if any. The value of an instance of DecisionTable is determined according to the specification in clause [Decision Table](12_Expression_Language_FEEL.md#decision-table).
+As a kind of Expression, an instance of DecisionTable has a value, which depends on the outputs of the associated rules, the associated hitPolicy and the associated aggregation, if any. The value of an instance of DecisionTable is determined according to the specification in clause [Decision Table](10_Expression_Language_FEEL.md#decision-table).
 
 DecisionTable inherits all the attributes and model associations from Expression. [DecisionTable attributes and model associations](#table-decisiontable-attributes-and-model-associations) presents the additional attributes and model associations of the DecisionTable element.
 
@@ -391,7 +391,7 @@ The ruleAnnotation elements SHALL be in the same order as the containing Decisio
 
 ## Examples
 
-[Examples of decision tables](#table-examples-of-decision-tables) provides examples for the various types of decision table discussed in this section. Further examples may be found in clause [The decision logic level](14_DMN_Examples.md#the-decision-logic-level), in the context of a complete example of a **DMN** decision model.
+[Examples of decision tables](#table-examples-of-decision-tables) provides examples for the various types of decision table discussed in this section. Further examples may be found in clause [The decision logic level](12_DMN_Examples.md#the-decision-logic-level), in the context of a complete example of a **DMN** decision model.
 
 ###### Table: Examples of decision tables
 

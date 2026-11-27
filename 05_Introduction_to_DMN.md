@@ -118,7 +118,7 @@ This will allow (for example) the modeling of complex decision logic by combinin
 
 ![Combining business knowledge models](Images/combining-business-knowledge-models.svg)
 
-DRGs and their notation as DRDs are specified in detail in [Requirements (DRG and DRD)](08_Requirements_DRG_and_DRD.md#requirements-drg-and-drd).
+DRGs and their notation as DRDs are specified in detail in [Requirements (DRG and DRD)](06_Requirements_DRG_and_DRD.md#requirements-drg-and-drd).
 
 ### Decision logic level
 
@@ -126,7 +126,7 @@ The components of the decision requirements level of a decision model may be des
 
 Decision logic may also provide additional information about how to display elements in the decision model. For example, the decision logic element for a decision table may specify whether to show the rules as rows or as columns. The decision logic element for a calculation may specify whether to line up terms vertically or horizontally.
 
-The correspondence between concepts at the decision requirements level and the decision logic level is described below. Please note that in the figures below, as in [Aspects of modeling](Images/aspects-of-modeling.svg) and [DMN Constructs](Images/dmn-constructs.svg), the grey ellipses and dotted lines are drawn only to indicate correspondences between concepts in different levels for the purposes of this introduction. They do *not* form part of the notation of **DMN**, which is formally defined in clauses [Notation](08_Requirements_DRG_and_DRD.md#notation), [Notation](10_Decision_Table.md#notation), and [Notation](12_Expression_Language_FEEL.md#notation). It is envisaged that implementations will provide facilities for moving between levels of modeling, such as “opening”, “drilling down” or “zooming in”, but **DMN** does not specify how this should be done.
+The correspondence between concepts at the decision requirements level and the decision logic level is described below. Please note that in the figures below, as in [Aspects of modeling](Images/aspects-of-modeling.svg) and [DMN Constructs](Images/dmn-constructs.svg), the grey ellipses and dotted lines are drawn only to indicate correspondences between concepts in different levels for the purposes of this introduction. They do *not* form part of the notation of **DMN**, which is formally defined in clauses [Notation](06_Requirements_DRG_and_DRD.md#notation), [Notation](08_Decision_Table.md#notation), and [Notation](10_Expression_Language_FEEL.md#notation). It is envisaged that implementations will provide facilities for moving between levels of modeling, such as “opening”, “drilling down” or “zooming in”, but **DMN** does not specify how this should be done.
 
 At the decision logic level, every decision in a DRG is defined using a **value expression** which specifies how the decision’s output is determined from its inputs. At that level, the decision is considered to *be* the evaluation of the expression. The value expression may be notated using a **boxed expression**, as shown in [Decision and corresponding value expression](Images/decision-and-corresponding-value-expression.svg).
 
@@ -144,7 +144,7 @@ A business knowledge model may contain any decision logic which is capable of be
 
 In most cases, the logic of a decision is encapsulated into business knowledge models, and the value expression associated with the decision specifies how the business knowledge models are invoked, and how the results of their invocations are combined to compute the output of the decision. The decision’s value expression may also specify how the output is determined from its input entirely within itself, without invoking a business knowledge model: in that case, no business knowledge model is associated with the decision (neither at the decision requirements level nor at the decision logic level).
 
-An expression language for defining decision logic in **DMN**, covering all the above concepts, is specified fully in [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel). This is **FEEL**: The Friendly Enough Expression Language. The notation for Decision Tables is specified in detail in [Decision Table](10_Decision_Table.md#decision-table).
+An expression language for defining decision logic in **DMN**, covering all the above concepts, is specified fully in [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel). This is **FEEL**: The Friendly Enough Expression Language. The notation for Decision Tables is specified in detail in [Decision Table](08_Decision_Table.md#decision-table).
 
 ### Decision services
 

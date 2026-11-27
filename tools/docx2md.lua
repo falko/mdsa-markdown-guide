@@ -34,20 +34,19 @@ end
 -- DMN clause number (from the Word document) -> file. DMN has no clauses for
 -- terms and symbols, which the OMG template always has (Clauses 4 and 5), so
 -- DMN Clause 5 and later move up by two.
+-- DMN keeps its own clause structure (see Specification_Template.tex): the file
+-- of each clause is named after its number and title. Clause 3, References,
+-- is generated from specification.bib.
 local function clause_file(n, title)
-  if n == 1 then return '01_Scope' end
-  if n == 2 then return '02_Basic_Conformance' end
-  if n == 3 then return nil end            -- References: specification.bib
-  if n == 4 then return '06_Additional' end
+  if n == 3 then return nil end
   local name = title:gsub('%b()', function(s) return s:sub(2, -2) end)
   name = name:gsub('[^%w%s%-]', ''):gsub('%s+', '_'):gsub('_+$', '')
-  return string.format('%02d_%s', n + 2, name)
+  name = name:sub(1, 1):upper() .. name:sub(2)
+  return string.format('%02d_%s', n, name)
 end
 
--- Files whose clause heading comes from the template: their level-1 heading is
--- left out (and for Clause 2 also the first subclause heading, which the
--- template calls "Basic Conformance").
-local strip_headings = { ['01_Scope'] = 1, ['02_Basic_Conformance'] = 2, ['06_Additional'] = 1 }
+-- Files whose clause heading comes from the template (none for DMN)
+local strip_headings = {}
 
 ------------------------------------------------------------------------------
 -- Helpers
@@ -737,7 +736,25 @@ process = function(blocks)
       else
         -- caption above an image (e.g. an image of a table)
         log('caption-above-image', current.file, stringify(b))
-        out:insert(make_figure(only_image(nextb), cap, ids_in(nextb)))
+        if cap.kind == 'Table' then
+          -- a table shown as an image: a table whose one cell is the image
+          local img = only_image(nextb)
+          local text = caption_text(cap.inlines)
+          local src = image_target(img, slug(text))
+          local t = pandoc.Table({ long = {}, short = nil }, { { pandoc.AlignDefault, nil } },
+            pandoc.TableHead({ pandoc.Row({ pandoc.Cell({ pandoc.Plain({ pandoc.Image({}, src) }) }) }) }),
+            { { attr = {}, body = {}, head = {}, row_head_columns = 0 } }, pandoc.TableFoot())
+          local h = pandoc.Header(6, { pandoc.Str('Table:'), pandoc.Space(), pandoc.Str(text) })
+          local target = { kind = 'tbl', file = current.file, header = h, title = List({ pandoc.Str(text) }) }
+          keyed(h, target)
+          register(cap.ids, target)
+          label_target('Table', cap.num, target)
+          log('table', cap.num, text)
+          out:insert(h)
+          out:insert(t)
+        else
+          out:insert(make_figure(only_image(nextb), cap, ids_in(nextb)))
+        end
         i = i + 2
       end
     elseif is_caption_div(b) or caption_of(b) then
@@ -1094,6 +1111,8 @@ local WRITER_EXT = table.concat({
 
 local READER_EXT = 'markdown+gfm_auto_identifiers+lists_without_preceding_blankline-blank_before_header-blank_before_blockquote+autolink_bare_uris+alerts'
 
+local front
+
 function Pandoc(doc)
   -- Inline clean-up
   doc = doc:walk{
@@ -1144,6 +1163,12 @@ function Pandoc(doc)
       return out
     end,
   }
+  -- the blocks before Clause 1, with their Word styles
+  front = List()
+  for _, b in ipairs(doc.blocks) do
+    if b.t == 'Header' and b.level == 1 and stringify(b):match('^%s*Scope%s*$') then break end
+    front:insert(b)
+  end
   -- Word styles: keep the divs that carry meaning, unwrap all others
   local keep = { Code = true, caption = true, ANNEX = true, a2 = true }
   doc = doc:walk{
@@ -1155,12 +1180,51 @@ function Pandoc(doc)
     end,
   }
 
-  -- Start at Clause 1; everything before comes from the template
+  -- Clause 1 starts the clause files; the notices and the preface before it
+  -- become 00_Notices.md and 00_Preface.md (the cover page, the copyrights and
+  -- the table of contents come from the template)
   local blocks = List()
   local started = false
   for _, b in ipairs(doc.blocks) do
     if b.t == 'Header' and b.level == 1 and stringify(b):match('^%s*Scope%s*$') then started = true end
     if started then blocks:insert(b) end
+  end
+  local front_files = List()
+  do
+    local notices, preface = List(), List()
+    local part
+    for _, b in ipairs(front) do
+      local style = b.t == 'Div' and b.attributes['custom-style'] or ''
+      if style == 'small-print-heading-western' and stringify(b):match('USE OF SPECIFICATION') then part = notices end
+      if style == 'zzContents' or style:match('^toc') then part = nil end
+      if style == 'Foreword Title' then
+        part = preface
+        local h = pandoc.Header(1, { pandoc.Str('Preface') })
+        h.classes = { 'unnumbered' }
+        preface:insert(h)
+      elseif part then
+        if style == 'small-print-heading-western' then
+          -- headings of the notices, such as "LICENSES"
+          part:insert(pandoc.Para({ pandoc.Strong(clean_inlines(pandoc.utils.blocks_to_inlines(b.content))) }))
+        else
+          part:insert(b)
+        end
+      end
+    end
+    local function unwrap(bs)
+      return pandoc.Pandoc(bs):walk{
+        Div = function(d) return d.content end,
+        Span = function(x) return x.content end,
+        Underline = function(u) return u.content end,
+      }.blocks
+    end
+    -- the logo of the cover page, used by \maketitle in
+    -- _Specification_AuthorSettings.tex
+    local logo
+    pandoc.Pandoc(front):walk{ Image = function(i) logo = logo or i end }
+    if logo then image_target(logo, 'omg-logo') end
+    front_files:insert({ name = '00_Notices', blocks = unwrap(notices) })
+    front_files:insert({ name = '00_Preface', blocks = unwrap(preface) })
   end
 
   -- Split into clause files and process
@@ -1176,6 +1240,11 @@ function Pandoc(doc)
     file = { name = name, blocks = List() }
     files:insert(file)
     current.file = name
+  end
+
+  for _, f in ipairs(front_files) do
+    current.file = f.name
+    files:insert({ name = f.name, blocks = process(f.blocks) })
   end
 
   -- Collect the blocks of each clause, then process them
@@ -1347,6 +1416,9 @@ function Pandoc(doc)
   end
   for _, t in pairs(numbers.sec) do t.anchor = anchors[t.key] end
   for _, t in pairs(numbers.tbl) do t.anchor = anchors[t.key] end
+  for _, labels in pairs(local_labels) do
+    for _, t in pairs(labels) do if t.key then t.anchor = anchors[t.key] end end
+  end
   -- headings that the template provides (Clauses 1, 2, 2.1 and 6) cannot be
   -- linked to: their numbers, which the template fixes, are written as text
   local orig_link_to = link_to
@@ -1376,6 +1448,15 @@ function Pandoc(doc)
     fh:close()
     log('wrote', f.name)
   end
+
+  -- Clauses 5 and later, in order (the template includes Clauses 1 to 4 itself)
+  local list = io.open(OUT .. '/07+_Technical_Content.tex', 'w')
+  list:write('% Clauses 5 and later of DMN, written by tools/docx2md.lua\n')
+  for _, f in ipairs(files) do
+    local n = tonumber(f.name:match('^(%d%d)_'))
+    if n and n >= 5 then list:write('\\subimport{}{' .. f.name .. '}\n') end
+  end
+  list:close()
 
   local manifest = io.open(MANIFEST, 'w')
   for _, e in ipairs(manifest_entries) do manifest:write(table.concat(e, '\t'), '\n') end

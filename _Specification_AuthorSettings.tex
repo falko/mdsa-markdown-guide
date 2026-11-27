@@ -108,6 +108,8 @@
 \newunicodechar{ε}{\ensuremath{\varepsilon}}
 \newunicodechar{−}{\ensuremath{-}}
 \newunicodechar{▪}{\rule{0.5ex}{0.5ex}}
+%%% U+201F, in the preface ("OMG‟s")
+\newunicodechar{‟}{\textquotedblleft}
 %%% U+1F40 as in the Word source of DMN 1.7, where U+1F40E was meant
 \newunicodechar{ὀ}{\`{o}}
 
@@ -151,6 +153,71 @@
 %%% so \subparagraph, the sixth Markdown level, is level 7.
 \setcounter{secnumdepth}{7}
 \setcounter{tocdepth}{2}
+
+%%%---------------------------------
+%%% SVG images are converted with the area of their page, not of their drawing,
+%%% and with their text: some SVG images of DMN draw beyond their page, which
+%%% Word does not show, and text set by LaTeX would not be cut off there
+\svgsetup{inkscapearea=page, inkscapelatex=false}
+
+%%%---------------------------------
+%%% Figures stay where they are in the text, as in DMN: they do not float.
+%%% (Floating figures pending on a page that a long table continues on make
+%%% the page overflow, because longtable does not take them into account.)
+%%% Images are at most 80% of the text height, so that a figure with its
+%%% caption fits on a page.
+\floatplacement{figure}{H}
+\makeatletter
+\renewcommand*\pandocbounded[1]{%
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{0.8\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi}
+\makeatother
+
+%%%---------------------------------
+%%% Figures are numbered per clause as in DMN (Figure 6-1), tables through the
+%%% whole document (Table 1 to Table 111)
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\counterwithout{table}{chapter}
+\renewcommand{\contentsname}{Table of Contents}
+
+%%%---------------------------------
+%%% Cover page and footers of DMN
+\renewcommand\maketitle{%
+  \begin{titlepage}
+    \sffamily
+    {\hfill\small\bfseries An OMG\textsuperscript{\textregistered} Decision Model and Notation\textsuperscript{TM} Publication}\par
+    \vspace{1.5cm}
+    \hspace*{1cm}\includesvg[width=3.5in]{Images/omg-logo}\par
+    \vspace{1.5cm}
+    {\Huge\bfseries \specname}\par
+    \smallskip
+    {\large Version \version\ \subtitle}\par
+    \vspace{1cm}
+    \hrule height 0.8pt
+    \medskip
+    \begin{tabbing}
+      Standard Document URL:\qquad\qquad \= \kill
+      OMG Document Number: \> \docnum\\[\medskipamount]
+      Release Date: \> \subdate\\[\medskipamount]
+      Standard Document URL: \> \href{https://www.omg.org/spec/DMN}{https://www.omg.org/spec/DMN}
+    \end{tabbing}
+    \hrule height 0.8pt
+    \vfill
+  \end{titlepage}%
+}
+\newcommand{\dmnfooter}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[LO,RE]{\sffamily\footnotesize Decision Model and Notation (DMN), v\version\ \subtitle}%
+  \fancyfoot[RO,LE]{\sffamily\footnotesize\bfseries\thepage}%
+}
+\dmnfooter
+\fancypagestyle{plain}{\dmnfooter}
 
 %%%---------------------------------
 %%% User added packages

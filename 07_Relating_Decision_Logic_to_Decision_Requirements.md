@@ -2,19 +2,19 @@
 
 ## Introduction
 
-[Requirements (DRG and DRD)](08_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) described how the decision requirements level of a decision model – a DRG represented in one or more DRDs – may be used to model the structure of an area of decision making. However, the details of how each decision's outcome is derived from its inputs must be modeled at the decision logic level. This section introduces the principles by which decision logic may be associated with elements in the DRG. Specific representations of decision logic (decision tables and FEEL expressions) are then defined in clauses [Decision Table](10_Decision_Table.md#decision-table), [Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) and [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel).
+[Requirements (DRG and DRD)](06_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) described how the decision requirements level of a decision model – a DRG represented in one or more DRDs – may be used to model the structure of an area of decision making. However, the details of how each decision's outcome is derived from its inputs must be modeled at the decision logic level. This section introduces the principles by which decision logic may be associated with elements in the DRG. Specific representations of decision logic (decision tables and FEEL expressions) are then defined in clauses [Decision Table](08_Decision_Table.md#decision-table), [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) and [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel).
 
 The decision logic level of a decision model in **DMN** consists of one or more value expressions. The elements of decision logic modeled as value expressions include tabular expressions such as decision tables and invocations, and literal (text) expressions such as *age \> 30*.
 
-- A **literal expression** represents decision logic as text that describes how an output value is derived from its input values. The expression language may, but need not, be formal or executable: examples of literal expressions include a plain English description of the logic of a decision, a first order logic proposition, a Java computer program and a PMML document or ONNX file. Clause[Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel) specifies an executable expression language called **FEEL**. [Simple Expression Language (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) specifies a subset of FEEL (S-FEEL) that is the default language for literal expressions in **DMN** decision tables ([Decision Table](10_Decision_Table.md#decision-table)).
+- A **literal expression** represents decision logic as text that describes how an output value is derived from its input values. The expression language may, but need not, be formal or executable: examples of literal expressions include a plain English description of the logic of a decision, a first order logic proposition, a Java computer program and a PMML document or ONNX file. Clause[Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel) specifies an executable expression language called **FEEL**. [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) specifies a subset of FEEL (S-FEEL) that is the default language for literal expressions in **DMN** decision tables ([Decision Table](08_Decision_Table.md#decision-table)).
 
-- A **decision table** is a tabular representation of decision logic, based on a discretization of the possible values of the inputs of a decision, and organized into rules that map discretized input values onto discrete output values (see [Decision Table](10_Decision_Table.md#decision-table)).
+- A **decision table** is a tabular representation of decision logic, based on a discretization of the possible values of the inputs of a decision, and organized into rules that map discretized input values onto discrete output values (see [Decision Table](08_Decision_Table.md#decision-table)).
 
 - An **invocation** is a tabular representation of how decision logic that is represented by a business knowledge model or a decision service is invoked by a decision, or by another business knowledge model. An invocation may also be represented as a literal expression, but usually the tabular representation will be more understandable.
 
 Tabular representations of decision logic are called *boxed expressions* in the remainder of this specification.
 
-All three **DMN** conformance levels include all the above expressions. At **DMN** Conformance Level 1, literal expressions are not interpreted and, therefore, free. At **DMN** Conformance Level 2, literal expressions are restricted to S-FEEL. [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel) specifies additional boxed expressions available at **DMN** Conformance Level 3.
+All three **DMN** conformance levels include all the above expressions. At **DMN** Conformance Level 1, literal expressions are not interpreted and, therefore, free. At **DMN** Conformance Level 2, literal expressions are restricted to S-FEEL. [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel) specifies additional boxed expressions available at **DMN** Conformance Level 3.
 
 Decision logic is added to a decision model by including a value expression component in some of the decision model elements in the DRG:
 
@@ -42,11 +42,11 @@ As explained above, every decision, input data, and business knowledge model at 
 
 The input variables of a decision's decision logic must not be used outside that value expression or its component value expressions: the decision element defines the lexical scope of the input variables for its decision logic. To avoid name collisions and ambiguity, the name of a variable must be unique within its scope. When DRG elements are mapped to FEEL, the name of a variable is the same as the (possibly qualified) name of its associated input data or decision, which guarantees its uniqueness.
 
-When DRG elements are mapped to FEEL, all the decisions and input data in a DRG define a *context*, which is the literal expression that represents the logic associated with the decision element and that represents that scope (see [Context](12_Expression_Language_FEEL.md#context)). The information requirement elements in a decision are *context entries* in the associated context, where the *key* is the name of the variable that the information requirement defines, and where the *expression* is the *context* that is associated with the required decision or input data element that the information requirement references. The value expression that is associated with the decision as its decision logic is the *expression* in the *context entry* that specifies what is the result of the *context*.
+When DRG elements are mapped to FEEL, all the decisions and input data in a DRG define a *context*, which is the literal expression that represents the logic associated with the decision element and that represents that scope (see [Context](10_Expression_Language_FEEL.md#context)). The information requirement elements in a decision are *context entries* in the associated context, where the *key* is the name of the variable that the information requirement defines, and where the *expression* is the *context* that is associated with the required decision or input data element that the information requirement references. The value expression that is associated with the decision as its decision logic is the *expression* in the *context entry* that specifies what is the result of the *context*.
 
 In the same way, a business knowledge model element defines the lexical scope of its parameters, that is, of the input variables for its body.
 
-In FEEL, the literal expression and scoping construct that represents the logic associated with a business knowledge model element is a *function definition* (see [Functions Semantics](12_Expression_Language_FEEL.md#functions-semantics)), where the *formal parameters* are the names of the parameters in the business knowledge model element, and the expression is the value expression that is the body of the business knowledge model element.
+In FEEL, the literal expression and scoping construct that represents the logic associated with a business knowledge model element is a *function definition* (see [Functions Semantics](10_Expression_Language_FEEL.md#functions-semantics)), where the *formal parameters* are the names of the parameters in the business knowledge model element, and the expression is the value expression that is the body of the business knowledge model element.
 
 If a business knowledge model element requires one or more other business knowledge models, it SHOULD have an explicit value expression that describes how the required business knowledge models are invoked and their results combined or otherwise elaborated.
 
@@ -62,7 +62,7 @@ In addition to the generic notation of **boxed expression**, this section specif
 
 - **boxed invocation**
 
-The boxed expression for a decision table is defined in [Decision Table](10_Decision_Table.md#decision-table). Further types of boxed expressions are defined for FEEL, in [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel).
+The boxed expression for a decision table is defined in [Decision Table](08_Decision_Table.md#decision-table). Further types of boxed expressions are defined for FEEL, in [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel).
 
 Boxed expressions are defined recursively, *i.e.,* boxed expressions can contain other boxed expressions. The top-level boxed expression corresponds to the decision logic of a single DRG artifact. This boxed expression SHALL have a name box that contains the name of the DRG artifact. The name box may be attached in a single box on top, as shown in [Boxed Expression](Images/boxed-expression.svg):
 
@@ -90,7 +90,7 @@ To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is "HIGH," "DECLINE,"
 
 #### Typographical date and time literals
 
-A date, time, date and time, or duration expression such as date("2013-08-09") can be represented alternatively as the bold italicized literal ***2013-08-09*.** The literal SHALL obey the syntax specified in clauses [time](12_Expression_Language_FEEL.md#time), [date](12_Expression_Language_FEEL.md#date), and [days and time duration](12_Expression_Language_FEEL.md#days-and-time-duration).
+A date, time, date and time, or duration expression such as date("2013-08-09") can be represented alternatively as the bold italicized literal ***2013-08-09*.** The literal SHALL obey the syntax specified in clauses [time](10_Expression_Language_FEEL.md#time), [date](10_Expression_Language_FEEL.md#date), and [days and time duration](10_Expression_Language_FEEL.md#days-and-time-duration).
 
 ### Boxed invocation
 
@@ -110,7 +110,7 @@ An important characteristic of decisions and business knowledge models is that t
 
 The class Expression is the abstract superclass for all expressions that are used to describe complete or parts of decision logic in **DMN** models and that return a single value when interpreted (clause [Expression metamodel](#expression-metamodel)). Here “single value” possibly includes structured data, such as a decision table with multiple output clauses.
 
-**DMN** defines three concrete kinds of Expression: LiteralExpression, DecisionTable (see [Decision Table](10_Decision_Table.md#decision-table)) and Invocation.
+**DMN** defines three concrete kinds of Expression: LiteralExpression, DecisionTable (see [Decision Table](08_Decision_Table.md#decision-table)) and Invocation.
 
 An expression may reference variables, such that the value of the expression, when interpreted, depends on the values assigned to the referenced variables. The class InformationItem is used to model variables in expressions.
 
@@ -138,7 +138,7 @@ The class UnaryTests is used to model a boolean test where the argument to be te
 
 UnaryTests is a concrete subclass of Expression.
 
-An instance of UnaryTests inherits an optional typeRef from Expression, which SHALL NOT be used. An instance of UnaryTests also has an optional text, which is a String, and an optional expressionLanguage, which is a String that identifies the expression language of the text. If no expressionLanguage is specified, the expression language of the text is the expressionLanguage that is associated with the containing instance of Definitions. The expressionLanguage SHALL be specified in a URI format. The default expression language is FEEL. When the expression language is FEEL, the text must conform to grammar rule 15 in section [Grammar rules](12_Expression_Language_FEEL.md#grammar-rules).
+An instance of UnaryTests inherits an optional typeRef from Expression, which SHALL NOT be used. An instance of UnaryTests also has an optional text, which is a String, and an optional expressionLanguage, which is a String that identifies the expression language of the text. If no expressionLanguage is specified, the expression language of the text is the expressionLanguage that is associated with the containing instance of Definitions. The expressionLanguage SHALL be specified in a URI format. The default expression language is FEEL. When the expression language is FEEL, the text must conform to grammar rule 15 in section [Grammar rules](10_Expression_Language_FEEL.md#grammar-rules).
 
 A UnaryTests is satisfied if and only if one of the following alternatives is true:
 
