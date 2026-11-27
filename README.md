@@ -75,9 +75,10 @@ with one `#` heading, its title. In every Markdown file, `#` is a clause and `##
 subclause.
 
 `omgLaTeX.yaml` replaces the Pandoc settings of `mdsa-omg-core` to put table
-captions above the tables, and `_Specification_AuthorSettings.tex` sets DMN's
-numbering (Figure 6-1, Table 1 to 111, headings numbered to the sixth level),
-cover page, footers and figure placement.
+captions above the tables and to start pages as in the Word PDF (see below),
+and `_Specification_AuthorSettings.tex` sets DMN's page layout, numbering
+(Figure 6-1, Table 1 to 111, headings numbered to the sixth level), cover page,
+footers and figure placement.
 
 ## Made for GitHub's preview
 
@@ -138,6 +139,12 @@ The Markdown files and images were made from the Word source of DMN 1.7 Beta 1 w
 tools/convert.sh DMN_1.7_SOURCE.docx DMN_1.7_SOURCE.pdf
 ```
 
+and the list of the pages of the Word PDF for the build with:
+
+```bash
+python3 tools/pages.py DMN_1.7_SOURCE.pdf > tools/dmn-pages.txt
+```
+
 Neither file is in the repository. The conversion overwrites the clause files and
 `Images/`, and writes its notes (figures, tables, references it resolved or could
 not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
@@ -156,26 +163,39 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 - Images become SVG files: SVG images are copied, PNG and JPEG images embedded
   in an SVG file. Figures that Word draws with tables or text boxes (boxed
   expressions) are cut from the PDF as vector graphics.
+- The glossary (Annex B) becomes a definition list, as terms are written in
+  the guide.
+- Images that Word groups next to a figure (Figure 12-56) are combined into
+  the figure's SVG file.
 - Sub- and superscripts become Unicode characters (e₁, 10⁻¹), also those that
   Word only sets in a smaller font (`tools/subscripts.py`), lettered lists
   paragraphs starting with the letter, the FEEL and S-FEEL grammars code blocks,
   and headings that are unnumbered in Word `{-}` headings.
 
-### Differences from the Word PDF
+### Pages as in the Word PDF
 
-The PDF has the structure, content and page layout of the PDF made with Word:
-A4 pages with the same margins, line and paragraph spacing, footers, cover page,
-copyrights and notices, table of contents, preface, the same clauses, headings and
-numbers (Figure 6-1, Table 1 to Table 111), table captions above the tables, tables
-in a sans-serif font, a page "This page intentionally left blank." before each
-clause from Clause 5 on and before the annexes, and the same text. Checked
-against `DMN_1.7_SOURCE.pdf`: all 271 numbered headings and all figure and table
-captions match, and the clauses start within a few pages of where they start
-there. Differences:
+The PDF has the pages of the PDF made with Word (`DMN_1.7_SOURCE.pdf`): 270 A4
+pages with the same margins, fonts, spacing and footers, the same cover page,
+copyrights, notices, table of contents and preface, and the same clauses,
+headings, numbers (Figure 6-1, Table 1 to Table 111), figures and tables.
 
-- LaTeX breaks lines and pages differently from Word. The PDF has 258 pages
-  instead of 270, most of the difference in the glossary (Annex B), whose table
-  rows Word makes much higher than their text.
+- Each clause from Clause 5 on, the page "ANNEXES" and the annexes start on the
+  page they start on in the Word PDF, after a page "This page intentionally left
+  blank." (`Specification_Template.tex`).
+- Within the clauses, pages start where they start in the Word PDF: before the
+  paragraph, heading, figure, table row, code line or glossary entry that begins
+  the Word page. The build does this with the filter `tools/dmn-pages.lua` and
+  its data `tools/dmn-pages.txt` (the first words and position of each page of
+  the Word PDF, written by `tools/pages.py`); the Markdown files have no page
+  breaks. The filter also splits tables and code blocks there.
+
+Checked against the Word PDF: both have 270 pages, the blank pages are the same
+pages, all 271 numbered headings and all figure and table captions match, all
+table of contents entries but three are on the same page, and on 219 of the 267
+pages with text the first words are on the same page (on most of the others a
+few lines later or earlier, as LaTeX and Word break lines differently).
+Differences that remain:
+
 - Tables have the rules of the template instead of a grid, and references are
   formatted by biblatex.
 - The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11,
@@ -248,6 +268,6 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 | `Images/` | SVG figures |
 | `Specification_Template.tex`, `omgLaTeX.yaml` | DMN's versions of the template and Pandoc settings of `mdsa-omg-core` |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
-| `tools/` | Conversion of the Word source: `convert.sh`, `docx2md.lua`, `images.py`, `subscripts.py`, `unnumbered.py` |
+| `tools/` | Conversion of the Word source (`convert.sh`, `docx2md.lua`, `images.py`, `subscripts.py`, `unnumbered.py`), and the pages of the Word PDF (`pages.py` writes `dmn-pages.txt`, which the build's filter `dmn-pages.lua` uses) |
 | `guide/` | The guide to writing OMG specifications in Markdown, with its own figure (not built) |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |

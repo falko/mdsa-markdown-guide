@@ -37,15 +37,36 @@
 
 \buildauthornames
 
-% As in DMN, each clause from Clause 5 on, the annexes and Annex A are preceded
-% by a page "This page intentionally left blank." (\dmnblankpages is switched on
-% before Clause 5; in the annexes, only up to Annex A)
+% As in DMN, each clause from Clause 5 on, the page "ANNEXES" and the annexes
+% start on the page they start on in the Word PDF of DMN, preceded by a page
+% "This page intentionally left blank.". If the clause before ends later, the
+% blank page is left out; if it ends earlier, empty pages fill the gap.
+% (\dmnblankpages is switched on before Clause 5.)
 \newif\ifdmnblankpages
-\newif\ifdmnannexes
+\newcounter{dmnchapter}
+\newcommand{\dmnstartpage}{%
+  \ifcase\value{dmnchapter}\or
+  10\or 22\or 53\or 67\or 85\or 91\or 173\or 180\or 224\or 227\or % Clauses 5 to 14
+  241\or 243\or 248\else 0\fi}                                     % ANNEXES, A, B
 \newcommand{\dmnblankpage}{%
-  \clearpage\vspace*{125pt}{\centering This page intentionally left blank.\par}\clearpage}
-\pretocmd{\chapter}{%
-  \ifdmnblankpages\ifdmnannexes\ifnum\value{chapter}=0 \dmnblankpage\fi\else\dmnblankpage\fi\fi}{}{}
+  \clearpage
+  \stepcounter{dmnchapter}%
+  \edef\dmntarget{\dmnstartpage}%
+  \loop\ifnum\numexpr\value{page}+1<\dmntarget\relax
+    \null\clearpage
+  \repeat
+  \ifnum\numexpr\value{page}+1=\dmntarget\relax
+    \ifnum\value{dmnchapter}<13
+      \vspace*{125pt}{\centering This page intentionally left blank.\par}%
+    \else\null\fi
+    \clearpage
+  \fi}
+% Clauses do not start on a new page by themselves (Clause 2 follows Clause 1 on
+% its page, as in DMN); the page breaks are below and in \dmnblankpage
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+\pretocmd{\chapter}{\par\ifdmnblankpages\dmnblankpage\fi}{}{}
 
 \begin{document}
 
@@ -60,7 +81,7 @@
 \subimport{\userfiles}{00_Notices}
 \clearpage
 
-\tableofcontents{}
+{\setlength{\parskip}{0pt}\tableofcontents{}}
 \clearpage
 
 \subimport{\userfiles}{00_Preface}
@@ -88,11 +109,13 @@
 
 %%%%% Annexes
 \appendix
-\dmnannexestrue
 % Annex figures are numbered A.1, A.2, ...
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
 % DMN numbers its table in Annex A "Table 111", as the last table of Clause 14
 \setcounter{table}{110}
 \subimport{\userfiles}{A_Annexes}
+
+% The Word PDF of DMN ends with an empty page
+\clearpage\null
 
 \end{document}

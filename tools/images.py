@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Writes the images listed by docx2md.lua as SVG files.
 
-Usage: images.py MANIFEST MEDIA_DIR REFERENCE_PDF OUT_DIR
+Usage: images.py MANIFEST MEDIA_DIR REFERENCE_PDF OUT_DIR WORD_DOCUMENT
 
 Each manifest line is tab-separated: kind, source, destination, and for
   media: width and height as shown in the Word document (e.g. "4.6in")
@@ -86,6 +86,68 @@ def write_media(src, dest, width, height):
         f.write('<image width="%d" height="%d" preserveAspectRatio="none" xlink:href="data:%s;base64,\n%s"/>\n'
                 % (pw, ph, mime, '\n'.join(lines)))
         f.write('</svg>\n')
+
+
+def vml_group(docx, media_name):
+    """The VML drawing group of the Word document that contains an image:
+    (width, height) in pt and [(media name, x, y, w, h)] in pt, or None"""
+    import zipfile
+    z = zipfile.ZipFile(docx)
+    xml = z.read('word/document.xml').decode('utf-8')
+    rels = dict(re.findall(r'Id="(rId\d+)"[^>]*Target="([^"]+)"', z.read('word/_rels/document.xml.rels').decode('utf-8')))
+    for g in re.finditer(r'<v:group\b[^>]*>.*?</v:group>', xml, re.S):
+        head = re.match(r'<v:group\b[^>]*>', g.group(0)).group(0)
+        style = dict(re.findall(r'([\w-]+):([^;"]+)', re.search(r'style="([^"]*)"', head).group(1)))
+        cw, ch = map(float, re.search(r'coordsize="([^"]*)"', head).group(1).split(','))
+        gw, gh = float(style['width'].replace('pt', '')), float(style['height'].replace('pt', ''))
+        shapes = []
+        for sh in re.findall(r'<v:shape\b.*?</v:shape>', g.group(0), re.S):
+            rid = re.search(r'<v:imagedata r:id="(rId\d+)"', sh)
+            if not rid:
+                continue
+            st = dict(re.findall(r'([\w-]+):([^;"]+)', re.search(r'style="([^"]*)"', sh).group(1)))
+            num = lambda k: float(st.get(k, '0'))
+            shapes.append((os.path.basename(rels[rid.group(1)]), num('left') * gw / cw, num('top') * gh / ch,
+                           num('width') * gw / cw, num('height') * gh / ch))
+        if any(name == media_name for name, *_ in shapes):
+            return (gw, gh), shapes
+    return None
+
+
+def embedded(path, x, y, w, h):
+    data = path if isinstance(path, bytes) else open(path, 'rb').read()
+    mime = image_size(data)[2]
+    return ('<image x="%s" y="%s" width="%s" height="%s" preserveAspectRatio="none" xlink:href="data:%s;base64,%s"/>'
+            % (fmt(x), fmt(y), fmt(w), fmt(h), mime, base64.b64encode(data).decode('ascii')))
+
+
+def write_side_by_side(docx, media, first, src2, w2, h2, dest, gap=12.0):
+    """A figure whose image Word shows next to a drawing group (VML) with other
+    images: the group as Word lays it out, and the figure's image to the right
+    of its first image, below the group's other images (all in pt)"""
+    group = vml_group(docx, os.path.basename(first))
+    w2, h2 = inches(w2) * 72, inches(h2) * 72
+    if group:
+        (gw, gh), shapes = group
+        import zipfile
+        z = zipfile.ZipFile(docx)
+        parts = [embedded(z.read('word/media/' + name), x, y, w, h) for name, x, y, w, h in shapes]
+        others = [sh for sh in shapes if sh[0] != os.path.basename(first)]
+        x2 = min(sh[1] for sh in others) if others else gw + gap
+        y2 = max(sh[2] + sh[4] for sh in others) + gap if others else 0
+    else:
+        data = open(first, 'rb').read()
+        pw, ph, _ = image_size(data)
+        gw, gh = pw * 0.75, ph * 0.75
+        parts = [embedded(first, 0, 0, gw, gh)]
+        x2, y2 = gw + gap, 0
+    parts.append(embedded(src2, x2, y2, w2, h2))
+    width, height = max(gw, x2 + w2), max(gh, y2 + h2)
+    with open(dest, 'w') as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        f.write('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+                'width="%spt" height="%spt" viewBox="0 0 %s %s">\n' % (fmt(width), fmt(height), fmt(width), fmt(height)))
+        f.write('\n'.join(parts) + '\n</svg>\n')
 
 
 # --- Figures cut from the reference PDF ------------------------------------
@@ -194,14 +256,19 @@ def write_crop(pdf, npages, label, dest, mode, caption, text):
         raise LookupError('empty region for ' + label)
     y0, y1 = int(rows[0] - 2), int(rows[-1] + 3)
     x0, x1 = int(xr[0] - 2), int(xr[1] + 3)
-    subprocess.run(['pdftocairo', '-svg', '-f', str(page), '-l', str(page),
-                    '-x', str(x0), '-y', str(y0), '-W', str(x1 - x0), '-H', str(y1 - y0),
-                    pdf, dest], check=True)
+    subprocess.run(['pdftocairo', '-svg', '-f', str(page), '-l', str(page), pdf, dest], check=True)
+    # pdftocairo writes the whole page: the SVG page becomes the region
+    svg = open(dest, encoding='utf-8').read()
+    svg = re.sub(r'(<svg[^>]*?) width="[^"]*" height="[^"]*" viewBox="[^"]*"',
+                 r'\1 width="%dpt" height="%dpt" viewBox="%d %d %d %d"' % (x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0),
+                 svg, count=1)
+    open(dest, 'w', encoding='utf-8').write(svg)
     print('  %s: page %d, %.0fx%.0f pt' % (label, page, x1 - x0, y1 - y0), file=sys.stderr)
 
 
 def main():
     manifest, media, pdf, out = sys.argv[1:5]
+    docx = sys.argv[5] if len(sys.argv) > 5 else None
     npages = int(re.search(r'Pages:\s+(\d+)', subprocess.run(['pdfinfo', pdf], capture_output=True, text=True).stdout).group(1))
     written = set()
     for line in open(manifest, encoding='utf-8'):
@@ -214,6 +281,11 @@ def main():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         if kind == 'media':
             write_media(os.path.join(media, src), path, f[3], f[4])
+        elif kind == 'combine':
+            # two images side by side, top-aligned: the first (f[5]) and the
+            # figure's image (src), each embedded as in write_media
+            left = f[5].split('|')[0]
+            write_side_by_side(docx, media, os.path.join(media, left), os.path.join(media, src), f[3], f[4], path)
         elif kind == 'crop':
             write_crop(pdf, npages, src, path, f[3], f[4], f[5])
     # images of an earlier conversion that are no longer used

@@ -590,6 +590,4 @@ The top-level decision **Recommended Loan Products** ([Recommended Loan Products
 
 ![Test Case output of Recommended Loan Products](Images/test-case-output-of-recommended-loan-products.svg)
 
-![](Images/example-2-ranked-loan-products-figure.svg)
-
 ![Test Case Input Data (partial)](Images/test-case-input-data-partial.svg)

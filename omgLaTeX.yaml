@@ -1,5 +1,6 @@
 # Pandoc settings for converting Markdown clause files to LaTeX: the settings of
-# mdsa-omg-core, with table captions above the tables, as in DMN.
+# mdsa-omg-core, with table captions above the tables, and pages starting where
+# they start in the Word PDF of DMN (dmn-pages.lua), as in DMN.
 # A file with the same name in the specification repository replaces this one.
 # See https://pandoc.org/MANUAL.html#defaults-files
 
@@ -34,6 +35,7 @@ listings: true
 # headings, which become the captions of the tables below them ("Table 7.1").
 # ${.} is the folder of this file in the build folder, where the filter is copied.
 filters:
+  - ${.}/dmn-pages.lua
   - ${.}/code-characters.lua
   - ${.}/crossref-links.lua
   - pandoc-crossref
