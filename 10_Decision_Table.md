@@ -266,7 +266,7 @@ So, for example, if called with Age = 17, Risk category = “HIGH” and Debt re
 
 Crosstab tables are unique and complete by definition and therefore do not need a hit policy.
 
-#### Note 2
+#### Note 2 {-}
 
 The sequence of the rules in a decision table does not influence the meaning, except in **F**irst tables (single hit) and **R**ule order tables (multiple hit). These tables should be used with care.
 

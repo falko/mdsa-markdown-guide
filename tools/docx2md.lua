@@ -1064,10 +1064,27 @@ end
 -- Main
 ------------------------------------------------------------------------------
 
+-- Headings whose numbering is switched off in Word (tools/unnumbered.py)
+local unnumbered = List()
+local unnumbered_next = 1
+do
+  local f = os.getenv('UNNUMBERED') and io.open(os.getenv('UNNUMBERED'))
+  if f then
+    for line in f:lines() do
+      local level, text = line:match('^(%d)\t(.*)$')
+      -- "ANNEXES" only starts the annexes (see Pandoc below)
+      if level and text:upper():match('^%s*ANNEXES%s*$') == nil then
+        unnumbered:insert({ level = tonumber(level), text = trim(text:gsub('\u{00A0}', ' ')) })
+      end
+    end
+    f:close()
+  end
+end
+
 local WRITER_EXT = table.concat({
   'markdown',
   '-grid_tables', '-multiline_tables', '-simple_tables', '+pipe_tables', '-table_captions',
-  '-header_attributes', '-link_attributes', '-fenced_divs', '-bracketed_spans', '-native_divs',
+  '+header_attributes', '-link_attributes', '-fenced_divs', '-bracketed_spans', '-native_divs',
   '-native_spans', '-raw_html', '-raw_attribute', '-inline_code_attributes', '-fenced_code_attributes',
   '-smart', '-subscript', '-superscript', '-inline_notes', '-example_lists', '-implicit_figures',
   '-escaped_line_breaks', '-line_blocks', '-definition_lists',
@@ -1258,7 +1275,12 @@ function Pandoc(doc)
           flush()
           local level = b.level
           local num
-          if in_annexes then
+          local nonum = unnumbered[unnumbered_next]
+          nonum = nonum and nonum.level == level and nonum.text == trim(stringify(b):gsub('\u{00A0}', ' '))
+          if nonum then
+            unnumbered_next = unnumbered_next + 1
+            num = 'unnumbered-' .. unnumbered_next
+          elseif in_annexes then
             if level == 1 then annex_no = annex_no + 1; counters = { annex_no, 0, 0, 0, 0, 0 }
             else counters[level] = counters[level] + 1; for k = level + 1, 6 do counters[k] = 0 end end
             local parts = { letter(counters[1], true) }
@@ -1274,6 +1296,7 @@ function Pandoc(doc)
           local inls = clean_inlines(b.content)
           -- headings such as "Decision Table " or "DMNShape [Class]"
           local h = pandoc.Header(level, inls)
+          if nonum then h.classes = { 'unnumbered' } end
           local target = { kind = 'sec', file = file.name, level = level, header = h, title = inls:clone(), num = num }
           keyed(h, target)
           local ids = ids_in(b)
@@ -1344,6 +1367,8 @@ function Pandoc(doc)
       Link = function(l) l.identifier = ''; l.attributes = {}; l.classes = {}; return l end,
     }
     local md = pandoc.write(d, WRITER_EXT, { wrap_text = 'none' })
+    -- unnumbered headings as the guide writes them
+    md = md:gsub(' {%.unnumbered}\n', ' {-}\n')
     local fh = io.open(OUT .. '/' .. f.name .. '.md', 'w')
     fh:write(md)
     fh:close()
