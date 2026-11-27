@@ -45,13 +45,25 @@ Check the generated PDF:
     [Merged cells and rich cell content](10_Tables.md#merged-cells-and-rich-cell-content)
     show merged cells, paragraphs, lists, code, math and images in cells, and the
     footnote of the string function table below that table.
-13. The decision tables in
+13. The decision tables and boxed expressions in
     [Specification-specific table styles](10_Tables.md#specification-specific-table-styles)
-    match DMN Figures 8-6, 8-19 and 8-12: the name box above and adjoining the
-    table, the hit policy cell spanning the clause rows, double lines below the
-    clauses and before the first output and the annotation column, only the
-    clauses shaded, string literals in italics, annotations left-aligned, and
-    the two wide tables wrapped to the text width.
+    match the DMN figures named in their text, and have ordinary numbered
+    captions:
+    - rules as rows (Figures 8-6, 8-19, 8-12): the name box, the hit policy
+      cell spanning the clause rows, double lines below the clauses and before
+      the first output and the annotation column, only the clauses shaded,
+      string literals in italics, annotations left-aligned, the default output
+      value underlined, and the two wide tables wrapped to the text width;
+    - rules as columns (Figures 8-8, 8-13): a double line between the clauses
+      with their allowed values and the entries, and between inputs and
+      outputs;
+    - crosstabs (Figures 8-10, 8-11): double lines below the column inputs and
+      left of the output entries, which are shaded;
+    - boxed expressions (Figures 10-4 to 10-10, 10-15, 10-16): names shaded;
+      whitespace between context entries with only the connecting line on the
+      left (top), and a jagged right edge in "Vertical context with decision
+      table entry"; the context nested in the function definition fills its
+      cell.
 14. The grammar in [Grammar rules](13_Other_Elements.md#grammar-rules) is numbered
     1 to 4 with alternatives i, ii, iii, and the references above it read
     "rule 2.i", "rule 2" and "rule 1".

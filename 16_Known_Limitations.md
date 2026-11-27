@@ -10,5 +10,11 @@
 - In a table, text next to an image is aligned with the middle of the image's
   first line, not centered in the row.
 - Whether change bars (latexdiff) mark changes inside tables has not been tested.
+- A table nested in a table cell keeps its natural width, so a narrower nested
+  boxed expression leaves a jagged edge (which DMN allows). Nested tables do
+  not break across pages.
+- The DMN notation in a web browser (`dmn-notation.css`) lacks the double line
+  between the clauses and the entries of tables with rules as columns and of
+  crosstabs; GitHub shows the DMN tables with a plain grid.
 - GitHub's preview shows citations as typed, and figures without their
   captions (see [Reviewing on GitHub](15_Reviewing_on_GitHub.md#reviewing-on-github)).

@@ -40,7 +40,8 @@ Specification Authoring) pipeline. It serves two purposes:
 | Terms and definitions | definition lists | [`04_Terms.md`](04_Terms.md) |
 | Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](13_Other_Elements.md) |
 | Tables with merged cells, paragraphs, lists or code in cells | HTML table structure, Markdown in the cells | [`10_Tables.md`](10_Tables.md) |
-| DMN decision tables in the official notation | HTML table with a `<colgroup>`, styled by [`specification.lua`](specification.lua) and [`dmn-notation.css`](dmn-notation.css) | [`10_Tables.md`](10_Tables.md) |
+| DMN decision tables (rules as rows, as columns, crosstab) and boxed expressions in the official notation | HTML table with `class` attributes, styled by [`specification.lua`](specification.lua) and [`dmn-notation.css`](dmn-notation.css) | [`10_Tables.md`](10_Tables.md) |
+| Tables in table cells | HTML table in a cell of an HTML table | [`10_Tables.md`](10_Tables.md) |
 | Math | `$e_1 + e_2$` | [`10_Tables.md`](10_Tables.md) |
 | Grammar rules, numbered automatically, with references | numbered list, `<a id="rule-...">` anchors | [`13_Other_Elements.md`](13_Other_Elements.md) |
 | FEEL code | ```` ```feel ```` | [`13_Other_Elements.md`](13_Other_Elements.md) |
@@ -186,7 +187,7 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 | `00_*.tex`, `02_*.tex`, `06_Additional.tex` | Clauses kept from the template (LaTeX) |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `specification.bib` | Bibliography entries of this specification |
-| `specification.lua` | This specification's own Pandoc filter: DMN decision tables, FEEL code |
-| `dmn-notation.css` | DMN decision table notation for web browsers |
+| `specification.lua` | This specification's own Pandoc filter: DMN decision tables and boxed expressions, FEEL code |
+| `dmn-notation.css` | DMN decision table and boxed expression notation for web browsers |
 | `Images/` | SVG figures |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |

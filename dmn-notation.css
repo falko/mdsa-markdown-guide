@@ -1,20 +1,50 @@
-/* DMN decision tables in the notation of DMN 1.7, 8.2, for web browsers.
-   Used with the HTML tables of class dmn-decision-table (see Clause 10),
-   driven only by the <colgroup> and the class "values" of allowed values:
-   single lines between all cells, double lines between input and output
-   columns, between output and annotation columns, and below the clauses;
-   the clauses shaded per column group; the hit policy cell, the allowed values
-   and the entries white; the caption as the name box above the table.
-   Italics (string literals) come from the author's <em>. */
-table.dmn-decision-table { border-collapse: collapse; font-family: Calibri, Carlito, "Helvetica Neue", Arial, sans-serif; font-size: 10pt; }
-table.dmn-decision-table th, table.dmn-decision-table td { border: 1px solid #000; padding: 2px 8px; text-align: center; font-weight: normal; }
-table.dmn-decision-table thead th[rowspan] { vertical-align: top; }
+/* DMN decision tables and boxed expressions in the notation of DMN 1.7 (8.2,
+   10.2.1), for web browsers, from the same HTML as the PDF (see Clause 10 and
+   specification.lua). Italics (string literals) and the underlined default
+   output value come from the author's <em> and <ins>.
+   Not drawn here: the double line between the clauses and the entries of
+   tables with rules as columns, and between the row headers and the output
+   entries of crosstabs (CSS cannot select those columns). */
+
+table.dmn-decision-table, table.dmn-boxed-expression {
+  border-collapse: collapse; font-family: Calibri, Carlito, "Helvetica Neue", Arial, sans-serif; font-size: 10pt; }
+table.dmn-decision-table th, table.dmn-decision-table td,
+table.dmn-boxed-expression th, table.dmn-boxed-expression td {
+  border: 1px solid #000; padding: 2px 8px; font-weight: normal; background: #fff; }
+table.dmn-decision-table th, table.dmn-decision-table td { text-align: center; }
+table.dmn-boxed-expression th, table.dmn-boxed-expression td { text-align: left; }
+
+/* The name box: the first header row, with a single cell */
+table.dmn-decision-table thead tr:first-child th:only-child,
+table.dmn-boxed-expression thead tr:first-child th:only-child { font-weight: bold; text-align: left; }
+
+/* Rules as rows: the <colgroup> marks the columns */
+table.dmn-decision-table thead tr + tr th[rowspan] { vertical-align: top; }
 table.dmn-decision-table thead { border-bottom: 4px double #000; }
 table.dmn-decision-table col.input + col.output,
 table.dmn-decision-table col.input + col.annotation,
 table.dmn-decision-table col.output + col.annotation { border-left: 4px double #000; }
+table.dmn-decision-table:has(col) thead tr + tr th { background: transparent; }
+table.dmn-decision-table:has(col) thead tr:first-child th:only-child,
+table.dmn-decision-table:has(col) td { background: #fff; }
 table.dmn-decision-table col.input { background: #C5D9F1; }
 table.dmn-decision-table col.output { background: #F2DCDB; }
 table.dmn-decision-table col.annotation { background: #EDEDED; }
-table.dmn-decision-table td { background: #fff; }
-table.dmn-decision-table caption { caption-side: top; text-align: left; font-weight: bold; border: 1px solid #000; border-bottom: none; padding: 2px 8px; width: 12em; }
+
+/* Rules as columns: the rows have classes */
+table.dmn-decision-table tr.input th { background: #C5D9F1; }
+table.dmn-decision-table tr.output th { background: #F2DCDB; }
+table.dmn-decision-table tr.annotation th { background: #EDEDED; }
+table.dmn-decision-table tr.input + tr.output,
+table.dmn-decision-table tr.input + tr.annotation,
+table.dmn-decision-table tr.output + tr.annotation { border-top: 4px double #000; }
+
+/* Crosstab: classes of cells; output entries shaded */
+table.dmn-decision-table.crosstab th.input, table.dmn-boxed-expression .input { background: #C5D9F1; }
+table.dmn-decision-table.crosstab th.output, table.dmn-boxed-expression .output { background: #F2DCDB; }
+table.dmn-decision-table.crosstab tbody td { background: #F2DCDB; }
+
+/* Boxed expressions: names shaded, gaps are whitespace */
+table.dmn-boxed-expression .name { background: #D7E4BD; }
+table.dmn-boxed-expression td.gap { height: 1.2em; border-top-color: transparent; border-right-color: transparent; border-bottom-color: transparent; }
+table.dmn-boxed-expression table.dmn-boxed-expression { margin: -2px -8px; }

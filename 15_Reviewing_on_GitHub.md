@@ -34,7 +34,7 @@ should use standard Markdown wherever possible:
 | Code                             | fenced code blocks               | as in the PDF                |
 | Math                             | `$e_1 + e_2$`                    | as in the PDF                |
 | Grammar rules                    | numbered list with anchors       | alternatives i, ii, iii      |
-| DMN decision tables              | HTML table, `<colgroup>`         | grid, no double lines        |
+| DMN decision tables, boxed expressions | HTML table, `class` attributes | grid, merged cells, no double lines or colors |
 
 > [!NOTE]
 > This is a note written with GitHub's syntax for notes. The PDF shows it as a
