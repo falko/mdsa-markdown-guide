@@ -1870,7 +1870,7 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 | **Name(parameters)** | **Parameter Domain** | **Description** | **Example** |
 |------------------|------------------|------------------|------------------|
-| is(*value1*, *value2*) | Both are elements of the **D** | Returns **true** if both values are the same element in the FEEL semantic domain **D** (see 10.3.2.2) | *is(date("2012-12-25"), time("23:00:50”))* is **false** *is(date("2012-12-25"), date("2012-12-25"))* is **true** *is(time("23:00:50z"), time("23:00:50”))* is **false** *is(time("23:00:50z"), time("23:00:50+00:00”))* is **true** |
+| is(*value1*, *value2*) | Both are elements of the **D** | Returns **true** if both values are the same element in the FEEL semantic domain **D** (see [Equality, Identity and Equivalence](#equality-identity-and-equivalence)) | *is(date("2012-12-25"), time("23:00:50”))* is **false** *is(date("2012-12-25"), date("2012-12-25"))* is **true** *is(time("23:00:50z"), time("23:00:50”))* is **false** *is(time("23:00:50z"), time("23:00:50+00:00”))* is **true** |
 
 #### Range Functions
 
@@ -2002,7 +2002,7 @@ where
 
 The definitions of the FEEL libraries are platform-independent, they do not contain any information about the execution platform (e.g. Java). The discovery mechanism of the definitions of the libraries and the artifacts needed to execute the functions (e.g. Java jars or Python modules) is vendor-specific. The mapping of the FEEL types to the native platforms (e.g. Java) is defined in [Mapping between FEEL and other domains](#table-mapping-between-feel-and-other-domains): Mapping between FEEL and other domains.
 
-The functions defined in a library become visible in the scope of the evaluation (see 10.3.2.11) once they are imported in a DMN file (see 6.3.3) with the import type equal to the FEEL namespace (e.g. <https://www.omg.org/spec/DMN/20240513/FEEL/> ).
+The functions defined in a library become visible in the scope of the evaluation (see [Scope and context stack](#scope-and-context-stack)) once they are imported in a DMN file (see [Import metamodel](08_Requirements_DRG_and_DRD.md#import-metamodel)) with the import type equal to the FEEL namespace (e.g. <https://www.omg.org/spec/DMN/20240513/FEEL/> ).
 
 The functions defined in a library are invoked in the same way as the imported BKMs or Decision Services (e.g. prefix.f(a, b, c)).
 

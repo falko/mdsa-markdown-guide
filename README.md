@@ -1,52 +1,47 @@
-# Writing OMG Specifications in Markdown: Guide and Test Suite
+# DMN 1.7 in Markdown, Built with the MDSA Pipeline
 
 [![Build specification](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml/badge.svg)](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml?query=branch%3Amain)
 
-**Latest PDF: [MDTEST_1.0.pdf](https://github.com/falko/mdsa-markdown-guide/releases/latest/download/MDTEST_1.0.pdf)**
+**Latest PDF: [DMN_1.7.pdf](https://github.com/falko/mdsa-markdown-guide/releases/latest/download/DMN_1.7.pdf)**
 (built from `main` by the [workflow](https://github.com/falko/mdsa-markdown-guide/actions/workflows/build.yml?query=branch%3Amain), see the [release](https://github.com/falko/mdsa-markdown-guide/releases/tag/latest))
 
-This repository is a small but complete OMG specification, written mostly in
-Markdown and built with the containerized
+This repository holds the Decision Model and Notation (DMN) 1.7 Beta 1
+specification, written in Markdown and built with the containerized
 [MDSA](https://github.com/ObjectManagementGroup/mdsa-omg-spec) (Model Driven
-Specification Authoring) pipeline. It serves two purposes:
+Specification Authoring) pipeline. The Markdown files were converted from the Word
+source of DMN 1.7 Beta 1 (`DMN_1.7_SOURCE.docx`, see
+[Converting the Word source](#converting-the-word-source)), and `make` builds a PDF
+with the same content as the PDF made from it with Word (`DMN_1.7_SOURCE.pdf`).
 
-- **An example for authors.** The PDF explains how to write OMG specifications in
-  Markdown, and the Markdown files are the examples: every feature the document
-  describes is also used in it.
-- **A test suite for the pipeline.** Building it exercises every Markdown feature OMG
-  specifications need. If a change to the pipeline breaks one, `make check` or the
-  checklist in Annex A shows it.
+The Markdown follows the guide in [`guide/`](guide/): a small OMG specification
+that explains how to write specifications in Markdown for MDSA, and serves as the
+test suite of the pipeline. Its clauses are kept there for reference and are not
+part of the build.
 
 > **This is not a template.** Do not fork it or use it as the starting point for a new
-> specification; it contains test content and changes that are still under review.
+> specification; it contains changes to the pipeline that are still under review.
 > Start from the official template
 > [ObjectManagementGroup/mdsa-omg-spec](https://github.com/ObjectManagementGroup/mdsa-omg-spec)
 > or the containerized
 > [jasonmccsmith/containerized-spec](https://github.com/jasonmccsmith/containerized-spec),
 > and use this repository to look up how things are done.
 
-## What it shows
+## What the guide shows
 
 | Feature | Markdown syntax | Example in |
 |---|---|---|
-| One file per clause from Clause 7 on, included automatically | `07_Title.md`, `08_Title.md`, … | [`07_Markdown_in_the_MDSA_Pipeline.md`](07_Markdown_in_the_MDSA_Pipeline.md) to [`16_Known_Limitations.md`](16_Known_Limitations.md) |
-| Numbered clauses and subclauses | `# Title` (never type numbers) | [`08_Sections.md`](08_Sections.md) |
-| Unnumbered headings | `## Title {-}` | [`08_Sections.md`](08_Sections.md) |
-| SVG figures with captions | `![Caption](Images/file.svg)` | [`07_Markdown_in_the_MDSA_Pipeline.md`](07_Markdown_in_the_MDSA_Pipeline.md), [`09_Figures.md`](09_Figures.md), [`Images/`](Images/) |
-| Captioned tables, long tables | `###### Table: Caption` before the table | [`05_Symbols.md`](05_Symbols.md), [`10_Tables.md`](10_Tables.md) |
-| Links to sections, also between files: links on GitHub, section numbers in the PDF | `[Title](08_Sections.md#anchor)`, `[Title](#anchor)` | [`11_Cross-references.md`](11_Cross-references.md), all Markdown files |
-| Links to figures and tables: links on GitHub, numbers in the PDF | `[Caption](Images/file.svg)`, `[Caption](10_Tables.md#table-caption)` | [`11_Cross-references.md`](11_Cross-references.md) |
-| Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`01_Scope.md`](01_Scope.md), [`specification.bib`](specification.bib) |
-| Terms and definitions | definition lists | [`04_Terms.md`](04_Terms.md) |
-| Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](13_Other_Elements.md) |
-| Tables with merged cells, paragraphs, lists or code in cells | HTML table structure, Markdown in the cells | [`10_Tables.md`](10_Tables.md) |
-| DMN decision tables (rules as rows, as columns, crosstab) and boxed expressions in the official notation | HTML table with `class` attributes, styled by [`specification.lua`](specification.lua) and [`dmn-notation.css`](dmn-notation.css) | [`10_Tables.md`](10_Tables.md) |
-| Tables in table cells | HTML table in a cell of an HTML table | [`10_Tables.md`](10_Tables.md) |
-| Math | `$e_1 + e_2$` | [`10_Tables.md`](10_Tables.md) |
-| Grammar rules, numbered automatically, with references | numbered list, `<a id="rule-...">` anchors | [`13_Other_Elements.md`](13_Other_Elements.md) |
-| FEEL code | ```` ```feel ```` | [`13_Other_Elements.md`](13_Other_Elements.md) |
-| Notes | `> [!NOTE]` | [`15_Reviewing_on_GitHub.md`](15_Reviewing_on_GitHub.md) |
-| Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](A_Annexes.md) |
+| One file per clause from Clause 7 on, included automatically | `07_Title.md`, `08_Title.md`, … | [`07_Markdown_in_the_MDSA_Pipeline.md`](guide/07_Markdown_in_the_MDSA_Pipeline.md) to [`16_Known_Limitations.md`](guide/16_Known_Limitations.md) |
+| Numbered clauses and subclauses | `# Title` (never type numbers) | [`08_Sections.md`](guide/08_Sections.md) |
+| Unnumbered headings | `## Title {-}` | [`08_Sections.md`](guide/08_Sections.md) |
+| SVG figures with captions | `![Caption](Images/file.svg)` | [`07_Markdown_in_the_MDSA_Pipeline.md`](guide/07_Markdown_in_the_MDSA_Pipeline.md), [`09_Figures.md`](guide/09_Figures.md), [`guide/Images/`](guide/Images/) |
+| Captioned tables, long tables | `###### Table: Caption` before the table | [`05_Symbols.md`](guide/05_Symbols.md), [`10_Tables.md`](guide/10_Tables.md) |
+| Links to sections, also between files: links on GitHub, section numbers in the PDF | `[Title](08_Sections.md#anchor)`, `[Title](#anchor)` | [`11_Cross-references.md`](guide/11_Cross-references.md), all Markdown files |
+| Links to figures and tables: links on GitHub, numbers in the PDF | `[Caption](Images/file.svg)`, `[Caption](10_Tables.md#table-caption)` | [`11_Cross-references.md`](guide/11_Cross-references.md) |
+| Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](guide/12_Citations.md), [`01_Scope.md`](guide/01_Scope.md), [`specification.bib`](specification.bib) |
+| Terms and definitions | definition lists | [`04_Terms.md`](guide/04_Terms.md) |
+| Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](guide/13_Other_Elements.md) |
+| Notes | `> [!NOTE]` | [`15_Reviewing_on_GitHub.md`](guide/15_Reviewing_on_GitHub.md) |
+| Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](guide/A_Annexes.md) |
 | Table of contents, lists of figures and tables | generated | — |
 
 ## How it works
@@ -61,8 +56,8 @@ with the OMG LaTeX templates from
 runs in a Docker container, so no local LaTeX or Pandoc installation is needed.
 
 The technical content starts at Clause 7, with one file per clause, named after its
-two-digit number and title (`07_Markdown_in_the_MDSA_Pipeline.md`, `08_Sections.md`,
-…). The build includes all files from `07_` to `99_` in name order, so adding a
+two-digit number and title (`07_Introduction_to_DMN.md`,
+`08_Requirements_DRG_and_DRD.md`, …). The build includes all files from `07_` to `99_` in name order, so adding a
 clause means adding its file; the two-digit numbers keep them in clause order, also
 with ten or more clauses. A specification that needs a different order can list its
 clause files in `07+_Technical_Content.tex` instead.
@@ -102,30 +97,77 @@ differently, such as HTML or `H~2~O`.
 Requirements: Docker, make and git.
 
 ```bash
-make pandoc check
+make
 ```
 
-This builds the Docker image (the first time takes several minutes), builds the PDF
-(`MDTEST_1.0.pdf`), and checks it for undefined references and citations and for
-Markdown references that Pandoc did not process. It fails if it finds any.
-`make pandoc build run` builds the PDF without the check.
+This builds the Docker image (the first time takes several minutes) and the PDF,
+`DMN_1.7.pdf`. `make check` also checks the PDF for undefined references and
+citations and for Markdown references that Pandoc did not process, and fails if it
+finds any.
 
-Until the Markdown pipeline fixes are merged into `mdsa-omg-core`, build with a
-checkout of the branch that contains them:
-
-```bash
-git clone -b markdown-pipeline-fixes https://github.com/falko/mdsa-omg-core ../mdsa-omg-core
-make core=../mdsa-omg-core pandoc check
-```
+The Makefile uses the Pandoc toolchain (`make pandoc ...` still works) and, until
+the Markdown pipeline fixes are merged into `mdsa-omg-core`, the branch of
+`mdsa-omg-core` that contains them: the first build clones it into
+`.ci/mdsa-omg-core`. Use another checkout with `make core=../mdsa-omg-core`, or the
+core of the Docker image with `make core=`.
 
 The `latest-ubuntu` Pandoc image may print "pandoc-crossref was compiled with pandoc
 … but is being run through …" for each Markdown file. This warning can be ignored;
 `make check` verifies the result.
 
+## Converting the Word source
+
+The Markdown files and images were made from the Word source of DMN 1.7 Beta 1 with
+`tools/convert.sh`, which needs pandoc 3, python3 and poppler (`pdftotext`,
+`pdftoppm`, `pdftocairo`):
+
+```bash
+tools/convert.sh DMN_1.7_SOURCE.docx DMN_1.7_SOURCE.pdf
+```
+
+Neither file is in the repository. The conversion overwrites the clause files and
+`Images/`, and writes its notes (figures, tables, references it resolved or could
+not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
+
+- Clauses 5 to 14 of DMN become files `07_…` to `16_…`, the annexes
+  `A_Annexes.md`. Clauses 1, 2 and 4 of DMN become `01_Scope.md`,
+  `02_Basic_Conformance.md` and `06_Additional.md`, and the references of
+  Clause 3 the entries of `specification.bib`.
+- References to clauses, figures and tables, linked in Word or written as text
+  ("see clause 10.3.4", "Figure 8-5"), become links to the heading, image or
+  table caption, so that the PDF shows the new numbers.
+- Tables become pipe tables with a `###### Table:` caption. Content that a pipe
+  table cannot hold is put on one line: paragraphs and line breaks joined, list
+  items with bullets, merged cells split.
+- Images become SVG files: SVG images are copied, PNG and JPEG images embedded
+  in an SVG file. Figures that Word draws with tables or text boxes (boxed
+  expressions) are cut from the PDF as vector graphics.
+- Sub- and superscripts become Unicode characters (e₁, 10⁻¹), lettered lists
+  paragraphs starting with the letter, the FEEL and S-FEEL grammars code blocks,
+  and headings that are unnumbered in Word `{-}` headings.
+
+### Differences from the Word PDF
+
+The PDF has the content of the PDF made with Word, in the layout of the OMG
+template:
+
+- The template always has Clause 4 "Terms and Definitions" and Clause 5
+  "Symbols", which DMN does not have, so DMN Clauses 5 to 14 are Clauses 7 to 16,
+  and "Additional information" is Clause 6. All references show the new numbers.
+- Some titles come from the template: 2.1 "Basic Conformance" (DMN: "Conformance
+  levels"), 3.1 "Normative References" and 3.2 "Non-normative References", and the
+  references are formatted by biblatex.
+- Figures and tables are numbered per clause (Figure 8.1, Table 8.1), and table
+  captions are below the tables. The template adds lists of figures and tables.
+- The image of "Table 111: BPMN tasks relevant to DMN" in Annex A is a figure.
+- The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11, 10-13 to 10-15
+  and 10-28 of DMN) is part of the image.
+- The pages "This page intentionally left blank" are left out.
+
 ## Continuous build
 
 The workflow [`.github/workflows/build.yml`](.github/workflows/build.yml) runs the
-same `make pandoc check` on every push and pull request, using this repository's own
+same `make check` on every push and pull request, using this repository's own
 `Dockerfile` and `Makefile` (no separate CI image). A pull request that breaks a
 feature fails the check.
 
@@ -170,24 +212,24 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 
 ## Known limitations
 
-- Terms in Clause 4 put the definition on the same line as the term.
-- Characters without a glyph in pdfLaTeX's fonts, such as the emoji 🐎 that DMN uses
-  in FEEL string examples, need a mapping in `_Specification_AuthorSettings.tex`, one
-  line for text and one for code (see Clause 13).
+- Characters without a glyph in pdfLaTeX's fonts, such as the subscripts and
+  mathematical symbols of DMN, need a mapping in
+  `_Specification_AuthorSettings.tex`, one line for text and, in code, one for
+  `listings` (see Clause 13 of the guide).
 - Visual aspects (layout, figure rendering, page breaks in tables) are not checked
-  automatically; use the checklist in Annex A.
+  automatically; use the checklist in Annex A of the guide.
 
 ## Files
 
 | File | Content |
 |---|---|
-| `01_Scope.md`, `04_Terms.md`, `05_Symbols.md` | Markdown content of Clauses 1, 4 and 5 |
-| `07_Markdown_in_the_MDSA_Pipeline.md` … `16_Known_Limitations.md` | Clauses 7 to 16, one Markdown file each |
-| `A_Annexes.md` | Annex A |
-| `00_*.tex`, `02_*.tex`, `06_Additional.tex` | Clauses kept from the template (LaTeX) |
+| `01_Scope.md`, `02_Basic_Conformance.md`, `06_Additional.md` | Clauses 1, 2 and 6 |
+| `07_Introduction_to_DMN.md` … `16_DMN_Diagram_Interchange_DMN_DI.md` | Clauses 7 to 16, one Markdown file each |
+| `A_Annexes.md` | Annexes A and B |
+| `00_*.tex`, `02_*_Conformance.tex`, `04_Terms.tex`, `05_Symbols.tex` | Clauses kept from the template (LaTeX), empty where DMN has no content |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
-| `specification.bib` | Bibliography entries of this specification |
-| `specification.lua` | This specification's own Pandoc filter: DMN decision tables and boxed expressions, FEEL code |
-| `dmn-notation.css` | DMN decision table and boxed expression notation for web browsers |
+| `specification.bib` | References of DMN (Clause 3) |
 | `Images/` | SVG figures |
+| `tools/` | Conversion of the Word source: `convert.sh`, `docx2md.lua`, `images.py`, `unnumbered.py` |
+| `guide/` | The guide to writing OMG specifications in Markdown, with its own figure (not built) |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |
