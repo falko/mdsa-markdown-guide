@@ -42,20 +42,143 @@ The notation for all components of a DRD is summarized in [DRD components](#tabl
 
 ###### Table: DRD components
 
-| **Component** |  | **Description** | **Notation** |
-|-------------|-------------|------------------------|------------------------|
-| Elements | Decision | A decision denotes the act of determining an output from a number of inputs, using decision logic which may reference one or more business knowledge models. | ![](Images/elements-symbol.svg) |
-|  | Business Knowledge Model | A business knowledge model denotes a function encapsulating business knowledge, e.g., as business rules, a decision table, or an analytic model. | ![](Images/business-knowledge-model-symbol.svg) |
-|  | Input Data | An input data element denotes information used as an input by one or more decisions. When enclosed within a knowledge model, it denotes the parameters to the knowledge model. The default representation of the Input Data is an oval symbol. For visual coherence with BPMN and CMMN, the representation as a paper symbol with folded corner is possible. This specification uses the default representation in all examples. | ![](Images/input-data-symbol.svg) or alternatively ![](Images/input-data-symbol-2.svg) |
-|  | Knowledge Source | A knowledge source denotes an authority for a business knowledge model or decision. | ![](Images/knowledge-source-symbol.svg) |
-|  | Decision Service (expanded) | A decision service may enclose a set of reusable decisions (not shown in the element to the right) that can be invoked internally by another decision or externally, e.g., by a **BPMN** process. | ![](Images/decision-service-expanded-symbol.svg) |
-|  | Decision Service (collapsed) | A decision service denotes a set of reusable decisions (that may be hidden using the element to the right). | ![](Images/decision-service-collapsed-symbol.svg) |
-| Requirements | Information Requirement | An information requirement denotes input data, or a decision output being used as one of the inputs of a decision. | ![](Images/requirements-symbol.svg) |
-|  | Knowledge Requirement | A knowledge requirement denotes the invocation of a business knowledge model. | ![](Images/knowledge-requirement-symbol.svg) |
-|  | Authority Requirement | An authority requirement denotes the dependence of a DRD element on another DRD element that acts as a source of guidance or knowledge. | ![](Images/authority-requirement-symbol.svg) |
-| Artifacts | Text Annotation | A Text Annotation consists of a square bracket followed by modeler-entered explanatory text or comment. | ![](Images/artifacts-symbol.svg) |
-|  | Association | An Association connector links a Text Annotation to the DRG Element it explains or comments on. | ![](Images/association-symbol.svg) |
-|  | Group | A Group consists of a rounded corner rectangle drawn with a solid dashed line that groups element together informally. | ![](Images/group-symbol.svg) |
+<table>
+<tr><th colspan="2">
+
+Component
+
+</th><th>
+
+Description
+
+</th><th>
+
+Notation
+
+</th></tr>
+<tr><td rowspan="6">Elements</td><td>Decision</td><td>A decision denotes the act of determining an output from a number of inputs, using decision logic which may reference one or more business knowledge models.</td><td>
+
+![](Images/elements-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Business
+
+Knowledge
+
+Model
+
+</td><td>A business knowledge model denotes a function encapsulating business knowledge, e.g., as business rules, a decision table, or an analytic model.</td><td>
+
+![](Images/businessknowledgemodel-symbol.svg)
+
+</td></tr>
+<tr><td>Input Data</td><td>
+
+An input data element denotes information used as an input by one or more decisions. When enclosed within a knowledge model, it denotes the parameters to the knowledge model.
+
+The default representation of the Input Data is an oval symbol. For visual coherence with BPMN and CMMN, the representation as a paper symbol with folded corner is possible. This specification uses the default representation in all examples.
+
+</td><td>
+
+![](Images/input-data-symbol.svg)
+
+or alternatively
+
+![](Images/input-data-symbol-2.svg)
+
+</td></tr>
+<tr><td>
+
+Knowledge
+
+Source
+
+</td><td>A knowledge source denotes an authority for a business knowledge model or decision.</td><td>
+
+![](Images/knowledgesource-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Decision
+
+Service
+
+(expanded)
+
+</td><td>
+
+A decision service may enclose a set of reusable decisions (not shown in the element to the right) that can be invoked internally by another decision or externally, e.g., by a **BPMN** process.
+
+</td><td>
+
+![](Images/decisionservice-expanded-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Decision
+
+Service
+
+(collapsed)
+
+</td><td>A decision service denotes a set of reusable decisions (that may be hidden using the element to the right).</td><td>
+
+![](Images/decisionservice-collapsed-symbol.svg)
+
+</td></tr>
+<tr><td rowspan="3">Requirements</td><td>
+
+Information
+
+Requirement
+
+</td><td>An information requirement denotes input data, or a decision output being used as one of the inputs of a decision.</td><td>
+
+![](Images/requirements-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Knowledge
+
+Requirement
+
+</td><td>A knowledge requirement denotes the invocation of a business knowledge model.</td><td>
+
+![](Images/knowledgerequirement-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Authority
+
+Requirement
+
+</td><td>An authority requirement denotes the dependence of a DRD element on another DRD element that acts as a source of guidance or knowledge.</td><td>
+
+![](Images/authorityrequirement-symbol.svg)
+
+</td></tr>
+<tr><td rowspan="3">Artifacts</td><td>Text Annotation</td><td>A Text Annotation consists of a square bracket followed by modeler-entered explanatory text or comment.</td><td>
+
+![](Images/artifacts-symbol.svg)
+
+</td></tr>
+<tr><td>Association</td><td>An Association connector links a Text Annotation to the DRG Element it explains or comments on.</td><td>
+
+![](Images/association-symbol.svg)
+
+</td></tr>
+<tr><td>Group</td><td>A Group consists of a rounded corner rectangle drawn with a solid dashed line that groups element together informally.</td><td>
+
+![](Images/group-symbol.svg)
+
+</td></tr>
+</table>
 
 ### DRD Elements
 
@@ -129,7 +252,7 @@ Note that no requirements may be drawn terminating in Input Data, that is, input
 
 ###### Table: Requirements connection rules
 
-| **From** | **To (Required by)** | **Requirement** | **Diagram** |
+| From | To (Required by) | Requirement | Diagram |
 |------------------|------------------|------------------|------------------|
 | Decision | Decision | Information | ![](Images/decision-symbol.svg) |
 | Decision | Knowledge Source | Authority | ![](Images/decision-symbol-2.svg) |
@@ -213,17 +336,56 @@ DMNElement has abstract specializations NamedElement and Expression NamedElement
 
 ###### Table: DMNElement attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **id:** ID \[0..1\] | Optional identifier for this element. SHALL be unique within its containing Definitions element. |
-| **description**: String \[0.. 1\] | A description of this element. |
-| **label:** String \[0.. 1\] | An alternative short description of this element. It should primarily be used on elements that do not have a name attribute, e.g., an Input Expression. Similar to the description attribute, it has no notation defined and is neither related to the DMNLabel element that is used in Diagram Interchange nor to the outputLabel attribute of a Decision Table. |
-| **extensionElements:** ExtensionElement \[0..1\] | This attribute is used as a container to attach additional elements to any DMN Element. See [Extensibility](#extensibility) for additional information on extensibility. |
-| **extensionAttributes:** ExtensionAttribute \[0..\*\] | This attribute is used to attach named extended attributes and model associations. This association is not applicable when the XML schema interchange is used, since the XSD mechanism for supporting "anyAttribute" from other namespaces already satisfies this requirement. See [Extensibility](#extensibility) for additional information on extensibility. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**id:** ID \[0..1\]
+
+</td><td>Optional identifier for this element. SHALL be unique within its containing Definitions element.</td></tr>
+<tr><td>
+
+**description**: String \[0.. 1\]
+
+</td><td>A description of this element.</td></tr>
+<tr><td>
+
+**label:** String \[0.. 1\]
+
+</td><td>An alternative short description of this element. It should primarily be used on elements that do not have a name attribute, e.g., an Input Expression. Similar to the description attribute, it has no notation defined and is neither related to the DMNLabel element that is used in Diagram Interchange nor to the outputLabel attribute of a Decision Table.</td></tr>
+<tr><td>
+
+**extensionElements:** ExtensionElement \[0..1\]
+
+</td><td>
+
+This attribute is used as a container to attach additional elements to any DMN Element. See [Extensibility](#extensibility) for additional information on extensibility.
+
+</td></tr>
+<tr><td>
+
+**extensionAttributes:** ExtensionAttribute \[0..\*\]
+
+</td><td>
+
+This attribute is used to attach named extended attributes and model associations. This association is not applicable when the XML schema interchange is used, since the XSD mechanism for supporting "anyAttribute" from other namespaces already satisfies this requirement. See
+
+[Extensibility](#extensibility) for additional information on extensibility.
+
+</td></tr>
+</table>
 
 ###### Table: NamedElement attributes and model associations
 
-| **Attribute**    | **Description**          |
+| Attribute        | Description              |
 |------------------|--------------------------|
 | **Name:** string | The name of this element |
 
@@ -261,21 +423,112 @@ Definitions inherits all the attributes and model associations from NamedElement
 
 ###### Table: Definitions attributes and model associations
 
-| **Attribute** | **Description** |
-|-----------------------------------|-------------------------------------|
-| **namespace**: anyURI \[1\] | This attribute identifies the namespace associated with this Definitions and follows the convention established by XML Schema. |
-| **dmnVersion:** string \[1\] | This attribute identifies the concrete DMN version used in this Definitions (see clause [Document Structure](13_Exchange_Formats.md#document-structure) for its use in the XML serialization). |
-| **expressionLanguage**: anyURI \[0.. 1\] | This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. |
-| **typeLanguage**: anyURI \[0.. 1\] | This attribute identifies the type language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual ItemDefinition. The language SHALL be specified in a URI format. |
-| **exporter**: string \[0..1\] | This attribute names the tool used to export the XML serialization. |
-| **exporterVersion**: string \[0.. 1\] | This attribute names the version of the tool used to export the XML serialization. |
-| **itemDefinition**: ItemDefinition \[\*\] | This attribute lists the instances of ItemDefinition that are contained in this Definitions. |
-| **drgElement**: DRGElement \[\*\] | This attribute lists the instances of DRGElement that are contained in this Definitions. |
-| **businessContextElement**: BusinessContextElement \[\*\] | This attribute lists the instances of BusinessContextElement that are contained in this Definitions. |
-| **elementCollection:** ElementCollection \[\*\] | This attribute lists the instances of ElementCollection that are contained in this Definitions. |
-| **import**: Import \[\*\] | This attribute is used to import externally defined elements and make them available for use by elements in this Definitions. |
-| **artifact:** Artifact \[0..\*\] | Artifacts include text annotations, groups, and associations among DMN elements. |
-| **dmnDI**: DMNDI \[0..1\] | This attribute contains the Diagram Interchange information contained within this Definitions (see [Exchange Formats](13_Exchange_Formats.md#exchange-formats) for more information on the DMN Diagram Interchange). |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**namespace**: anyURI \[1\]
+
+</td><td>This attribute identifies the namespace associated with this Definitions and follows the convention established by XML Schema.</td></tr>
+<tr><td>
+
+**dmnVersion:** string \[1\]
+
+</td><td>
+
+This attribute identifies the concrete DMN version used in this Definitions (see clause [Document Structure](13_Exchange_Formats.md#document-structure) for its use in the XML serialization).
+
+</td></tr>
+<tr><td>
+
+**expressionLanguage**: anyURI \[0.. 1\]
+
+</td><td>
+
+This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format.
+
+</td></tr>
+<tr><td>
+
+**typeLanguage**: anyURI \[0.. 1\]
+
+</td><td>
+
+This attribute identifies the type language used in
+
+LiteralExpressions within the scope of this
+
+Definitions. The Default is FEEL ([Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual ItemDefinition.
+
+The language SHALL be specified in a URI format.
+
+</td></tr>
+<tr><td>
+
+**exporter**: string \[0..1\]
+
+</td><td>This attribute names the tool used to export the XML serialization.</td></tr>
+<tr><td>
+
+**exporterVersion**: string \[0.. 1\]
+
+</td><td>This attribute names the version of the tool used to export the XML serialization.</td></tr>
+<tr><td>
+
+**itemDefinition**: ItemDefinition \[\*\]
+
+</td><td>This attribute lists the instances of ItemDefinition that are contained in this Definitions.</td></tr>
+<tr><td>
+
+**drgElement**: DRGElement \[\*\]
+
+</td><td>This attribute lists the instances of DRGElement that are contained in this Definitions.</td></tr>
+<tr><td>
+
+**businessContextElement**:
+
+BusinessContextElement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+BusinessContextElement that are contained in this Definitions.
+
+</td></tr>
+<tr><td>
+
+**elementCollection:** ElementCollection \[\*\]
+
+</td><td>This attribute lists the instances of ElementCollection that are contained in this Definitions.</td></tr>
+<tr><td>
+
+**import**: Import \[\*\]
+
+</td><td>This attribute is used to import externally defined elements and make them available for use by elements in this Definitions.</td></tr>
+<tr><td>
+
+**artifact:** Artifact \[0..\*\]
+
+</td><td>Artifacts include text annotations, groups, and associations among DMN elements.</td></tr>
+<tr><td>
+
+**dmnDI**: DMNDI \[0..1\]
+
+</td><td>
+
+This attribute contains the Diagram Interchange information contained within this Definitions (see [Exchange Formats](13_Exchange_Formats.md#exchange-formats) for more information on the DMN Diagram Interchange).
+
+</td></tr>
+</table>
 
 ### Import metamodel
 
@@ -293,7 +546,7 @@ When the import name attribute is an empty string, the elements are imported in 
 
 ###### Table: Import attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-----------------------------------|-------------------------------------|
 | **importType**: anyURI | Specifies the style of import associated with this Import. |
 | **locationURI**: anyURI \[0.. 1\] | Identifies the location of the imported element. |
@@ -315,9 +568,28 @@ ElementCollection inherits all the attributes and model associations from NamedE
 
 ###### Table: ElementCollection attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **drgElement**: DRGElement \[\*\] | This attribute lists the instances of DRGElement that this ElementCollection groups. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**drgElement**: DRGElement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of DRGElement that this
+
+ElementCollection groups.
+
+</td></tr>
+</table>
 
 ### DRG Element metamodel
 
@@ -347,11 +619,34 @@ The Association element inherits the attributes and model associations of DMNEle
 
 ###### Table: Association attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **associationDirection:** AssociationDirection = None {None \| One \| Both} | associationDirection is an attribute that defines whether or not the Association shows any directionality with an arrowhead. The default is None (no arrowhead). A value of One means that the arrowhead SHALL be at the Target Object. A value of Both means that there SHALL be an arrowhead at both ends of the Association line. |
-| **sourceRef:** DMNElement \[1\] | The DMNElement that the Association is connecting from. |
-| **targetRef:** DMNElement \[1\] | The DMNElement that the Association is connecting to. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**associationDirection:** AssociationDirection = None
+
+{None \| One \| Both}
+
+</td><td>associationDirection is an attribute that defines whether or not the Association shows any directionality with an arrowhead. The default is None (no arrowhead). A value of One means that the arrowhead SHALL be at the Target Object. A value of Both means that there SHALL be an arrowhead at both ends of the Association line.</td></tr>
+<tr><td>
+
+**sourceRef:** DMNElement \[1\]
+
+</td><td>The DMNElement that the Association is connecting from.</td></tr>
+<tr><td>
+
+**targetRef:** DMNElement \[1\]
+
+</td><td>The DMNElement that the Association is connecting to.</td></tr>
+</table>
 
 #### Group
 
@@ -363,7 +658,7 @@ The Group element inherits the attributes and model associations of Artifact. [G
 
 ###### Table: Group model associations
 
-| **Attribute**             | **Description**                      |
+| Attribute                 | Description                          |
 |---------------------------|--------------------------------------|
 | **Name:** String\[0.. 1\] | The descriptive name of the element. |
 
@@ -375,7 +670,7 @@ The TextAnnotation element inherits the attributes and model associations of DMN
 
 ###### Table: TextAnnotation attributes
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **text:** string | Text is an attribute that is text that the modeler wishes to communicate to the reader of the Diagram. |
 | **textFormat:** string = "text/plain" | This attribute identifies the format of the text. It SHALL follow the mime-type format. The default is "text/plain." |
@@ -410,21 +705,116 @@ Decision inherits all the attributes and model associations from DRGElement. [De
 
 ###### Table: Decision attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **question**: string \[0..1\] | A natural language question that characterizes the Decision such that the output of the Decision is an answer to the question. |
-| **allowedAnswers**: string \[0..1\] | A natural language description of the answers allowed for the question such as Yes/No, a list of allowed values, a range of numeric values etc. |
-| **variable**: InformationItem | The instance of InformationItem that stores the result of this Decision. |
-| **decisionLogic**: Expression \[0..1\] | The instance of Expression that represents the decision logic for this Decision. |
-| **informationRequirement**: InformationRequirement \[\*\] | This attribute lists the instances of InformationRequirement that compose this Decision. |
-| **knowledgeRequirement**: KnowledgeRequirement \[\*\] | This attribute lists the instances of KnowledgeRequirement that compose this Decision. |
-| **authorityRequirement**: AuthorityRequirement \[\*\] | This attribute lists the instances of AuthorityRequirement that compose this Decision. |
-| **supportedObjective**: BMM::Objective \[\*\] | This attribute lists the instances of BMM::Objective that are supported by this Decision. |
-| **impactedPerformanceIndicator**: PerformanceIndicator \[\*\] | This attribute lists the instances of PerformanceIndicator that are impacted by this Decision. |
-| **decisionMaker**: OrganisationalUnit \[\*\] | The instances of OrganisationalUnit that make this Decision. |
-| **decisionOwner**: OrganisationalUnit \[\*\] | The instances of OrganisationalUnit that own this Decision. |
-| **usingProcesses**: **BPMN**::process \[\*\] | This attribute lists the instances of **BPMN**::process that require this Decision to be made. |
-| **usingTasks**: **BPMN**::task \[\*\] | This attribute lists the instances of **BPMN**::task that make this Decision. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**question**: string \[0..1\]
+
+</td><td>A natural language question that characterizes the Decision such that the output of the Decision is an answer to the question.</td></tr>
+<tr><td>
+
+**allowedAnswers**: string \[0..1\]
+
+</td><td>A natural language description of the answers allowed for the question such as Yes/No, a list of allowed values, a range of numeric values etc.</td></tr>
+<tr><td>
+
+**variable**: InformationItem
+
+</td><td>The instance of InformationItem that stores the result of this Decision.</td></tr>
+<tr><td>
+
+**decisionLogic**: Expression \[0..1\]
+
+</td><td>The instance of Expression that represents the decision logic for this Decision.</td></tr>
+<tr><td>
+
+**informationRequirement**: InformationRequirement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+InformationRequirement that compose this Decision.
+
+</td></tr>
+<tr><td>
+
+**knowledgeRequirement**: KnowledgeRequirement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+KnowledgeRequirement that compose this Decision.
+
+</td></tr>
+<tr><td>
+
+**authorityRequirement**: AuthorityRequirement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+AuthorityRequirement that compose this Decision.
+
+</td></tr>
+<tr><td>
+
+**supportedObjective**: BMM::Objective \[\*\]
+
+</td><td>This attribute lists the instances of BMM::Objective that are supported by this Decision.</td></tr>
+<tr><td>
+
+**impactedPerformanceIndicator**:
+
+PerformanceIndicator \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+PerformanceIndicator that are impacted by this Decision.
+
+</td></tr>
+<tr><td>
+
+**decisionMaker**: OrganisationalUnit \[\*\]
+
+</td><td>The instances of OrganisationalUnit that make this Decision.</td></tr>
+<tr><td>
+
+**decisionOwner**: OrganisationalUnit \[\*\]
+
+</td><td>The instances of OrganisationalUnit that own this Decision.</td></tr>
+<tr><td>
+
+**usingProcesses**: **BPMN**::process \[\*\]
+
+</td><td>
+
+This attribute lists the instances of **BPMN**::process that require this Decision to be made.
+
+</td></tr>
+<tr><td>
+
+**usingTasks**: **BPMN**::task \[\*\]
+
+</td><td>
+
+This attribute lists the instances of **BPMN**::task that make this Decision.
+
+</td></tr>
+</table>
 
 ### Business Context Element metamodel
 
@@ -444,7 +834,7 @@ BusinessContextElement inherits all the attributes and model associations from N
 
 ###### Table: BusinessContextElement attributes and model associations
 
-| **Attribute**            | **Description**                         |
+| Attribute                | Description                             |
 |--------------------------|-----------------------------------------|
 | **URI**: anyURI \[0..1\] | The URI of this BusinessContextElement. |
 
@@ -454,7 +844,7 @@ BusinessContextElement. [PerformanceIndicator attributes and model associations]
 
 ###### Table: PerformanceIndicator attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-----------------------------------|-------------------------------------|
 | **impactingDecision:** Decision \[\*\] | This attribute lists the instances of Decision that impact this PerformanceIndicator. |
 
@@ -462,7 +852,7 @@ OrganisationalUnit inherits all the attributes and model associations from Busin
 
 ###### Table: OrganisationalUnit attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-----------------------------------|-------------------------------------|
 | **decisionMade**: Decision \[\*\] | This attribute lists the instances of Decision that are made by this OrganisationalUnit. |
 | **decisionOwned**: Decision \[\*\] | This attribute lists the instances of Decision that are owned by this OrganisationalUnit. |
@@ -491,17 +881,44 @@ At the decision logic level, a BusinessKnowledgeModel element contains a Functio
 
 ###### Table: Invocable attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **variable:** InformationItem | This attribute defines a variable that is bound to the function defined by the FunctionDefinition, allowing decision logic to invoke the function by name. |
 
 ###### Table: BusinessKnowledgeModel attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **encapsulatedLogic:** FunctionDefinition \[0.. 1\] | The function that encapsulates the logic encapsulated by this BusinessKnowledgeModel. |
-| **knowledgeRequirement**: KnowledgeRequirement \[\*\] | This attribute lists the instances of KnowledgeRequirement that compose this BusinessKnowledgeModel. |
-| **authorityRequirement**: AuthorityRequirement \[\*\] | This attribute lists the instances of AuthorityRequirement that compose this BusinessKnowledgeModel. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**encapsulatedLogic:** FunctionDefinition \[0.. 1\]
+
+</td><td>The function that encapsulates the logic encapsulated by this BusinessKnowledgeModel.</td></tr>
+<tr><td>
+
+**knowledgeRequirement**: KnowledgeRequirement \[\*\]
+
+</td><td>This attribute lists the instances of KnowledgeRequirement that compose this BusinessKnowledgeModel.</td></tr>
+<tr><td>
+
+**authorityRequirement**: AuthorityRequirement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+AuthorityRequirement that compose this BusinessKnowledgeModel.
+
+</td></tr>
+</table>
 
 ### Decision service metamodel
 
@@ -531,7 +948,7 @@ DecisionService inherits all the attributes and model associations from Invocabl
 
 ###### Table: DecisionService attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **outputDecisions**: Decision \[1..\*\] | This attribute lists the instances of Decision required to be output by this DecisionService. |
 | **encapsulatedDecisions**: Decision \[0..\*\] | If present, this attribute lists the instances of Decision to be encapsulated in this DecisionService |
@@ -556,7 +973,7 @@ InputData inherits all the attributes and model associations from DRGElement. [I
 
 ###### Table: InputData attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **variable**: InformationItem | The instance of InformationItem that stores the result of this InputData. |
 
@@ -576,12 +993,43 @@ KnowledgeSource inherits all the attributes and model associations from DRGEleme
 
 ###### Table: KnowledgeSource attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **locationURI**: anyURI \[0.. 1\] | The URI where this KnowledgeSource is located. The locationURI SHALL be specified in a URI format. |
-| **type**: string \[0..1\] | The type of this Knowledge Source. |
-| **owner**: OrganisationalUnit \[0..1\] | The owner of this KnowledgeSource. |
-| **authorityRequirement**: AuthorityRequirement \[\*\] | This attribute lists the instances of AuthorityRequirement that contribute to this KnowledgeSource. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**locationURI**: anyURI \[0.. 1\]
+
+</td><td>The URI where this KnowledgeSource is located. The locationURI SHALL be specified in a URI format.</td></tr>
+<tr><td>
+
+**type**: string \[0..1\]
+
+</td><td>The type of this Knowledge Source.</td></tr>
+<tr><td>
+
+**owner**: OrganisationalUnit \[0..1\]
+
+</td><td>The owner of this KnowledgeSource.</td></tr>
+<tr><td>
+
+**authorityRequirement**: AuthorityRequirement \[\*\]
+
+</td><td>
+
+This attribute lists the instances of
+
+AuthorityRequirement that contribute to this KnowledgeSource.
+
+</td></tr>
+</table>
 
 ### Information Requirement metamodel
 
@@ -607,10 +1055,39 @@ An instance of InformationRequirement is said to be **well-formed** if and only 
 
 ###### Table: InformationRequirement attributes and model associations
 
-| **Attribute** | **Description** |
-|-----------------------------------|-------------------------------------|
-| **requiredDecision**: Decision \[0..1\] | The instance of Decision that this InformationRequirement associates with its containing Decision element. |
-| **requiredInput**: InputData \[0..1\] | The instance of InputData that this InformationRequirement associates with its containing Decision element. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**requiredDecision**: Decision \[0..1\]
+
+</td><td>
+
+The instance of Decision that this
+
+InformationRequirement associates with its containing Decision element.
+
+</td></tr>
+<tr><td>
+
+**requiredInput**: InputData \[0..1\]
+
+</td><td>
+
+The instance of InputData that this
+
+InformationRequirement associates with its containing Decision element.
+
+</td></tr>
+</table>
 
 ### Knowledge Requirement metamodel
 
@@ -636,9 +1113,28 @@ An instance of KnowledgeRequirement is said to be **well-formed** if and only if
 
 ###### Table: KnowledgeRequirement attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **requiredKnowledge**: Invocable | The instance of Invocable that this KnowledgeRequirement associates with its containing Decision or BusinessKnowledgeModel element. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**requiredKnowledge**: Invocable
+
+</td><td>
+
+The instance of Invocable that this
+
+KnowledgeRequirement associates with its containing Decision or BusinessKnowledgeModel element.
+
+</td></tr>
+</table>
 
 ### Authority Requirement metamodel
 
@@ -654,11 +1150,54 @@ Notice that an AuthorityRequirement element must reference the instance of Knowl
 
 ###### Table: AuthorityRequirement attibutes and model associations
 
-| **Attribute** | **Description** |
-|-----------------------------------|-------------------------------------|
-| **requiredAuthority**: KnowledgeSource \[0.. 1\] | The instance of KnowledgeSource that this AuthorityRequirement associates with its containing KnowledgeSource, Decision or BusinessKnowledgeModel element. |
-| **requiredDecision**: Decision \[0..1\] | The instance of Decision that this AuthorityRequirement associates with its containing KnowledgeSource element. |
-| **requiredInput**: InputData \[0.. 1\] | The instance of InputData that this AuthorityRequirement associates with its containing KnowledgeSource element. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**requiredAuthority**: KnowledgeSource \[0.. 1\]
+
+</td><td>
+
+The instance of KnowledgeSource that this
+
+AuthorityRequirement associates with its containing
+
+KnowledgeSource, Decision or
+
+BusinessKnowledgeModel element.
+
+</td></tr>
+<tr><td>
+
+**requiredDecision**: Decision \[0..1\]
+
+</td><td>
+
+The instance of Decision that this
+
+AuthorityRequirement associates with its containing KnowledgeSource element.
+
+</td></tr>
+<tr><td>
+
+**requiredInput**: InputData \[0.. 1\]
+
+</td><td>
+
+The instance of InputData that this
+
+AuthorityRequirement associates with its containing KnowledgeSource element.
+
+</td></tr>
+</table>
 
 ### Extensibility
 
@@ -680,7 +1219,7 @@ The ExtensionElements element is a container to aggregate elements from other me
 
 ###### Table: ExtensionElements attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |--------------------------|----------------------------------------------|
 | **extensionElement:** Element \[0..\*\] | The contained Element. This association is not applicable when the XML schema interchange is used, since the XSD mechanism for supporting "any" elements from other namespaces already satisfies this requirement. |
 
@@ -688,7 +1227,7 @@ The ExtensionAttribute element contains an Element or a reference to an Element 
 
 ###### Table: ExtensionAttribute attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-------------------|-----------------------------------------------------|
 | **name:** string | The name of the extension attribute. |
 | **value:** Element \[0..1\] | The contained Element. This attribute SHALL NOT be used together with valueRef. |

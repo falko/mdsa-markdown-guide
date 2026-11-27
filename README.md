@@ -74,11 +74,14 @@ Each clause file is named after its two-digit clause number and title, and start
 with one `#` heading, its title. In every Markdown file, `#` is a clause and `##` a
 subclause.
 
-`omgLaTeX.yaml` replaces the Pandoc settings of `mdsa-omg-core` to put table
-captions above the tables and to start pages as in the Word PDF (see below),
-and `_Specification_AuthorSettings.tex` sets DMN's page layout, numbering
-(Figure 6-1, Table 1 to 111, headings numbered to the sixth level), cover page,
-footers and figure placement.
+`specification.lua` is DMN's own Pandoc filter (the hook of `mdsa-omg-core`):
+it sets the font and spacing of the table cells and starts the pages as in the
+Word PDF (see below). `_Specification_AuthorSettings.tex` sets DMN's page
+layout, numbering (Figure 6-1, Table 1 to 111, headings numbered to the sixth
+level), table captions above the tables (`\omgtablecaptionabove`), cover page,
+footers and figure placement. `crossref-links.lua` is a copy of the core's filter
+with one fix, until the core has it: a link to the caption of an HTML table in
+another file is a table reference.
 
 ## Made for GitHub's preview
 
@@ -157,9 +160,11 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 - References to clauses, figures and tables, linked in Word or written as text
   ("see clause 10.3.4", "Figure 8-5"), become links to the heading, image or
   table caption, so that the PDF shows the generated numbers.
-- Tables become pipe tables with a `###### Table:` caption. Content that a pipe
-  table cannot hold is put on one line: paragraphs and line breaks joined, list
-  items with bullets, merged cells split.
+- Tables get a `###### Table:` caption heading and are written as the guide
+  asks for (`guide/10_Tables.md`): pipe tables, with `<br>` for line breaks;
+  tables with merged cells, several paragraphs, lists or code in a cell, or
+  whose first row is not a heading row (Word repeats only real heading rows),
+  as HTML tables with Markdown in the cells.
 - Images become SVG files: SVG images are copied, PNG and JPEG images embedded
   in an SVG file. Figures that Word draws with tables or text boxes (boxed
   expressions) are cut from the PDF as vector graphics.
@@ -167,10 +172,17 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
   the guide.
 - Images that Word groups next to a figure (Figure 12-56) are combined into
   the figure's SVG file.
+- The FEEL and S-FEEL grammars become numbered lists with their alternatives
+  as nested lists, and an anchor `rule-...` before each rule that the text refers
+  to; references such as "grammar rule 33" or "rule 7.b" become links to them
+  (`guide/13_Other_Elements.md`). The PDF numbers the alternatives i, ii, iii,
+  as the guide prescribes, where DMN letters them a, b, c.
+- FEEL code is marked as such (```` ```feel ````), and all code is in fenced
+  code blocks.
 - Sub- and superscripts become Unicode characters (e₁, 10⁻¹), also those that
   Word only sets in a smaller font (`tools/subscripts.py`), lettered lists
-  paragraphs starting with the letter, the FEEL and S-FEEL grammars code blocks,
-  and headings that are unnumbered in Word `{-}` headings.
+  paragraphs starting with the letter, and headings that are unnumbered in Word
+  `{-}` headings.
 
 ### Pages as in the Word PDF
 
@@ -184,20 +196,21 @@ headings, numbers (Figure 6-1, Table 1 to Table 111), figures and tables.
   blank." (`Specification_Template.tex`).
 - Within the clauses, pages start where they start in the Word PDF: before the
   paragraph, heading, figure, table row, code line or glossary entry that begins
-  the Word page. The build does this with the filter `tools/dmn-pages.lua` and
-  its data `tools/dmn-pages.txt` (the first words and position of each page of
-  the Word PDF, written by `tools/pages.py`); the Markdown files have no page
-  breaks. The filter also splits tables and code blocks there.
+  the Word page. The build does this with the filter `specification.lua` and
+  its data `tools/dmn-pages.txt` (the first words, the words before them and
+  the position of each page of the Word PDF, written by `tools/pages.py`); the
+  Markdown files have no page breaks. The filter also splits tables, lists and
+  code blocks there.
 
 Checked against the Word PDF: both have 270 pages, the blank pages are the same
 pages, all 271 numbered headings and all figure and table captions match, all
-table of contents entries but three are on the same page, and on 219 of the 267
+table of contents entries but three are on the same page, and on 216 of the 267
 pages with text the first words are on the same page (on most of the others a
 few lines later or earlier, as LaTeX and Word break lines differently).
 Differences that remain:
 
-- Tables have the rules of the template instead of a grid, and references are
-  formatted by biblatex.
+- References are formatted by biblatex, and grammar alternatives are numbered
+  i, ii, iii instead of a, b, c (see above).
 - The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11,
   10-13 to 10-15 and 10-28) is part of the image.
 
@@ -266,8 +279,10 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 | `A_Annexes.md` | Annexes A and B |
 | `specification.bib` | References of DMN (Clause 3) |
 | `Images/` | SVG figures |
-| `Specification_Template.tex`, `omgLaTeX.yaml` | DMN's versions of the template and Pandoc settings of `mdsa-omg-core` |
+| `Specification_Template.tex` | DMN's version of the template of `mdsa-omg-core` |
+| `specification.lua` | DMN's own Pandoc filter: table cells, pages as in the Word PDF |
+| `crossref-links.lua` | The core's filter with a fix for links to HTML tables in other files (to be proposed for the core) |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
-| `tools/` | Conversion of the Word source (`convert.sh`, `docx2md.lua`, `images.py`, `subscripts.py`, `unnumbered.py`), and the pages of the Word PDF (`pages.py` writes `dmn-pages.txt`, which the build's filter `dmn-pages.lua` uses) |
+| `tools/` | Conversion of the Word source (`convert.sh`, `docx2md.lua`, `images.py`, `subscripts.py`, `unnumbered.py`), and the pages of the Word PDF (`pages.py` writes `dmn-pages.txt`, which `specification.lua` uses) |
 | `guide/` | The guide to writing OMG specifications in Markdown, with its own figure (not built) |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |

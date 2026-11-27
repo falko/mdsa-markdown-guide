@@ -372,63 +372,85 @@ local function grid(rows, ncols)
   return out
 end
 
-local function simple_table(t)
-  local ncols = #t.colspecs
+-- The contents of a table cell, as blocks: Word's indentation (block quotes)
+-- and styles (divs) removed
+local function cell_blocks(blocks)
+  local out = List()
+  for _, b in ipairs(blocks) do
+    if b.t == 'BlockQuote' or b.t == 'Div' then out:extend(cell_blocks(b.content))
+    elseif b.t == 'Para' or b.t == 'Plain' then
+      local inls = trim_inlines(b.content)
+      if #inls > 0 then out:insert(pandoc.Para(inls)) end
+    elseif b.t == 'HorizontalRule' then
+    else out:insert(b) end
+  end
+  return out
+end
+
+-- A heading row: all its text bold ("Attribute | Description"). Word marks the
+-- first row of every table as a header; it repeats only real headings.
+local function is_heading_row(row)
+  local any = false
+  for _, c in ipairs(row.cells) do
+    local inls = pandoc.utils.blocks_to_inlines(c.contents)
+    if trim(stringify(inls)) ~= '' then
+      any = true
+      for _, x in ipairs(inls) do
+        if not (x.t == 'Strong' or x.t == 'Space' or x.t == 'SoftBreak' or x.t == 'LineBreak'
+                or (x.t == 'Str' and trim(x.text) == '')) then return false end
+      end
+    end
+  end
+  return any
+end
+
+-- A cell that a pipe table can hold: one paragraph (line breaks become <br>)
+local function simple_cell(blocks)
+  return #blocks == 0 or (#blocks == 1 and (blocks[1].t == 'Para' or blocks[1].t == 'Plain'))
+end
+
+-- The table as the guide asks for (10_Tables.md): a pipe table if it can be
+-- one, otherwise an HTML table with Markdown in the cells (merged cells,
+-- several paragraphs, lists or code in a cell, or no heading row). The
+-- attribute "html" marks the latter; the table is written at the end.
+local function convert_table(t)
   local rows = List()
   for _, r in ipairs(t.head.rows) do rows:insert(r) end
-  local nhead = #t.head.rows
   for _, b in ipairs(t.bodies) do
     for _, r in ipairs(b.head) do rows:insert(r) end
     for _, r in ipairs(b.body) do rows:insert(r) end
   end
   for _, r in ipairs(t.foot.rows) do rows:insert(r) end
-  local g = grid(rows, ncols)
-  -- images in a row are named after the row: its shortest text cell
-  for _, cells in ipairs(g) do
+  local nhead = 0
+  while nhead < #t.head.rows and is_heading_row(t.head.rows[nhead + 1]) do nhead = nhead + 1 end
+  local html = nhead ~= 1
+  local new_rows = List()
+  for _, r in ipairs(rows) do
+    -- images in a row are named after the row: its shortest text cell
     local label
-    for c = 1, ncols do
-      local t = trim(stringify(cells[c] or {}))
-      if t ~= '' and (not label or #t < #label) then label = t end
+    for _, c in ipairs(r.cells) do
+      local parts = List()
+      for _, b in ipairs(c.contents) do parts:insert(stringify(b)) end
+      local text = trim(table.concat(parts, ' '))
+      if text ~= '' and (not label or #text < #label) then label = text end
     end
-    for c = 1, ncols do
-      for _, x in ipairs(cells[c] or {}) do
-        if x.t == 'Image' and not x.src:match('^Images/') then
-          x.src = image_target(x, slug((label or current.heading) .. ' symbol'))
-          x.caption = {}
-          x.attributes = {}
-        end
-      end
+    local cells = List()
+    for _, c in ipairs(r.cells) do
+      local blocks = cell_blocks(c.contents)
+      blocks = pandoc.Pandoc(blocks):walk{
+        Image = function(x)
+          if not x.src:match('^Images/') then
+            x.src = image_target(x, slug((label or current.heading) .. ' symbol'))
+            x.caption = {}
+            x.attributes = {}
+          end
+          return x
+        end,
+      }.blocks
+      if c.row_span > 1 or c.col_span > 1 or not simple_cell(blocks) then html = true end
+      cells:insert(pandoc.Cell(blocks, pandoc.AlignDefault, c.row_span, c.col_span))
     end
-  end
-  -- Pipe tables have exactly one header row: without a header, the first row
-  -- becomes it; several header rows are joined into one.
-  local header
-  local start
-  if nhead == 0 then
-    header = g[1]; start = 2
-  else
-    header = g[1]
-    for k = 2, nhead do
-      for c = 1, ncols do
-        if #g[k][c] > 0 then
-          if #header[c] > 0 then header[c]:insert(pandoc.Space()) end
-          header[c]:extend(g[k][c])
-        end
-      end
-    end
-    start = nhead + 1
-  end
-  local function mkrow(cells)
-    local cs = List()
-    for c = 1, ncols do cs:insert(pandoc.Cell({ pandoc.Plain(cells[c] or List()) })) end
-    return pandoc.Row(cs)
-  end
-  local body = List()
-  for k = start, #g do
-    -- drop rows that are completely empty
-    local empty = true
-    for c = 1, ncols do if #(g[k][c] or {}) > 0 then empty = false end end
-    if not empty then body:insert(mkrow(g[k])) end
+    new_rows:insert(pandoc.Row(cells))
   end
   local colspecs = List()
   local total = 0
@@ -437,13 +459,11 @@ local function simple_table(t)
     local w = tonumber(cs[2])
     colspecs:insert({ pandoc.AlignDefault, (w and total > 0) and w / total or nil })
   end
-  local res = pandoc.Table(
-    { long = {}, short = nil },
-    colspecs,
-    pandoc.TableHead({ mkrow(header) }),
-    { { attr = {}, body = body, head = {}, row_head_columns = 0 } },
-    pandoc.TableFoot()
-  )
+  local head, body = List(), List()
+  for k, r in ipairs(new_rows) do if k <= nhead then head:insert(r) else body:insert(r) end end
+  local res = pandoc.Table({ long = {}, short = nil }, colspecs, pandoc.TableHead(head),
+    { { attr = {}, body = body, head = {}, row_head_columns = 0 } }, pandoc.TableFoot())
+  if html then res.attributes['html'] = '1' end
   return res
 end
 
@@ -468,33 +488,80 @@ local function letter(n, upper)
   return upper and s:upper() or s
 end
 
-local function grammar_lines(list, indent, lines)
-  local n = list.listAttributes.start or 1
-  local style = list.listAttributes.style
-  for _, item in ipairs(list.content) do
-    local label
-    if style == 'LowerAlpha' then label = letter(n) .. '.'
-    elseif style == 'UpperAlpha' then label = letter(n, true) .. '.'
-    else label = tostring(n) .. '.' end
-    local first = true
-    for _, b in ipairs(item) do
-      if b.t == 'OrderedList' or b.t == 'BulletList' then
-        if b.t == 'BulletList' then
-          b = pandoc.OrderedList(b.content, { 1, 'LowerAlpha', 'Period' })
-        end
-        grammar_lines(b, indent .. string.rep(' ', #label + 1), lines)
-      else
-        local text = to_ascii(stringify(b):gsub('%s+', ' '))
-        if first then
-          lines:insert(indent .. label .. ' ' .. text)
-          first = false
-        else
-          lines:insert(indent .. string.rep(' ', #label + 1) .. text)
-        end
-      end
+-- Grammar rules (FEEL, S-FEEL) are numbered lists, as the guide asks for
+-- (13_Other_Elements.md): each rule an item, its alternatives a nested list,
+-- and an anchor "rule-..." before each rule or alternative that the text
+-- refers to. The rules of each grammar, by number: grammars[part][n] =
+-- { name, anchor, file, alternatives = { [letter] = anchor } }
+local grammars = {}
+local referenced_rules = {}
+
+local function grammar_part(file)
+  return file:match('^09_') and 'S-FEEL' or 'FEEL'
+end
+
+local function rule_text(blocks)
+  local inls = List()
+  for _, b in ipairs(blocks) do
+    if b.t == 'Para' or b.t == 'Plain' then
+      if #inls > 0 then inls:insert(pandoc.Space()) end
+      inls:extend(b.content)
     end
+  end
+  inls = clean_inlines(inls)
+  -- grammar text is not prose: ASCII quotes and dashes
+  return pandoc.Pandoc({ pandoc.Plain(inls) }):walk{
+    Str = function(x) x.text = to_ascii(x.text); return x end,
+    Emph = function(x) return x.content end,
+    Strong = function(x) return x.content end,
+  }.blocks[1].content
+end
+
+local used_rule_anchors = {}
+local function rule_anchor(part, name)
+  local base = 'rule-' .. (part == 'S-FEEL' and 's-feel-' or '') .. slug(name, 50)
+  local a, n = base, 1
+  while used_rule_anchors[a] do n = n + 1; a = base .. '-' .. n end
+  used_rule_anchors[a] = true
+  return a
+end
+
+local function anchor_inline(id)
+  return pandoc.RawInline('html', '<a id="' .. id .. '"></a>')
+end
+
+-- Converts a Word grammar list (rules numbered from its start, alternatives
+-- lettered) into the list items of the guide's form
+local function grammar_items(list, file)
+  local part = grammar_part(file)
+  grammars[part] = grammars[part] or {}
+  local items = List()
+  local n = list.listAttributes.start or 1
+  for _, item in ipairs(list.content) do
+    local main, alts = List(), nil
+    for _, b in ipairs(item) do
+      if b.t == 'OrderedList' or b.t == 'BulletList' then alts = b else main:insert(b) end
+    end
+    local text = rule_text(main)
+    local name = trim(stringify(text):match('^(.-)%s*=') or stringify(text))
+    local rule = { name = name, anchor = rule_anchor(part, name), file = file, alternatives = {}, n = n }
+    grammars[part][n] = rule
+    register(ids_in(pandoc.Div(main)), { kind = 'rule', rule = rule })
+    local blocks = List({ pandoc.Plain(List({ anchor_inline(rule.anchor) }) .. text) })
+    if alts then
+      local sub = List()
+      for k, alt in ipairs(alts.content) do
+        local l = letter(k)
+        local a = rule.anchor .. '-' .. l
+        rule.alternatives[l] = a
+        sub:insert({ pandoc.Plain(List({ anchor_inline(a) }) .. rule_text(alt)) })
+      end
+      blocks:insert(pandoc.OrderedList(sub, { 1, 'Decimal', 'Period' }))
+    end
+    items:insert(blocks)
     n = n + 1
   end
+  return items, list.listAttributes.start or 1
 end
 
 ------------------------------------------------------------------------------
@@ -645,7 +712,7 @@ end
 local function make_table(t, cap, ids)
   if not cap and is_glossary(t) then return glossary(t) end
   local out = List()
-  local res = simple_table(t)
+  local res = convert_table(t)
   if cap then
     local text = caption_text(cap.inlines)
     local h = pandoc.Header(6, List({ pandoc.Str('Table:'), pandoc.Space() }) .. List({ pandoc.Str(text) }))
@@ -664,6 +731,7 @@ local function make_table(t, cap, ids)
 end
 
 local process
+local grammar_list_ends = {}
 
 local function lettered_paras(list)
   local out = List()
@@ -691,6 +759,7 @@ end
 process = function(blocks)
   blocks = List(blocks)
   local out = List()
+  grammar_list_ends = {}
   local i = 1
   -- caption waiting for the next table or image
   while i <= #blocks do
@@ -798,8 +867,11 @@ process = function(blocks)
           local text = caption_text(cap.inlines)
           local src = image_target(img, slug(text))
           local t = pandoc.Table({ long = {}, short = nil }, { { pandoc.AlignDefault, nil } },
-            pandoc.TableHead({ pandoc.Row({ pandoc.Cell({ pandoc.Plain({ pandoc.Image({}, src) }) }) }) }),
-            { { attr = {}, body = {}, head = {}, row_head_columns = 0 } }, pandoc.TableFoot())
+            pandoc.TableHead(),
+            { { attr = {}, body = { pandoc.Row({ pandoc.Cell({ pandoc.Plain({ pandoc.Image({}, src) }) }) }) },
+                head = {}, row_head_columns = 0 } }, pandoc.TableFoot())
+          -- no heading row: an HTML table
+          t.attributes['html'] = '1'
           local h = pandoc.Header(6, { pandoc.Str('Table:'), pandoc.Space(), pandoc.Str(text) })
           local target = { kind = 'tbl', file = current.file, header = h, title = List({ pandoc.Str(text) }) }
           keyed(h, target)
@@ -861,14 +933,36 @@ process = function(blocks)
         end
         i = i + 1
       end
-      out:insert(pandoc.CodeBlock(table.concat(lines, '\n')))
+      local code = table.concat(lines, '\n')
+      -- FEEL code (in the FEEL and B-FEEL clauses), not grammars (EBNF)
+      local classes = {}
+      if (current.file:match('^10_') or current.file:match('^11_')) and not code:match('=%s*\n') and not code:match('\n;') then
+        classes = { 'feel' }
+      end
+      out:insert(pandoc.CodeBlock(code, pandoc.Attr('', classes)))
     elseif b.t == 'Div' then
       out:extend(process(b.content)); i = i + 1
     elseif b.t == 'OrderedList' then
       if is_grammar(b) then
-        local lines = List()
-        grammar_lines(b, '', lines)
-        out:insert(pandoc.CodeBlock(table.concat(lines, '\n')))
+        local items, start = grammar_items(b, current.file)
+        -- the continuation of the last rule that Word puts between two lists
+        local after, nxt = blocks[i + 1], blocks[i + 2]
+        if after and after.t == 'BlockQuote' and nxt and nxt.t == 'OrderedList' and is_grammar(nxt)
+            and (nxt.listAttributes.start or 1) == start + #items then
+          local last_rule = items[#items][1]
+          last_rule.content:insert(pandoc.Space())
+          last_rule.content:extend(rule_text(after.content))
+          i = i + 1
+        end
+        -- the parts of a grammar that Word splits into several lists are one list
+        local last = out[#out]
+        if last and last.t == 'OrderedList' and grammar_list_ends[#out] == start - 1 then
+          last.content:extend(items)
+          grammar_list_ends[#out] = start - 1 + #items
+        else
+          out:insert(pandoc.OrderedList(items, { start, 'Decimal', 'Period' }))
+          grammar_list_ends[#out] = start - 1 + #items
+        end
       elseif b.listAttributes.style == 'LowerAlpha' or b.listAttributes.style == 'UpperAlpha' then
         out:extend(lettered_paras(b))
       else
@@ -985,6 +1079,13 @@ local anchors = {}
 
 local function link_to(target, from_file)
   local href
+  if target.kind == 'rule' then
+    local r = target.rule
+    local anchor = target.alt and r.alternatives[target.alt] or r.anchor
+    referenced_rules[anchor] = true
+    href = (r.file == from_file) and ('#' .. anchor) or (r.file .. '.md#' .. anchor)
+    return pandoc.Link({ pandoc.Str(r.name) }, href)
+  end
   if target.kind == 'fig' then
     href = target.src
   else
@@ -1003,6 +1104,8 @@ local function drop_word_before(out, target)
   local lead = w:match('^(%p*)')
   w = w:sub(#lead + 1)
   local drop = false
+  -- the PDF prints "rule 33" for a link to a rule
+  if target.kind == 'rule' and (w == 'rule' or w == 'Rule' or w == 'rules' or w == 'Rules') then drop = true end
   if target.kind == 'fig' and (w == 'Figure' or w == 'figure') then drop = true end
   if target.kind == 'tbl' and (w == 'Table' or w == 'table') then drop = true end
   if target.kind == 'sec' and target.level == 1 and not target.whole and (SEC_WORDS[w] or w == 'Annex' or w == 'annex') then
@@ -1014,7 +1117,15 @@ local function drop_word_before(out, target)
   end
 end
 
-local function lookup_number(kind, text)
+local function lookup_number(kind, text, file)
+  if kind == 'rule' then
+    local n, l = text:match('^(%d+)%.?(%a?)$')
+    local g = grammars[grammar_part(file or '')]
+    local r = g and g[tonumber(n)]
+    if not r then return nil end
+    if l ~= '' and not r.alternatives[l] then return nil end
+    return { kind = 'rule', rule = r, alt = l ~= '' and l or nil }
+  end
   if kind == 'fig' then
     local a, b = text:match('^([%dA-Z]+)[%-%.](%d+)$')
     if a then return numbers.fig[a .. '-' .. b] end
@@ -1043,6 +1154,7 @@ local function text_references(inls, file)
       if word == 'Figure' or word == 'figure' or word == 'Figures' or word == 'figures' then kind = 'fig'
       elseif word == 'Table' or word == 'table' or word == 'Tables' or word == 'tables' then kind = 'tbl'
       elseif word and SEC_WORDS[word] then kind = 'sec'
+      elseif word == 'rule' or word == 'Rule' or word == 'rules' or word == 'Rules' then kind = 'rule'
       -- "(see 10.3.2.2)": a subclause number without "clause"
       elseif (word == 'see' or word == 'See') and x.text:match('^%d+%.%d[%.%d]*') then kind = 'sec'
       elseif word == 'Annex' or word == 'annex' then kind = 'annex'
@@ -1060,6 +1172,10 @@ local function text_references(inls, file)
           end
         elseif kind == 'tbl' then
           num, suffix = x.text:match('^(%d+)([%p]*)$')
+        elseif kind == 'rule' then
+          -- "33", "7.b", "7.b.", "38,"
+          num, suffix = x.text:match('^(%d+%.%a)(%.?[,;:%)]*)$')
+          if not num then num, suffix = x.text:match('^(%d+)([%p]*)$') end
         elseif kind == 'annex' then
           num, suffix = x.text:match('^([A-B])([%.,;:%)]*)$')
           kind = 'sec'
@@ -1068,12 +1184,12 @@ local function text_references(inls, file)
           if not num then num, suffix = x.text:match('^(%d+)([%p]*)$') end
           if not num then num, suffix = x.text:match('^([A-B]%.%d[%.%d]*)([%p]*)$') end
         end
-        local target = num and lookup_number(kind, num)
+        local target = num and lookup_number(kind, num, file)
         if target then
           if num and suffix and suffix:match('^%-') then target = nil end
         end
         if target then
-          log('text-reference', file, (word or '') .. ' ' .. num, '->', target.file or '', stringify(target.title))
+          log('text-reference', file, (word or '') .. ' ' .. num, '->', target.file or (target.rule and target.rule.anchor) or '', target.title and stringify(target.title) or '')
           drop_word_before(out, target)
           out:insert(link_to(target, file))
           if suffix and suffix ~= '' then out:insert(pandoc.Str(suffix)) end
@@ -1156,14 +1272,111 @@ do
   end
 end
 
+local write_table, write_grammar
+
 local WRITER_EXT = table.concat({
   'markdown',
   '-grid_tables', '-multiline_tables', '-simple_tables', '+pipe_tables', '-table_captions',
   '+header_attributes', '-link_attributes', '-fenced_divs', '-bracketed_spans', '-native_divs',
-  '-native_spans', '-raw_html', '-raw_attribute', '-inline_code_attributes', '-fenced_code_attributes',
+  '-native_spans', '+raw_html', '-raw_attribute', '-inline_code_attributes', '+fenced_code_attributes',
   '-smart', '-subscript', '-superscript', '-inline_notes', '-example_lists', '-implicit_figures',
   '-escaped_line_breaks', '-line_blocks',
 }, '')
+
+-- Markdown of blocks and inlines, for the HTML tables and grammar lists
+local function markdown(blocks)
+  return trim(pandoc.write(pandoc.Pandoc(blocks), WRITER_EXT, { wrap_text = 'none' }))
+end
+
+local function html_escape(s)
+  return (s:gsub('&', '&amp;'):gsub('<', '&lt;'):gsub('>', '&gt;'))
+end
+
+-- A cell of an HTML table: plain text inline, as in <td>decimal</td>, other
+-- content as Markdown between blank lines (10_Tables.md)
+local function html_cell(tag, c)
+  local attrs = ''
+  if c.row_span > 1 then attrs = attrs .. ' rowspan="' .. c.row_span .. '"' end
+  if c.col_span > 1 then attrs = attrs .. ' colspan="' .. c.col_span .. '"' end
+  local plain = #c.contents == 0
+  if #c.contents == 1 and (c.contents[1].t == 'Para' or c.contents[1].t == 'Plain') then
+    plain = true
+    for _, x in ipairs(c.contents[1].content) do
+      if not (x.t == 'Str' or x.t == 'Space') then plain = false end
+    end
+  end
+  if plain then
+    return '<' .. tag .. attrs .. '>' .. html_escape(stringify(c.contents)) .. '</' .. tag .. '>'
+  end
+  -- a heading cell is bold in the table anyway
+  local contents = c.contents
+  if tag == 'th' then
+    contents = pandoc.Pandoc(contents):walk{ Strong = function(x) return x.content end }.blocks
+  end
+  return '<' .. tag .. attrs .. '>\n\n' .. markdown(contents) .. '\n\n</' .. tag .. '>'
+end
+
+write_table = function(t)
+  if t.attributes['html'] then
+    local lines = List({ '<table>' })
+    for _, r in ipairs(t.head.rows) do
+      local cells = List()
+      for _, c in ipairs(r.cells) do cells:insert(html_cell('th', c)) end
+      lines:insert('<tr>' .. table.concat(cells) .. '</tr>')
+    end
+    for _, b in ipairs(t.bodies) do
+      for _, r in ipairs(b.body) do
+        local cells = List()
+        for _, c in ipairs(r.cells) do cells:insert(html_cell('td', c)) end
+        lines:insert('<tr>' .. table.concat(cells) .. '</tr>')
+      end
+    end
+    lines:insert('</table>')
+    return pandoc.RawBlock('markdown', table.concat(lines, '\n'))
+  end
+  -- pipe table: one line per cell, line breaks as <br>; heading cells are
+  -- bold anyway
+  local function one_line(c, head)
+    local inls = List()
+    for _, b in ipairs(c.contents) do inls:extend(b.content) end
+    inls = pandoc.Pandoc({ pandoc.Plain(inls) }):walk{
+      LineBreak = function() return pandoc.RawInline('html', '<br>') end,
+      SoftBreak = function() return pandoc.Space() end,
+      Strong = head and function(x) return x.content end or nil,
+    }.blocks[1].content
+    c.contents = { pandoc.Plain(inls) }
+    return c
+  end
+  for _, r in ipairs(t.head.rows) do for i, c in ipairs(r.cells) do r.cells[i] = one_line(c, true) end end
+  for _, b in ipairs(t.bodies) do
+    for _, r in ipairs(b.body) do for i, c in ipairs(r.cells) do r.cells[i] = one_line(c) end end
+  end
+  t.attributes = {}
+  return t
+end
+
+-- A grammar list as the guide writes it: every item "1.", alternatives
+-- indented; a list that continues the numbering of an earlier one starts
+-- with its number
+write_grammar = function(l)
+  local is_rules = false
+  l:walk{ RawInline = function(r) if r.text:match('^<a id="rule%-') then is_rules = true end end }
+  if not is_rules and not stringify(l.content[1] or {}):match('^[%a][%a%s]* =') then return nil end
+  local lines = List()
+  for k, item in ipairs(l.content) do
+    local marker = (k == 1 and l.listAttributes.start ~= 1) and (l.listAttributes.start .. '. ') or '1. '
+    for _, b in ipairs(item) do
+      if b.t == 'OrderedList' then
+        for _, alt in ipairs(b.content) do
+          lines:insert(string.rep(' ', #marker) .. '1. ' .. (markdown({ pandoc.Plain(alt[1].content) }):gsub('\\|', '|')))
+        end
+      else
+        lines:insert(marker .. (markdown({ pandoc.Plain(b.content) }):gsub('\\|', '|')))
+      end
+    end
+  end
+  return pandoc.RawBlock('markdown', table.concat(lines, '\n'))
+end
 
 local READER_EXT = 'markdown+gfm_auto_identifiers+lists_without_preceding_blankline-blank_before_header-blank_before_blockquote+autolink_bare_uris+alerts'
 
@@ -1485,15 +1698,38 @@ function Pandoc(doc)
     return orig_link_to(target, from_file)
   end
 
-  -- Resolve references and write the files
+  -- Resolve references in all files first: a link in a later file marks the
+  -- grammar rule it refers to, whose anchor an earlier file then keeps
+  local resolved = {}
+  for _, f in ipairs(files) do resolved[f.name] = resolve_links(f.blocks, f.name) end
+  -- Write the files
   for _, f in ipairs(files) do
-    local bs = resolve_links(f.blocks, f.name)
+    local bs = resolved[f.name]
     -- remove remaining spans (bookmarks) and identifiers
     local d = pandoc.Pandoc(bs):walk{
+      -- anchors of rules that the text does not refer to are left out
+      RawInline = function(r)
+        local id = r.format == 'html' and r.text:match('^<a id="(rule%-[^"]+)"></a>$')
+        if id and not referenced_rules[id] then return {} end
+      end,
+    }:walk{
       Span = function(s) return s.content end,
       Header = function(h) h.identifier = ''; h.attributes = {}; return h end,
       Image = function(i) i.identifier = ''; i.attributes = {}; i.classes = {}; return i end,
       Link = function(l) l.identifier = ''; l.attributes = {}; l.classes = {}; return l end,
+    }
+    d = d:walk{
+      traverse = 'topdown',
+      Table = function(t) return write_table(t), false end,
+      -- code as fenced code blocks, as in the guide, FEEL marked as such
+      CodeBlock = function(c)
+        local fence = c.text:find('```', 1, true) and '~~~~' or '```'
+        return pandoc.RawBlock('markdown', fence .. (c.classes[1] or '') .. '\n' .. c.text .. '\n' .. fence), false
+      end,
+      OrderedList = function(l)
+        local r = write_grammar(l)
+        if r then return r, false end
+      end,
     }
     local md = pandoc.write(d, WRITER_EXT, { wrap_text = 'none' })
     -- unnumbered headings as the guide writes them

@@ -42,7 +42,7 @@ The class DMNDI is a container for the shared DMNStyle and all the DMNDiagram de
 
 ###### Table: DMNDI attributes
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |--------------------------|----------------------------------------------|
 | **styles**: DMNStyle \[0..\*\] | A list of shared DMNStyle that can be referenced by all DMNDiagram and DMNDiagramElement. |
 | **diagrams**: DMNDiagram \[0..\*\] | A list of DMNDiagram. |
@@ -63,16 +63,65 @@ The DMNDiagram has the following attributes.
 
 ###### Table: DMNDiagram attributes
 
-| **Attribute** | **Description** |
-|---------------------------|---------------------------------------------|
-| **name**: String | The name of the diagram. Default is empty String. |
-| **documentation**: String | The documentation of the diagram. Default is empty String. |
-| **resolution**: Real | The resolution of the diagram expressed in user units per inch. Default is 300 |
-| **diagramElements**: DMNDiagramElement \[0..\*\] | A list of DMNDiagramElement (DMNShape and DMNEdge) that are depicted in this diagram. |
-| **useAlternativeInputDataShape:** Boolean \[0..1\] | If the DMNShape depicts an Input Data element then it is represented either using the paper sheet symbol, harmonized with BPMN and CMMN notations (true) or using the backwards compatible oval symbol (false). |
-| **sharedStyle**: DMNStyle\[0.. 1\] | A reference to a DMNStyle defined in the DMNDI that serves as the default styling of the DMNDiagramElement in this DMNDiagram. |
-| **localStyle**: DMNStyle \[0..1\] | A DMNStyle that defines the default styling for this diagram. Properties defined in that style override the ones in the sharedStyle. |
-| **size**: DC::Dimens ion \[0..1\] | The size of this diagram. If not specified, the DMNDiagram is unbounded. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**name**: String
+
+</td><td>The name of the diagram. Default is empty String.</td></tr>
+<tr><td>
+
+**documentation**: String
+
+</td><td>The documentation of the diagram. Default is empty String.</td></tr>
+<tr><td>
+
+**resolution**: Real
+
+</td><td>
+
+The resolution of the diagram expressed in user units per inch. Default is
+
+300
+
+</td></tr>
+<tr><td>
+
+**diagramElements**:
+
+DMNDiagramElement \[0..\*\]
+
+</td><td>A list of DMNDiagramElement (DMNShape and DMNEdge) that are depicted in this diagram.</td></tr>
+<tr><td>
+
+**useAlternativeInputDataShape:** Boolean \[0..1\]
+
+</td><td>If the DMNShape depicts an Input Data element then it is represented either using the paper sheet symbol, harmonized with BPMN and CMMN notations (true) or using the backwards compatible oval symbol (false).</td></tr>
+<tr><td>
+
+**sharedStyle**: DMNStyle\[0.. 1\]
+
+</td><td>A reference to a DMNStyle defined in the DMNDI that serves as the default styling of the DMNDiagramElement in this DMNDiagram.</td></tr>
+<tr><td>
+
+**localStyle**: DMNStyle \[0..1\]
+
+</td><td>A DMNStyle that defines the default styling for this diagram. Properties defined in that style override the ones in the sharedStyle.</td></tr>
+<tr><td>
+
+**size**: DC::Dimens ion \[0..1\]
+
+</td><td>The size of this diagram. If not specified, the DMNDiagram is unbounded.</td></tr>
+</table>
 
 ### DMNDiagramElement \[Class\]
 
@@ -88,7 +137,7 @@ DMNDiagramElement has the following attributes:
 
 ###### Table: DMNDiagramElement attributes
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |--------------------------|----------------------------------------------|
 | **dmnElementRef**: DMNElement \[1\] | A reference to the DMNElement that is being depicted. |
 | **sharedStyle**: DMNStyle \[0..1\] | A reference to a DMNStyle defined in the DMNDI. |
@@ -109,13 +158,44 @@ DMNShape extends DI::Shape and DMNDiagramElement and has the following attribute
 
 ###### Table: DMNShape attributes
 
-| **Attribute** | **Description** |
-|--------------------------------|----------------------------------------|
-| **bounds**: DC::Bounds \[1\] | The Bounds of the shape relative to the origin of its parent DMNDiagram. The Bounds MUST be specified. |
-| **dmnElementRef**: DMNElement \[1\] | A reference to a Decision, a Business Knowledge Model, an Input Data element, a Knowledge Source, a Decision Service, a Group or a Text Annotation MUST be specified. |
-| **isListedInputData**: Boolean \[0..1\] | If the DMNShape depicts an Input Data element then this attribute is used to determine if the Input Data is listed on the Decision element (true) or drawn as separate notational elements in the DRD (false). |
-| **decisionServiceDividerLine**: DMNDecisionServiceDividerLine \[0..1\] | If the DMNShape depicts a Decision Service, this attribute references a DMNDecisionServiceDividerLine which is a DI::Edge that defines s where the DMNShape is divided into two parts by a straight solid line. This can be the case when a DMNShape depicts a Decision Service, where the set of output decisions is smaller than the set of encapsulated decisions. The start and end waypoints of the decisionServiceDividerLine MUST be on the border of the DMNShape. |
-| **isCollapsed** Boolean \[0..1\] = false | If the DMNShape depicts a DecisionService, this attribute indicates if it should be depicted expanded (false) or collapsed (true). Default is false. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**bounds**: DC::Bounds \[1\]
+
+</td><td>The Bounds of the shape relative to the origin of its parent DMNDiagram. The Bounds MUST be specified.</td></tr>
+<tr><td>
+
+**dmnElementRef**: DMNElement \[1\]
+
+</td><td>A reference to a Decision, a Business Knowledge Model, an Input Data element, a Knowledge Source, a Decision Service, a Group or a Text Annotation MUST be specified.</td></tr>
+<tr><td>
+
+**isListedInputData**: Boolean \[0..1\]
+
+</td><td>If the DMNShape depicts an Input Data element then this attribute is used to determine if the Input Data is listed on the Decision element (true) or drawn as separate notational elements in the DRD (false).</td></tr>
+<tr><td>
+
+**decisionServiceDividerLine**:
+
+DMNDecisionServiceDividerLine \[0..1\]
+
+</td><td>If the DMNShape depicts a Decision Service, this attribute references a DMNDecisionServiceDividerLine which is a DI::Edge that defines s where the DMNShape is divided into two parts by a straight solid line. This can be the case when a DMNShape depicts a Decision Service, where the set of output decisions is smaller than the set of encapsulated decisions. The start and end waypoints of the decisionServiceDividerLine MUST be on the border of the DMNShape.</td></tr>
+<tr><td>
+
+**isCollapsed** Boolean \[0..1\] = false
+
+</td><td>If the DMNShape depicts a DecisionService, this attribute indicates if it should be depicted expanded (false) or collapsed (true). Default is false.</td></tr>
+</table>
 
 ### DMNEdge \[Class\]
 
@@ -135,12 +215,39 @@ DMNEdge extends DI::Edge and has the following properties:
 
 ###### Table: DMNEdge attributes
 
-| **Attribute** | **Description** |
-|----------------------------|--------------------------------------------|
-| **wayPoints**: DC::Point \[2..\*\] | A list of points relative to the origin of its parent DMNDiagram that specifies the connected line segments of the edge. At least two (2) waypoints MUST be specified. |
-| **dmnElementRef**: DMNElement \[1\] | A reference to an InformationRequirement, KnowledgeRequirement, AuthorityRequirement or Association. |
-| **sourceElement**: DMNDiagramElement\[0.. 1\] | The actual DMNDiagramElement this DMNEdge is connecting from. MUST be specified when the DMNEdge has a source. |
-| **targetElement**: DMNDiagramElement\[0.. 1\] | The actual DMNDiagramElement this DMNEdge is connecting to. MUST be specified when the DMNEdge has a target. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**wayPoints**: DC::Point \[2..\*\]
+
+</td><td>A list of points relative to the origin of its parent DMNDiagram that specifies the connected line segments of the edge. At least two (2) waypoints MUST be specified.</td></tr>
+<tr><td>
+
+**dmnElementRef**: DMNElement \[1\]
+
+</td><td>A reference to an InformationRequirement, KnowledgeRequirement, AuthorityRequirement or Association.</td></tr>
+<tr><td>
+
+**sourceElement**:
+
+DMNDiagramElement\[0.. 1\]
+
+</td><td>The actual DMNDiagramElement this DMNEdge is connecting from. MUST be specified when the DMNEdge has a source.</td></tr>
+<tr><td>
+
+**targetElement**: DMNDiagramElement\[0.. 1\]
+
+</td><td>The actual DMNDiagramElement this DMNEdge is connecting to. MUST be specified when the DMNEdge has a target.</td></tr>
+</table>
 
 ### DMNLabel \[Class\]
 
@@ -154,7 +261,7 @@ DMNLabel extends DI::Shape and has the following properties:
 
 ###### Table: DMNLabel attributes
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------|------------------------------------------------|
 | **bounds**: Bounds \[0..1\] | The bounds of the DMNLabel. When not specified, the label is positioned at its default position as determined in clause 13.5 |
 | **text**: String\[0..1\] | An optional pretty printed text that MUST be displayed instead of the DMNElement’s name if it is present. |
@@ -199,20 +306,99 @@ DMNStyle extends DC::Style and has the following properties:
 
 ###### Table: DMNStyle attributes
 
-| **Attribute** | **Description** |
-|-------------------------------|-----------------------------------------|
-| **id**: String \[0..1\] | A unique id for this style so it can be referenced. Only styles defined in the DMNDI can be referenced by DMNDiagramElement and DMNDiagram. |
-| **fillColor**: DC::Color \[0..1\] | The color use to fill the shape. Doesn’t apply to DMNEdge. Default is white. |
-| **strokeColor**: DC::Color \[0..1\] | The color use to draw the shape borders. Default is black. |
-| **fontColor**: DC::Color \[0..1\] | The color use to write the label. Default is black. |
-| **fontFamily**: String \[0..1\] | A comma-separated list of Font Name that can be used to display the text. Default is Arial. |
-| **fontSize**: Real \[0..1\] | The size in points of the font to use to display the text. Default is 8. |
-| **fontItalic**: Boolean \[0..1\] | If the text should be displayed in Italic. Default is false. |
-| **fontBold**: Boolean \[0..1\] | If the text should be displayed in Bold. Default is false. |
-| **fontUnderline**: Boolean \[0..1\] | If the text should be underlined. Default is false. |
-| **fontStrikeThrough**: Boolean \[0..1\] | If the text should be stroke through. Default is false. |
-| **labelHorizontalAlignment**: AlignmentKind \[0..1\] | How text should be positioned horizontally within the Label bounds. Default depends of the DMNDiagramElement the label is attached to (see [Notation Depiction Library and Abstract Element Resolutions](#notation-depiction-library-and-abstract-element-resolutions)). |
-| **label VerticalAlignment**: AlignmentKind \[0..1\] | How the text should be positioned vertically inside the Label bounds. Default depends of the DMNDiagramElement the label is attached to (see [Notation Depiction Library and Abstract Element Resolutions](#notation-depiction-library-and-abstract-element-resolutions)). Start means “top” and end means “bottom”. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**id**: String \[0..1\]
+
+</td><td>
+
+A unique id for this style so it can be referenced. Only styles defined in the DMNDI can be referenced by
+
+DMNDiagramElement and DMNDiagram.
+
+</td></tr>
+<tr><td>
+
+**fillColor**: DC::Color \[0..1\]
+
+</td><td>
+
+The color use to fill the shape. Doesn’t apply to DMNEdge.
+
+Default is white.
+
+</td></tr>
+<tr><td>
+
+**strokeColor**: DC::Color \[0..1\]
+
+</td><td>The color use to draw the shape borders. Default is black.</td></tr>
+<tr><td>
+
+**fontColor**: DC::Color \[0..1\]
+
+</td><td>The color use to write the label. Default is black.</td></tr>
+<tr><td>
+
+**fontFamily**: String \[0..1\]
+
+</td><td>A comma-separated list of Font Name that can be used to display the text. Default is Arial.</td></tr>
+<tr><td>
+
+**fontSize**: Real \[0..1\]
+
+</td><td>The size in points of the font to use to display the text. Default is 8.</td></tr>
+<tr><td>
+
+**fontItalic**: Boolean \[0..1\]
+
+</td><td>If the text should be displayed in Italic. Default is false.</td></tr>
+<tr><td>
+
+**fontBold**: Boolean \[0..1\]
+
+</td><td>If the text should be displayed in Bold. Default is false.</td></tr>
+<tr><td>
+
+**fontUnderline**: Boolean \[0..1\]
+
+</td><td>If the text should be underlined. Default is false.</td></tr>
+<tr><td>
+
+**fontStrikeThrough**: Boolean \[0..1\]
+
+</td><td>If the text should be stroke through. Default is false.</td></tr>
+<tr><td>
+
+**labelHorizontalAlignment**:
+
+AlignmentKind \[0..1\]
+
+</td><td>
+
+How text should be positioned horizontally within the Label bounds. Default depends of the DMNDiagramElement the label is attached to (see [Notation Depiction Library and Abstract Element Resolutions](#notation-depiction-library-and-abstract-element-resolutions)).
+
+</td></tr>
+<tr><td>
+
+**label VerticalAlignment**: AlignmentKind \[0..1\]
+
+</td><td>
+
+How the text should be positioned vertically inside the Label bounds. Default depends of the DMNDiagramElement the label is attached to (see [Notation Depiction Library and Abstract Element Resolutions](#notation-depiction-library-and-abstract-element-resolutions)). Start means “top” and end means “bottom”.
+
+</td></tr>
+</table>
 
 ## Notation Depiction Library and Abstract Element Resolutions
 
@@ -242,7 +428,7 @@ A Decision is represented in a DRD as a rectangle, normally drawn with solid lin
 
 ###### Table: Depiction Resolution for Decision
 
-| **DMNElement** | **DMNShape attributes** | **Depiction** |
+| DMNElement | DMNShape attributes | Depiction |
 |------------------------|------------------------|------------------------|
 | Decision | None | ![](Images/none-symbol.svg) |
 | Decision and two Input Data | Shapes of Input Data have inListedInputData=true | ![](Images/decision-and-two-input-data-symbol.svg) |
@@ -251,9 +437,9 @@ A Decision is represented in a DRD as a rectangle, normally drawn with solid lin
 
 ###### Table: Depiction Resolution for Business Knowledge Model
 
-| **DMNElement** | **DMNShape attributes** | **Depiction** |
+| DMNElement               | DMNShape attributes | Depiction                     |
 |------------------------|------------------------|------------------------|
-| Business Knowledge Model | None | ![](Images/none-symbol-2.svg) |
+| Business Knowledge Model | None                | ![](Images/none-symbol-2.svg) |
 
 #### Input Data Element
 
@@ -261,10 +447,39 @@ An Input Data element is represented in a DRD as a shape with two parallel strai
 
 ###### Table: Depiction Resolution for Input Data
 
-| **DMNElement** | **DMN Diagram attributes** | **Depiction** |
-|------------------------|------------------------|------------------------|
-| Input Data | None or useAlternativeInputDataShape = false | ![](Images/input-data-symbol-3.svg) |
-| Input Data | useAlternativeInputDataShape = true | ![](Images/input-data-symbol-4.svg) |
+<table>
+<tr><th>
+
+DMNElement
+
+</th><th>
+
+DMN Diagram attributes
+
+</th><th>
+
+Depiction
+
+</th></tr>
+<tr><td>Input Data</td><td>
+
+None
+
+or
+
+useAlternativeInputDataShape = false
+
+</td><td>
+
+![](Images/input-data-symbol-3.svg)
+
+</td></tr>
+<tr><td>Input Data</td><td>useAlternativeInputDataShape = true</td><td>
+
+![](Images/input-data-symbol-4.svg)
+
+</td></tr>
+</table>
 
 #### Knowledge Source
 
@@ -272,18 +487,18 @@ A Knowledge Source is represented as a shape with three straight sides and one w
 
 ###### Table: Depiction Resolution for Knowledge Source
 
-| **DMNElement**   | **DMNShape attributes** | **Depiction**                 |
-|------------------|-------------------------|-------------------------------|
-| Knowledge Source | None                    | ![](Images/none-symbol-3.svg) |
+| DMNElement       | DMNShape attributes | Depiction                     |
+|------------------|---------------------|-------------------------------|
+| Knowledge Source | None                | ![](Images/none-symbol-3.svg) |
 
 #### Artifacts
 
 ###### Table: Depiction Resolution of Artifacts
 
-| **DMNElement** | **DMNShape Attributes** | **Depiction**                 |
-|----------------|-------------------------|-------------------------------|
-| TextAnnotation | None                    | ![](Images/none-symbol-4.svg) |
-| Group          | None                    | ![](Images/none-symbol-5.svg) |
+| DMNElement     | DMNShape Attributes | Depiction                     |
+|----------------|---------------------|-------------------------------|
+| TextAnnotation | None                | ![](Images/none-symbol-4.svg) |
+| Group          | None                | ![](Images/none-symbol-5.svg) |
 
 #### Decision Service
 
@@ -291,7 +506,7 @@ If the set of output decisions is smaller than the set of encapsulated decisions
 
 ###### Table: Depiction Resolution of Decision Service
 
-| **DMNElement** | **DMNShape attributes** | **Depiction** |
+| DMNElement | DMNShape attributes | Depiction |
 |-----------------------|------------------------|-------------------------|
 | Decision Service | None or isCollapsed=false | ![](Images/decision-service-symbol.svg) |
 | Decision Service | DecisionServiceDividerLine isCollapsed=false | ![](Images/decision-service-symbol-2.svg) |
@@ -303,7 +518,7 @@ If the set of output decisions is smaller than the set of encapsulated decisions
 
 ###### Table: Depiction Resolution of Information Requirement
 
-| **DMNElement**          | **Depiction**                                  |
+| DMNElement              | Depiction                                      |
 |-------------------------|------------------------------------------------|
 | Information Requirement | ![](Images/information-requirement-symbol.svg) |
 
@@ -311,17 +526,17 @@ If the set of output decisions is smaller than the set of encapsulated decisions
 
 ###### Table: Depiction Resolution of Knowledge Requirement
 
-| **DMNElement**        | **Depiction**                                  |
-|-----------------------|------------------------------------------------|
-| Knowledge Requirement | ![](Images/knowledge-requirement-symbol-2.svg) |
+| DMNElement            | Depiction                                    |
+|-----------------------|----------------------------------------------|
+| Knowledge Requirement | ![](Images/knowledge-requirement-symbol.svg) |
 
 #### Authority Requirement
 
 ###### Table: Depiction Resolution of Authority Requirement
 
-| **DMNElement**        | **Depiction**                                  |
-|-----------------------|------------------------------------------------|
-| Authority Requirement | ![](Images/authority-requirement-symbol-2.svg) |
+| DMNElement            | Depiction                                    |
+|-----------------------|----------------------------------------------|
+| Authority Requirement | ![](Images/authority-requirement-symbol.svg) |
 
 #### Association
 
@@ -329,7 +544,7 @@ When the DMNEdge depicts an Association, its DMNElement MUST be specified.
 
 ###### Table: Depiction Resolution of Association
 
-| **DMNElement** | **Depiction** |
+| DMNElement | Depiction |
 |---------------------------|---------------------------------------------|
 | Association where associationDirection is none. | ![](Images/association-where-associationdirection-is-none-symbol.svg) |
 | Association where associationDirection is one. | ![](Images/association-where-associationdirection-is-one-symbol.svg) |

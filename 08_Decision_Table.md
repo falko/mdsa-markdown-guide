@@ -32,17 +32,23 @@ The decision table shows the rules in a shorthand notation by arranging the entr
 
 For example:
 
-| Customer   | OrderSize | Discount |
-|------------|-----------|----------|
-| *Business* | \<10      | 0.10     |
+<table>
+<tr><td>Customer</td><td>OrderSize</td><td>Discount</td></tr>
+<tr><td>
+
+*Business*
+
+</td><td>&lt;10</td><td>0.10</td></tr>
+</table>
 
 reads as:
 
 **If** Customer = “Business” **and** OrderSize \< 10 **then** Discount = 0.10 In general, this is expressed as:
 
-| input expression 1 | input expression 2 | Output label   |
-|--------------------|--------------------|----------------|
-| input entry a      | input entry b      | output entry c |
+<table>
+<tr><td>input expression 1</td><td>input expression 2</td><td>Output label</td></tr>
+<tr><td>input entry a</td><td>input entry b</td><td>output entry c</td></tr>
+</table>
 
 The three highlighted cells in the decision table fragment above represent the following rule:
 
@@ -160,7 +166,7 @@ The decision table can show a compound output (see [Horizontal table with multip
 
 ### Input entries
 
-Rule input entries are unary tests (grammar rule 15).
+Rule input entries are unary tests (grammar [unary tests](10_Expression_Language_FEEL.md#rule-unary-tests)).
 
 A dash symbol (‘-’) can be used to mean any input value, *i.e.,* the input is irrelevant for the containing rule.
 
@@ -306,16 +312,65 @@ DecisionTable inherits all the attributes and model associations from Expression
 
 ###### Table: DecisionTable attributes and model associations
 
-| **Attribute** | **Description** |
-|-------------------------------|-----------------------------------------|
-| **input**: InputClause \[\*\] | This attributes lists the instances of InputClause that compose this DecisionTable. |
-| **output**: OutputClause \[\*\] | This attributes lists the instances of OutputClause that compose this DecisionTable. |
-| **annotation**: RuleAnnotationClause \[\*\] | This attribute lists the instances of RuleAnnotationClause that compose this DecisionTable. |
-| **rule**: DecisionRule \[\*\] | This attributes lists the instances of DecisionRule that compose this DecisionTable. |
-| **hitPolicy:** HitPolicy | The hit policy that determines the semantics of this DecisionTable. Default is: UNIQUE. |
-| **aggregation:** BuiltinAggregator | If present, this attribute specifies the aggregation function to be applied to the unordered set of values of the applicable rules to determine the value of this DecisionTable when the hitPolicy is COLLECT. |
-| **preferredOrientation:** Decis ionTableOrientation \[0.. 1\] | The preferred orientation for the diagrammatic representation of this DecisionTable. This DecisionTable SHOULD BE represented as specified by this attribute. |
-| **outputLabel:** string\[0..1\] | This attribute gives a description of the decision table output and is often the same as the name of the InformationItem for which the decision table is the value expression. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**input**: InputClause \[\*\]
+
+</td><td>This attributes lists the instances of InputClause that compose this DecisionTable.</td></tr>
+<tr><td>
+
+**output**: OutputClause \[\*\]
+
+</td><td>This attributes lists the instances of OutputClause that compose this DecisionTable.</td></tr>
+<tr><td>
+
+**annotation**: RuleAnnotationClause \[\*\]
+
+</td><td>This attribute lists the instances of RuleAnnotationClause that compose this DecisionTable.</td></tr>
+<tr><td>
+
+**rule**: DecisionRule \[\*\]
+
+</td><td>This attributes lists the instances of DecisionRule that compose this DecisionTable.</td></tr>
+<tr><td>
+
+**hitPolicy:** HitPolicy
+
+</td><td>
+
+The hit policy that determines the semantics of this DecisionTable.
+
+Default is: UNIQUE.
+
+</td></tr>
+<tr><td>
+
+**aggregation:** BuiltinAggregator
+
+</td><td>If present, this attribute specifies the aggregation function to be applied to the unordered set of values of the applicable rules to determine the value of this DecisionTable when the hitPolicy is COLLECT.</td></tr>
+<tr><td>
+
+**preferredOrientation:**
+
+Decis ionTableOrientation \[0.. 1\]
+
+</td><td>The preferred orientation for the diagrammatic representation of this DecisionTable. This DecisionTable SHOULD BE represented as specified by this attribute.</td></tr>
+<tr><td>
+
+**outputLabel:** string\[0..1\]
+
+</td><td>This attribute gives a description of the decision table output and is often the same as the name of the InformationItem for which the decision table is the value expression.</td></tr>
+</table>
 
 ### Decision Table Input and Output metamodel
 
@@ -331,14 +386,14 @@ When a DecisionTable contains more than one OutputClause, each OutputClause SHAL
 
 ###### Table: InputClause attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **inputExpression:** Expression \[0..1\] | The subject of this InputClause. |
 | **inputValues:** UnaryTests \[0..1\] | This attribute contains UnaryTests that constrain the result of the inputExpression of this InputClause. |
 
 ###### Table: OutputClause attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **typeRef: String** \[1\] | The OutputClause of a single output decision table SHALL NOT specify a typeRef. OutputClauses of a multiple output decision table MAY specify a typeRef. A typeRef is the name of the datatype of the output, either an ItemDefinition, a base type in the specified expressionLanguage, or an imported type. |
 | **name:** string \[0..1\] | The OutputClause of a single output decision table SHALL NOT specify a name. OutputClauses of a multiple output decision table SHALL specify a name. |
@@ -347,9 +402,28 @@ When a DecisionTable contains more than one OutputClause, each OutputClause SHAL
 
 ###### Table: RuleAnnotationClause attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **name**: string \[1\] | RuleAnnotationClause SHALL specify a name that is used as the name of the rule annotation column of the containing decision table. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**name**: string \[1\]
+
+</td><td>
+
+RuleAnnotationClause SHALL specify a name
+
+that is used as the name of the rule annotation column of the containing decision table.
+
+</td></tr>
+</table>
 
 ### Decision Rule metamodel
 
@@ -377,7 +451,7 @@ The ruleAnnotation elements SHALL be in the same order as the containing Decisio
 
 ###### Table: DecisionRule attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **inputEntry:** UnaryTests\[0..\*\] | The instances of UnaryTests that specify the input conditions that this DecisionRule must match for the corresponding (by index) inputExpression. |
 | **outputEntry:** LiteralExpression \[1..\*\] | A list of the instances of LiteralExpression that compose the output components of this DecisionRule. |
@@ -385,7 +459,7 @@ The ruleAnnotation elements SHALL be in the same order as the containing Decisio
 
 ###### Table: RuleAnnotation attributes and model associations
 
-| **Attribute**         | **Description**                |
+| Attribute             | Description                    |
 |-----------------------|--------------------------------|
 | text: string \[0..1\] | The text of the RuleAnnotation |
 
@@ -395,11 +469,82 @@ The ruleAnnotation elements SHALL be in the same order as the containing Decisio
 
 ###### Table: Examples of decision tables
 
-| Single Hit **U**nique | ![](Images/single-hit-unique-symbol.svg) |
-|-----------|-------------------------------------------------------------|
-| Single Hit **A**ny | ![](Images/single-hit-any-symbol.svg) |
-| Single Hit **P**riority | ![](Images/single-hit-priority-symbol.svg) |
-| Single Hit **F**irst | ![](Images/single-hit-first-symbol.svg) |
-| Multiple Hit **N**o order | ![](Images/multiple-hit-no-order-symbol.svg) |
-| Multiple Hit **O**utput order | ![](Images/multiple-hit-output-order-symbol.svg) |
-| Multiple Hit **R**ule order | ![](Images/multiple-hit-rule-order-symbol.svg) |
+<table>
+<tr><td>
+
+Single Hit
+
+**U**nique
+
+</td><td>
+
+![](Images/single-hit-unique-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Single Hit
+
+**A**ny
+
+</td><td>
+
+![](Images/single-hit-any-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Single Hit
+
+**P**riority
+
+</td><td>
+
+![](Images/single-hit-priority-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Single Hit
+
+**F**irst
+
+</td><td>
+
+![](Images/single-hit-first-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Multiple Hit
+
+**N**o order
+
+</td><td>
+
+![](Images/multiple-hit-no-order-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Multiple Hit
+
+**O**utput order
+
+</td><td>
+
+![](Images/multiple-hit-output-order-symbol.svg)
+
+</td></tr>
+<tr><td>
+
+Multiple Hit
+
+**R**ule order
+
+</td><td>
+
+![](Images/multiple-hit-rule-order-symbol.svg)
+
+</td></tr>
+</table>

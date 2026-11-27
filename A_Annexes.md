@@ -52,8 +52,13 @@ From this example we can see that even a simple business process in **BPMN** may
 
 ###### Table: BPMN tasks relevant to DMN
 
-| ![](Images/bpmn-tasks-relevant-to-dmn.svg) |
-|--------------------------------------------|
+<table>
+<tr><td>
+
+![](Images/bpmn-tasks-relevant-to-dmn.svg)
+
+</td></tr>
+</table>
 
 A future version of **BPMN** may choose to clarify and extend the definitions of task to better match decision modeling requirements and **DMN** – to wit, to define a **BPMN** Decision Task as some task used to make a decision modeled with **DMN**. In the meantime, the Business Rule Task is the most natural way to express this functionality. However, as noted in clauses [Modeling requirements for automated decision-making](05_Introduction_to_DMN.md#modeling-requirements-for-automated-decision-making) and [Artifact metamodel](06_Requirements_DRG_and_DRD.md#artifact-metamodel), a Decision in **DMN** can be associated with any Task, allowing for flexibility in implementation.
 

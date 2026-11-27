@@ -1,249 +1,266 @@
-3	N	0	patents
-4	N	531	compliance
-5	N	689	omg s issue reporting procedure
-10	P	0	preface
-11	1	0	scope
-12	2	0	general conformance requirement
-13	3	0	references
-14	3	228	xbase
-15	4	0	additional information
-16	4	425	jan vanthienen k u leuven
-17	4	725	zbigniew misiak boc products services ag
-18	4	1041	clause defines s feel a subset of feel
-20	5	0	introduction to dmn
-21	5	259	figure aspects of modeling
-22	5	511	figure dmn constructs
-23	5	729	business knowledge models may be used to represent
-24	5	1489	implementing automated decision making
-25	5	2087	basic concepts
-26	5	2481	figure a simple decision requirements diagram drd
-27	5	2873	figure decision and corresponding value expression
-28	5	3082	figure business knowledge model and corresponding decision table
-29	5	3621	encapsulated or input decisions was not specified may
-30	5	3886	an optional input parameter specifying a list of
-32	6	0	requirements drg and drd
-33	6	399	table drd components
-34	6	664	artifacts text annotation a text annotation consists of
-35	6	1051	elements the other exercising the listed input data
-36	6	1391	a knowledge requirement is represented in a drd
-37	6	1781	connection rules
-38	6	1902	decision service business knowledge model knowledge
-39	6	1966	for example for a decision these include properties
-40	6	2316	figure decision service notation
-41	6	2511	drds and in figure and drd in figure
-42	6	2738	figure dmnelement class diagram
-43	6	2879	label string an alternative short description of this
-44	6	3024	figure definitions class diagram
-45	6	3377	the typelanguage shall be specified in a uri
-46	6	3759	businesscontextelement this attribute lists the instances of
-47	6	4175	namespace anyuri identifies the namespace of the imported
-48	6	4589	artifact metamodel
-49	6	4926	the textannotation element inherits the attributes and model
-50	6	5125	contain a natural language description of the answers
-51	6	5592	informationrequirement informationrequirement this attribute lists the instances of
-52	6	5724	the abstract class businesscontextelement and its concrete specializations
-53	6	5975	business knowledge model metamodel
-54	6	6346	table presents the additional attributes and model associations
-55	6	6525	the name of the variable and the name
-56	6	6891	figure inputdata class diagram
-57	6	7081	figure knowledgesource class diagram
-58	6	7320	an informationrequirement element is a component of a
-59	6	7724	the referenced requiredknowledge element is defined in the
-60	6	7982	figure extensibility class diagram
-61	6	8261	table extensionattribute attributes and model associations
-63	7	0	relating decision logic to decision requirements
-64	7	637	the variables that are used in the body
-65	7	1305	notation
-66	7	1609	figure decision table with italicized literals
-67	7	1822	figure boxed invocation
-68	7	2010	figure expression class diagram
-69	7	2338	unarytests metamodel
-70	7	2796	the default type language for all elements can
-71	7	3455	function signature element
-72	7	3722	figure itemdefinition class diagram
-73	7	4076	an informationitem element contained in an invocable cannot
-74	7	4544	table literalexpression attributes and model associations
-75	7	4991	attribute description
-77	8	0	decision table
-78	8	468	figure decision table example horizontal orientation rules as
-79	8	486	figure decision table example horizontal orientation multiple output
-80	8	733	the list of rules expresses the logic of
-81	8	1383	decision table inputs and outputs should not be
-82	8	1503	figure rules as crosstab schematic layout optional input
-83	8	1666	for example the following two input value ranges
-84	8	1974	figure crosstab with multiple output components
-85	8	2215	output entry
-86	8	2561	the character is the initial letter of the
-87	8	3212	if an operator is present the result is
-88	8	3600	figure decisiontable class diagram
-89	8	3789	if the hitpolicy associated with an instance of
-90	8	4191	an instance of inputclause is made of an
-91	8	4500	decision rule metamodel
-92	8	4856	examples
-93	8	4904	single hit
-95	9	0	simple expression language s feel
-96	9	248	simple unary tests
-97	9	471	s feel data types
-98	9	1167	arithmetic multiplication and division grammar rule b have
-101	10	0	expression language feel
-102	10	356	figure boxed expression
-103	10	579	figure boxed invocation
-104	10	793	figure horizontal context
-105	10	931	when decision tables are non result context entries
-106	10	1039	post bureau risk category
-107	10	1200	boxed list
-108	10	1408	parameters or more comma separated names in parentheses
-109	10	1654	figure use of conditional expression with decision table
-110	10	1761	figure use of filter expression with a list
-111	10	1881	every and some expression have a similar structure
-112	10	2003	figure use of some with a relation and
-113	10	2172	table feel range comparisons
-114	10	2213	full feel syntax and semantics
-115	10	2506	digit hexadecimal digit
-116	10	2722	simple positive unary test
-117	10	2891	additional name symbols
-118	10	3046	context name type name type function type type
-119	10	3351	in rule date time literal for the function
-120	10	3798	a list is written using square brackets to
-121	10	4316	note that we use bold to denote a
-122	10	4897	time
-123	10	5606	duration in the semantic domain is a sequence
-124	10	6204	a context a context in the domain is
-125	10	6620	functions
-126	10	6959	a type expression e defined by grammar rule
-127	10	7492	if n m and second function type has
-128	10	7612	typeref number typeref
-129	10	7740	type decision type decision false true
-130	10	7963	in implicit type conversions the data type is
-131	10	8366	literalexpression
-132	10	8761	unary tests grammar rule are used to represent
-133	10	9210	else let m be the sublist of rules
-134	10	9854	mapping between feel and other domains
-135	10	10134	iso date and time is suffixed by the
-136	10	10525	the arguments n e nm em conform to
-137	10	11093	passing parameter values to the external method or
-138	10	11432	when the iteration context is a range of
-139	10	11814	grammar feel syntax mapped to domain
-140	10	12138	otherwise false false null
-141	10	12380	number value e value e value is defined
-142	10	12708	b e between e and e e e
-143	10	12944	number number number
-144	10	13327	time days and time valuet valuet e valuedtd
-145	10	13571	number number if value p s value p
-146	10	13883	grammar feel input domain result
-147	10	14266	table semantics of invocation
-148	10	14578	month number the month number as an integer
-149	10	14982	value number the value returned by the value
-150	10	15182	e e list of items e such that
-151	10	15580	q e e null namespaces are ignored
-152	10	15823	schema
-153	10	15981	gold
-154	10	16443	date from date string convert from to a
-155	10	16738	string from non null convert from to a
-156	10	17027	the duration function has been deprecated as of
-157	10	17230	replace input pattern string regular expression replace banana
-158	10	17358	string join list list is a list of
-159	10	17674	count list list return size of list or
-160	10	18070	element including where the match function returned
-161	10	18425	numeric functions
-162	10	18733	modulo dividend and divisor are returns the remainder
-163	10	18950	is value value both are elements of the
-164	10	19112	b before point range b point before
-165	10	19306	a met by range range a range start
-166	10	19492	a overlaps after range range a overlaps after
-167	10	19711	a includes range point a includes true
-168	10	19907	a starts point range a range start starts
-169	10	20128	name parameters parameter domain description example
-170	10	20349	precedes the second and false if they are
-171	10	20646	b context put context keys b context is
-172	10	20976	users are encouraged to isolate decision logic that
-173	10	21290	stringlib
-174	10	21681	such that si bkmi dei and doi are
-175	10	21920	whenever possible that is when they are top
-176	10	22224	table functiondefinition attributes and model associations
-177	10	22484	conditional metamodel
-178	10	22711	iterator metamodel
-179	10	22939	some metamodel
-180	10	23210	value of the context entry named monthly outgoings
-181	10	23534	an expression in square brackets following a list
-183	11	0	b feel
-184	11	365	a null true
-185	11	540	built in functions returning a string
-186	11	755	years and months duration a null years and
-187	11	1034	string the non string value is converted to
-188	11	1320	days and time duration the non days and
-190	12	0	dmn examples
-191	12	388	figure example business process
-192	12	491	notable features of this drd include
-193	12	757	decision along with the case data including the
-194	12	845	figure drd for decide routing decision point
-195	12	859	figure drd for credit risk analytics knowledge source
-196	12	1215	adjudication
-197	12	1654	allowed answers value from explicit list decline high
-198	12	2074	credit officer experience
-199	12	2305	bureau call type table
-200	12	2676	monthly loan accept rate the percentage of loans
-201	12	2956	credit risk adjudication risk management strategy
-202	12	3041	figure routing decision service
-203	12	3342	parameter applicant data maritalstatus as the marital status
-204	12	3952	function pmt imported from a dmn xml file
-205	12	3987	figure eligibility decision logic
-206	12	4003	figure pre bureau risk category table decision logic
-207	12	4017	figure application risk score model decision logic
-208	12	4024	figure routing decision logic
-209	12	4033	figure post bureau risk category decision logic
-210	12	4040	figure post bureau risk category table decision logic
-211	12	4048	figure pre bureau affordability decision logic
-212	12	4060	figure affordability calculation decision logic
-213	12	4072	figure required monthly installment decision logic
-214	12	4088	executing the decision model
-215	12	4272	figure bureau data input data sample
-216	12	4439	figure drd for recommended loan products
-217	12	4512	figure type tproperty non normative representation
-218	12	4523	figure type tborrower
-219	12	4617	figure loan products
-220	12	4768	figure drd of imported loan info service
-221	12	4782	figure loan data
-222	12	4883	context entry interest rate percent invokes the bkm
-223	12	5098	figure bkm rate adjustment
-224	12	5105	figure loan info
-225	12	5167	figure loan info table
-226	12	5326	min credit score is called by the bkm
-227	12	5600	expression substituting for the input expression for example
-228	12	5733	figure eligibility bottom
-229	12	5822	figure recommended loan products
-230	12	6090	figure format row
-231	12	6110	figure test case output of recommended loan products
-232	12	6118	figure test case input data partial
-234	13	0	exchange formats
-235	13	447	dmn definitions dmnversion
-237	14	0	dmn diagram interchange dmn di
-238	14	584	dmn diagrams may be an incomplete or partial
-239	14	912	figure dmndiagram
-240	14	1103	a list of dmndiagramelement dmnshape and dmnedge that
-241	14	1305	table dmndiagramelement attributes
-242	14	1505	islistedinputdata boolean if the dmnshape depicts an input
-243	14	1798	attribute description
-244	14	1967	attribute description
-245	14	2190	then the resulting dmndiagramelement should use
-246	14	2566	when rendering a dmn diagram the correct depiction
-247	14	2895	business knowledge model
-248	14	3000	artifacts
-249	14	3069	dmnedge resolution
-251	A	0	annexes
-253	A	46	annex a
-254	A	570	figure a decision making in bpmn
-255	A	747	shipment process in a hardware retailer example ch
-256	A	967	a associating decisions with tasks and processes
-258	A	1263	annex b
-259	A	1432	boxed function a form of boxed expression showing
-260	A	1597	collect a hit policy for multiple hit decision
-261	A	1708	decision logic the logic used to make decisions
-262	A	1838	decision requirements the more abstract level of modelling
-263	A	1992	drd see decision requirements diagram
-264	A	2081	first a hit policy for single hit decision
-265	A	2249	input entry an expression defining a condition cell
-266	A	2389	knowledge source an authority defined for decisions or
-267	A	2532	output entry an expression defining a conclusion cell
-268	A	2702	requirement the dependency of one drg element on
-269	A	2869	v
+3	N	0	patents	
+4	N	531	compliance	be trademarks of their respective owners
+5	N	689	omg s issue reporting procedure	software satisfactorily completes the testing suites
+10	P	0	preface	
+11	1	0	scope	
+12	2	0	general conformance requirement	
+13	3	0	references	
+14	3	228	xbase	https www omg org spec uml
+15	4	0	additional information	
+16	4	425	jan vanthienen k u leuven	ltd james taylor decision management solutions
+17	4	725	zbigniew misiak boc products services ag	machines uwe kaufmann gfse e v
+18	4	1041	clause defines s feel a subset of feel	syntax of decision tables in dmn
+20	5	0	introduction to dmn	
+21	5	259	figure aspects of modeling	of modeling are shown in figure
+22	5	511	figure dmn constructs	these constructs is shown in figure
+23	5	729	business knowledge models may be used to represent	policy document maintained by a manager
+24	5	1489	implementing automated decision making	model based computer aided design tools
+25	5	2087	basic concepts	supports the models used for them
+26	5	2481	figure a simple decision requirements diagram drd	two decisions is shown in figure
+27	5	2873	figure decision and corresponding value expression	boxed expression as shown in figure
+28	5	3082	figure business knowledge model and corresponding decision table	decision table as shown in figure
+29	5	3621	encapsulated or input decisions was not specified may	input data and whichever of the
+30	5	3886	an optional input parameter specifying a list of	be returned in the output context
+32	6	0	requirements drg and drd	
+33	6	399	table drd components	and described in more detail below
+34	6	664	artifacts text annotation a text annotation consists of	a source of guidance or knowledge
+35	6	1051	elements the other exercising the listed input data	equivalent drds one drawing input data
+36	6	1391	a knowledge requirement is represented in a drd	for each of b s parameters
+37	6	1781	connection rules	to the element governed by it
+38	6	1902	decision service business knowledge model knowledge	model knowledge decision service decision knowledge
+39	6	1966	for example for a decision these include properties	information about their nature or function
+40	6	2316	figure decision service notation	are shown in figure and figure
+41	6	2511	drds and in figure and drd in figure	service invoked in an expanded form
+42	6	2738	figure dmnelement class diagram	and input data showing collection marker
+43	6	2879	label string an alternative short description of this	string a description of this element
+44	6	3024	figure definitions class diagram	string the name of this element
+45	6	3377	the typelanguage shall be specified in a uri	be overridden on each individual itemdefinition
+46	6	3759	businesscontextelement this attribute lists the instances of	that are contained in this definitions
+47	6	4175	namespace anyuri identifies the namespace of the imported	the location of the imported element
+48	6	4589	artifact metamodel	model associations of the drgelement element
+49	6	4926	the textannotation element inherits the attributes and model	the reader of a dmn diagram
+50	6	5125	contain a natural language description of the answers	optional allowedanswers attribute is meant to
+51	6	5592	informationrequirement informationrequirement this attribute lists the instances of	the decision logic for this decision
+52	6	5724	the abstract class businesscontextelement and its concrete specializations	element metamodel figure businesscontextelement class diagram
+53	6	5975	business knowledge model metamodel	that are owned by this organisationalunit
+54	6	6346	table presents the additional attributes and model associations	attributes and model associations from drgelement
+55	6	6525	the name of the variable and the name	within the containing instance of definitions
+56	6	6891	figure inputdata class diagram	required as input by this decisionservice
+57	6	7081	figure knowledgesource class diagram	stores the result of this inputdata
+58	6	7320	an informationrequirement element is a component of a	optional id description and label attributes
+59	6	7724	the referenced requiredknowledge element is defined in the	subgraph of the referenced requiredknowledge element
+60	6	7982	figure extensibility class diagram	associates with its containing knowledgesource element
+61	6	8261	table extensionattribute attributes and model associations	model associations for the extensionattribute element
+63	7	0	relating decision logic to decision requirements	
+64	7	637	the variables that are used in the body	input in the decision s expression
+65	7	1305	notation	their results combined or otherwise elaborated
+66	7	1609	figure decision table with italicized literals	example figure is equivalent to figure
+67	7	1822	figure boxed invocation	invoked business knowledge model see figure
+68	7	2010	figure expression class diagram	to model data structures and ranges
+69	7	2338	unarytests metamodel	attributes and model associations of dmnelement
+70	7	2796	the default type language for all elements can	and imports within the same model
+71	7	3455	function signature element	with allowedvalues composition of itemdefinition elements
+72	7	3722	figure itemdefinition class diagram	parameters informationitem function parameters as informationitems
+73	7	4076	an informationitem element contained in an invocable cannot	an invocable can never be assigned
+74	7	4544	table literalexpression attributes and model associations	model associations of the literalexpression element
+75	7	4991	attribute description	table invocation attributes and model associations
+77	8	0	decision table	
+78	8	468	figure decision table example horizontal orientation rules as	example vertical orientations rules as columns
+79	8	486	figure decision table example horizontal orientation multiple output	example vertical orientation multiple output components
+80	8	733	the list of rules expresses the logic of	no input entries any rule matches
+81	8	1383	decision table inputs and outputs should not be	the default hit policy see later
+82	8	1503	figure rules as crosstab schematic layout optional input	layout figure rules as columns example
+83	8	1666	for example the following two input value ranges	values from the domain are present
+84	8	1974	figure crosstab with multiple output components	vertical table with multiple output components
+85	8	2215	output entry	merged rule input cells not allowed
+86	8	2561	the character is the initial letter of the	is the bottom left cell figure
+87	8	3212	if an operator is present the result is	entries of all the rules matched
+88	8	3600	figure decisiontable class diagram	in the list of output values
+89	8	3789	if the hitpolicy associated with an instance of	is represented as specified in clause
+90	8	4191	an instance of inputclause is made of an	to model a decision table annotation
+91	8	4500	decision rule metamodel	column of the containing decision table
+92	8	4856	examples	string the text of the ruleannotation
+93	8	4904	single hit	single hit any single hit priority
+95	9	0	simple expression language s feel	
+96	9	248	simple unary tests	unary test simple positive unary test
+97	9	471	s feel data types	hex digit hex digit hex digit
+98	9	1167	arithmetic multiplication and division grammar rule b have	are not defined in other cases
+101	10	0	expression language feel	
+102	10	356	figure boxed expression	on top as shown in figure
+103	10	579	figure boxed invocation	a function as shown in figure
+104	10	793	figure horizontal context	value n result figure vertical context
+105	10	931	when decision tables are non result context entries	figure use of final result box
+106	10	1039	post bureau risk category	them names for example see figure
+107	10	1200	boxed list	are not accessible outside the context
+108	10	1408	parameters or more comma separated names in parentheses	for feel functions including decision tables
+109	10	1654	figure use of conditional expression with decision table	figure boxed conditional color is suggested
+110	10	1761	figure use of filter expression with a list	filtering expression is easier to see
+111	10	1881	every and some expression have a similar structure	for expression that returns a context
+112	10	2003	figure use of some with a relation and	a list expression figure some expression
+113	10	2172	table feel range comparisons	using typographical literals defined in section
+114	10	2213	full feel syntax and semantics	value decimal decimal true decimal decimal
+115	10	2506	digit hexadecimal digit	point u hexadecimal digit u hexadecimal
+116	10	2722	simple positive unary test	simple expressions simple expression simple expression
+117	10	2891	additional name symbols	u u f u f u
+118	10	3046	context name type name type function type type	qualified name range type list type
+119	10	3351	in rule date time literal for the function	e to end of line and
+120	10	3798	a list is written using square brackets to	name the value is an expression
+121	10	4316	note that we use bold to denote a	semantic elements for example feel is
+122	10	4897	time	semantic domain are true and false
+123	10	5606	duration in the semantic domain is a sequence	daytimeduration datatype a days and time
+124	10	6204	a context a context in the domain is	domain these strings are distinct within
+125	10	6620	functions	e g using the range function
+126	10	6959	a type expression e defined by grammar rule	name string bkma number number number
+127	10	7492	if n m and second function type has	for i m and u v
+128	10	7612	typeref number typeref	string typeref itemcomponent itemcomponent name id
+129	10	7740	type decision type decision false true	type decision type decision false false
+130	10	7963	in implicit type conversions the data type is	be performed the result is null
+131	10	8366	literalexpression	decision typeref number literalexpression text text
+132	10	8761	unary tests grammar rule are used to represent	output component names and output values
+133	10	9210	else let m be the sublist of rules	feel d b else dti null
+134	10	9854	mapping between feel and other domains	s is a list of contexts
+135	10	10134	iso date and time is suffixed by the	contains an iana timezone id the
+136	10	10525	the arguments n e nm em conform to	as f n e nn en
+137	10	11093	passing parameter values to the external method or	the single predictor output s value
+138	10	11432	when the iteration context is a range of	expression is higher than the second
+139	10	11814	grammar feel syntax mapped to domain	table semantics of other feel expressions
+140	10	12138	otherwise false false null	false null otherwise true null true
+141	10	12380	number value e value e value is defined	same parameters and external mapping information
+142	10	12708	b e between e and e e e	syntax equivalent feel syntax applicability rule
+143	10	12944	number number number	e e e e result type
+144	10	13327	time days and time valuet valuet e valuedtd	duration defined by the previous rule
+145	10	13571	number number if value p s value p	e e e e result type
+146	10	13883	grammar feel input domain result	defined in table semantics of exponentiation
+147	10	14266	table semantics of invocation	result of the invocation is null
+148	10	14578	month number the month number as an integer	as an integer in the interval
+149	10	14982	value number the value returned by the value	a years and months duration value
+150	10	15182	e e list of items e such that	and not null and value e
+151	10	15580	q e e null namespaces are ignored	element null valued entry in p
+152	10	15823	schema	are equivalent to the following feel
+153	10	15981	gold	salary customer loyalty level credit limit
+154	10	16443	date from date string convert from to a	name parameters parameter description example domain
+155	10	16738	string from non null convert from to a	number from number return from number
+156	10	17027	the duration function has been deprecated as of	from decimal to integer is applied
+157	10	17230	replace input pattern string regular expression replace banana	the match in string after a
+158	10	17358	string join list list is a list of	a b c the delimiter pattern
+159	10	17674	count list list return size of list or	of the semantic domain including null
+160	10	18070	element including where the match function returned	positions function item newitem item newitem
+161	10	18425	numeric functions	from decimal to integer is applied
+162	10	18733	modulo dividend and divisor are returns the remainder	h abs pt h pt h
+163	10	18950	is value value both are elements of the	name parameters parameter domain description example
+164	10	19112	b before point range b point before	before true before point point false
+165	10	19306	a met by range range a range start	included and range end range start
+166	10	19492	a overlaps after range range a overlaps after	end included or range end included
+167	10	19711	a includes range point a includes true	included or not range start included
+168	10	19907	a starts point range a range start starts	included or not range end included
+169	10	20128	name parameters parameter domain description example	table table temporal built in functions
+170	10	20349	precedes the second and false if they are	return true if the first argument
+171	10	20646	b context put context keys b context is	order as in the original context
+172	10	20976	users are encouraged to isolate decision logic that	testing for example through specific configuration
+173	10	21290	stringlib	library namespace org omg feel stringutil
+174	10	21681	such that si bkmi dei and doi are	ede result ndo edo ndo edo
+175	10	21920	whenever possible that is when they are top	and represented as a boxed expression
+176	10	22224	table functiondefinition attributes and model associations	associations of the function definition element
+177	10	22484	conditional metamodel	define the columns in this relation
+178	10	22711	iterator metamodel	is used to filter the collection
+179	10	22939	some metamodel	attributes and model associations of quantified
+180	10	23210	value of the context entry named monthly outgoings	monthly is itself a context the
+181	10	23534	an expression in square brackets following a list	name resolved in context credit history
+183	11	0	b feel	
+184	11	365	a null true	false null between and null false
+185	11	540	built in functions returning a string	the sum function semantics are altered
+186	11	755	years and months duration a null years and	days and time duration p s
+187	11	1034	string the non string value is converted to	e is e e e e
+188	11	1320	days and time duration the non days and	b feel function and table applies
+190	12	0	dmn examples	
+191	12	388	figure example business process	is represented as a user task
+192	12	491	notable features of this drd include	evaluations of risk affordability and eligibility
+193	12	757	decision along with the case data including the	the results of the automated routing
+194	12	845	figure drd for decide routing decision point	for decide bureau strategy decision point
+195	12	859	figure drd for credit risk analytics knowledge source	drd for review application decision point
+196	12	1215	adjudication	allowed answers for each decision follow
+197	12	1654	allowed answers value from explicit list decline high	applicant given only their application data
+198	12	2074	credit officer experience	expenses risk and affordability type policy
+199	12	2305	bureau call type table	bureau affordability bankrupt and credit score
+200	12	2676	monthly loan accept rate the percentage of loans	originating loans in a calendar month
+201	12	2956	credit risk adjudication risk management strategy	risk score credit risk analytics group
+202	12	3041	figure routing decision service	figure figure bureau strategy decision service
+203	12	3342	parameter applicant data maritalstatus as the marital status	applicant data age as the age
+204	12	3952	function pmt imported from a dmn xml file	in this calculation invokes an external
+205	12	3987	figure eligibility decision logic	bureau call type table decision logic
+206	12	4003	figure pre bureau risk category table decision logic	pre bureau risk category decision logic
+207	12	4017	figure application risk score model decision logic	figure application risk score decision logic
+208	12	4024	figure routing decision logic	application risk score model decision logic
+209	12	4033	figure post bureau risk category decision logic	logic figure routing rules decision logic
+210	12	4040	figure post bureau risk category table decision logic	post bureau risk category decision logic
+211	12	4048	figure pre bureau affordability decision logic	bureau risk category table decision logic
+212	12	4060	figure affordability calculation decision logic	figure post bureau affordability decision logic
+213	12	4072	figure required monthly installment decision logic	credit contingency factor table decision logic
+214	12	4088	executing the decision model	logic figure financial pmt decision logic
+215	12	4272	figure bureau data input data sample	figure requested product input data sample
+216	12	4439	figure drd for recommended loan products	decision model is shown in figure
+217	12	4512	figure type tproperty non normative representation	of the xml representation of figure
+218	12	4523	figure type tborrower	representation figure type tproperty xml representation
+219	12	4617	figure loan products	amount and fees a constant value
+220	12	4768	figure drd of imported loan info service	value purchase price and down payment
+221	12	4782	figure loan data	type tloaninfotable a collection of tloaninforow
+222	12	4883	context entry interest rate percent invokes the bkm	rounds value x to decimal places
+223	12	5098	figure bkm rate adjustment	a column of loan info table
+224	12	5105	figure loan info	bkm rate adjustment figure bkm payment
+225	12	5167	figure loan info table	an argument of the function call
+226	12	5326	min credit score is called by the bkm	null value figure min credit score
+227	12	5600	expression substituting for the input expression for example	input entry may be any feel
+228	12	5733	figure eligibility bottom	box simply selects this context entry
+229	12	5822	figure recommended loan products	values as strings for final presentation
+230	12	6090	figure format row	final result box returns formatted row
+231	12	6110	figure test case output of recommended loan products	test case input data of figure
+232	12	6118	figure test case input data partial	case output of recommended loan products
+234	13	0	exchange formats	
+235	13	447	dmn definitions dmnversion	without dated version stamps e g
+237	14	0	dmn diagram interchange dmn di	
+238	14	584	dmn diagrams may be an incomplete or partial	from the referenced dmn element dmnelementref
+239	14	912	figure dmndiagram	diagrams dmndiagram a list of dmndiagram
+240	14	1103	a list of dmndiagramelement dmnshape and dmnedge that	user units per inch default is
+241	14	1305	table dmndiagramelement attributes	label dmndiagramelement has the following attributes
+242	14	1505	islistedinputdata boolean if the dmnshape depicts an input	a text annotation must be specified
+243	14	1798	attribute description	the following properties table dmnedge attributes
+244	14	1967	attribute description	the following properties table dmnlabel attributes
+245	14	2190	then the resulting dmndiagramelement should use	that specifies the fillcolor and fontcolor
+246	14	2566	when rendering a dmn diagram the correct depiction	or edge should not be depicted
+247	14	2895	business knowledge model	of input data have inlistedinputdata true
+248	14	3000	artifacts	dmnshape attributes depiction knowledge source none
+249	14	3069	dmnedge resolution	iscollapsed false decision service iscollapsed true
+251	A	0	annexes	
+253	A	46	annex a	to aid comprehension of the specification
+254	A	570	figure a decision making in bpmn	example of a bpmn defined process
+255	A	747	shipment process in a hardware retailer example ch	tasks are as shown in table
+256	A	967	a associating decisions with tasks and processes	normative and the other non normative
+258	A	1263	annex b	detailed specification of the required interface
+259	A	1432	boxed function a form of boxed expression showing	graphically with elements of a drd
+260	A	1597	collect a hit policy for multiple hit decision	is described by the decision table
+261	A	1708	decision logic the logic used to make decisions	output is determined from the inputs
+262	A	1838	decision requirements the more abstract level of modelling	and input data connected by requirements
+263	A	1992	drd see decision requirements diagram	collection information item or item definition
+264	A	2081	first a hit policy for single hit decision	the default expression language for dmn
+265	A	2249	input entry an expression defining a condition cell	defined outside of the decision model
+266	A	2389	knowledge source an authority defined for decisions or	the evaluation of its decision logic
+267	A	2532	output entry an expression defining a conclusion cell	rules composed from two input dimensions
+268	A	2702	requirement the dependency of one drg element on	the list like a relational table
+269	A	2869	v	a single rule can be matched
+0	N	744		
+0	P	274		
+0	1	486		
+0	2	467		
+0	3	466		
+0	4	1124		
+0	5	4012		
+0	6	8316		
+0	7	5345		
+0	8	4919		
+0	9	1743		
+0	10	23676		
+0	11	1395		
+0	12	6124		
+0	13	822		
+0	14	3141		
+0	A	2938		

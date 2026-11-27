@@ -86,7 +86,7 @@ A string literal such as "DECLINED" can be represented alternatively as the ital
 
 ![Decision table with string literals](Images/decision-table-with-string-literals.svg)
 
-To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is "HIGH," "DECLINE," or "HIGH, DECLINE," typographical string literals SHALL be free of commas ("," characters). FEEL typographical string literals SHALL conform to grammar rule 22 (name).
+To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is "HIGH," "DECLINE," or "HIGH, DECLINE," typographical string literals SHALL be free of commas ("," characters). FEEL typographical string literals SHALL conform to grammar [division](10_Expression_Language_FEEL.md#rule-division) (name).
 
 #### Typographical date and time literals
 
@@ -138,7 +138,7 @@ The class UnaryTests is used to model a boolean test where the argument to be te
 
 UnaryTests is a concrete subclass of Expression.
 
-An instance of UnaryTests inherits an optional typeRef from Expression, which SHALL NOT be used. An instance of UnaryTests also has an optional text, which is a String, and an optional expressionLanguage, which is a String that identifies the expression language of the text. If no expressionLanguage is specified, the expression language of the text is the expressionLanguage that is associated with the containing instance of Definitions. The expressionLanguage SHALL be specified in a URI format. The default expression language is FEEL. When the expression language is FEEL, the text must conform to grammar rule 15 in section [Grammar rules](10_Expression_Language_FEEL.md#grammar-rules).
+An instance of UnaryTests inherits an optional typeRef from Expression, which SHALL NOT be used. An instance of UnaryTests also has an optional text, which is a String, and an optional expressionLanguage, which is a String that identifies the expression language of the text. If no expressionLanguage is specified, the expression language of the text is the expressionLanguage that is associated with the containing instance of Definitions. The expressionLanguage SHALL be specified in a URI format. The default expression language is FEEL. When the expression language is FEEL, the text must conform to grammar [unary tests](10_Expression_Language_FEEL.md#rule-unary-tests) in section [Grammar rules](10_Expression_Language_FEEL.md#grammar-rules).
 
 A UnaryTests is satisfied if and only if one of the following alternatives is true:
 
@@ -154,10 +154,25 @@ d\) One of the expressions in the UnaryTests is a boolean expression using the s
 
 ###### Table: UnaryTests attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| text: string\[0..1\] | The text of this UnaryTests. It SHALL be a valid expression in the expressionLanguage |
-| expressionLanguage: anyURI\[0..1\] | This attribute identifies the expression language used in this UnaryTests. This value overrides the expression language specified for the containing instance of DecisionRequirementDiagram. The language SHALL be specified in a URI format. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>text: string[0..1]</td><td>The text of this UnaryTests. It SHALL be a valid expression in the expressionLanguage</td></tr>
+<tr><td>expressionLanguage: anyURI[0..1]</td><td>
+
+This attribute identifies the expression language used in this UnaryTests. This value overrides the expression language specified for the containing instance of
+
+DecisionRequirementDiagram. The language SHALL be specified in a URI format.
+
+</td></tr>
+</table>
 
 ### ItemDefinition metamodel
 
@@ -201,7 +216,7 @@ The ItemDefinition element specializes NamedElement and it inherits its attribut
 
 ###### Table: ItemDefinition attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------|------------------------------------------|
 | **typeRef**: String \[1\] | This attribute identifies by namespace-prefixed name the base type of this ItemDefinition. |
 | **typeLanguage**: String \[0..1\] | This attribute identifies the type language used to specify the base type of this ItemDefinition. This value overrides the type language specified in the Definitions element. The language SHALL be specified in a URI format. |
@@ -214,7 +229,7 @@ The ItemDefinition element specializes NamedElement and it inherits its attribut
 
 ###### Table: FunctionItem attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **outputTypeRef**: String \[0..1\] | Reference to output type of function |
 | **parameters**: InformationItem \[0. .\*\] | Function parameters as InformationItems |
@@ -253,7 +268,7 @@ In any case, the datatype indicated by the typeRef that is associated with an in
 
 ###### Table: InformationItem attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |--------------------------------|----------------------------------------|
 | **/valueExpression**: Expression \[0..1\] | The Expression whose value is assigned to this InformationItem. This is a derived attribute. |
 | **typeRef**: String \[1\] | Qualified name of the type of this InformationItem. |
@@ -275,11 +290,38 @@ LiteralExpression inherits of all the attributes and model associations of Expre
 
 ###### Table: LiteralExpression attributes and model associations
 
-| **Attribute** | **Description** |
-|-----------------------------|-------------------------------------------|
-| **text:** string \[0..1\] | The text of this LiteralExpression. It SHALL be a valid expression in the express ionLanguage. |
-| **expressionLanguage:** anyURI \[0.. 1\] | This attribute identifies the expression language used in this LiteralExpression. This value overrides the expression language specified for the containing instance of DecisionRequirementDiagram. The language SHALL be specified in a URI format. |
-| **importedValues:** ImportedValues \[0..1\] | The instance of ImportedValues that specifies where the text of this LiteralExpression is located. |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**text:** string \[0..1\]
+
+</td><td>The text of this LiteralExpression. It SHALL be a valid expression in the express ionLanguage.</td></tr>
+<tr><td>
+
+**expressionLanguage:** anyURI \[0.. 1\]
+
+</td><td>
+
+This attribute identifies the expression language used in this LiteralExpression. This value overrides the expression language specified for the containing instance of
+
+DecisionRequirementDiagram. The language SHALL be specified in a URI format.
+
+</td></tr>
+<tr><td>
+
+**importedValues:** ImportedValues \[0..1\]
+
+</td><td>The instance of ImportedValues that specifies where the text of this LiteralExpression is located.</td></tr>
+</table>
 
 ### Invocation metamodel
 
@@ -303,7 +345,7 @@ Invocation inherits of all the attributes and model associations of Expression. 
 
 ###### Table: Invocation attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-----------------------------|-------------------------------------------|
 | **calledFunction:** Expression \[1\] | An expression whose value is a function. |
 | **binding:** Binding \[\*\] | This attribute lists the instances of Binding used to bind the formalParameters of the calledFunction in this Invocation. |
@@ -322,7 +364,7 @@ When the Invocation element is executed, each InformationItem element that is re
 
 ###### Table: Binding attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-----------------------------|-------------------------------------------|
 | **parameter:** InformationItem | The InformationItem on which the calledFunction of the owning instance of Invocation depends that is bound by this Binding. |
 | **bindingFormula:** Expression \[0..1\] | The instance of Expression to which the parameter in this Binding is bound when the owning instance of Invocation is evaluated. |
