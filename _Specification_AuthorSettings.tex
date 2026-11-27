@@ -53,6 +53,14 @@
 \usepackage{listings}
 \lstset{breaklines=true, tabsize=4, captionpos=b, basicstyle=\ttfamily, showstringspaces=false}
 
+%%% Characters that pdfLaTeX's fonts have no glyph for, such as emoji, need a
+%%% mapping, or the build stops with "Unicode character ... not set up for use
+%%% with LaTeX". The mapping works in text, code and tables. Packages
+%%% newunicodechar and twemojis are listed in user-pkgs.txt.
+\usepackage{newunicodechar}
+\usepackage{twemojis}
+\newunicodechar{🐎}{\twemoji{1f40e}}  % U+1F40E horse, in DMN's FEEL string examples
+
 %%% Support for tables that span across multiple pages
 %%% https://www.overleaf.com/learn/latex/Tables#Multi-page_tables
 \usepackage{longtable}

@@ -161,6 +161,9 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 ## Known limitations
 
 - Terms in Clause 4 put the definition on the same line as the term.
+- Characters without a glyph in pdfLaTeX's fonts, such as the emoji 🐎 that DMN uses
+  in FEEL string examples, need a one-line mapping in `_Specification_AuthorSettings.tex`
+  (see Clause 13).
 - Visual aspects (layout, figure rendering, page breaks in tables) are not checked
   automatically; use the checklist in Annex A.
 

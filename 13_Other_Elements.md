@@ -37,3 +37,39 @@ from a word processor or a PDF by mistake. Inline code may too:
 // copied from a PDF: “quoted” and ‘single-quoted’ text, an ellipsis …
 decision ‘Approve loan’ – status: “approved”
 ```
+
+## Characters outside the Basic Multilingual Plane
+
+Some characters lie outside Unicode's Basic Multilingual Plane, such as the
+horse 🐎 (U+1F40E). In UTF-16 they take two code units, but in FEEL they count
+as one character, so DMN uses the horse in its string function examples. They
+must appear in the PDF exactly as written, in text, in code, and in code inside
+tables: `string length("🐎ab") = 3`.
+
+```
+substring("🐎ab", 2) = "ab"
+string length("\U01F40Eab") = 3
+```
+
+###### Table: String functions with characters outside the Basic Multilingual Plane
+| Function                | Example                          |
+|-------------------------|----------------------------------|
+| `substring`             | `substring("🐎ab", 2) = "ab"`    |
+| `string length`         | `string length("🐎ab") = 3`      |
+
+Write such characters directly; GitHub shows them. The PDF is built with
+pdfLaTeX, whose fonts have no glyph for most of them, so the build stops with
+"Unicode character 🐎 (U+1F40E) not set up for use with LaTeX" until the
+specification declares how to print the character. One line in
+`_Specification_AuthorSettings.tex` does it for text, code and tables alike;
+this document prints the horse as an emoji image from the `twemojis` package:
+
+```latex
+\usepackage{newunicodechar}
+\usepackage{twemojis}
+\newunicodechar{🐎}{\twemoji{1f40e}}
+```
+
+The packages are listed in `user-pkgs.txt`, so that the build installs them.
+Never map such a character to nothing to make the build pass: the examples
+above would then silently become wrong.

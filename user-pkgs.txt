@@ -8,3 +8,5 @@
 # will be safely skipped.
 # Comments may be written like these, '#' at character 1 on each line.
 
+newunicodechar
+twemojis

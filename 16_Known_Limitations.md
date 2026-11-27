@@ -2,6 +2,9 @@
 
 - Terms in Clause 4 are formatted with the definition on the same line as
   the term. The LaTeX template example puts it on the next line.
+- Characters that pdfLaTeX's fonts have no glyph for, such as emoji, stop the
+  build until `_Specification_AuthorSettings.tex` maps them (see
+  [Characters outside the Basic Multilingual Plane](13_Other_Elements.md#characters-outside-the-basic-multilingual-plane)).
 - Code blocks are highlighted only for languages known to pandoc
   (`pandoc --list-highlight-languages`). Code in other languages, such as
   FEEL, is shown without highlighting.
