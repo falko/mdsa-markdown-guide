@@ -7,7 +7,7 @@
 %%%
 %%% These two lines, if uncommented, will remove the watermark and margin comments
 %%% to prepare your document for final formatting
-% \SetWatermarkText{}
+\SetWatermarkText{}
 % \setboolean{hidecomments}{true}
 
 %%%---------------------------------
@@ -35,13 +35,17 @@
 %%% in the NON-normative bibliography. Add bibliographic citation references to 
 %%% this list to have them appear in the normative bibliography instead.
 % \addtocategory{normative}{MOF25, MOF251, UML251, XMI, XMLSchema}
-\addtocategory{normative}{DMN16, UML251}
+\addtocategory{normative}{BMM, BPMN20, CQL, IEEE754, ISO8601, ISOEBNF, Java, ONNX, PMML,
+  RFC3986, SCE10, UML241, XBASE, XML, XSD2, XDM, XFO}
 
 %%% LaTeX will build your bibliography section from the references you cite in your
 %%% document. If you wish to include certain 'default' references without needing to 
 %%% explicitly find a place to add a \cite command, you may add them to the following
 %%% list instead.
 % \nocite{MOF25, MOF251, UML251, XMI, XMLSchema}
+%%% DMN lists all its references in Clause 3, also those it does not cite.
+\nocite{BMM, BPMN20, CQL, IEEE754, ISO8601, ISOEBNF, Java, ONNX, PMML, RFC3986, SCE10,
+  UML241, XBASE, XML, XSD2, XDM, XFO, JSON, PRR, RIF, SBVR, SQL, XPath}
 
 
 %%%---------------------------------
@@ -65,23 +69,47 @@
 \newunicodechar{🐎}{\twemoji{1f40e}}
 \lstset{literate={🐎}{{\twemoji{1f40e}}}1}
 
-%%% FEEL for listings: keywords from the lezer-feel grammar of bpmn.io (MIT),
-%%% https://github.com/nikku/lezer-feel. Code blocks marked ```feel use it.
-\lstdefinelanguage{FEEL}{
-  morekeywords={for,in,return,if,then,else,some,every,satisfies,and,or,between,
-    instance,of,function,external,null,true,false},
-  morekeywords=[2]{date,time,duration,days,years,months,context,list,not},
-  morecomment=[l]{//}, morecomment=[s]{/*}{*/},
-  morestring=[b]", sensitive=true}
-\lstset{keywordstyle=\bfseries, keywordstyle=[2]\itshape}
+%%% Subscripts and superscripts. The Markdown files write them as Unicode
+%%% characters (e₁, eₙ, 10⁻¹), which GitHub shows; pdfLaTeX prints them with
+%%% \textsubscript and \textsuperscript.
+\newunicodechar{₀}{\textsubscript{0}}
+\newunicodechar{₁}{\textsubscript{1}}
+\newunicodechar{₂}{\textsubscript{2}}
+\newunicodechar{₃}{\textsubscript{3}}
+\newunicodechar{₄}{\textsubscript{4}}
+\newunicodechar{₅}{\textsubscript{5}}
+\newunicodechar{₆}{\textsubscript{6}}
+\newunicodechar{₇}{\textsubscript{7}}
+\newunicodechar{₈}{\textsubscript{8}}
+\newunicodechar{₉}{\textsubscript{9}}
+\newunicodechar{₋}{\textsubscript{-}}
+\newunicodechar{ᵢ}{\textsubscript{i}}
+\newunicodechar{ⱼ}{\textsubscript{j}}
+\newunicodechar{ₖ}{\textsubscript{k}}
+\newunicodechar{ₘ}{\textsubscript{m}}
+\newunicodechar{ₙ}{\textsubscript{n}}
+\newunicodechar{⁰}{\textsuperscript{0}}
+\newunicodechar{⁴}{\textsuperscript{4}}
+\newunicodechar{⁵}{\textsuperscript{5}}
+\newunicodechar{⁶}{\textsuperscript{6}}
+\newunicodechar{⁷}{\textsuperscript{7}}
+\newunicodechar{⁸}{\textsuperscript{8}}
+\newunicodechar{⁹}{\textsuperscript{9}}
+\newunicodechar{⁻}{\textsuperscript{-}}
+\newunicodechar{⁽}{\textsuperscript{(}}
+\newunicodechar{⁾}{\textsuperscript{)}}
+\newunicodechar{ˢ}{\textsuperscript{s}}
 
-%%% Colors of DMN decision tables and boxed expressions (specification.lua):
-%%% suggested colors for the input, output and annotation clauses (DMN 8.2.1)
-%%% and for the names in boxed expressions (DMN 10.2.1).
-\definecolor{dmninput}{HTML}{C5D9F1}
-\definecolor{dmnoutput}{HTML}{F2DCDB}
-\definecolor{dmnannotation}{HTML}{EDEDED}
-\definecolor{dmnname}{HTML}{D7E4BD}
+%%% Mathematical and other symbols in the text
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≡}{\ensuremath{\equiv}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{▪}{\rule{0.5ex}{0.5ex}}
+%%% U+1F40 as in the Word source of DMN 1.7, where U+1F40E was meant
+\newunicodechar{ὀ}{\`{o}}
 
 %%% Support for tables that span across multiple pages
 %%% https://www.overleaf.com/learn/latex/Tables#Multi-page_tables

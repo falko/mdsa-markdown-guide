@@ -1,17 +1,15 @@
-This document describes how to write OMG specifications in Markdown with the
-Model Driven Specification Authoring (MDSA) build pipeline, and at the same
-time serves as its test suite.
+The primary goal of **DMN** is to provide a common notation that is readily
+understandable by all business users, from the business analysts needing to
+create initial decision requirements and then more detailed decision models, to
+the technical developers responsible for automating the decisions in processes,
+and finally, to the businesspeople who will manage and monitor those decisions.
+**DMN** creates a standardized bridge for the gap between the business decision
+design and decision implementation. **DMN** notation is designed to be usable
+alongside the standard **BPMN** business process notation.
 
-Every Markdown feature described here is also used in this document. If a
-feature does not work, the generated PDF shows it: a missing number, a "??"
-or a raw `@` reference. [Test checklist](A_Annexes.md#test-checklist) lists what to check.
+Another goal is to ensure that decision models are interchangeable across
+organizations via an XML representation.
 
-The document is a complete OMG specification built from the containerized
-version of the
-[MDSA specification template](https://github.com/ObjectManagementGroup/mdsa-omg-spec).
-Clauses 1, 4 and 5, each of Clauses 7 to 16, and Annex A are separate Markdown
-files. The other clauses are the template's LaTeX files. Specifications such as
-DMN [@DMN16] can use this setup for their own source.
-
-The pipeline itself is described in
-[Markdown in the MDSA Pipeline](07_Markdown_in_the_MDSA_Pipeline.md).
+The authors have brought forth expertise and experience from the existing
+decision modeling community and have sought to consolidate the common ideas from
+these divergent notations into a single standard notation.
