@@ -300,7 +300,8 @@ and automated decision-making.
 provides references to machine-readable files (XSD and XMI). The Annexes provide
 non-normative background information:
 
-- [Relation to BPMN](A_Annexes.md#relation-to-bpmn). discusses the relationship
-  between **DMN** and **BPMN**.
+- [Relation to BPMN (informative)](A_Annexes.md#relation-to-bpmn-informative).
+  discusses the relationship between **DMN** and **BPMN**.
 
-- [Glossary](A_Annexes.md#glossary). provides a glossary of terms.
+- [Glossary (informative)](A_Annexes.md#glossary-informative). provides a
+  glossary of terms.

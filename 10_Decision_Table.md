@@ -162,7 +162,7 @@ expressions. To avoid misinterpretation (e.g., when expressions are not meant to
 be valid (S-)FEEL but may conflict with the look and feel of (S-)FEEL syntax),
 conformant implementations SHOULD indicate when the input expression is not
 meant to be interpreted by using the URI:
-"https://www.omg.org/spec/DMN/uninterpreted/20140801["](http://www.omg.org/spec/DMN/uninterpreted/20140801).
+"https://www.omg.org/spec/DMN/uninterpreted/20140801".
 
 ### Line style and color
 
