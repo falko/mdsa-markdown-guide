@@ -116,6 +116,14 @@
 \usepackage{longtable}
 
 %%%---------------------------------
+%%% Numbering and table of contents as in DMN: headings are numbered down to
+%%% the sixth level (10.3.2.9.4.1), the table of contents lists three levels.
+%%% omg.sty inserts two levels (requirement, subrequirement) below subsection,
+%%% so \subparagraph, the sixth Markdown level, is level 7.
+\setcounter{secnumdepth}{7}
+\setcounter{tocdepth}{2}
+
+%%%---------------------------------
 %%% User added packages
 %%%
 %%% You may add any additional changes you like below this line
