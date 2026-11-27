@@ -1,10 +1,12 @@
-# Relation to BPMN (informative)
+# ANNEXES {-}
 
 All the Annexes are informative.
 
 [Relation to BPMN (informative)](#relation-to-bpmn-informative). discuss issues around the application of **DMN** in combination with **BPMN**. This section is intended to provide some direction to practitioners but is non-normative.
 
 [Glossary (informative)](#glossary-informative). provides a non-normative glossary to aid comprehension of the specification.
+
+# Relation to BPMN (informative)
 
 ## Goals of BPMN and DMN
 

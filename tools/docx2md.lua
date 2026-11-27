@@ -650,7 +650,7 @@ local function lettered_paras(list)
 end
 
 local function is_blank_page(b)
-  return (b.t == 'Para' or b.t == 'Plain') and stringify(b):match('^%s*This page intentionally left blank%.?%s*$')
+  return (b.t == 'Para' or b.t == 'Plain') and stringify(b):match('^%s*Th[ei]s? page intentionally left blank%.?%s*$')
 end
 
 process = function(blocks)
@@ -1299,14 +1299,11 @@ function Pandoc(doc)
           if n and notes[n] then return pandoc.Note({ notes[n] }) end
         end,
       }.blocks
-      -- the introduction ("All the Annexes are informative ...") goes into the
-      -- first annex
-      local intro = List()
-      while #body > 0 and not (body[1].t == 'Header' and body[1].level == 1) do intro:insert(body:remove(1)) end
-      if #body > 0 then
-        local first = body:remove(1)
-        body = List({ first }) .. intro .. body
-      end
+      -- the introduction ("All the Annexes are informative ...") stays under
+      -- the unnumbered heading "ANNEXES", as in DMN
+      local h = pandoc.Header(1, { pandoc.Str('ANNEXES') })
+      h.classes = { 'unnumbered' }
+      body = List({ h }) .. body
     else
       clause_no = clause_no + 1
       local name = clause_file(clause_no, title)
@@ -1348,7 +1345,9 @@ function Pandoc(doc)
           local num
           local nonum = unnumbered[unnumbered_next]
           nonum = nonum and nonum.level == level and nonum.text == trim(stringify(b):gsub('\u{00A0}', ' '))
-          if nonum then
+          if List(b.classes):includes('unnumbered') then
+            num = 'unnumbered-annexes'
+          elseif nonum then
             unnumbered_next = unnumbered_next + 1
             num = 'unnumbered-' .. unnumbered_next
           elseif in_annexes then
@@ -1367,7 +1366,7 @@ function Pandoc(doc)
           local inls = clean_inlines(b.content)
           -- headings such as "Decision Table " or "DMNShape [Class]"
           local h = pandoc.Header(level, inls)
-          if nonum then h.classes = { 'unnumbered' } end
+          if nonum or List(b.classes):includes('unnumbered') then h.classes = { 'unnumbered' } end
           local target = { kind = 'sec', file = file.name, level = level, header = h, title = inls:clone(), num = num }
           keyed(h, target)
           local ids = ids_in(b)

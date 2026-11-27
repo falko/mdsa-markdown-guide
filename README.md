@@ -156,23 +156,30 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 - Images become SVG files: SVG images are copied, PNG and JPEG images embedded
   in an SVG file. Figures that Word draws with tables or text boxes (boxed
   expressions) are cut from the PDF as vector graphics.
-- Sub- and superscripts become Unicode characters (e₁, 10⁻¹), lettered lists
+- Sub- and superscripts become Unicode characters (e₁, 10⁻¹), also those that
+  Word only sets in a smaller font (`tools/subscripts.py`), lettered lists
   paragraphs starting with the letter, the FEEL and S-FEEL grammars code blocks,
   and headings that are unnumbered in Word `{-}` headings.
 
 ### Differences from the Word PDF
 
-The PDF has the structure and content of the PDF made with Word: the same cover
-page, copyrights and notices, preface, clauses, headings and numbers, figures and
-tables with the same numbers and captions, and annexes. LaTeX sets the text, so
-lines and pages break differently (about 260 pages instead of 270), and:
+The PDF has the structure, content and page layout of the PDF made with Word:
+A4 pages with the same margins, line and paragraph spacing, footers, cover page,
+copyrights and notices, table of contents, preface, the same clauses, headings and
+numbers (Figure 6-1, Table 1 to Table 111), table captions above the tables, tables
+in a sans-serif font, a page "This page intentionally left blank." before each
+clause from Clause 5 on and before the annexes, and the same text. Checked
+against `DMN_1.7_SOURCE.pdf`: all 271 numbered headings and all figure and table
+captions match, and the clauses start within a few pages of where they start
+there. Differences:
 
-- References are formatted by biblatex.
+- LaTeX breaks lines and pages differently from Word. The PDF has 258 pages
+  instead of 270, most of the difference in the glossary (Annex B), whose table
+  rows Word makes much higher than their text.
+- Tables have the rules of the template instead of a grid, and references are
+  formatted by biblatex.
 - The text of the boxed expressions cut from the Word PDF (Figures 10-4 to 10-11,
   10-13 to 10-15 and 10-28) is part of the image.
-- Word numbers two tables "Table 111"; the second, "BPMN tasks relevant to DMN"
-  in Annex A, is Table 112.
-- The pages "This page intentionally left blank" are left out.
 
 ## Continuous build
 
@@ -241,6 +248,6 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 | `Images/` | SVG figures |
 | `Specification_Template.tex`, `omgLaTeX.yaml` | DMN's versions of the template and Pandoc settings of `mdsa-omg-core` |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
-| `tools/` | Conversion of the Word source: `convert.sh`, `docx2md.lua`, `images.py`, `unnumbered.py` |
+| `tools/` | Conversion of the Word source: `convert.sh`, `docx2md.lua`, `images.py`, `subscripts.py`, `unnumbered.py` |
 | `guide/` | The guide to writing OMG specifications in Markdown, with its own figure (not built) |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |

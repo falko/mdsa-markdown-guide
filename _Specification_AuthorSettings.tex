@@ -88,6 +88,18 @@
 \newunicodechar{ₖ}{\textsubscript{k}}
 \newunicodechar{ₘ}{\textsubscript{m}}
 \newunicodechar{ₙ}{\textsubscript{n}}
+\newunicodechar{ₐ}{\textsubscript{a}}
+\newunicodechar{ₑ}{\textsubscript{e}}
+\newunicodechar{ₕ}{\textsubscript{h}}
+\newunicodechar{ₗ}{\textsubscript{l}}
+\newunicodechar{ₒ}{\textsubscript{o}}
+\newunicodechar{ₚ}{\textsubscript{p}}
+\newunicodechar{ᵣ}{\textsubscript{r}}
+\newunicodechar{ₛ}{\textsubscript{s}}
+\newunicodechar{ₜ}{\textsubscript{t}}
+\newunicodechar{ᵤ}{\textsubscript{u}}
+\newunicodechar{ᵥ}{\textsubscript{v}}
+\newunicodechar{ₓ}{\textsubscript{x}}
 \newunicodechar{⁰}{\textsuperscript{0}}
 \newunicodechar{⁴}{\textsuperscript{4}}
 \newunicodechar{⁵}{\textsuperscript{5}}
@@ -153,6 +165,24 @@
 %%% so \subparagraph, the sixth Markdown level, is level 7.
 \setcounter{secnumdepth}{7}
 \setcounter{tocdepth}{2}
+
+%%%---------------------------------
+%%% Page as in DMN: A4, text 0.75in from the sides and 40pt from the top, footer
+%%% 45pt from the bottom, no header
+\geometry{a4paper, left=53.6pt, right=53.6pt, top=40pt, bottom=67pt,
+  footskip=26pt, headheight=0pt, headsep=0pt, marginparwidth=40pt}
+
+%%%---------------------------------
+%%% Line and paragraph spacing as in DMN (baselines 12.3pt apart, 11pt between
+%%% paragraphs)
+\linespread{1.025}
+\setlength{\parskip}{11pt plus 2pt minus 1pt}
+
+%%%---------------------------------
+%%% Table rows with space around the text, as the table cells in DMN
+\renewcommand{\arraystretch}{1.6}
+%%% Tables are set in a sans-serif font, as in DMN (Arial)
+\AtBeginEnvironment{longtable}{\sffamily\small}
 
 %%%---------------------------------
 %%% SVG images are converted with the area of their page, not of their drawing,
