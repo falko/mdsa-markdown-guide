@@ -39,7 +39,5 @@ Check the generated PDF:
    heading in the PDF.
 10. On GitHub, no file shows `{#` anywhere, and every list and heading
     in GitHub's preview is also a list or heading in the PDF.
-11. The code examples in [Code listings](13_Other_Elements.md#code-listings) show
-    their curly quotes, dashes and ellipsis.
-12. The horse 🐎 is shown in the text, inline code, code block and table of
+11. The horse 🐎 is shown in the text, inline code, code block and table of
     [Characters outside the Basic Multilingual Plane](13_Other_Elements.md#characters-outside-the-basic-multilingual-plane).

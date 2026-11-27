@@ -19,8 +19,9 @@ written like this.[^note]
 
 ## Code listings
 
-Fenced code blocks become code listings. With a language after the opening
-backticks, the code is highlighted, here as `xml`:
+Fenced code blocks become code listings, formatted with the LaTeX `listings`
+package as in the OMG LaTeX templates. With a language known to `listings`
+after the opening backticks, the code is highlighted, here as `xml`:
 
 ```xml
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/">
@@ -28,15 +29,13 @@ backticks, the code is highlighted, here as `xml`:
 </definitions>
 ```
 
-Code is formatted by pandoc, not by the LaTeX `listings` package, so it may
-contain characters such as curly quotes or dashes, which are often pasted in
-from a word processor or a PDF by mistake. Inline code may too:
-`name = ‘Decision 1’ – draft`.
-
-```
-// copied from a PDF: “quoted” and ‘single-quoted’ text, an ellipsis …
-decision ‘Approve loan’ – status: “approved”
-```
+Code, in code blocks and in inline code, may contain only ASCII characters.
+Word processors replace straight quotes with curly ones, `--` with a dash and
+`->` with an arrow as you type, and copying code from Word or PDF documents
+brings these characters along. In code they are errors. The build reports each
+one with its file and line, and the character to write instead, e.g.
+"code contains ’ (U+2019) ...; write ' instead", and then stops. Curly quotes
+and dashes in normal text are fine.
 
 ## Characters outside the Basic Multilingual Plane
 
@@ -58,16 +57,18 @@ string length("\U01F40Eab") = 3
 | `string length`         | `string length("🐎ab") = 3`      |
 
 Write such characters directly; GitHub shows them. The PDF is built with
-pdfLaTeX, whose fonts have no glyph for most of them, so the build stops with
-"Unicode character 🐎 (U+1F40E) not set up for use with LaTeX" until the
-specification declares how to print the character. One line in
-`_Specification_AuthorSettings.tex` does it for text, code and tables alike;
-this document prints the horse as an emoji image from the `twemojis` package:
+pdfLaTeX, whose fonts have no glyph for most of them. Until the specification
+declares how to print such a character, the build stops with "Unicode character
+🐎 (U+1F40E) not set up for use with LaTeX" in text and "Invalid UTF-8 byte
+sequence" in code. Declare it in `_Specification_AuthorSettings.tex`, once for
+text and once for code; this document prints the horse as an emoji image from
+the `twemojis` package:
 
 ```latex
 \usepackage{newunicodechar}
 \usepackage{twemojis}
-\newunicodechar{🐎}{\twemoji{1f40e}}
+\newunicodechar{🐎}{\twemoji{1f40e}}           % text
+\lstset{literate={🐎}{{\twemoji{1f40e}}}1}     % code
 ```
 
 The packages are listed in `user-pkgs.txt`, so that the build installs them.

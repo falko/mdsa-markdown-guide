@@ -146,9 +146,9 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
   tables, `make check`, and reading Markdown the way GitHub does (heading anchors,
   links to headings, lists and headings without blank lines); in a second step, zero-padded clause file names and the
   automatic inclusion of the clause files from Clause 7 on (older specifications with
-  unpadded names keep working). Also: code formatted by pandoc instead of the LaTeX
-  `listings` package, so that non-ASCII characters in code do not break the build,
-  and annotations in GitHub Actions.
+  unpadded names keep working). Also: typographic characters in code (curly quotes,
+  dashes, copied from Word or PDF) reported with file and line, and annotations in
+  GitHub Actions.
 - [Pull requests to mdsa-omg-spec](https://github.com/ObjectManagementGroup/mdsa-omg-spec/pulls?q=is%3Apr+author%3Afalko):
   `mdsa-omg-core` submodule from the OMG repository; zero-padded clause file names.
 - To follow for `containerized-spec` (already applied here in `Dockerfile` and
@@ -162,8 +162,8 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 
 - Terms in Clause 4 put the definition on the same line as the term.
 - Characters without a glyph in pdfLaTeX's fonts, such as the emoji 🐎 that DMN uses
-  in FEEL string examples, need a one-line mapping in `_Specification_AuthorSettings.tex`
-  (see Clause 13).
+  in FEEL string examples, need a mapping in `_Specification_AuthorSettings.tex`, one
+  line for text and one for code (see Clause 13).
 - Visual aspects (layout, figure rendering, page breaks in tables) are not checked
   automatically; use the checklist in Annex A.
 

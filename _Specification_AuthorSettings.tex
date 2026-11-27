@@ -51,15 +51,19 @@
 %%% Source code listings, with useful defaults
 %%% https://www.overleaf.com/learn/latex/Code_listing#Using_listings_to_highlight_code
 \usepackage{listings}
-\lstset{breaklines=true, tabsize=4, captionpos=b, basicstyle=\ttfamily, showstringspaces=false}
+\lstset{breaklines=true, tabsize=4, captionpos=b, basicstyle=\ttfamily, showstringspaces=false, keepspaces=true}
 
 %%% Characters that pdfLaTeX's fonts have no glyph for, such as emoji, need a
 %%% mapping, or the build stops with "Unicode character ... not set up for use
-%%% with LaTeX". The mapping works in text, code and tables. Packages
-%%% newunicodechar and twemojis are listed in user-pkgs.txt.
+%%% with LaTeX" in text and "Invalid UTF-8 byte sequence" in code. Each character
+%%% is declared twice: with \newunicodechar for text, and with the literate
+%%% option of listings for code. Packages newunicodechar and twemojis are listed
+%%% in user-pkgs.txt.
 \usepackage{newunicodechar}
 \usepackage{twemojis}
-\newunicodechar{🐎}{\twemoji{1f40e}}  % U+1F40E horse, in DMN's FEEL string examples
+%%% U+1F40E horse, in DMN's FEEL string examples
+\newunicodechar{🐎}{\twemoji{1f40e}}
+\lstset{literate={🐎}{{\twemoji{1f40e}}}1}
 
 %%% Support for tables that span across multiple pages
 %%% https://www.overleaf.com/learn/latex/Tables#Multi-page_tables
