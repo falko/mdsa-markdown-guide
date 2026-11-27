@@ -151,6 +151,8 @@ not resolve) to `convert.log`. It writes the Markdown as the guide asks for:
 The PDF has the content of the PDF made with Word, in the layout of the OMG
 template:
 
+- The cover page and its "Submitted by:" list come from the template; it shows
+  "Beta 1" and "Version 1.7" on two lines.
 - The template always has Clause 4 "Terms and Definitions" and Clause 5
   "Symbols", which DMN does not have, so DMN Clauses 5 to 14 are Clauses 7 to 16,
   and "Additional information" is Clause 6. All references show the new numbers.
