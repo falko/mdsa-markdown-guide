@@ -28,5 +28,5 @@ python3 "$root/tools/subscripts.py" "$docx" "$work/source.docx"
   pandoc -f docx+styles source.docx --extract-media=. -L "$root/tools/docx2md.lua" -t plain -o /dev/null)
 
 echo "--- Images"
-python3 "$root/tools/images.py" "$work/images.tsv" "$work" "$pdf" "$out"
+python3 "$root/tools/images.py" "$work/images.tsv" "$work" "$pdf" "$out" "$docx"
 echo "--- Done: $(ls "$out"/Images/*.svg | wc -l | tr -d ' ') images, notes in $out/convert.log"

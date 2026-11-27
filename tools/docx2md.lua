@@ -608,7 +608,42 @@ local function make_crop_figure(t, cap, ids)
   return pandoc.Para({ pandoc.Image({ pandoc.Str(text) }, src) })
 end
 
+-- The glossary (Annex B) is a table of terms, grouped by letter: it becomes a
+-- definition list, with the letters as bold paragraphs
+local function is_glossary(t)
+  if #t.colspecs ~= 2 then return false end
+  local first = t.head.rows[1] and t.head.rows[1].cells[1]
+  return first and trim(stringify(first.contents)):match('^%u$') ~= nil
+end
+
+local function glossary(t)
+  local out = List()
+  local items = List()
+  local function flush()
+    if #items > 0 then out:insert(pandoc.DefinitionList(items)); items = List() end
+  end
+  local rows = List()
+  rows:extend(t.head.rows)
+  for _, b in ipairs(t.bodies) do rows:extend(b.body) end
+  for _, r in ipairs(rows) do
+    local term = cell_inlines(r.cells[1] and r.cells[1].contents or {})
+    local def = r.cells[2] and r.cells[2].col_span == 1 and cell_inlines(r.cells[2].contents) or List()
+    local letter = stringify(term)
+    if #def == 0 and trim(letter):match('^%u$') then
+      flush()
+      out:insert(pandoc.Para({ pandoc.Strong({ pandoc.Str(trim(letter)) }) }))
+    elseif #term > 0 then
+      local plain = pandoc.Pandoc({ pandoc.Plain(term) }):walk{ Strong = function(x) return x.content end }.blocks[1].content
+      items:insert({ plain, { { pandoc.Para(def) } } })
+    end
+  end
+  flush()
+  log('glossary', #rows)
+  return out
+end
+
 local function make_table(t, cap, ids)
+  if not cap and is_glossary(t) then return glossary(t) end
   local out = List()
   local res = simple_table(t)
   if cap then
@@ -694,10 +729,31 @@ process = function(blocks)
         out:insert(make_figure(img2, caption_of(blocks[i + 2]), List()))
         i = i + 3
       else
-        -- "Table N: ..." caption above an image of a table
-        local last = out[#out]
-        if last and last.t == 'Para' and last.attributes == nil and last._pending_caption then end
-        out:insert(make_figure(img, nil, ids_in(b))); i = i + 1
+        -- an image without caption that Word places next to the captioned
+        -- figure after it: one figure with both images side by side
+        local fig2, cap2
+        if nextb and nextb.t == 'Figure' then
+          local kind, num, rest = split_caption(pandoc.utils.blocks_to_inlines(nextb.caption.long))
+          if kind == 'Figure' then
+            nextb:walk{ Image = function(x) fig2 = fig2 or x end }
+            cap2 = { kind = kind, num = num, inlines = rest, ids = ids_in(nextb) }
+          end
+        end
+        local function inch(x) return tonumber((x or ''):match('^([%d.]+)in$')) end
+        -- (an image that Word floats has no size in the document)
+        if fig2 and inch(fig2.attributes.width)
+            and (inch(img.attributes.width) or 0) + inch(fig2.attributes.width) <= 6.8 then
+          log('side-by-side', current.file, caption_text(cap2.inlines))
+          local para = make_figure(fig2, cap2, ids_in(nextb))
+          local src = para.content[1].src
+          local entry = entries_by_src[src]
+          entry[1] = 'combine'
+          entry[6] = img.src .. '|' .. (img.attributes.width or '') .. '|' .. (img.attributes.height or '')
+          out:insert(para)
+          i = i + 2
+        else
+          out:insert(make_figure(img, nil, ids_in(b))); i = i + 1
+        end
       end
     elseif b.t == 'Table' then
       local kind, num, rest = split_caption(pandoc.utils.blocks_to_inlines(b.caption.long))
@@ -1106,7 +1162,7 @@ local WRITER_EXT = table.concat({
   '+header_attributes', '-link_attributes', '-fenced_divs', '-bracketed_spans', '-native_divs',
   '-native_spans', '-raw_html', '-raw_attribute', '-inline_code_attributes', '-fenced_code_attributes',
   '-smart', '-subscript', '-superscript', '-inline_notes', '-example_lists', '-implicit_figures',
-  '-escaped_line_breaks', '-line_blocks', '-definition_lists',
+  '-escaped_line_breaks', '-line_blocks',
 }, '')
 
 local READER_EXT = 'markdown+gfm_auto_identifiers+lists_without_preceding_blankline-blank_before_header-blank_before_blockquote+autolink_bare_uris+alerts'
