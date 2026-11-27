@@ -22,7 +22,8 @@ work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
 echo "--- Markdown"
-(cd "$work" && OUT="$out" MANIFEST="$work/images.tsv" LOG="$out/convert.log" \
+python3 "$root/tools/unnumbered.py" "$docx" > "$work/unnumbered.tsv"
+(cd "$work" && OUT="$out" MANIFEST="$work/images.tsv" LOG="$out/convert.log" UNNUMBERED="$work/unnumbered.tsv" \
   pandoc -f docx+styles "$docx" --extract-media=. -L "$root/tools/docx2md.lua" -t plain -o /dev/null)
 
 echo "--- Images"

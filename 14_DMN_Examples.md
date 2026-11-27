@@ -110,13 +110,13 @@ The DRG depicted in these DRDs shows dependencies between the following decision
 
 Questions and allowed answers are specified for these decisions. These are typically used when modeling decisions for which no logic will be specified and for other decisions before it is appropriate to describe the decision logic in detail. The description and Question/Allowed Answers for each decision follow.
 
-#### Adjudication
+#### Adjudication {-}
 
 Question: Should this application that has been referred for adjudication be accepted? Allowed Answers: Yes/No
 
 Description: Determine if an application requiring adjudication should be accepted or declined given the available application data and supporting documents.
 
-#### Application risk score
+#### Application risk score {-}
 
 Question: What is the risk score for this applicant?
 
@@ -124,13 +124,13 @@ Allowed Answers: A number greater than 70 and less than 150
 
 Description: The **Application Risk Score** decision logic invokes the Application risk score model business knowledge model, passing Applicant data.Age as the Age parameter, Applicant data.MaritalStatus as the Marital Status parameter and Applicant data.EmploymentStatus as the Employment Status parameter.
 
-#### Bureau call type
+#### Bureau call type {-}
 
 Question: How much data should be requested from the credit bureau for this application? Allowed Answers: A value from the explicit list "Full", "Mini", "None"
 
 Description: The **Bureau call type** decision logic invokes the Bureau call type table, passing the output of the Prebureau risk category decision as the Pre-Bureau Risk Category parameter.
 
-#### Eligibility
+#### Eligibility {-}
 
 Question: Does this applicant appear eligible for the loan they applied for given only their application data? Allowed Answers: Value from the explicit list "Eligible", "Not Eligible"
 
@@ -138,7 +138,7 @@ Description: The **Eligibility** decision logic invokes the Eligibility rules bu
 
 Applicant data.Age as the Age parameter, the output of the Pre-bureau risk category decision as the Pre-Bureau Risk Category parameter, and the output of the Pre-bureau affordability decision as the Pre-Bureau Affordability parameter.
 
-#### Pre-bureau affordability
+#### Pre-bureau affordability {-}
 
 Question: Can the applicant afford the loan they applied for given only their application data?
 
@@ -146,7 +146,7 @@ Allowed Answers: Yes/No
 
 Description: The **Pre-bureau affordability** decision logic invokes the Affordability calculation business knowledge model, passing Applicant data.Monthly.Income as the Monthly Income parameter, Applicant data.Monthly.Repayments as the Monthly Repayments parameter, Applicant data.Monthly.Expenses as the Monthly Expenses parameter, the output of the Pre-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
-#### Post-bureau affordability
+#### Post-bureau affordability {-}
 
 Question: Can the applicant afford the loan they applied for given all available data?
 
@@ -156,7 +156,7 @@ Description: The **Post-bureau affordability** decision logic invokes the Afford
 
 data.Monthly.Repayments as the Monthly Repayments parameter, Applicant data.Monthly.Expenses as the Monthly Expenses parameter, the output of the Post-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
-#### Pre-bureau risk category
+#### Pre-bureau risk category {-}
 
 Question: Which risk category is most appropriate for this applicant given only their application data?
 
@@ -164,7 +164,7 @@ Allowed Answers: Value from explicit list "Decline", "High Risk", "Medium Risk",
 
 Description: The Pre-Bureau Risk Category decision logic invokes the Pre-bureau risk category table business knowledge model, passing Applicant data.ExistingCustomer as the Existing Customer parameter and the output of the Application risk score decision as the Application Risk Score parameter.
 
-#### Post-bureau risk category
+#### Post-bureau risk category {-}
 
 Question: Which risk category is most appropriate for this applicant given all available data?
 
@@ -172,13 +172,13 @@ Allowed Answers: A value from the explicit list "Decline", "High Risk", "Medium 
 
 Description: The **Post-bureau risk category** decision logic invokes the Post-bureau risk category business knowledge model, passing Applicant data.ExistingCustomer as the Existing Customer parameter, Bureau data.CreditScore as the Credit Score parameter, and the output of the Application risk score decision as the Application Risk Score parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Credit Score parameter will be null.
 
-#### Required monthly installment
+#### Required monthly installment {-}
 
 Question: What is the minimum monthly installment payment required for this loan product? Allowed Answers: A dollar amount greater than zero
 
 Description: The **Required monthly installment** decision logic invokes the Installment calculation business knowledge model, passing Requested product.ProductType as the Product Type parameter, Requested product.Rate as the Rate parameter, Requested product.Term as the Term parameter, and Requested product.Amount as the Amount parameter.
 
-#### Routing
+#### Routing {-}
 
 Question: How this should this applicant be routed given all available data?
 
@@ -190,7 +190,7 @@ Bankrupt as the Bankrupt parameter, Bureau data. Credit Score as the Credit Scor
 
 THROUGH strategy bypassing the Collect bureau data task) the Bankrupt and Credit Score parameters will be null.
 
-#### Strategy
+#### Strategy {-}
 
 Question: What is the appropriate handling strategy for this application?
 
@@ -202,29 +202,29 @@ Description: The **Strategy** decision logic defines a complete, unique-hit deci
 
 The DRG contains the following Knowledge Sources:
 
-#### Affordability spreadsheet
+#### Affordability spreadsheet {-}
 
 Description: Internal spreadsheet showing the relationship of income, payments, expenses, risk, and affordability.
 
 Type: Policy
 
-#### Credit officer experience
+#### Credit officer experience {-}
 
 Description: The collected wisdom of the credit officers as collected in their best practice wiki. Type: Expertise
 
-#### Credit risk analytics
+#### Credit risk analytics {-}
 
 Description: Credit risk scorecard analysis to determine the relevant factors for application risk scoring
 
 Type: Analytic Insight
 
-#### Product specification
+#### Product specification {-}
 
 Description: Definitions of the products, their cost structure and eligibility criteria.
 
 Type: Policy
 
-#### Risk management strategy
+#### Risk management strategy {-}
 
 Description: Overall risk management approach for the financial institution including its approach to application risk, credit contingencies and credit risk scoring.
 
@@ -234,7 +234,7 @@ Type: Policy
 
 The DRG contains the following Input Data:
 
-#### Applicant data
+#### Applicant data {-}
 
 Description: Information about the applicant including personal information, marital status, and household income/expenses.
 
@@ -250,7 +250,7 @@ Description: Information about historical loan defaults.
 
 Description: Details of the loan the applicant has applied for.
 
-#### Supporting documents
+#### Supporting documents {-}
 
 Description: Documents associated with a loan that are not processed electronically but are available for manual adjudication.
 
@@ -258,23 +258,23 @@ Description: Documents associated with a loan that are not processed electronica
 
 Finally, the DRG contains the following Business Knowledge Models:
 
-#### Eligibility rules
+#### Eligibility rules {-}
 
 Description: The Eligibility rules decision logic defines a complete, priority-ordered single hit decision table deriving Eligibility from Pre-Bureau Risk Category, Pre-Bureau Affordability and Age.
 
-#### Routing rules
+#### Routing rules {-}
 
 Description: The Routing Rules decision logic defines a complete, priority-ordered single hit decision table deriving Routing from Post-Bureau Risk Category, Post-Bureau Affordability, Bankrupt and Credit Score.
 
-#### Bureau call type table
+#### Bureau call type table {-}
 
 Description: The Bureau call type table decision logic defines a complete, unique-hit decision table deriving Bureau Call Type from Pre-Bureau Risk Category.
 
-#### Credit contingency factor table
+#### Credit contingency factor table {-}
 
 Description: The Credit contingency factor table decision logic defines a complete, unique-hit decision table deriving Credit contingency factor from Risk Category.
 
-#### Affordability calculation
+#### Affordability calculation {-}
 
 Description: The Affordability calculation decision logic defines a boxed function deriving Affordability from Monthly Income, Monthly Repayments, Monthly Expenses and Required Monthly Installment. One step in this calculation derives Credit contingency factor by invoking the Credit contingency factor table business.
 
@@ -282,19 +282,19 @@ Description: The Affordability calculation decision logic defines a boxed functi
 
 Description: The Pre-bureau risk category table decision logic defines a complete, unique-hit decision table deriving Pre- bureau risk category from Existing Customer and Application Risk Score.
 
-#### Post-bureau risk category table
+#### Post-bureau risk category table {-}
 
 Description: The Post-bureau risk category table decision logic defines a complete, unique-hit decision table deriving Post-Bureau Risk Category from Existing Customer, Application Risk Score and Credit Score.
 
-#### Application risk score model
+#### Application risk score model {-}
 
 Description: The Application risk score model decision logic defines a complete, no-order multiple-hit table with aggregation, deriving Application risk score from Age, Marital Status and Employment Status, as the sum of the Partial scores of all matching rows (this is therefore a predictive scorecard represented as a decision table).
 
-#### Installment calculation
+#### Installment calculation {-}
 
 Description: The Installment calculation decision logic defines a boxed function deriving monthly installment from Product Type, Rate, Term and Amount.
 
-#### Financial.PMT
+#### Financial.PMT {-}
 
 Description: Standard calculation of monthly installment from Rate, Term and Amount.
 
