@@ -23,6 +23,7 @@ should use standard Markdown wherever possible:
 | Headings                         | `# Title`                        | as in the PDF, unnumbered    |
 | Figures                          | `![Caption](file.svg)`           | image, without caption       |
 | Tables                           | pipe tables                      | as in the PDF                |
+| Tables with merged cells         | HTML table, Markdown in cells    | as in the PDF                |
 | Table captions                   | `###### Table: Caption`          | small heading above table    |
 | Links to sections, tables        | `[Title](File.md#anchor)`        | link (PDF: number)           |
 | Links to figures                 | `[Caption](Images/file.svg)`     | link (PDF: number)           |
@@ -31,6 +32,9 @@ should use standard Markdown wherever possible:
 | Notes                            | `> [!NOTE]`                      | note box                     |
 | Definition lists (Clause 4)      | `Term` and `: Definition`        | one paragraph                |
 | Code                             | fenced code blocks               | as in the PDF                |
+| Math                             | `$e_1 + e_2$`                    | as in the PDF                |
+| Grammar rules                    | numbered list with anchors       | alternatives i, ii, iii      |
+| DMN decision tables              | HTML table, `<colgroup>`         | grid, no double lines        |
 
 > [!NOTE]
 > This is a note written with GitHub's syntax for notes. The PDF shows it as a
@@ -51,3 +55,21 @@ Avoid the following, because GitHub and the PDF show them differently:
   there, and the escaped form shows the backslash in the PDF. Describe such
   code in the text instead.
 - LaTeX commands in the text, such as `\newpage`: GitHub shows them as typed.
+
+## Further documentation
+
+- GitHub's Markdown:
+  [basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax),
+  [tables](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables),
+  [code blocks](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks),
+  [mathematical expressions](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions),
+  and the [GitHub Flavored Markdown specification](https://github.github.com/gfm/).
+- Pandoc's Markdown, which the build reads:
+  [Pandoc User's Guide](https://pandoc.org/MANUAL.html#pandocs-markdown), and
+  [pandoc-crossref](https://lierdakil.github.io/pandoc-crossref/) for references
+  to figures and tables written as `@fig:...` and `@tbl:...`.
+- Math notation between `$` signs is LaTeX math:
+  [LaTeX/Mathematics](https://en.wikibooks.org/wiki/LaTeX/Mathematics).
+- For specification-specific LaTeX settings: the
+  [listings](https://ctan.org/pkg/listings) package (code) and the
+  [tabularray](https://ctan.org/pkg/tabularray) package (tables).

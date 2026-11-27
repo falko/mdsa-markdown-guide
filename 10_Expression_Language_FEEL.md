@@ -84,7 +84,7 @@ The box labeled 'invoked business knowledge model' can be any boxed expression w
 
 ![Boxed invocation](Images/boxed-invocation-2.svg)
 
-The boxed syntax maps to the textual syntax defined by grammar rules 38, 39, 40, 41. Boxed invocation uses named parameters. Positional invocation can be achieved using a boxed expression containing a textual positional invocation.
+The boxed syntax maps to the textual syntax defined by grammar [function invocation](#rule-function-invocation), [parameters](#rule-parameters), [named parameters](#rule-named-parameters), [parameter name](#rule-parameter-name). Boxed invocation uses named parameters. Positional invocation can be achieved using a boxed expression containing a textual positional invocation.
 
 The boxed syntax requires at least one parameter. A parameterless function must be invoked using the textual syntax, e.g., as shown in [Parameterless function](Images/parameterless-function.svg).
 
@@ -226,14 +226,29 @@ Ranges and lists of ranges appear in decision table input entry, input value, an
 
 ###### Table: FEEL range comparisons
 
-| **FEEL Expression**                                           | **Value** |
-|---------------------------------|---------------------------------------|
-| 5 in (\<=5 )                                                  | true      |
-| 5 in ( (5..10\] )                                             | false     |
-| 5 in ( \[5..10\] )                                            | true      |
-| 5 in (4, 5, 6)                                                | true      |
-| 5 in (\<5, \>5)                                               | false     |
-| ***2012-12-31*** in ( (***2012-12-*** ***25..2013-02-14***) ) | true      |
+<table>
+<tr><th>
+
+FEEL Expression
+
+</th><th>
+
+Value
+
+</th></tr>
+<tr><td>5 in (&lt;=5 )</td><td>true</td></tr>
+<tr><td>5 in ( (5..10] )</td><td>false</td></tr>
+<tr><td>5 in ( [5..10] )</td><td>true</td></tr>
+<tr><td>5 in (4, 5, 6)</td><td>true</td></tr>
+<tr><td>5 in (&lt;5, &gt;5)</td><td>false</td></tr>
+<tr><td>
+
+***2012-12-31*** in ( (***2012-12-***
+
+***25..2013-02-14***) )
+
+</td><td>true</td></tr>
+</table>
 
 #### Numbers
 
@@ -241,7 +256,7 @@ FEEL numbers and calculations are exemplified in [FEEL numbers and calculations]
 
 ###### Table: FEEL numbers and calculations
 
-| **FEEL Expression** | **Value**                            |
+| FEEL Expression     | Value                                |
 |---------------------|--------------------------------------|
 | decimal(1, 2)       | 1.00                                 |
 | .25 + .2            | 0.45                                 |
@@ -275,15 +290,15 @@ The grammar rules use the ISO EBNF notation. Each rule defines a non-terminal sy
 
 ###### Table: EBNF notation
 
-| **Example** | **Meaning**                                   |
-|-------------|-----------------------------------------------|
-| *S = S₁ ;*  | Symbol *S* is defined in terms of symbol *S₁* |
-| *S₁ \| S₂*  | Either *S₁*or *S₂*                            |
-| *S₁, S₂*    | *S₁* followed by *S₂*                         |
-| *\[S₁\]*    | *S₁* occurring 0 or 1 time                    |
-| *{S₁}*      | *S₁* repeated 0 or more times                 |
-| *k \* S₁*   | *S₁* repeated k times                         |
-| "and"       | literal terminal symbol                       |
+| Example    | Meaning                                       |
+|------------|-----------------------------------------------|
+| *S = S₁ ;* | Symbol *S* is defined in terms of symbol *S₁* |
+| *S₁ \| S₂* | Either *S₁*or *S₂*                            |
+| *S₁, S₂*   | *S₁* followed by *S₂*                         |
+| *\[S₁\]*   | *S₁* occurring 0 or 1 time                    |
+| *{S₁}*     | *S₁* repeated 0 or more times                 |
+| *k \* S₁*  | *S₁* repeated k times                         |
+| "and"      | literal terminal symbol                       |
 
 We extend the ISO notation with character ranges for brevity, as follows:
 
@@ -305,138 +320,114 @@ Note that the character range that includes all Unicode characters is *\[\\u0-\\
 
 #### Grammar rules
 
-The complete FEEL grammar is specified below. Grammar rules are numbered, and in some cases, alternatives are lettered, for later reference. Boxed expression syntax (rule 53) is used to give execution semantics to boxed expressions.
+The complete FEEL grammar is specified below. Grammar rules are numbered, and in some cases, alternatives are lettered, for later reference. Boxed expression syntax ([boxed expression](#rule-boxed-expression)) is used to give execution semantics to boxed expressions.
 
-    1. expression =
-       a. boxed expression |
-       b. textual expression ;
-    2. textual expression =
-       a. for expression | if expression | quantified expression |
-       b. disjunction |
-       c. conjunction |
-       d. comparison |
-       e. arithmetic expression |
-       f. instance of |
-       g. path expression | descendant expression | filter expression | function invocation |
-       h. literal | simple positive unary test | name | "(" , expression , ")" ;
-    3. textual expressions = textual expression , { "," , textual expression } ;
-    4. arithmetic expression =
-       a. addition | subtraction |
-       b. multiplication | division |
-       c. exponentiation |
-       d. arithmetic negation ;
-    5. simple expression = arithmetic expression | simple value ;
-    6. simple expressions = simple expression , { "," , simple expression } ;
-    7. simple positive unary test =
-       a. ( "<" | "<=" | ">" | ">=" | "=" | "!=" ) , endpoint |
-       b. interval ;
-    8. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
-    9. open interval start = "(" | "]" ;
-    10. closed interval start = "[" ;
-    11. open interval end = ")" | "[" ;
-    12. closed interval end = "]" ;
-    13. positive unary test = expression ;
-    14. positive unary tests = positive unary test , { "," , positive unary test } ;
-    15. unary tests =
-        a. positive unary tests |
-        b. "not", " (", positive unary tests, ")" |
-        c. "-"
-    16. endpoint = expression ;
-    17. simple value = qualified name | simple literal ;
-    18. qualified name = name , { "." , name } ;
-    19. addition = expression , "+" , expression ;
-    20. subtraction = expression , "-" , expression ;
-    21. multiplication = expression , "*" , expression ;
-    22. division = expression , "/" , expression ;
-    23. exponentiation = expression, "**", expression ;
-    24. arithmetic negation = "-" , expression ;
-    25. name = name start , { name part | additional name symbols } ;
-    26. name start = name start char, { name part char } ;
-    27. name part = name part char , { name part char } ;
-    28. name start char = "?" | [A-Z] | "_" | [a-z] | [\uC0-\uD6] | [\uD8-\uF6] | [\uF8-\u2FF] | [\u370-\u37D] | [\u37F-\u1FFF] |
-
-> \[\\u200C-\\u200D\] \| \[\\u2070-\\u21 8F\] \| \[\\u2C00-\\u2FEF\] \| \[\\u3001 -\\uD7FF\] \| \[\\uF900-\\uFDCF\] \| \[\\uFDF0-\\uFFFD\] \| \[\\u10000-\\uEFFFF\] ;
-
-    29. name part char = name start char | digit | \uB7 | [\u0300-\u036F] | [\u203F-\u2040] ;
-    30. additional name symbols = "." | "/" | "-" | """'" | "+" | "*" ;
-    31. literal = simple literal | "null" ;
-    32. simple literal = numeric literal | string literal | boolean literal | date time literal ;
-    33. string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
-    34. boolean literal = "true" | "false" ;
-    35. numeric literal = [ "-" ] , ( digits , [ ".", digits ] | "." , digits ), [ ( "e" | "E" ) , [ "+" | "-" ] , digits ] ;
-    36. digit = [0-9] ;
-    37. digits = digit , {digit} ;
-    38. function invocation = expression , parameters ;
-    39. parameters = "(" , ( named parameters | positional parameters ) , ")" ;
-    40. named parameters = parameter name , ":" , expression , { "," , parameter name , ":" , expression } ;
-    41. parameter name = name ;
-    42. positional parameters = [ expression , { "," , expression } ] ;
-    43. path expression = expression , "." , name ;
-    44. for expression = "for" , name , "in" , iteration context { "," , name , "in" , iteration context } , "return" , expression
+1. <a id="rule-expression"></a>expression =
+   1. boxed expression |
+   1. textual expression ;
+1. <a id="rule-textual-expression"></a>textual expression =
+   1. for expression | if expression | quantified expression |
+   1. disjunction |
+   1. conjunction |
+   1. comparison |
+   1. arithmetic expression |
+   1. instance of |
+   1. path expression | descendant expression | filter expression | function invocation |
+   1. literal | simple positive unary test | name | "(" , expression , ")" ;
+1. textual expressions = textual expression , { "," , textual expression } ;
+1. <a id="rule-arithmetic-expression"></a>arithmetic expression =
+   1. addition | subtraction |
+   1. multiplication | division |
+   1. exponentiation |
+   1. arithmetic negation ;
+1. simple expression = arithmetic expression | simple value ;
+1. simple expressions = simple expression , { "," , simple expression } ;
+1. simple positive unary test =
+   1. <a id="rule-simple-positive-unary-test-a"></a>( "\<" | "\<=" | "\>" | "\>=" | "=" | "!=" ) , endpoint |
+   1. <a id="rule-simple-positive-unary-test-b"></a>interval ;
+1. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
+1. open interval start = "(" | "\]" ;
+1. closed interval start = "\[" ;
+1. open interval end = ")" | "\[" ;
+1. closed interval end = "\]" ;
+1. positive unary test = expression ;
+1. positive unary tests = positive unary test , { "," , positive unary test } ;
+1. <a id="rule-unary-tests"></a>unary tests =
+   1. <a id="rule-unary-tests-a"></a>positive unary tests |
+   1. <a id="rule-unary-tests-b"></a>"not", " (", positive unary tests, ")" |
+   1. <a id="rule-unary-tests-c"></a>"-"
+1. <a id="rule-endpoint"></a>endpoint = expression ;
+1. simple value = qualified name | simple literal ;
+1. <a id="rule-qualified-name"></a>qualified name = name , { "." , name } ;
+1. addition = expression , "+" , expression ;
+1. subtraction = expression , "-" , expression ;
+1. multiplication = expression , "\*" , expression ;
+1. <a id="rule-division"></a>division = expression , "/" , expression ;
+1. <a id="rule-exponentiation"></a>exponentiation = expression, "\*\*", expression ;
+1. arithmetic negation = "-" , expression ;
+1. <a id="rule-name"></a>name = name start , { name part | additional name symbols } ;
+1. <a id="rule-name-start"></a>name start = name start char, { name part char } ;
+1. <a id="rule-name-part"></a>name part = name part char , { name part char } ;
+1. <a id="rule-name-start-char"></a>name start char = "?" | \[A-Z\] | "\_" | \[a-z\] | \[\\uC0-\\uD6\] | \[\\uD8-\\uF6\] | \[\\uF8-\\u2FF\] | \[\\u370-\\u37D\] | \[\\u37F-\\u1FFF\] | \[\\u200C-\\u200D\] | \[\\u2070-\\u21 8F\] | \[\\u2C00-\\u2FEF\] | \[\\u3001 -\\uD7FF\] | \[\\uF900-\\uFDCF\] | \[\\uFDF0-\\uFFFD\] | \[\\u10000-\\uEFFFF\] ;
+1. <a id="rule-name-part-char"></a>name part char = name start char | digit | \\uB7 | \[\\u0300-\\u036F\] | \[\\u203F-\\u2040\] ;
+1. <a id="rule-additional-name-symbols"></a>additional name symbols = "." | "/" | "-" | """'" | "+" | "\*" ;
+1. literal = simple literal | "null" ;
+1. simple literal = numeric literal | string literal | boolean literal | date time literal ;
+1. <a id="rule-string-literal"></a>string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
+1. <a id="rule-boolean-literal"></a>boolean literal = "true" | "false" ;
+1. <a id="rule-numeric-literal"></a>numeric literal = \[ "-" \] , ( digits , \[ ".", digits \] | "." , digits ), \[ ( "e" | "E" ) , \[ "+" | "-" \] , digits \] ;
+1. digit = \[0-9\] ;
+1. <a id="rule-digits"></a>digits = digit , {digit} ;
+1. <a id="rule-function-invocation"></a>function invocation = expression , parameters ;
+1. <a id="rule-parameters"></a>parameters = "(" , ( named parameters | positional parameters ) , ")" ;
+1. <a id="rule-named-parameters"></a>named parameters = parameter name , ":" , expression , { "," , parameter name , ":" , expression } ;
+1. <a id="rule-parameter-name"></a>parameter name = name ;
+1. positional parameters = \[ expression , { "," , expression } \] ;
+1. path expression = expression , "." , name ;
+1. <a id="rule-for-expression"></a>for expression = "for" , name , "in" , iteration context { "," , name , "in" , iteration context } , "return" , expression
 
 ;
 
-    45. if expression = "if" , expression , "then" , expression , "else" expression ;
-    46. quantified expression = ("some" | "every") , name , "in" , iteration context , { "," , name , "in" , iteration context } , "satisfies", expression ;
-    47. disjunction = expression , "or" , expression ;
-    48. conjunction = expression , "and" , expression ;
-    49. comparison =
-        a. expression , ( "=" | "!=" | "<" | "<=" | ">" | ">=" ) , expression |
-        b. expression , "between" , expression , "and" , expression |
-        c. expression , "in" , positive unary test |
-        d. expression , "in" , " (", positive unary tests, ")" ;
-    50. filter expression = expression , "[" , expression , "]" ;
-    51. instance of = expression , "instance" , "of" , type | expression , "as" , type ;
-    52. type =
-
-> qualified name \|
->
-> "range" "\<" type "\>" \|
->
-> "list" "\<" type "\>" \|
->
-> "context" "\<" \[ name ":" type { "," name ":" type } \] "\>" \| "function" "\<" \[ type { ", " type } \] "\>" "-\>" type
->
-> ;
-
-    53. boxed expression = list | function definition | context ;
-    54. list = "[" , [ expression , { "," , expression } ] , "]" ;
-    55. function definition = "function" , "(" , [ formal parameter { "," , formal parameter } ] , ")" , [ "external" ] , expression ;
-    56. formal parameter = parameter name [":" type ] [ "?" | "..." ] ;
-    57. context = "{" , [context entry , { "," , context entry } ] , "}" ;
-    58. context entry = key , ":" , expression ;
-    59. key = name | string literal ;
-    60. date time literal = at literal | function invocation;
-    61. white space = vertical space | \u0009 | \u0020 | \u0085 | \u00A0 | \u1 680 | \u1 80E | [\u2000-\u200B] | \u2028 |
-
-> \\u2029 \| \\u202F \| \\u205F \| \\u3000 \| \\uFEFF ;
-
-    62. vertical space = [\u000A-\u000D]
-    63. iteration context = expression, [ """..""", expression ];
-    64. string escape sequence = "\'" | "\"" | "\\" | "\n" | "\r" | "\t" | code point;
-    65. at literal = """@""", string literal
-    66. range literal =
-
-> a\. ( open range start \| closed range start ) , range endpoint , ".." , range endpoint ( open range end \| closed range end ) \|
->
-> b\. open range start , ".." , range endpoint ( open range end \| closed range end ) \|
->
-> c\. ( open range start \| closed range start ) , range endpoint , ".." , open range end ;
-
-    67. range endpoint = numeric literal | string literal | date time literal ;
-    68. descendant expression = expression , "..." , name ;
+45. if expression = "if" , expression , "then" , expression , "else" expression ;
+1. <a id="rule-quantified-expression"></a>quantified expression = ("some" | "every") , name , "in" , iteration context , { "," , name , "in" , iteration context } , "satisfies", expression ;
+1. disjunction = expression , "or" , expression ;
+1. conjunction = expression , "and" , expression ;
+1. comparison =
+   1. expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression |
+   1. expression , "between" , expression , "and" , expression |
+   1. expression , "in" , positive unary test |
+   1. expression , "in" , " (", positive unary tests, ")" ;
+1. filter expression = expression , "\[" , expression , "\]" ;
+1. instance of = expression , "instance" , "of" , type | expression , "as" , type ;
+1. <a id="rule-type"></a>type = qualified name | "range" "\<" type "\>" | "list" "\<" type "\>" | "context" "\<" \[ name ":" type { "," name ":" type } \] "\>" | "function" "\<" \[ type { ", " type } \] "\>" "-\>" type ;
+1. <a id="rule-boxed-expression"></a>boxed expression = list | function definition | context ;
+1. <a id="rule-list"></a>list = "\[" , \[ expression , { "," , expression } \] , "\]" ;
+1. <a id="rule-function-definition"></a>function definition = "function" , "(" , \[ formal parameter { "," , formal parameter } \] , ")" , \[ "external" \] , expression ;
+1. <a id="rule-formal-parameter"></a>formal parameter = parameter name \[":" type \] \[ "?" | "..." \] ;
+1. <a id="rule-context"></a>context = "{" , \[context entry , { "," , context entry } \] , "}" ;
+1. context entry = key , ":" , expression ;
+1. key = name | string literal ;
+1. <a id="rule-date-time-literal"></a>date time literal = at literal | function invocation;
+1. <a id="rule-white-space"></a>white space = vertical space | \\u0009 | \\u0020 | \\u0085 | \\u00A0 | \\u1 680 | \\u1 80E | \[\\u2000-\\u200B\] | \\u2028 | \\u2029 | \\u202F | \\u205F | \\u3000 | \\uFEFF ;
+1. vertical space = \[\\u000A-\\u000D\]
+1. <a id="rule-iteration-context"></a>iteration context = expression, \[ """..""", expression \];
+1. string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | code point;
+1. <a id="rule-at-literal"></a>at literal = """@""", string literal
+1. <a id="rule-range-literal"></a>range literal = a. ( open range start | closed range start ) , range endpoint , ".." , range endpoint ( open range end | closed range end ) | b. open range start , ".." , range endpoint ( open range end | closed range end ) | c. ( open range start | closed range start ) , range endpoint , ".." , open range end ;
+1. <a id="rule-range-endpoint"></a>range endpoint = numeric literal | string literal | date time literal ;
+1. descendant expression = expression , "..." , name ;
 
 Additional syntax rules:
 
-- Operator precedence is given by the order of the alternatives in grammar rules 1, 2 and 4, in order from lowest to highest. *E.g.,* (boxed) invocation has higher precedence than multiplication, multiplication has higher precedence than addition, and addition has higher precedence than comparison. Addition and subtraction have equal precedence, and like all FEEL infix binary operators, are left associative. Note that FEEL’s order of operations regarding arithmetic negation and exponentiation differs from standard mathematical precedence, e.g., the FEEL expression -4 \*\* 2 is interpreted as (-4)\*(-4) and evaluates to 16. In standard mathematics, -4 \*\* 2 is interpreted as -(4\*4) and evaluates to -16 instead. To avoid any ambiguity, users are recommended to use explicit parentheses, e.g., instead of -4 \*\* 2 specify -(4 \*\* 2) = -16 or (-4) \*\* 2 = 16 as appropriate. Tools MAY present a warning to users to inform about the potentially unexpected precedence of the combination of these two operators.
+- Operator precedence is given by the order of the alternatives in grammar [expression](#rule-expression), [textual expression](#rule-textual-expression) and [arithmetic expression](#rule-arithmetic-expression), in order from lowest to highest. *E.g.,* (boxed) invocation has higher precedence than multiplication, multiplication has higher precedence than addition, and addition has higher precedence than comparison. Addition and subtraction have equal precedence, and like all FEEL infix binary operators, are left associative. Note that FEEL’s order of operations regarding arithmetic negation and exponentiation differs from standard mathematical precedence, e.g., the FEEL expression -4 \*\* 2 is interpreted as (-4)\*(-4) and evaluates to 16. In standard mathematics, -4 \*\* 2 is interpreted as -(4\*4) and evaluates to -16 instead. To avoid any ambiguity, users are recommended to use explicit parentheses, e.g., instead of -4 \*\* 2 specify -(4 \*\* 2) = -16 or (-4) \*\* 2 = 16 as appropriate. Tools MAY present a warning to users to inform about the potentially unexpected precedence of the combination of these two operators.
 
 - Java-style comments can be used, *i.e.,* '//' to end of line and /\* ... \*/.
 
-- In rule 60 ("date time literal"), for the "function invocation" alternative, the only permitted functions are the builtins *date*, *time*, *date and time*, *duration*, *days and time duration*, and *years and months duration*.
+- In [date time literal](#rule-date-time-literal) ("date time literal"), for the "function invocation" alternative, the only permitted functions are the builtins *date*, *time*, *date and time*, *duration*, *days and time duration*, and *years and months duration*.
 
-- The string in rule 65 must follow the date string, time string, date and time string or duration string syntax, as detailed in section [Conversion functions](#conversion-functions).
+- The string in [at literal](#rule-at-literal) must follow the date string, time string, date and time string or duration string syntax, as detailed in section [Conversion functions](#conversion-functions).
 
-- In rule 56 ("formal parameter"), the symbols "?" and "..." are used to define type qualifiers. The symbol "?" denotes an optional parameter and "..." that the enclosing function definition has a variable number of parameters. Parameters with these qualifiers must come after the ones without qualifiers. A function definition can have at most one optional parameter and at most one variable argument parameter. A function definition cannot have both optional and variable argument qualifiers.
+- In [formal parameter](#rule-formal-parameter) ("formal parameter"), the symbols "?" and "..." are used to define type qualifiers. The symbol "?" denotes an optional parameter and "..." that the enclosing function definition has a variable number of parameters. Parameters with these qualifiers must come after the ones without qualifiers. A function definition can have at most one optional parameter and at most one variable argument parameter. A function definition cannot have both optional and variable argument qualifiers.
 
 #### Literals, data types, built-in functions
 
@@ -470,28 +461,28 @@ FEEL supports the following datatypes:
 
 #### Tokens, Names and White space
 
-A FEEL expression consists of a sequence of tokens, possibly separated with white space (grammar rule 63). A token is a sequence of Unicode characters, either:
+A FEEL expression consists of a sequence of tokens, possibly separated with white space (grammar [iteration context](#rule-iteration-context)). A token is a sequence of Unicode characters, either:
 
-- A literal terminal symbol in any grammar rule other than grammar rule 30. Literal terminal symbols are enclosed in double quotes in the grammar rules, e.g., “and”, “+”, “=”, or
+- A literal terminal symbol in any grammar rule other than grammar [additional name symbols](#rule-additional-name-symbols). Literal terminal symbols are enclosed in double quotes in the grammar rules, e.g., “and”, “+”, “=”, or
 
-- A sequence conforming to grammar rule 28, 29, 35, or 37
+- A sequence conforming to grammar [name start char](#rule-name-start-char), [name part char](#rule-name-part-char), [numeric literal](#rule-numeric-literal), or [digits](#rule-digits)
 
-For backward compatibility reasons, “list”, “context” and “range” from grammar rule 52 are not considered literal terminal symbols.
+For backward compatibility reasons, “list”, “context” and “range” from grammar [type](#rule-type) are not considered literal terminal symbols.
 
 White space (except inside strings) acts as token separators. Most grammar rules act on tokens and thus ignore white space (which is not a token).
 
-A name (grammar rule 27) is defined as a sequence of tokens. I.e., the name IncomeTaxesAmount is defined as the list of tokens **\[ Income, Taxes, Amount \]**. The name Income+Expenses is defined as the list of tokens  
+A name (grammar [name part](#rule-name-part)) is defined as a sequence of tokens. I.e., the name IncomeTaxesAmount is defined as the list of tokens **\[ Income, Taxes, Amount \]**. The name Income+Expenses is defined as the list of tokens  
 **\[ Income, + , Expenses \]**. A consequence of this is that a name like Phone Number with one space in between the tokens is the same as Phone Number with several spaces in between the tokens.
 
-A name start (grammar rule 26) SHALL NOT be a literal terminal symbol.
+A name start (grammar [name start](#rule-name-start)) SHALL NOT be a literal terminal symbol.
 
-A name part (grammar rule 27) MAY be a literal terminal symbol.
+A name part (grammar [name part](#rule-name-part)) MAY be a literal terminal symbol.
 
 #### Contexts, Lists, Qualified Names, and Context Lists
 
-A context is a map of key-value pairs called context entries and is written using curly braces to delimit the context, commas to separate the entries, and a colon to separate key and value (grammar rule 57). The key can be a string or a name. The value is an expression.
+A context is a map of key-value pairs called context entries and is written using curly braces to delimit the context, commas to separate the entries, and a colon to separate key and value (grammar [context](#rule-context)). The key can be a string or a name. The value is an expression.
 
-A list is written using square brackets to delimit the list, and commas to separate the list items (grammar rule 54).
+A list is written using square brackets to delimit the list, and commas to separate the list items (grammar [list](#rule-list)).
 
 Contexts and lists can reference other contexts and lists, giving rise to a directed acyclic graph. Naming is path based. The *qualified name* (QN) of a context entry is of the form *N1*.*N2 ... Nₙ* where *N1* is the name of an in-scope context.
 
@@ -567,7 +558,7 @@ Each datatype describes a (possibly infinite) set of values. The sets for the da
 
 FEEL Numbers are based on IEEE 754-2008 Decimal128 format, with 34 decimal digits of precision and rounding toward the nearest neighbor with ties favoring the even neighbor.
 
-Grammar rule 35 defines literal numbers. Literals consist of base 10 digits, an optional decimal point, and an optional exponent. –INF, +INF, and NaN literals are not supported. There is no distinction between -0 and 0. The number(from, grouping separator, decimal separator) built-in function supports a richer literal format. E.g., FEEL(number("1.000.000,01 ", ". ", ",")) = **1000000.01**.
+Grammar [numeric literal](#rule-numeric-literal) defines literal numbers. Literals consist of base 10 digits, an optional decimal point, and an optional exponent. –INF, +INF, and NaN literals are not supported. There is no distinction between -0 and 0. The number(from, grouping separator, decimal separator) built-in function supports a richer literal format. E.g., FEEL(number("1.000.000,01 ", ". ", ",")) = **1000000.01**.
 
 FEEL supports literal scientific notation, e.g., 1.2e3, which is equivalent to 1.2\*10\*\*3.
 
@@ -577,19 +568,19 @@ There is no value for notANumber, positiveInfinity, or negativeInfinity. Use **n
 
 ##### string
 
-Grammar rule 33 defines literal strings as a double-quoted sequence of Unicode characters (see
+Grammar [string literal](#rule-string-literal) defines literal strings as a double-quoted sequence of Unicode characters (see
 
-<https://unicode.org/glossary/#character),> e.g., "abc". The supported Unicode character range is \[\\u0-\\u10FFFF\]. The string literals are described by rule 33. The corresponding Unicode code points are used to encode a string literal.
+<https://unicode.org/glossary/#character),> e.g., "abc". The supported Unicode character range is \[\\u0-\\u10FFFF\]. The string literals are described by [string literal](#rule-string-literal). The corresponding Unicode code points are used to encode a string literal.
 
 The literal string *"abc"* is mapped to the semantic domain as a sequence of three Unicode characters **a**, **b**, and **c**, written **"abc"**. The literal *"\\ U01F4 0E"* is mapped to a sequence of one Unicode character written **"ὀ"** corresponding to the code point U+1F40E. ![](Images/string-symbol.svg)
 
 ##### boolean
 
-The Boolean literals are given by grammar rule 34. The values in the semantic domain are **true** and **false**.
+The Boolean literals are given by grammar [boolean literal](#rule-boolean-literal). The values in the semantic domain are **true** and **false**.
 
 ##### time
 
-Times in FEEL can be expressed using either a time literal (see grammar rule 65) or the *time()* built-in function (See [Conversion functions](#conversion-functions)). We use boldface time literals to represent values in the semantic domain.
+Times in FEEL can be expressed using either a time literal (see grammar [at literal](#rule-at-literal)) or the *time()* built-in function (See [Conversion functions](#conversion-functions)). We use boldface time literals to represent values in the semantic domain.
 
 A time in the semantic domain is a value of the XML Schema time datatype. It can be represented by a sequence of numbers for the hour, minute, second, and an optional time offset from Universal Coordinated Time (UTC). If a time offset is specified, including time offset = 00:00, the time value has a UTC form and is comparable to all time values that have UTC forms. If no time offset is specified, the time is interpreted as a local time of day at some location, whose relationship to UTC time is dependent on time zone rules for that location and may vary from day to day. A local time of day value is only sometimes comparable to UTC time values, as described in XML Schema Part 2 Datatypes.
 
@@ -601,14 +592,14 @@ Note: That is, **valuet ⁻¹**(x) is always actually applied to x modulo 86400.
 
 ##### date
 
-Dates in FEEL can be expressed using either a date literal (see grammar rule 65) or the date() built-in function (See [Conversion functions](#conversion-functions)). A date in the semantic domain is a sequence of numbers for the year, month, day of the month. The year must be in the range \[-999,999,999. .999,999,999\]. We use boldface date literals to represent values in the semantic domain.
+Dates in FEEL can be expressed using either a date literal (see grammar [at literal](#rule-at-literal)) or the date() built-in function (See [Conversion functions](#conversion-functions)). A date in the semantic domain is a sequence of numbers for the year, month, day of the month. The year must be in the range \[-999,999,999. .999,999,999\]. We use boldface date literals to represent values in the semantic domain.
 
 When a date value is subject to implicit conversions ([Type conversions](#type-conversions)) it is considered to be equivalent to a date time  
 value in which the time of day is UTC midnight (00:00:00).
 
 ##### date-time
 
-*Date and time* in FEEL can be expressed using either a *date time literal* (see grammar rule 65) or the *date and time()* built-in function (See [date-time](#date-time)). We use boldface *date and time literals* to represent values in the semantic domain.
+*Date and time* in FEEL can be expressed using either a *date time literal* (see grammar [at literal](#rule-at-literal)) or the *date and time()* built-in function (See [date-time](#date-time)). We use boldface *date and time literals* to represent values in the semantic domain.
 
 A date and time in the semantic domain is a sequence of numbers for the year, month, day, hour, minute, second, and optional time offset from Universal Coordinated Time (UTC). The year must be in the range \[-
 
@@ -620,13 +611,13 @@ A date and time **d** that has a UTC form can be represented as a number of seco
 
 ##### days and time duration
 
-Days and time durations in FEEL can be expressed using either a duration literal (see grammar rule 65) or the duration() and days and time duration() builtin functions (See [Conversion functions](#conversion-functions)). We use boldface days and time duration literals to represent values in the semantic domain. The literal format of the characters within the quotes of the string literal is defined by the lexical space of the XPath Data Model dayTimeDuration datatype. A days and time duration in the semantic domain is a sequence of numbers for the days, hours, minutes, and seconds of duration, normalized such that the sum of these numbers is minimized. For example, FEEL(*duration("P0DT25H")*) = **P1DT1H**.
+Days and time durations in FEEL can be expressed using either a duration literal (see grammar [at literal](#rule-at-literal)) or the duration() and days and time duration() builtin functions (See [Conversion functions](#conversion-functions)). We use boldface days and time duration literals to represent values in the semantic domain. The literal format of the characters within the quotes of the string literal is defined by the lexical space of the XPath Data Model dayTimeDuration datatype. A days and time duration in the semantic domain is a sequence of numbers for the days, hours, minutes, and seconds of duration, normalized such that the sum of these numbers is minimized. For example, FEEL(*duration("P0DT25H")*) = **P1DT1H**.
 
 The value of a days and time duration can be expressed as a number of seconds. *E.g.*, **valuedtd(P1DT1H) = 90000.** The **valuedtd** function is one-to-one and so it has an inverse function **valuedtd ₋₁**. *E.g.,* **valuedtd ⁻¹(90000) = P1DT1H.**
 
 ##### years and months duration
 
-Years and months durations in FEEL can be expressed using either a duration literal (see grammar rule 65) or the duration() and years and months duration() builtin functions (See [Conversion functions](#conversion-functions)). We use boldface years and month duration literals to represent values in the semantic domain. The literal format of the characters within the quotes of the string literal is defined by the lexical space of the XPath Data Model yearMonthDuration datatype. A years and months duration in the semantic domain is a pair of numbers for the years and months of duration, normalized such that the sum of these numbers is minimized. For example, FEEL(*duration("P0Y13M")*) = **P1Y1M**.
+Years and months durations in FEEL can be expressed using either a duration literal (see grammar [at literal](#rule-at-literal)) or the duration() and years and months duration() builtin functions (See [Conversion functions](#conversion-functions)). We use boldface years and month duration literals to represent values in the semantic domain. The literal format of the characters within the quotes of the string literal is defined by the lexical space of the XPath Data Model yearMonthDuration datatype. A years and months duration in the semantic domain is a pair of numbers for the years and months of duration, normalized such that the sum of these numbers is minimized. For example, FEEL(*duration("P0Y13M")*) = **P1Y1M**.
 
 The value of a years and months duration can be expressed as a number of months. *E.g.*, **value\_ymd(P1Y1M) = 13.** The **valueymd** function is one-to-one and so it has an inverse function **valueymd ₋₁**. *E.g.,* **valueymd ⁻¹(13) = P1Y1M.**
 
@@ -674,11 +665,11 @@ These references SHALL be acyclic and form a partial order. The expressions in a
 
 FEEL supports a compact syntax for a range of values, useful in decision table test cells and elsewhere. Ranges can be syntactically represented either:
 
-a\) as a comparison operator and a single endpoint (grammar rule 7.a.)
+a\) as a comparison operator and a single endpoint (grammar [simple positive unary test](#rule-simple-positive-unary-test-a).)
 
-b\) or a pair of endpoints and endpoint inclusivity flags that indicate whether one or both endpoints are included in the range (grammar rule 7.b.); on this case, endpoints must be of equivalent types (see section [Type Equivalence](#type-equivalence)for the definition of type equivalence) and the endpoints must be ordered such that range start \<= range end.
+b\) or a pair of endpoints and endpoint inclusivity flags that indicate whether one or both endpoints are included in the range (grammar [simple positive unary test](#rule-simple-positive-unary-test-b).); on this case, endpoints must be of equivalent types (see section [Type Equivalence](#type-equivalence)for the definition of type equivalence) and the endpoints must be ordered such that range start \<= range end.
 
-Endpoints can be expressions (grammar rule 16) of the following types: number, string, date, time, date and time, or duration. The following are examples of valid ranges:
+Endpoints can be expressions (grammar [endpoint](#rule-endpoint)) of the following types: number, string, date, time, date and time, or duration. The following are examples of valid ranges:
 
 - \< 10
 
@@ -698,18 +689,18 @@ Ranges are mapped into the semantic domain as a typed instance of the *range* ty
 
 ###### Table: Examples of range properties values
 
-| **range** | **start included** | **start** | **end**   | **end included** |
-|-----------|--------------------|-----------|-----------|------------------|
-| \[1..10\] | true               | 1         | 10        | true             |
-| (1..10\]  | false              | 1         | 10        | true             |
-| \<= 10    | false              | undefined | 10        | true             |
-| \> 1      | false              | 1         | undefined | false            |
+| range     | start included | start     | end       | end included |
+|-----------|----------------|-----------|-----------|--------------|
+| \[1..10\] | true           | 1         | 10        | true         |
+| (1..10\]  | false          | 1         | 10        | true         |
+| \<= 10    | false          | undefined | 10        | true         |
+| \> 1      | false          | 1         | undefined | false        |
 
 The semantics of comparison expressions involving ranges (grammar rules 49c and 49d) is defined in [Semantics of decision table syntax](#table-semantics-of-decision-table-syntax), [Specific semantics of inequality](#table-specific-semantics-of-inequality), [General semantics of equality and inequality](#table-general-semantics-of-equality-and-inequality), and [Semantics of conjunction and disjunction](#table-semantics-of-conjunction-and-disjunction). The same rules apply when ranges are created programmatically, e.g., using the range function.
 
 #### Functions
 
-The FEEL function literal is given by grammar rule 55. Functions can also be specified in **DMN** via Function Definitions (see [Business Knowledge Model metamodel](06_Requirements_DRG_and_DRD.md#business-knowledge-model-metamodel)). The constructed type (*T*1, . . . , *Tn*) → *U* contains the function values that take arguments of types *T1, . . . , Tn* and yield results of type *U,* regardless of the way the function syntax (e.g., FEEL literal or **DMN** Function Definition). In the case of exactly one argument type *T* → *U* is a shorthand for (*T* ) → *U*.
+The FEEL function literal is given by grammar [function definition](#rule-function-definition). Functions can also be specified in **DMN** via Function Definitions (see [Business Knowledge Model metamodel](06_Requirements_DRG_and_DRD.md#business-knowledge-model-metamodel)). The constructed type (*T*1, . . . , *Tn*) → *U* contains the function values that take arguments of types *T1, . . . , Tn* and yield results of type *U,* regardless of the way the function syntax (e.g., FEEL literal or **DMN** Function Definition). In the case of exactly one argument type *T* → *U* is a shorthand for (*T* ) → *U*.
 
 #### Relations between types
 
@@ -717,27 +708,60 @@ Every FEEL expression executed in a certain context has a value in **D**, and ev
 
 The FEEL lattice contains several inner abstract types (e.g. *comparable*, *temporal*, *duration* and *context*) to represent unions of concrete types (e.g. *number* and *string*). For example, *duration* is the union of the *years and months duration* and *days and time duration* types. The *context* type is the union of all context types and is equivalent to context\<\>.
 
-We define **type(***e***)** as the type of the domain element **FEEL(***e,* **c),** where *e* is an expression defined by grammar rule 1. Literals for numbers, strings, booleans, null, date, time, date and time and duration literals are mapped to the corresponding node in lattice **L**. Complex expression such as list, contexts and functions are mapped to the corresponding parameterized nodes in lattice **L**. For example, see [Examples of types of domain elements](#table-examples-of-types-of-domain-elements).
+We define **type(***e***)** as the type of the domain element **FEEL(***e,* **c),** where *e* is an expression defined by grammar [expression](#rule-expression). Literals for numbers, strings, booleans, null, date, time, date and time and duration literals are mapped to the corresponding node in lattice **L**. Complex expression such as list, contexts and functions are mapped to the corresponding parameterized nodes in lattice **L**. For example, see [Examples of types of domain elements](#table-examples-of-types-of-domain-elements).
 
 ###### Table: Examples of types of domain elements
 
-| *e* | **type(***e***)** |
-|------------------------------------|------------------------------------|
-| *123* | number |
-| *true* | boolean |
-| *"abc"* | string |
-| *date("2017-01-01 ")* | date |
-| *\["a", "b", "c"\]* | list\<string\> |
-| *\["a", true, 123\]* | list\<Any\> |
-| \[1..10) | range\<number\> |
-| \>= @”201 9-01-01” | range\<date\> |
-| e | type(e) |
-| {"name": "Peter", age: 30} | context\<”age”: number, “name”:string\> |
-| function f(x: number, y: number) x + y | (number, number) → number |
-| DecisionA | context\<”id”:number, “name”:string\> |
-| BkmA | (number, number) → number |
+<table>
+<tr><td>
 
-A type expression *e* defined by grammar rule 54 is mapped to the nodes in the lattice **L** by function **type(***e***)** as follows: primitive data type names are mapped to the node with the same name (e.g., *string* is mapped the **string** node)
+*e*
+
+</td><td>
+
+**type(***e***)**
+
+</td></tr>
+<tr><td>
+
+*123*
+
+</td><td>number</td></tr>
+<tr><td>
+
+*true*
+
+</td><td>boolean</td></tr>
+<tr><td>
+
+*"abc"*
+
+</td><td>string</td></tr>
+<tr><td>
+
+*date("2017-01-01 ")*
+
+</td><td>date</td></tr>
+<tr><td>
+
+*\["a", "b", "c"\]*
+
+</td><td>list&lt;string&gt;</td></tr>
+<tr><td>
+
+*\["a", true, 123\]*
+
+</td><td>list&lt;Any&gt;</td></tr>
+<tr><td>[1..10)</td><td>range&lt;number&gt;</td></tr>
+<tr><td>&gt;= @”201 9-01-01”</td><td>range&lt;date&gt;</td></tr>
+<tr><td>e</td><td>type(e)</td></tr>
+<tr><td>{"name": "Peter", age: 30}</td><td>context&lt;”age”: number, “name”:string&gt;</td></tr>
+<tr><td>function f(x: number, y: number) x + y</td><td>(number, number) → number</td></tr>
+<tr><td>DecisionA</td><td>context&lt;”id”:number, “name”:string&gt;</td></tr>
+<tr><td>BkmA</td><td>(number, number) → number</td></tr>
+</table>
+
+A type expression *e* defined by grammar [list](#rule-list) is mapped to the nodes in the lattice **L** by function **type(***e***)** as follows: primitive data type names are mapped to the node with the same name (e.g., *string* is mapped the **string** node)
 
 • *Any* is mapped to the node **Any**
 
@@ -886,30 +910,217 @@ Let us consider the following ItemDefinitions:
 
 ###### Table: Examples of equivalence and conformance relations
 
-| **type1** | **type2** | **equivalent to** | **conforms to** |
-|------------------|------------------|------------------|------------------|
-| number | number | True | True |
-| string | string | True | True |
-| string | date | False | False |
-| date | date and time | False | False |
-| **type(***Decision 1***)** | **type(***Decision2***)** | True | True |
-| **type(***Decision1***)** | **type(***Decision3***)** | False | False |
-| **type(***Decision3***)** | **type(***Decision1***)** | False | True |
-| **type(***Decision 1***)** | **type(***{"id": 1,* *"name " :"Peter"}***)** | True | True |
-| **type(***{"id": 1,* *"name " :"Peter"}***)** | **type(***Decision3***)** | False | False |
-| **type(***{"id": 1,* *"name":"Peter", "age": 45}***)** | **type(***Decision1***)** | False | True |
-| **type(***{"id": 1,* *"name":"Peter", "age": 45}***)** | **type(***Decision3***)** | True | True |
-| **type***(\[1, 2, 3\]**)*** | **type***(\["1", "2", "3"\]**)*** | False | False |
-| **type***(\[1, 2, 3\]**)*** | **type(***Decision3***)** | False | False |
-| **type(***\[{"id": 1,* *"name":"Peter", "age": 45}\]***)** | **type(***Decision4***)** | True | True |
-| **type(***Decision4***)** | **type(***Decision3***)** | False | False |
-| **type(***function(x:Employee* *1 ) →Employee1***)** | **type(***function(x:Employee* *1 ) →Employee1***)** | True | True |
-| **type(***function(x:Employee* *1 ) →Employee1***)** | **type(***function(x:Employee* *1 ) →Employee2***)** | True | True |
-| **type(***function(x:Employee* *1 ) →Employee3***)** | **type(***function(x:Employee* *1 ) →Employee1***)** | False | True |
-| **type(***function(x:Employee* *1 ) →Employee1***)** | **type(***function(x:Employee* *1 ) →Employee1***)** | False | False |
-| **type(** \[1..10\] **)** | **type(** (20..100) **)** | True | True |
-| **type1** | **type2** | equivalent to | conforms to |
-| **type( \[1..10\] )** | **type( \[“a”..”x”\] )** | False | False |
+<table>
+<tr><th>
+
+type1
+
+</th><th>
+
+type2
+
+</th><th>
+
+equivalent to
+
+</th><th>
+
+conforms to
+
+</th></tr>
+<tr><td>number</td><td>number</td><td>True</td><td>True</td></tr>
+<tr><td>string</td><td>string</td><td>True</td><td>True</td></tr>
+<tr><td>string</td><td>date</td><td>False</td><td>False</td></tr>
+<tr><td>date</td><td>date and time</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(***Decision 1***)**
+
+</td><td>
+
+**type(***Decision2***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type(***Decision1***)**
+
+</td><td>
+
+**type(***Decision3***)**
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(***Decision3***)**
+
+</td><td>
+
+**type(***Decision1***)**
+
+</td><td>False</td><td>True</td></tr>
+<tr><td>
+
+**type(***Decision 1***)**
+
+</td><td>
+
+**type(***{"id": 1,*
+
+*"name " :"Peter"}***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type(***{"id": 1,*
+
+*"name " :"Peter"}***)**
+
+</td><td>
+
+**type(***Decision3***)**
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(***{"id": 1,*
+
+*"name":"Peter", "age": 45}***)**
+
+</td><td>
+
+**type(***Decision1***)**
+
+</td><td>False</td><td>True</td></tr>
+<tr><td>
+
+**type(***{"id": 1,*
+
+*"name":"Peter", "age": 45}***)**
+
+</td><td>
+
+**type(***Decision3***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type***(\[1, 2, 3\]**)***
+
+</td><td>
+
+**type***(\["1", "2", "3"\]**)***
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type***(\[1, 2, 3\]**)***
+
+</td><td>
+
+**type(***Decision3***)**
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(***\[{"id": 1,*
+
+*"name":"Peter", "age": 45}\]***)**
+
+</td><td>
+
+**type(***Decision4***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type(***Decision4***)**
+
+</td><td>
+
+**type(***Decision3***)**
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee2***)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee3***)**
+
+</td><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>False</td><td>True</td></tr>
+<tr><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>
+
+**type(***function(x:Employee*
+
+*1 ) →Employee1***)**
+
+</td><td>False</td><td>False</td></tr>
+<tr><td>
+
+**type(** \[1..10\] **)**
+
+</td><td>
+
+**type(** (20..100) **)**
+
+</td><td>True</td><td>True</td></tr>
+<tr><td>
+
+**type1**
+
+</td><td>
+
+**type2**
+
+</td><td>equivalent to</td><td>conforms to</td></tr>
+<tr><td>
+
+**type( \[1..10\] )**
+
+</td><td>
+
+**type( \[“a”..”x”\] )**
+
+</td><td>False</td><td>False</td></tr>
+</table>
 
 ##### Type conversions
 
@@ -949,7 +1160,7 @@ The table below contains several examples for singleton list conversions.
 
 ###### Table: Examples of singleton list conversions
 
-| **Expression** | **Conversion** | **Result** |
+| Expression | Conversion | Result |
 |------------------------|------------------------|------------------------|
 | *3\[item \> 2\]* | *3* is converted to *\[3\]* as this a filter context, and an *to singleton list* is applied | **\[3\]** |
 | *contains(\["foobar"\], "of")* | *\["foobar"\]* is converted to *"foobar"*, as this is an invocation context and *from singleton list* is applied | **false** |
@@ -970,41 +1181,79 @@ In the example below, before binding variable *decision_003* to value *"123"* th
 
 #### Decision Table
 
-The normative notation for decision tables is specified in [Decision Table](08_Decision_Table.md#decision-table). Each input expression SHALL be a textual expression (grammar rule 2). Each list of input values SHALL be an instance of unary tests (grammar rule 15). The value that is tested is the value of the input expression of the containing InputClause. Each list of output values SHALL be an instance of unary tests (grammar rule 15).  
-The value that is tested is the value of a selected output entry of the containing OutputClause. Each input entry SHALL be an instance of unary tests (grammar rule 15). Rule annotations are ignored in the execution semantics.
+The normative notation for decision tables is specified in [Decision Table](08_Decision_Table.md#decision-table). Each input expression SHALL be a textual expression (grammar [textual expression](#rule-textual-expression)). Each list of input values SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)). The value that is tested is the value of the input expression of the containing InputClause. Each list of output values SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)).  
+The value that is tested is the value of a selected output entry of the containing OutputClause. Each input entry SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)). Rule annotations are ignored in the execution semantics.
 
 The decision table components are shown in [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg): Rules as rows – schematic layout, and also correspond to the metamodel in clause [Metamodel](08_Decision_Table.md#metamodel) For convenience, [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg) is reproduced here.
 
-| **information item name** |  |  |  |
-|-------|----------------------|-----------------------|---------------------|
-| H | input expression 1 | input expression 2 | Output label |
-|  | input value 1a, input value 1b | input value 2a, input value 2b | output value 1a, output value 1b |
-| 1 | input entry 1.1 | input entry 2.1 | output entry 1.1 |
-| 2 |  | input entry 2.2 | output entry 1.2 |
-| 3 | input entry 1.2 | \- | output entry 1.3 |
+<table>
+<tr><th colspan="2">
+
+information item name
+
+</th><th></th><th></th></tr>
+<tr><td rowspan="2">H</td><td>input expression 1</td><td>input expression 2</td><td>Output label</td></tr>
+<tr><td>
+
+input value 1a,
+
+input value 1b
+
+</td><td>
+
+input value 2a,
+
+input value 2b
+
+</td><td>output value 1a, output value 1b</td></tr>
+<tr><td>1</td><td rowspan="2">input entry 1.1</td><td>input entry 2.1</td><td>output entry 1.1</td></tr>
+<tr><td>2</td><td>input entry 2.2</td><td>output entry 1.2</td></tr>
+<tr><td>3</td><td>input entry 1.2</td><td>-</td><td>output entry 1.3</td></tr>
+</table>
 
 The semantics of a decision table is specified by first composing its literal expressions and unary tests into Boolean expressions that are mapped to the semantic domain and composed into rule matches then rule hits. Finally, some of the decision table output expressions are mapped to the semantic domain and comprise the result of the decision table interpretation. Decision table components are detailed in [Semantics of decision table](#table-semantics-of-decision-table).
 
 ###### Table: Semantics of decision table
 
-| **Component name (\* means optional)** | **Description** |
-|------------------------------------|------------------------------------|
-| input expression | One of the N\>=0 input expressions, each a literal expression |
-| input values\* | One of the N input values, corresponding to the N input expressions. Each is a unary tests literal (see below). |
-| output values\* | A unary tests literal for the output. (In the event of M\>1 output components (see [Horizontal table with multiple output components](Images/horizontal-table-with-multiple-output-components.svg)), each output component may have its own output values) |
-| rules | a list of R\>0 rules. A rule is a list of N input entries followed by M output entries. An input entry is a unary tests literal. An output entry is a literal expression. |
-| hit policy\* | one of: "U", "A", “P”, “F”, "R", "O", "C", "C+", "C#", "C\<", “C\>” (default is "U") |
-| default output value\* | The default output value is one of the output values. If M\>1, then default output value is a context with entries composed of output component names and output values. |
+<table>
+<tr><th>
 
-Unary tests (grammar rule 15) are used to represent both input values and input entries. An input expression *e* is said to *satisfy* an input entry *t* (with optional input values *v*), depending on the syntax of *t*, as follows:
+Component name (\* means optional)
 
-- grammar rule 15.a: FEEL(*e in (t)*)**=true**
+</th><th>
 
-- grammar rule 15.b: FEEL(*e in (t)*)**=false**
+Description
 
-- grammar rule 15.c when *v* is not provided: **e != null**
+</th></tr>
+<tr><td>input expression</td><td>One of the N&gt;=0 input expressions, each a literal expression</td></tr>
+<tr><td>input values*</td><td>One of the N input values, corresponding to the N input expressions. Each is a unary tests literal (see below).</td></tr>
+<tr><td>output values*</td><td>
 
-- grammar rule 15.c when *v* is provided: FEEL(*e in (v)*)**=true**
+A unary tests literal for the output.
+
+(In the event of M\>1 output components (see [Horizontal table with multiple output components](Images/horizontal-table-with-multiple-output-components.svg)), each output component may have its own output values)
+
+</td></tr>
+<tr><td>rules</td><td>a list of R&gt;0 rules. A rule is a list of N input entries followed by M output entries. An input entry is a unary tests literal. An output entry is a literal expression.</td></tr>
+<tr><td>hit policy*</td><td>
+
+one of: "U", "A", “P”, “F”, "R", "O", "C", "C+", "C#", "C\<",
+
+“C\>” (default is "U")
+
+</td></tr>
+<tr><td>default output value*</td><td>The default output value is one of the output values. If M&gt;1, then default output value is a context with entries composed of output component names and output values.</td></tr>
+</table>
+
+Unary tests (grammar [unary tests](#rule-unary-tests)) are used to represent both input values and input entries. An input expression *e* is said to *satisfy* an input entry *t* (with optional input values *v*), depending on the syntax of *t*, as follows:
+
+- grammar [unary tests](#rule-unary-tests-a): FEEL(*e in (t)*)**=true**
+
+- grammar [unary tests](#rule-unary-tests-b): FEEL(*e in (t)*)**=false**
+
+- grammar [unary tests](#rule-unary-tests-c) when *v* is not provided: **e != null**
+
+- grammar [unary tests](#rule-unary-tests-c) when *v* is provided: FEEL(*e in (v)*)**=true**
 
 A rule with input entries *t₁,t₂,...,tN* is said to *match* the input expression list *\[e₁,e₂,...,eN\]* (with optional input values list *\[v₁,v₂, ...vN\]*) if *eᵢ satisfies tᵢ* (with optional input values *vᵢ*) for all *i* in 1..N.
 
@@ -1094,17 +1343,60 @@ A FEEL expression *e* denotes a value **e** in the semantic domain. Some kinds o
 
 ###### Table: Mapping between FEEL and other domains
 
-| ***FEEL value*** | ***Java*** | ***XML*** | ***PMML*** | ***ONNX*** |
-|---------|------------------|----------------|--------------|----------------|
-| number | java.math.BigDecimal | decimal | decimal, PROB-NUMBER, PERCENTAGE-NUMBER | FLOAT, UINT8, INT8, UINT16, INT16, INT32, INT64, FLOAT16, DOUBLE, UINT32, UINT64, COMPLEX64, COMPLEX128, BFLOAT16, FLOAT8E4M3FN, FLOAT8E4M3FNUZ, FLOAT8E5M2, FLOAT8E5M2FNUZ, UINT4, INT4 |
-|  |  | integer | integer , INT-NUMBER |  |
-|  |  | double | double, REAL-NUMBER |  |
-| string | java.lang.String | string | string, FIELD-NAME | STRING |
-| date, time, date and time | javax.xml.datatype. XMLGregorianCalendar | date, dateTime, time, dateTimestamp | date, dateTime, time conversion required for dateDaysSince, *et. al.* |  |
-| duration | javax.xml.datatype. Duration | yearMonthDuration, dayTimeDuration |  |  |
-| boolean | java.lang.Boolean | boolean | boolean | BOOL |
-| list | java.util.List | contain multiple child elements | array (homogeneous) | contiguous array |
-| context | java.util.Map | contain attributes and child elements |  | Tensor |
+<table>
+<tr><td>
+
+***FEEL value***
+
+</td><td>
+
+***Java***
+
+</td><td>
+
+***XML***
+
+</td><td>
+
+***PMML***
+
+</td><td>
+
+***ONNX***
+
+</td></tr>
+<tr><td rowspan="3">number</td><td rowspan="3">java.math.BigDecimal</td><td>decimal</td><td>
+
+decimal, PROB-NUMBER,
+
+PERCENTAGE-NUMBER
+
+</td><td rowspan="3">FLOAT, UINT8, INT8, UINT16, INT16, INT32, INT64, FLOAT16, DOUBLE, UINT32, UINT64, COMPLEX64, COMPLEX128, BFLOAT16, FLOAT8E4M3FN, FLOAT8E4M3FNUZ, FLOAT8E5M2, FLOAT8E5M2FNUZ, UINT4, INT4</td></tr>
+<tr><td>integer</td><td>integer , INT-NUMBER</td></tr>
+<tr><td>double</td><td>double, REAL-NUMBER</td></tr>
+<tr><td>string</td><td>java.lang.String</td><td>string</td><td>string, FIELD-NAME</td><td>STRING</td></tr>
+<tr><td>date, time, date and time</td><td>
+
+javax.xml.datatype.
+
+XMLGregorianCalendar
+
+</td><td>date, dateTime, time, dateTimestamp</td><td>
+
+date, dateTime, time conversion required for dateDaysSince, *et. al.*
+
+</td><td></td></tr>
+<tr><td>duration</td><td>
+
+javax.xml.datatype.
+
+Duration
+
+</td><td>yearMonthDuration, dayTimeDuration</td><td></td><td></td></tr>
+<tr><td>boolean</td><td>java.lang.Boolean</td><td>boolean</td><td>boolean</td><td>BOOL</td></tr>
+<tr><td>list</td><td>java.util.List</td><td>contain multiple child elements</td><td>array (homogeneous)</td><td>contiguous array</td></tr>
+<tr><td>context</td><td>java.util.Map</td><td>contain attributes and child elements</td><td></td><td>Tensor</td></tr>
+</table>
 
 For ONNX, each tensor is a context consisting of a string containing an ONNX type name, a list containing the dimension(s) of the tensor and a list of values.
 
@@ -1112,17 +1404,56 @@ Some kinds of values can also be passed between FEEL and JSON, as summarized in 
 
 ###### Table: Mapping between FEEL and JSON domains
 
-| *FEEL type* | *JSON type* | *Notes* |
-|---------------|--------------------|-------------------------------------|
-| number | number |   |
-| string | string |   |
-| date, time, date and time | string | A string representation conforming to an ISO 8601 Date, Time or Date and Time combination. If the FEEL date and time contains an IANA timezone id, the ISO 8601 Date and Time is suffixed by the IANA timezone id in rectangular brackets, e.g. 2007-12-03T10:15:30+01:00\[Europe/Paris\] |
-| years and months duration, days and time duration | string | A string representation conforming to an ISO 8601 Duration |
-| boolean | The JSON literal "true" or the JSON literal "false" |   |
-| list | array |   |
-| context | object |   |
-| range | string | A string conforming to grammar rule 66 “range literal" as defined in chapter [Grammar rules](#grammar-rules). |
-| null | The JSON literal "null" |   |
+<table>
+<tr><td>
+
+*FEEL type*
+
+</td><td>
+
+*JSON type*
+
+</td><td>
+
+*Notes*
+
+</td></tr>
+<tr><td>number</td><td>number</td><td> </td></tr>
+<tr><td>string</td><td>string</td><td> </td></tr>
+<tr><td>
+
+date,  
+time,  
+date and time
+
+</td><td>string</td><td>
+
+A string representation conforming to an ISO 8601 Date, Time or Date and Time combination.  
+If the FEEL date and time contains an IANA timezone id, the ISO 8601 Date and Time is suffixed by the IANA timezone id in rectangular brackets,  
+e.g. 2007-12-03T10:15:30+01:00\[Europe/Paris\]
+
+</td></tr>
+<tr><td>
+
+years and months duration,  
+days and time duration
+
+</td><td>string</td><td>A string representation conforming to an ISO 8601 Duration</td></tr>
+<tr><td>boolean</td><td>
+
+The JSON literal "true"  
+or the JSON literal "false"
+
+</td><td> </td></tr>
+<tr><td>list</td><td>array</td><td> </td></tr>
+<tr><td>context</td><td>object</td><td> </td></tr>
+<tr><td>range</td><td>string</td><td>
+
+A string conforming to grammar [range literal](#rule-range-literal) “range literal" as defined in chapter [Grammar rules](#grammar-rules).
+
+</td></tr>
+<tr><td>null</td><td>The JSON literal "null"</td><td> </td></tr>
+</table>
 
 Sometimes we do not want to evaluate a FEEL expression *e*, we just want to know the type of **e***.* Note that if *e* has QNs, then a context may be needed for type inference. We write **type(***e***)** as the type of the domain element **FEEL(***e,* **c)**.
 
@@ -1144,21 +1475,21 @@ FEEL functions can be:
 
 The built-in functions are described in detail in section [Built-in functions](#built-in-functions-1). In particular, function signatures and parameter domains are specified. Some functions have more than one signature.
 
-Built-in functions are invoked using the same syntax as other functions (grammar rule 40). The actual parameters must conform to the parameter domains in at least one signature before or after applying implicit conversions, or the result of the invocation is **null**.
+Built-in functions are invoked using the same syntax as other functions (grammar [named parameters](#rule-named-parameters)). The actual parameters must conform to the parameter domains in at least one signature before or after applying implicit conversions, or the result of the invocation is **null**.
 
 ##### User-defined functions
 
-User-defined functions (grammar rule 55) have the form *function(X1, ... Xn) body*
+User-defined functions (grammar [function definition](#rule-function-definition)) have the form *function(X1, ... Xn) body*
 
 The terms *X1, ... Xn* are formal parameters. Each formal parameter has the form *ni* or *ni* :*ti*, where the *ni* are the parameter names and *ti* are their types. If the type isn’t specified, *Any* is assumed. The meaning of
 
 FEEL(*function(X1, ... Xₙ) body*, **s**) is an element in the FEEL semantic domain that we denote as **function(argument list: \[***X1, ... Xₙ***\], body:** *body***, scope: s)** (shortened to **f** below). FEEL functions are lexical closures, i.e.*,* the *body* is an expression that references the formal parameters and any other names in scope **s**.
 
-User-defined functions are invoked using the same syntax as other functions (grammar rule 38). The meaning of an invocation *f(n1:e1,*...*,nn:en)* in scope **s** is FEEL(*f,* **s**) applied to arguments *n1:*FEEL(*e1,* **s**)... *,nn:*FEEL(*en,* **s**). This can also be written as **f(n**1:**e**1... *,***n**ₙ:**e**ₙ).
+User-defined functions are invoked using the same syntax as other functions (grammar [function invocation](#rule-function-invocation)). The meaning of an invocation *f(n1:e1,*...*,nn:en)* in scope **s** is FEEL(*f,* **s**) applied to arguments *n1:*FEEL(*e1,* **s**)... *,nn:*FEEL(*en,* **s**). This can also be written as **f(n**1:**e**1... *,***n**ₙ:**e**ₙ).
 
 The arguments **n**₁:**e**₁... ,**n**ₘ:**e**ₘ conform to the argument list \[*X₁, ... Xₙ*\] if the function type (**type(e₁)**, ..., **type(eₘ)**) → *U* conforms to (*X₁, ..., Xₙ*) → *U* where *U* is the return type of function *f* (see [Type Conformance](#type-conformance)). The result of applying **f** to the interpreted arguments **n**1:**e**1... *,***n**ₙ:**e**ₙ is determined as follows. If **f** is not a function, or if the arguments do not conform to the argument list, the result of the invocation is **null**. Otherwise, let **c** be a context with entries **n**1:**e**1... *,***n**ₙ:**e**ₙ. The result of the invocation is FEEL(*body, **s’***), where **s'** = insert before(**s**, 1, **c**) (see [List functions](#list-functions)).
 
-Invocable elements (Business Knowledge Models or Decision Services) are invoked using the same syntax as other functions (grammar rule 38). An Invocable is equivalent to a FEEL function whose parameters are the invocable’s inputs (see [Execution Semantics of Decision Services](#execution-semantics-of-decision-services))
+Invocable elements (Business Knowledge Models or Decision Services) are invoked using the same syntax as other functions (grammar [function invocation](#rule-function-invocation)). An Invocable is equivalent to a FEEL function whose parameters are the invocable’s inputs (see [Execution Semantics of Decision Services](#execution-semantics-of-decision-services))
 
 ##### Externally-defined functions
 
@@ -1276,7 +1607,7 @@ The meaning of each substantive grammar rule is given below by mapping the synta
 
 ###### Table: Semantics of FEEL functions
 
-| **Grammar Rule** | **FEEL Syntax** | **Mapped to Domain** |
+| Grammar Rule | FEEL Syntax | Mapped to Domain |
 |------------|-----------------------|--------------------------------------|
 | 55 | *function(n₁, ...nN) e* | **function(argument list: \[***n₁, ... nN***\], body:** *e***, scope: s)** |
 | 55 | *function(n₁, ...nN) external e* | **function(argument list: \[***n₁, ... nN***\], external: e)** |
@@ -1285,18 +1616,117 @@ See [Ranges](#ranges).
 
 ###### Table: Semantics of other FEEL expressions
 
-| **Grammar** **Rule** | **FEEL Syntax** | **Mapped to Domain** |
-|------------|-----------------------|--------------------------------------|
-| 44 | *for i₁ in ic₁, i₂ in ic₂, ... return e* | **\[ FEEL(***e*, **s'), FEEL(***e*, **si, ... \]** |
-| 45 | *if e₁ then e₂ else e₃* | **if FEEL(***e₁***) is true then FEEL(***e₂***) else FEEL(***e₃***)** |
-| 46 | *some n₁ in e₁, n₂ in e₂, ...* *satisfies e* | **false or FEEL(***e,* **s') or FEEL(***e,* **s") or ...** |
-| 46 | *every n 1 in e 1, n2 in e2, ...* *satisfies e* | **true and FEEL(***e,* **s') and FEEL(***e,* **s") and ...** |
-| 47 | *e₁ or e₂ or ...* | **FEEL(***e₁***) or FEEL(***e₂***) or** ... |
-| 48 | *e₁ and e₂ and ...* | **FEEL(***e₁***) and FEEL(***e₂***) and** ... |
-| 49.a | *e = null* | **FEEL(***e***) is null** |
-| 49.a | *null = e* | **FEEL(***e***) is null** |
-| 49.a | *e != null* | **FEEL(***e***) is not null** |
-| 49.a | *null != e* | **FEEL(e) is not null** |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL Syntax
+
+</th><th>
+
+Mapped to Domain
+
+</th></tr>
+<tr><td>44</td><td>
+
+*for i₁ in ic₁, i₂ in ic₂, ... return e*
+
+</td><td>
+
+**\[ FEEL(***e*, **s'), FEEL(***e*, **si, ... \]**
+
+</td></tr>
+<tr><td>45</td><td>
+
+*if e₁ then e₂ else e₃*
+
+</td><td>
+
+**if FEEL(***e₁***) is true then FEEL(***e₂***) else FEEL(***e₃***)**
+
+</td></tr>
+<tr><td>46</td><td>
+
+*some n₁ in e₁, n₂ in e₂, ...*
+
+*satisfies e*
+
+</td><td>
+
+**false or FEEL(***e,* **s') or FEEL(***e,* **s") or ...**
+
+</td></tr>
+<tr><td>46</td><td>
+
+*every n 1 in e 1, n2 in e2, ...*
+
+*satisfies e*
+
+</td><td>
+
+**true and FEEL(***e,* **s') and FEEL(***e,* **s") and ...**
+
+</td></tr>
+<tr><td>47</td><td>
+
+*e₁ or e₂ or ...*
+
+</td><td>
+
+**FEEL(***e₁***) or FEEL(***e₂***) or** ...
+
+</td></tr>
+<tr><td>48</td><td>
+
+*e₁ and e₂ and ...*
+
+</td><td>
+
+**FEEL(***e₁***) and FEEL(***e₂***) and** ...
+
+</td></tr>
+<tr><td>49.a</td><td>
+
+*e = null*
+
+</td><td>
+
+**FEEL(***e***) is null**
+
+</td></tr>
+<tr><td>49.a</td><td>
+
+*null = e*
+
+</td><td>
+
+**FEEL(***e***) is null**
+
+</td></tr>
+<tr><td>49.a</td><td>
+
+*e != null*
+
+</td><td>
+
+**FEEL(***e***) is not null**
+
+</td></tr>
+<tr><td>49.a</td><td>
+
+*null != e*
+
+</td><td>
+
+**FEEL(e) is not null**
+
+</td></tr>
+</table>
 
 Notice that we use bold syntax to denote contexts, lists, conjunctions, disjunctions, conditional expressions, true, false, and null in the FEEL domain.
 
@@ -1308,143 +1738,585 @@ A conditional **if a then b else c** is equal to **b** if **a** is **true**, and
 
 ###### Table: Semantics of conjunction and disjunction
 
-| **a**     | **b**     | **a and b** | **a or b** |
-|-----------|-----------|-------------|------------|
-| true      | true      | true        | true       |
-| true      | false     | false       | true       |
-| true      | otherwise | null        | true       |
-| false     | true      | false       | true       |
-| false     | false     | false       | false      |
-| false     | otherwise | false       | null       |
-| otherwise | true      | null        | true       |
-| otherwise | false     | false       | null       |
-| otherwise | otherwise | null        | null       |
+| a         | b         | a and b | a or b |
+|-----------|-----------|---------|--------|
+| true      | true      | true    | true   |
+| true      | false     | false   | true   |
+| true      | otherwise | null    | true   |
+| false     | true      | false   | true   |
+| false     | false     | false   | false  |
+| false     | otherwise | false   | null   |
+| otherwise | true      | null    | true   |
+| otherwise | false     | false   | null   |
+| otherwise | otherwise | null    | null   |
 
 Negation is accomplished using the built-in function **not**. The ternary logic is as shown in [Semantics of negation](#table-semantics-of-negation).
 
 ###### Table: Semantics of negation
 
-| **a**     | **not(a)** |
-|-----------|------------|
-| true      | false      |
-| false     | true       |
-| otherwise | null       |
+| a         | not(a) |
+|-----------|--------|
+| true      | false  |
+| false     | true   |
+| otherwise | null   |
 
 Equality and inequality map to several kind- and datatype-specific tests, as shown in [General semantics of equality and inequality](#table-general-semantics-of-equality-and-inequality), [Specific semantics of equality](#table-specific-semantics-of-equality) and [Specific semantics of inequality](#table-specific-semantics-of-inequality). By definition, FEEL(*e1 != e2*) is FEEL(*not(e 1= e2)*). The other comparison operators are defined only for the datatypes listed in [Specific semantics of inequality](#table-specific-semantics-of-inequality). Note that [Specific semantics of inequality](#table-specific-semantics-of-inequality) defines only ‘\<’; ‘\>’ is similar to ‘\<’ and is omitted for brevity; *e1\<=e2* is defined as *e1\< e2 or e1= e2.*
 
 ###### Table: General semantics of equality and inequality
 
-| **Grammar Rule** | **FEEL Syntax** | **Input Domain** | **Result** |
+| Grammar Rule | FEEL Syntax | Input Domain | Result |
 |------------|---------------|----------------------|------------------------|
 | 49.a | *e1 = e2* | **e1 and e2 must both be of the same kind/datatype – both numbers, both strings, etc.** | *See below* |
 | 49.a | *e₁ \< e₂* | **e₁** and **e₂** must both be of the same kind/datatype – both numbers, both strings, *etc.* | *See below* |
 
 ###### Table: Specific semantics of equality
 
-| **kind/datatype** | ***e₁ = e₂*** |
-|---------------------------|---------------------------------------------|
-| list | lists must be same length N and **e₁\[i\] = e₂\[i\]** for 1 ≤ **i** ≤ N. |
-| context | contexts must have same set of keys K and **e₁.k = e₂.k** for every k in K |
-| range | the ranges must specify the same endpoint(s) and the same comparison operator or endpoint inclusivity flag. |
-| function | internal functions must have the same parameters, body, and scope. Externally defined functions must have the same parameters and external mapping information. |
-| number | **value(e₁) = value(e₂)**. Value is defined in [number](#number). Precision is not considered. |
-| string | **e₁** is the same sequence of characters as **e₂** |
-| date | **value(e₁) = value(e₂)**. Value is defined in [date](#date) |
-| date and time | **value(e₁) = value(e₂)**. Value is defined in [date-time](#date-time) |
-| time | **value(e₁) = value(e₂)**. Value is defined in [time](#time). |
-| days and time duration | **value(e₁) = value(e₂)**. Value is defined in [days and time duration](#days-and-time-duration) |
-| years and months duration | **value(e₁) = value(e₂)**. Value is defined in [years and months duration](#years-and-months-duration). |
-| boolean | **e₁** and **e₂** must both be **true** or both be **false** |
+<table>
+<tr><td>
+
+**kind/datatype**
+
+</td><td>
+
+***e₁ = e₂***
+
+</td></tr>
+<tr><td>list</td><td>
+
+lists must be same length N and **e₁\[i\] = e₂\[i\]** for 1 ≤ **i** ≤ N.
+
+</td></tr>
+<tr><td>context</td><td>
+
+contexts must have same set of keys K and **e₁.k = e₂.k** for every k in K
+
+</td></tr>
+<tr><td>range</td><td>the ranges must specify the same endpoint(s) and the same comparison operator or endpoint inclusivity flag.</td></tr>
+<tr><td>function</td><td>internal functions must have the same parameters, body, and scope. Externally defined functions must have the same parameters and external mapping information.</td></tr>
+<tr><td>number</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [number](#number). Precision is not considered.
+
+</td></tr>
+<tr><td>string</td><td>
+
+**e₁** is the same sequence of characters as **e₂**
+
+</td></tr>
+<tr><td>date</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [date](#date)
+
+</td></tr>
+<tr><td>date and time</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [date-time](#date-time)
+
+</td></tr>
+<tr><td>time</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [time](#time).
+
+</td></tr>
+<tr><td>days and time duration</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [days and time duration](#days-and-time-duration)
+
+</td></tr>
+<tr><td>years and months duration</td><td>
+
+**value(e₁) = value(e₂)**. Value is defined in [years and months duration](#years-and-months-duration).
+
+</td></tr>
+<tr><td>boolean</td><td>
+
+**e₁** and **e₂** must both be **true** or both be **false**
+
+</td></tr>
+</table>
 
 ###### Table: Specific semantics of inequality
 
-| **datatype** | ***e₁ \< e₂*** |
-|---------------------------|---------------------------------------------|
-| number | **value(e₁) \< value(e₂)**. **value** is defined in [number](#number). Precision is not considered. |
-| string | sequence of characters **e₁** is lexicographically less than the sequence of characters **e₂**. *I.e.,* the sequences are padded to the same length if needed with *\\u0* characters, stripped of common prefix characters, and then the first character in each sequence is compared. |
-| date | e1 \< e2 if the year value of e1 \< the year value of e2 e1 \< e2 if the year values are equal and the month value of e1 \< the month value of e2 e1 \< e2 if the year and month values are equal and the day value of e1 \< the day value of e2 |
-| date and time | **valuedt(e₁) \< valuedt(e₂)**. **valuedt** is defined in [date](#date). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
-| time | **valueₜ(e₁) \< valueₜ(e₂)**. **valuet** is defined in [time](#time). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
-| days and time duration | **valuedtd(e₁) \< valuedtd(e₂)**. **valuedtd** is defined in [days and time duration](#days-and-time-duration). |
-| years and months duration | **valueymd(e₁) \< valueymd(e₂)**. **valueymd** is defined in [years and months duration](#years-and-months-duration). |
+<table>
+<tr><td>
+
+**datatype**
+
+</td><td>
+
+***e₁ \< e₂***
+
+</td></tr>
+<tr><td>number</td><td>
+
+**value(e₁) \< value(e₂)**. **value** is defined in [number](#number). Precision is not considered.
+
+</td></tr>
+<tr><td>string</td><td>
+
+sequence of characters **e₁** is lexicographically less than the sequence of characters **e₂**. *I.e.,* the sequences are padded to the same length if needed with *\\u0* characters, stripped of common prefix characters, and then the first character in each sequence is compared.
+
+</td></tr>
+<tr><td>date</td><td>e1 &lt; e2 if the year value of e1 &lt; the year value of e2 e1 &lt; e2 if the year values are equal and the month value of e1 &lt; the month value of e2 e1 &lt; e2 if the year and month values are equal and the day value of e1 &lt; the day value of e2</td></tr>
+<tr><td>date and time</td><td>
+
+**valuedt(e₁) \< valuedt(e₂)**. **valuedt** is defined in [date](#date). If one input has a null timezone offset, that input uses the timezone offset of the other input.
+
+</td></tr>
+<tr><td>time</td><td>
+
+**valueₜ(e₁) \< valueₜ(e₂)**. **valuet** is defined in [time](#time). If one input has a null timezone offset, that input uses the timezone offset of the other input.
+
+</td></tr>
+<tr><td>days and time duration</td><td>
+
+**valuedtd(e₁) \< valuedtd(e₂)**. **valuedtd** is defined in [days and time duration](#days-and-time-duration).
+
+</td></tr>
+<tr><td>years and months duration</td><td>
+
+**valueymd(e₁) \< valueymd(e₂)**. **valueymd** is defined in [years and months duration](#years-and-months-duration).
+
+</td></tr>
+</table>
 
 FEEL supports additional syntactic sugar for comparison. Note that Grammar Rules (clause [Grammar rules](#grammar-rules)) are used in decision table condition cells. These decision table syntaxes are defined in [Semantics of decision table syntax](#table-semantics-of-decision-table-syntax).
 
 ###### Table: Semantics of decision table syntax
 
-| **Grammar** **Rule** | **FEEL Syntax** | **Equivalent FEEL Syntax** | **applicability** |
-|-----------|------------------|----------------------|---------------------|
-| 49.b | *e₁ between e₂ and e₃* | *e₁ \>= e₂ and e₁ \<= e₃* |  |
-| 49.c | *e₁ in \[e₂,e₃, ... \]* | *e₁ = e₂ or e₁ = e₃ or...* | e₂ and e₃ are endpoints |
-| 49.c | *e₁ in \[e₂,e₃, ... \]* | *e₁ in e₂ or e₁ in e₃ or...* | e₂ and e₃ are ranges |
-| 49.c | *e₁ in \<=e₂* | *e₁ \<= e₂* |  |
-| 49.c | *e₁ in \<e₂* | *e₁ \< e₂* |  |
-| 49.c | *e₁ in \>=e₂* | *e₁ \>= e₂* |  |
-| 49.c | *e₁ in \>e₂* | *e₁ \> e₂* |  |
-| 49.c | *e₁ in (e₂..e₃)* | *e₁ \> e₂ and e₁\<e₃* |  |
-| 49.c | *e₁ in (e₂..e₃\]* | *e₁ \> e₂ and e₁\<=e₃* |  |
-| 49.c | *e₁ in \[e₂..e₃)* | *e₁ \>= e₂ and e₁\<e₃* |  |
-| 49.c | *e₁ in \[e₂..e₃\]* | *e₁ \>= e₂ and e₁\<=e₃* |  |
-| 49.c | *e1 in e2* | *e1 = e2* | e2 is a qualified name that does *not* evaluate to a list |
-| 49.c | *e1 in e2* | *list contains( e2, e1 )* | e1 is a simple value that is not a list and e2 is a qualified name that evaluates to a list |
-| 49.c | *e1 in e2* | *{ ? : e1, r : e2 }.r* | e2 is a boolean expression that uses the special |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL Syntax
+
+</th><th>
+
+Equivalent FEEL Syntax
+
+</th><th>
+
+applicability
+
+</th></tr>
+<tr><td>49.b</td><td>
+
+*e₁ between e₂ and e₃*
+
+</td><td>
+
+*e₁ \>= e₂ and e₁ \<= e₃*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \[e₂,e₃, ... \]*
+
+</td><td>
+
+*e₁ = e₂ or e₁ = e₃ or...*
+
+</td><td>e₂ and e₃ are endpoints</td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \[e₂,e₃, ... \]*
+
+</td><td>
+
+*e₁ in e₂ or e₁ in e₃ or...*
+
+</td><td>e₂ and e₃ are ranges</td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \<=e₂*
+
+</td><td>
+
+*e₁ \<= e₂*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \<e₂*
+
+</td><td>
+
+*e₁ \< e₂*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \>=e₂*
+
+</td><td>
+
+*e₁ \>= e₂*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \>e₂*
+
+</td><td>
+
+*e₁ \> e₂*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in (e₂..e₃)*
+
+</td><td>
+
+*e₁ \> e₂ and e₁\<e₃*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in (e₂..e₃\]*
+
+</td><td>
+
+*e₁ \> e₂ and e₁\<=e₃*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \[e₂..e₃)*
+
+</td><td>
+
+*e₁ \>= e₂ and e₁\<e₃*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e₁ in \[e₂..e₃\]*
+
+</td><td>
+
+*e₁ \>= e₂ and e₁\<=e₃*
+
+</td><td></td></tr>
+<tr><td>49.c</td><td>
+
+*e1 in e2*
+
+</td><td>
+
+*e1 = e2*
+
+</td><td>
+
+e2 is a qualified name that does *not* evaluate to a list
+
+</td></tr>
+<tr><td>49.c</td><td>
+
+*e1 in e2*
+
+</td><td>
+
+*list contains( e2, e1 )*
+
+</td><td>e1 is a simple value that is not a list and e2 is a qualified name that evaluates to a list</td></tr>
+<tr><td>49.c</td><td>
+
+*e1 in e2*
+
+</td><td>
+
+*{ ? : e1, r : e2 }.r*
+
+</td><td>e2 is a boolean expression that uses the special</td></tr>
+</table>
 
 Addition and subtraction are defined in [General semantics of addition and subtraction](#table-general-semantics-of-addition-and-subtraction) and [Specific semantics of addition and subtraction](#table-specific-semantics-of-addition-and-subtraction). Note that if input values are not of the listed types, the result is **null**.
 
 ###### Table: General semantics of addition and subtraction
 
-| **Grammar Rule** | **FEEL**  | **Input Domain and Result** |
-|------------------|-----------|-----------------------------|
-| 19               | *e₁ + e₂* | *See below*                 |
-| 20               | *e₁ – e₂* | *See below*                 |
+| Grammar Rule | FEEL      | Input Domain and Result |
+|--------------|-----------|-------------------------|
+| 19           | *e₁ + e₂* | *See below*             |
+| 20           | *e₁ – e₂* | *See below*             |
 
 ###### Table: Specific semantics of addition and subtraction
 
-| **type(e1)** | **type(e2)** | ***e1 + e2, e1 – e2*** | **result type** |
-|-----------|-----------|-------------------------------------|-------------|
-| number | number | Let **e1=(p1,s1)** and **e2=(p2,s2)** as defined in [number](#number). If **value(p1,s1) +/- value(p2,s2)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that; • **value(p,s) = value(p1,s1) +/- value(p2,s2) + ε** • **s ≤ max(s1,s2)** • **s** is maximized subject to the limitation that **p** has 34 digits or less • **ε** is a possible rounding error. | number |
-| date and time | date and time | Addition is undefined. Subtraction is defined as **valuedtj¹ (valuedt(e1)-valuedt(e2))**, where **valuedt** is defined in [date](#date) and **valuedtj¹** is defined in [days and time duration](#days-and-time-duration). In case either value is of type date, it is implicitly converted into a date and time with time of day of UTC midnight ("00:00:00") as defined in [date-time](#date-time). Subtraction requires either both values to have a timezone or both not to have a timezone. Subtraction is undefined for the case where only one of the values has a timezone. | days and time duration |
-| time | time | Addition is undefined. Subtraction is defined as **valuedtd⁻¹ (valuet(e1)-valuet(e2))** where **valuet** is defined in [time](#time) and **valuedtd ₋₁** is defined in [days and time duration](#days-and-time-duration). | days and time duration |
-| years and months duration | years and months duration | **valueymd⁻¹(valueymd(e1) +/- valueymd(e2))** where **valueymd** and **valueymd ₋₁** is defined in [years and months duration](#years-and-months-duration). | years and months duration |
-| days and time duration | days and time duration | **valuedtd ⁻¹(valuedtd(e1) +/- valuedtd(e2))** where **valuedtd** and **valuedtd⁻¹** is defined in [days and time duration](#days-and-time-duration). | days and time duration |
-| date and time | years and months duration | date and time (date(**e1**.year +/– **e2**.years + floor((**e1**.month +/– **e2**.months)/12), **e1**.month +/– **e2**.months – floor((**e1**.month +/– **e2**.months)/12) \* 12, **e1**.day), time(**e1**)), where the named properties are as defined in **[List of properties per type](#table-list-of-properties-per-type)** below, and the date, date and time, time and floor functions are as defined in [Built-in functions](#built-in-functions-1), **valuedt** and **valuedt ⁻¹** is defined in [date](#date) and **valueymd** is defined in [years and months duration](#years-and-months-duration). | date and time |
-| years and months duration | date and time | Subtraction is undefined. Addition is commutative and is defined by the previous rule. | date and time |
-| date and time | days and time duration | **valuedt ⁻¹(valuedt(e1) +/- valuedtd(e2))** where **valuedt** and **valuedt ⁻¹** is defined in [date](#date) and **valuedtd** is defined in [days and time duration](#days-and-time-duration). | date and time |
-| days and time duration | date and time | Subtraction is undefined. Addition is commutative and is defined by the previous rule. | date and time |
-| time | days and time duration | **valuet ⁻¹(valuet(e1) +/- valuedtd(e2))** where **valuet** and **valuet ⁻¹** are defined in [time](#time) and **valuedtd** is defined in [days and time duration](#days-and-time-duration). | time |
-| days and time duration | time | Subtraction is undefined. Addition is commutative and is defined by the previous rule. | time |
-| string | string | Subtraction is undefined. Addition concatenates the strings. The result is a string containing the sequence of characters in e1 followed by the sequence of characters in e2. | string |
-| date | years and months duration | **date( e1.year +/– e2.years + floor((e1.month +/– e2.months)/12), e1.month +/– e2.months – floor((e1.month +/– e2.months)/12) \* 12, e1.day )**, where the named properties are as defined in **[List of properties per type](#table-list-of-properties-per-type)** below, and the date and floor functions are as defined in [Built-in functions](#built-in-functions-1). | date |
-| years and months duration | date | Subtraction is undefined. Addition is commutative and is defined by the previous rule. | date |
-| date | days and time duration | date(valuedt⁻¹ (valuedt(e1) +/- valuedtd(e2))) where valuedt and valuedt⁻¹ is defined in [date](#date) and valuedtd is defined in [days and time duration](#days-and-time-duration). | date |
-| days and time duration | date | Subtraction is undefined. Addition is commutative and is defined by the previous rule. | date |
+<table>
+<tr><td>
+
+**type(e1)**
+
+</td><td>
+
+**type(e2)**
+
+</td><td>
+
+***e1 + e2, e1 – e2***
+
+</td><td>
+
+**result type**
+
+</td></tr>
+<tr><td>number</td><td>number</td><td>
+
+Let **e1=(p1,s1)** and **e2=(p2,s2)** as defined in [number](#number). If **value(p1,s1) +/- value(p2,s2)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that
+
+- **value(p,s) = value(p1,s1) +/- value(p2,s2) + ε**
+
+- **s ≤ max(s1,s2)**
+
+- **s** is maximized subject to the limitation that **p** has 34 digits or less
+
+- **ε** is a possible rounding error.
+
+</td><td>number</td></tr>
+<tr><td>date and time</td><td>date and time</td><td>
+
+Addition is undefined. Subtraction is defined as **valuedtj¹ (valuedt(e1)-valuedt(e2))**, where **valuedt** is defined in [date](#date) and **valuedtj¹** is defined in
+
+[days and time duration](#days-and-time-duration). In case either value is of type date, it is implicitly converted into a date and time with time of day of UTC midnight ("00:00:00") as defined in [date-time](#date-time). Subtraction requires either both values to have a timezone or both not to have a timezone. Subtraction is undefined for the case where only one of the values has a timezone.
+
+</td><td>days and time duration</td></tr>
+<tr><td>time</td><td>time</td><td>
+
+Addition is undefined. Subtraction is defined as **valuedtd⁻¹ (valuet(e1)-valuet(e2))** where **valuet** is defined in [time](#time) and **valuedtd ₋₁** is defined in [days and time duration](#days-and-time-duration).
+
+</td><td>days and time duration</td></tr>
+<tr><td>years and months duration</td><td>years and months duration</td><td>
+
+**valueymd⁻¹(valueymd(e1) +/- valueymd(e2))** where **valueymd** and **valueymd ₋₁** is defined in [years and months duration](#years-and-months-duration).
+
+</td><td>years and months duration</td></tr>
+<tr><td>days and time duration</td><td>days and time duration</td><td>
+
+**valuedtd ⁻¹(valuedtd(e1) +/- valuedtd(e2))** where **valuedtd** and **valuedtd⁻¹** is defined in [days and time duration](#days-and-time-duration).
+
+</td><td>days and time duration</td></tr>
+<tr><td>date and time</td><td>years and months duration</td><td>
+
+date and time (date(**e1**.year +/– **e2**.years + floor((**e1**.month +/– **e2**.months)/12),
+
+**e1**.month +/– **e2**.months – floor((**e1**.month +/– **e2**.months)/12) \* 12, **e1**.day), time(**e1**)),
+
+where the named properties are as defined in **[List of properties per type](#table-list-of-properties-per-type)** below, and the date, date and time, time and floor functions are as defined in [Built-in functions](#built-in-functions-1), **valuedt** and **valuedt ⁻¹** is defined in [date](#date) and **valueymd** is defined in [years and months duration](#years-and-months-duration).
+
+</td><td>date and time</td></tr>
+<tr><td>years and months duration</td><td>date and time</td><td>Subtraction is undefined. Addition is commutative and is defined by the previous rule.</td><td>date and time</td></tr>
+<tr><td>date and time</td><td>days and time duration</td><td>
+
+**valuedt ⁻¹(valuedt(e1) +/- valuedtd(e2))** where **valuedt** and **valuedt ⁻¹** is defined in [date](#date) and **valuedtd** is defined in [days and time duration](#days-and-time-duration).
+
+</td><td>date and time</td></tr>
+<tr><td>days and time duration</td><td>date and time</td><td>Subtraction is undefined. Addition is commutative and is defined by the previous rule.</td><td>date and time</td></tr>
+<tr><td>time</td><td>days and time duration</td><td>
+
+**valuet ⁻¹(valuet(e1) +/- valuedtd(e2))** where **valuet** and **valuet ⁻¹** are defined in [time](#time) and **valuedtd** is defined in [days and time duration](#days-and-time-duration).
+
+</td><td>time</td></tr>
+<tr><td>days and time duration</td><td>time</td><td>Subtraction is undefined. Addition is commutative and is defined by the previous rule.</td><td>time</td></tr>
+<tr><td>string</td><td>string</td><td>Subtraction is undefined. Addition concatenates the strings. The result is a string containing the sequence of characters in e1 followed by the sequence of characters in e2.</td><td>string</td></tr>
+<tr><td>date</td><td>years and months duration</td><td>
+
+**date( e1.year +/– e2.years + floor((e1.month +/– e2.months)/12), e1.month +/– e2.months – floor((e1.month +/– e2.months)/12) \* 12, e1.day )**, where the named properties are as defined in **[List of properties per type](#table-list-of-properties-per-type)** below, and the date and floor functions are as defined in [Built-in functions](#built-in-functions-1).
+
+</td><td>date</td></tr>
+<tr><td>years and months duration</td><td>date</td><td>Subtraction is undefined. Addition is commutative and is defined by the previous rule.</td><td>date</td></tr>
+<tr><td>date</td><td>days and time duration</td><td>
+
+date(valuedt⁻¹ (valuedt(e1) +/- valuedtd(e2))) where valuedt and valuedt⁻¹ is defined in [date](#date) and valuedtd is defined in [days and time duration](#days-and-time-duration).
+
+</td><td>date</td></tr>
+<tr><td>days and time duration</td><td>date</td><td>Subtraction is undefined. Addition is commutative and is defined by the previous rule.</td><td>date</td></tr>
+</table>
 
 Multiplication and division are defined in [General semantics of multiplication and division](#table-general-semantics-of-multiplication-and-division) and [Specific semantics of multiplication and division](#table-specific-semantics-of-multiplication-and-division). Note that if input values are not of the listed types, the result is **null**.
 
 ###### Table: General semantics of multiplication and division
 
-| **Grammar Rule** | **FEEL**   | **Input Domain and Result** |
-|------------------|------------|-----------------------------|
-| 21               | *e₁ \* e₂* | *See below*                 |
-| 22               | *e₁ / e₂*  | *See below*                 |
+| Grammar Rule | FEEL       | Input Domain and Result |
+|--------------|------------|-------------------------|
+| 21           | *e₁ \* e₂* | *See below*             |
+| 22           | *e₁ / e₂*  | *See below*             |
 
 ###### Table: Specific semantics of multiplication and division
 
-| **type(e₁)** | **type(e₂)** | ***e₁ \* e₂*** | ***e₁ / e₂*** | **result type** |
-|----------|----------|--------------------|---------------------|------------|
-| number **e₁=(p₁,s₁)** | number **e₂=(p₂,s₂)** | If **value(p₁,s₁) \* value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that • **value(p,s) = value(p₁,s₁)** **\* value(p₂,s₂) + ε** • **s ≤ s₁+s₂** • **s** is maximized subject to the limitation that **p** has 34 digits or less • **ε** is a possible rounding error | If **value(p₂,s₂)=0** or **value(p₁,s₁) / value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that; • **value(p,s) = value(p₁,s₁) / value(p₂,s₂) + ε** • **s ≤ s₁-s₂** • **s** is maximized subject to the limitation that **p** has 34 digits or less | number |
-| years and months duration | number | **valueymd ⁻¹(valueymd(e₁) \* value(e₂))** where **valueymd** and **valueymd ₋₁** are defined in [years and months duration](#years-and-months-duration) | If **value(e₂)=0**, the result is **null**. Else the result is **valueymd⁻ ¹(valueymd(e₁) / value(e₂))** where **valueymd** and **valueymd⁻¹** are defined in [years and months duration](#years-and-months-duration). | years and months duration |
-| number | years and months duration | *See above, reversing e₁ and e₂* | *Not allowed* | years and months duration |
-| years and months duration | years and months duration | *Not allowed* | If **valueymd(e₂)=0**, the result is **null**. Else the result is **valueymd(e₁) / valueymd(e₂)** where **valueymd** is defined in [years and months duration](#years-and-months-duration). | number |
-| days and time duration | number | **valuedtd⁻¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | If **value(e₂)=0**, the result is **null**. Else the result is **valuedtd ¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | days and time duration |
-| number | days and time duration | *See above, reversing e₁ and e₂* | *Not allowed* | days and time duration |
-| days and time duration | days and time duration | *Not allowed* | If **valuedtd(e₂)=0**, the result is **null**. Else the result is **valuedtd(e₁) / valuedtd(e₂)** where **\_valuedtd** is defined in [days and time duration](#days-and-time-duration). | number |
+<table>
+<tr><td>
+
+**type(e₁)**
+
+</td><td>
+
+**type(e₂)**
+
+</td><td>
+
+***e₁ \* e₂***
+
+</td><td>
+
+***e₁ / e₂***
+
+</td><td>
+
+**result type**
+
+</td></tr>
+<tr><td>
+
+number
+
+**e₁=(p₁,s₁)**
+
+</td><td>
+
+number
+
+**e₂=(p₂,s₂)**
+
+</td><td>
+
+If **value(p₁,s₁) \* value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that
+
+- **value(p,s) = value(p₁,s₁)**
+
+**\* value(p₂,s₂) + ε**
+
+- **s ≤ s₁+s₂**
+
+- **s** is maximized subject to the limitation that **p** has 34 digits or less
+
+- **ε** is a possible rounding error
+
+</td><td>
+
+If **value(p₂,s₂)=0** or **value(p₁,s₁) / value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that
+
+- **value(p,s) = value(p₁,s₁) / value(p₂,s₂) + ε**
+
+- **s ≤ s₁-s₂**
+
+- **s** is maximized subject to the limitation that **p** has 34
+
+digits or less
+
+</td><td>number</td></tr>
+<tr><td>years and months duration</td><td>number</td><td>
+
+**valueymd ⁻¹(valueymd(e₁) \* value(e₂))** where **valueymd** and **valueymd ₋₁** are defined in [years and months duration](#years-and-months-duration)
+
+</td><td>
+
+If **value(e₂)=0**, the result is **null**.
+
+Else the result is **valueymd⁻ ¹(valueymd(e₁) / value(e₂))** where **valueymd** and **valueymd⁻¹** are defined in [years and months duration](#years-and-months-duration).
+
+</td><td>years and months duration</td></tr>
+<tr><td>number</td><td>years and months duration</td><td>
+
+*See above, reversing e₁ and e₂*
+
+</td><td>
+
+*Not allowed*
+
+</td><td>years and months duration</td></tr>
+<tr><td>years and months duration</td><td>years and months duration</td><td>
+
+*Not allowed*
+
+</td><td>
+
+If **valueymd(e₂)=0**, the result is **null**. Else the result is **valueymd(e₁) / valueymd(e₂)** where **valueymd** is defined in [years and months duration](#years-and-months-duration).
+
+</td><td>number</td></tr>
+<tr><td>days and time duration</td><td>number</td><td>
+
+**valuedtd⁻¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration).
+
+</td><td>
+
+If **value(e₂)=0**, the result is **null**.
+
+Else the result is **valuedtd ¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration).
+
+</td><td>days and time duration</td></tr>
+<tr><td>number</td><td>days and time duration</td><td>
+
+*See above, reversing e₁ and e₂*
+
+</td><td>
+
+*Not allowed*
+
+</td><td>days and time duration</td></tr>
+<tr><td>days and time duration</td><td>days and time duration</td><td>
+
+*Not allowed*
+
+</td><td>
+
+If **valuedtd(e₂)=0**, the result is **null**. Else the result is **valuedtd(e₁) / valuedtd(e₂)** where **\_valuedtd** is defined in
+
+[days and time duration](#days-and-time-duration).
+
+</td><td>number</td></tr>
+</table>
 
 ###### Table: Semantics of exponentiation
 
-| **Grammar** **Rule** | **FEEL** **Syntax** | **Input Domain** | **Result** |
-|----------|----------|------------------------|-----------------------------|
-| 23 | *e₁ \*\* e₂* | **type(e₁)** is number. **value(e₂)** is a number in the range \[-999,999,999..999,999,999\]. | If **value(e₁)value(e2 )** requires a scale that is out of range, the result is **null**. Else the result is **(p,s)** such that • **value(p,s)= value(e₁)^value(e₂⁾ + ε** • **p** is limited to 34 digits • **ε** is rounding error |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL
+
+Syntax
+
+</th><th>
+
+Input Domain
+
+</th><th>
+
+Result
+
+</th></tr>
+<tr><td>23</td><td>
+
+*e₁ \*\* e₂*
+
+</td><td>
+
+**type(e₁)** is number. **value(e₂)** is a number in the range
+
+\[-999,999,999..999,999,999\].
+
+</td><td>
+
+If **value(e₁)value(e2 )** requires a scale that is out of range, the result is **null**. Else the result is **(p,s)** such that
+
+- **value(p,s)= value(e₁)^value(e₂⁾ + ε**
+
+- **p** is limited to 34 digits
+
+- **ε** is rounding error
+
+</td></tr>
+</table>
 
 Type-checking is defined in [Semantics of type-checking](#table-semantics-of-type-checking). Note that *type* is not mapped to the domain, and **null** is the only value in the Null type (see [Semantic Domain](#semantic-domain)).
 
@@ -1452,24 +2324,84 @@ Before evaluating the *instance of* operator both operands are mapped to the typ
 
 ###### Table: Semantics of type-checking
 
-| **Grammar** **Rule** | **FEEL Syntax** | **Mapped to Domain** | **Examples** |
-|---------|--------------|---------------------|-----------------------------|
-| 51 | *e₁ instance of e₂* | If ***e₂*** cannot be mapped to a node in the lattice L, the result is **null.** If **e₁** is **null** and **type(***e₂***)** is *Null*, the result is **true**. If **type(***e₁***)** conforms to **type(***e₂***)** (see section [Relations between types](#relations-between-types)) and **e₁** is not **null,** the result is **true**. Otherwise, the result is **false**. | *\[123\] instance of list\<number\>* is **true** *"abc" instance of string* is **true** *123 instance of string* is **false** *123 instance of list* is **null** as a list type requires parameters (see rule 54). |
-| 51 | *e1 as e2* | If **e₁** instance of **e₂** is **false** or **null**, the result is **null.** Otherwise the result is **e₁** and **type(**e₁ instance of e₂**)** is **type(**e₂**)** | *"abc" as string =* "abc"; *123 as string =* **null**; *\[1, 2, 3\] as list\<number\>* = \[1, 2, 3\] *abs(x as number)* where x is a variable of type Any*.* If x is a number, the function is invoked with that number as argument; otherwise, the function is invoked with null as argument. |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL Syntax
+
+</th><th>
+
+Mapped to Domain
+
+</th><th>
+
+Examples
+
+</th></tr>
+<tr><td>51</td><td>
+
+*e₁ instance of e₂*
+
+</td><td>
+
+If ***e₂*** cannot be mapped to a node in the lattice L, the result is **null.**
+
+If **e₁** is **null** and **type(***e₂***)** is *Null*, the result is **true**.
+
+If **type(***e₁***)** conforms to **type(***e₂***)** (see section [Relations between types](#relations-between-types)) and **e₁** is not **null,** the result is **true**.
+
+Otherwise, the result is **false**.
+
+</td><td>
+
+*\[123\] instance of list\<number\>* is **true**
+
+*"abc" instance of string* is **true**
+
+*123 instance of string* is **false**
+
+*123 instance of list* is **null** as a list type requires parameters (see [list](#rule-list)).
+
+</td></tr>
+<tr><td>51</td><td>
+
+*e1 as e2*
+
+</td><td>
+
+If **e₁** instance of **e₂** is **false** or **null**, the result is **null.**
+
+Otherwise the result is **e₁** and **type(**e₁ instance of e₂**)** is **type(**e₂**)**
+
+</td><td>
+
+*"abc" as string =* "abc" *  
+123 as string =* **null** *  
+\[1, 2, 3\] as list\<number\>* = \[1, 2, 3\] *  
+abs(x as number)* where x is a variable of type Any*.* If x is a number, the function is invoked with that number as argument; otherwise, the function is invoked with null as argument.
+
+</td></tr>
+</table>
 
 Negative numbers and negation of durations are defined in [Semantics of negative numbers and negation of durations](#table-semantics-of-negative-numbers-and-negation-of-durations).
 
 ###### Table: Semantics of negative numbers and negation of durations
 
-| **Grammar Rule** | **FEEL Syntax** | **Equivalent FEEL Syntax** |
-|------------------|-----------------|----------------------------|
-| 24               | *-e*            | *e\*-1*                    |
+| Grammar Rule | FEEL Syntax | Equivalent FEEL Syntax |
+|--------------|-------------|------------------------|
+| 24           | *-e*        | *e\*-1*                |
 
 Invocation is defined in [Semantics of invocation](#table-semantics-of-invocation). An invocation can use positional arguments or named arguments. If positional, all arguments must be supplied. If named, unsupplied arguments are bound to **null**. Note that **e** can be a user-defined function, a user-defined external function, or a built-in function. The arguments are subject to implicit conversions ([Type conversions](#type-conversions)). If the argument types before or after conversion do not conform to the corresponding parameter types, the result of the invocation is **null**.
 
 ###### Table: Semantics of invocation
 
-| **Grammar Rule** | **FEEL** | **Mapped to Domain** | **Applicability** |
+| Grammar Rule | FEEL | Mapped to Domain | Applicability |
 |------------|-------------------|---------------------|---------------------|
 | 38, 39, 42 | *e(e₁,..)* | **e(e₁**,...**)** | **e** is a function with matching arity and conforming parameter types |
 | 38, 39, 40, 41 | *e(n₁:e₁,...)* | **e(***n₁***:e₁,...)** | **e** is a function with matching parameter names and conforming parameter types |
@@ -1478,47 +2410,141 @@ Properties are defined in [General semantics of properties](#table-general-seman
 
 ###### Table: General semantics of properties
 
-| **Grammar Rule** | **FEEL** | **Mapped to Domain** | **Applicability** |
+| Grammar Rule | FEEL     | Mapped to Domain | Applicability                       |
 |--------------|-------------------|---------------------|--------------------|
-| 18 | *e.name* | **e."name"** | **type(e)** is a context |
-| 18 | *e.name* | *see below* | **type(e)** is a date/time/duration |
+| 18           | *e.name* | **e."name"**     | **type(e)** is a context            |
+| 18           | *e.name* | *see below*      | **type(e)** is a date/time/duration |
 
 ###### Table: List of properties per type
 
-| **type(*e*)** | ***e .* name** | **name =** |
-|----------------|----------------------------------|-----------------------|
-| date | result is the **name**d component of the date object **e**. Valid names are shown to the right. | year, month, day, weekday, value |
-| date and time | result is the **name**d component of the date and time object **e**. Valid names are shown to the right. | year, month, day, weekday, hour, minute, second, time offset, timezone, value |
-| time | result is the **name**d component of the time object **e**. Valid names are shown to the right | hour, minute, second, time offset, timezone, value |
-| years and months duration | result is the **name**d component of the years and months duration object **e**. Valid names are shown to the right. | years, months, value |
-| days and time duration | result is the **name**d component of the days and time duration object **e**. Valid names are shown to the right. | days, hours, minutes, seconds, value |
-| range | result is the **name**d component of the range object **e**. Valid names are shown to the right. | start, end, start included, end included |
+<table>
+<tr><th>
+
+type(*e*)
+
+</th><th>
+
+*e .* name
+
+</th><th>
+
+name =
+
+</th></tr>
+<tr><td>date</td><td>
+
+result is the **name**d component of the date object **e**. Valid names are shown to the right.
+
+</td><td>year, month, day, weekday, value</td></tr>
+<tr><td>date and time</td><td>
+
+result is the **name**d component of the date and time object **e**. Valid names are shown to the right.
+
+</td><td>year, month, day, weekday, hour, minute, second, time offset, timezone, value</td></tr>
+<tr><td>time</td><td>
+
+result is the **name**d component of the time object **e**.
+
+Valid names are shown to the right
+
+</td><td>hour, minute, second, time offset, timezone, value</td></tr>
+<tr><td>years and months duration</td><td>
+
+result is the **name**d component of the years and months duration object **e**. Valid names are shown to the right.
+
+</td><td>years, months, value</td></tr>
+<tr><td>days and time duration</td><td>
+
+result is the **name**d component of the days and time duration object **e**. Valid names are shown to the right.
+
+</td><td>days, hours, minutes, seconds, value</td></tr>
+<tr><td>range</td><td>
+
+result is the **name**d component of the range object **e**. Valid names are shown to the right.
+
+</td><td>start, end, start included, end included</td></tr>
+</table>
 
 ###### Table: Specific semantics of date, time, and duration properties
 
-| **name** | ***type*(name)** | **description** |
-|----------------|----------------|-----------------------------------------|
-| year | number | The year number as an integer in the interval \[-999,999,999 .. 999,999,999\] |
-| month | number | The month number as an integer in the interval \[1..12\], where 1 is January and 12 is December |
-| day | number | The day of the month as an integer in the interval \[1..31\] |
-| weekday | number | The day of the week as an integer in the interval \[1. .7\] where 1 is Monday and 7 is Sunday (compliant with the definition in ISO 8601) |
-| hour | number | The hour of the day as an integer in the interval \[0..23\] |
-| minute | number | The minute of the hour as an integer in the interval \[0..59\] |
-| second | number | The second of the minute as a decimal in the interval \[0. .60) |
-| time offset | days and time duration | The duration offset corresponding to the timezone the date or date and time value represents. The time offset duration must be in the interval **\[duration(“-PT14H”)..duration(“PT14H”)\]** as per the XML Schema Part 2 dateTime datatype. The **time offset** property returns null when the object does not have a time offset set. |
-| timezone | string | The timezone identifier as defined in the IANA Time Zones database. The **timezone** property returns null when the object does not have an IANA timezone defined. |
-| **name** | ***type*(name)** | **description** |
-| years | number | The normalized years component of a years and months duration value as an integer. This property returns null when invoked on a days and time duration value. |
-| months | number | The normalized months component of a years and months duration value. Since the value is normalized, this property must return an integer in the interval \[0.. 11\]. This property returns null when invoked on a days and time duration value. |
-| days | number | The normalized days component of a days and time duration value as an integer. This property returns null when invoked on a years and months duration value. |
-| hours | number | The normalized hours component of a days and time duration value. Since the value is normalized, this property must return an integer in the interval \[0..23\]. This property returns null when invoked on a years and months duration value. |
-| minutes | number | The normalized minutes component of a days and time duration value. Since the value is normalized, this property must return an integer in the interval \[0..59\]. This property returns null when invoked on a years and months duration value. |
-| seconds | number | The normalized minutes component of a days and time duration value. Since the value is normalized, this property must return a decimal in the interval \[0..60). This property returns null when invoked on a years and months duration value. |
-| value | number | The value returned by the value function corresponding to the type as defined in [time](#time), [date](#date), [date-time](#date-time), [days and time duration](#days-and-time-duration) and [years and months duration](#years-and-months-duration). |
+<table>
+<tr><th>
+
+name
+
+</th><th>
+
+*type*(name)
+
+</th><th>
+
+description
+
+</th></tr>
+<tr><td>year</td><td>number</td><td>
+
+The year number as an integer in the interval \[-999,999,999 ..
+
+999,999,999\]
+
+</td></tr>
+<tr><td>month</td><td>number</td><td>
+
+The month number as an integer in the interval \[1..12\], where 1 is
+
+January and 12 is December
+
+</td></tr>
+<tr><td>day</td><td>number</td><td>The day of the month as an integer in the interval [1..31]</td></tr>
+<tr><td>weekday</td><td>number</td><td>
+
+The day of the week as an integer in the interval \[1. .7\] where 1 is
+
+Monday and 7 is Sunday (compliant with the definition in ISO 8601)
+
+</td></tr>
+<tr><td>hour</td><td>number</td><td>The hour of the day as an integer in the interval [0..23]</td></tr>
+<tr><td>minute</td><td>number</td><td>The minute of the hour as an integer in the interval [0..59]</td></tr>
+<tr><td>second</td><td>number</td><td>The second of the minute as a decimal in the interval [0. .60)</td></tr>
+<tr><td>time offset</td><td>days and time duration</td><td>
+
+The duration offset corresponding to the timezone the date or date and time value represents. The time offset duration must be in the interval **\[duration(“-PT14H”)..duration(“PT14H”)\]** as per the XML Schema Part 2 dateTime datatype. The **time offset** property returns null when the object does not have a time offset set.
+
+</td></tr>
+<tr><td>timezone</td><td>string</td><td>
+
+The timezone identifier as defined in the IANA Time Zones database. The **timezone** property returns null when the object does not have an IANA timezone defined.
+
+</td></tr>
+<tr><td>
+
+**name**
+
+</td><td>
+
+***type*(name)**
+
+</td><td>
+
+**description**
+
+</td></tr>
+<tr><td>years</td><td>number</td><td>The normalized years component of a years and months duration value as an integer. This property returns null when invoked on a days and time duration value.</td></tr>
+<tr><td>months</td><td>number</td><td>The normalized months component of a years and months duration value. Since the value is normalized, this property must return an integer in the interval [0.. 11]. This property returns null when invoked on a days and time duration value.</td></tr>
+<tr><td>days</td><td>number</td><td>The normalized days component of a days and time duration value as an integer. This property returns null when invoked on a years and months duration value.</td></tr>
+<tr><td>hours</td><td>number</td><td>The normalized hours component of a days and time duration value. Since the value is normalized, this property must return an integer in the interval [0..23]. This property returns null when invoked on a years and months duration value.</td></tr>
+<tr><td>minutes</td><td>number</td><td>The normalized minutes component of a days and time duration value. Since the value is normalized, this property must return an integer in the interval [0..59]. This property returns null when invoked on a years and months duration value.</td></tr>
+<tr><td>seconds</td><td>number</td><td>The normalized minutes component of a days and time duration value. Since the value is normalized, this property must return a decimal in the interval [0..60). This property returns null when invoked on a years and months duration value.</td></tr>
+<tr><td>value</td><td>number</td><td>
+
+The value returned by the value function corresponding to the type as defined in [time](#time), [date](#date), [date-time](#date-time), [days and time duration](#days-and-time-duration) and [years and months duration](#years-and-months-duration).
+
+</td></tr>
+</table>
 
 ###### Table: Specific semantics of range properties
 
-| **name** | **type(name)** | **description** |
+| name | type(name) | description |
 |-------------------------|-------------------------|-----------------------|
 | start | Type of the start endpoint of the range | the start endpoint of the range |
 | end | Type of the end endpoint of the range | the end endpoint of the range |
@@ -1527,39 +2553,180 @@ Properties are defined in [General semantics of properties](#table-general-seman
 
 In the case of nested contexts, the descendant expression can be used to access a property name recursively throughout the nested context. For example:
 
-    { a: { b: { b: 1 } } }...b
+```feel
+{ a: { b: { b: 1 } } }...b
+```
 
 is evaluated to:
 
-    [ { b: 1 }, 1 ]
+```feel
+[ { b: 1 }, 1 ]
+```
 
 because each key contained in the context and all of its nested contexts are returned as a list of associated values.
 
-| **Grammar** **Rule** | **FEEL** | **Mapped to Domain** | **Applicability**       |
-|-----------|----------|--------------------------|--------------------------|
-| 68                   | *e…name* | **e…”name”**         | **type e is a context** |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL
+
+</th><th>
+
+Mapped to Domain
+
+</th><th>
+
+Applicability
+
+</th></tr>
+<tr><td>68</td><td>
+
+*e…name*
+
+</td><td>
+
+**e…”name”**
+
+</td><td>
+
+**type e is a context**
+
+</td></tr>
+</table>
 
 Lists are defined in [Semantics of lists](#table-semantics-of-lists).
 
 ###### Table: Semantics of lists
 
-| **Grammar** **Rule** | **FEEL** **Syntax** | **Mapped to Domain (scope s)** | **Applicability** |
-|-----------|----------|--------------------------|--------------------------|
-| 54 | *e₁\[e₂\]* | **e₁\[e₂\]** | **e₁** is a list and **e₂** is an integer (0 scale number) |
-| 54 | *e₁\[e₂\]* | **e 1** | **e₁** is not a list and not **null** and **value(e₂)** = **1** |
-| 54 | *e₁\[e₂\]* | list of items **e** such that **i** is in **e** iff **i** is in **e₁** and FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **i**) and if **i** is a context, the special context also contains all the context entries of **i**. | **e₁** is a list and **type(**FEEL(*e₂,* **s'**)**)** is boolean |
-| 54 | *e₁\[e₂\]* | **\[e₁\]** if FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **e₁**) and if **e₁** is a context, the special context also contains all the context entries of **e₁**. Else **\[\]**. | **e₁** is not a list and not **null** and **type(**FEEL(*e₂,* **s'**)**)** is boolean |
+<table>
+<tr><th>
+
+Grammar
+
+Rule
+
+</th><th>
+
+FEEL
+
+Syntax
+
+</th><th>
+
+Mapped to Domain (scope s)
+
+</th><th>
+
+Applicability
+
+</th></tr>
+<tr><td>54</td><td>
+
+*e₁\[e₂\]*
+
+</td><td>
+
+**e₁\[e₂\]**
+
+</td><td>
+
+**e₁** is a list and **e₂** is an integer (0 scale number)
+
+</td></tr>
+<tr><td>54</td><td>
+
+*e₁\[e₂\]*
+
+</td><td>
+
+**e 1**
+
+</td><td>
+
+**e₁** is not a list and not **null** and **value(e₂)**
+
+= **1**
+
+</td></tr>
+<tr><td>54</td><td>
+
+*e₁\[e₂\]*
+
+</td><td>
+
+list of items **e** such that **i** is in **e** iff **i** is in **e₁** and FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **i**) and if **i** is a context, the special context also contains all the context entries of **i**.
+
+</td><td>
+
+**e₁** is a list and **type(**FEEL(*e₂,* **s'**)**)** is boolean
+
+</td></tr>
+<tr><td>54</td><td>
+
+*e₁\[e₂\]*
+
+</td><td>
+
+**\[e₁\]** if FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **e₁**) and if **e₁** is a context, the special context also contains all the context entries of **e₁**.
+
+Else **\[\]**.
+
+</td><td>
+
+**e₁** is not a list and not **null** and **type(**FEEL(*e₂,* **s'**)**)** is boolean
+
+</td></tr>
+</table>
 
 Contexts are defined in [Semantics of contexts](#table-semantics-of-contexts).
 
 ###### Table: Semantics of contexts
 
-| **Grammar Rule** | **FEEL Syntax** | **Mapped to Domain (scope s)** |
-|-------------|----------------------|-------------------------------------|
-|  | *{ n₁ : e₁, n₂ : e₂, ...}* | **{** "**n₁**"**:** FEEL(*e₁*, **s₁**)**,** "**n2**"**:** FEEL(*e₂*, **s₂**)**, ...}** such that the **si** are all **s** with a special first context **ci** containing a subset of the entries of this result context. If **ci** contains the entry for **nⱼ**, then **cⱼ** does not contain the entry for **nᵢ**. |
-|  | *{ "n₁" : e₁, "n₂" : e₂, ...}* |  |
-| 57 |  |  |
-| 54 | *\[e₁, e₂, ...\]* | **\[** FEEL(*e₁*)**,** FEEL(*e₂*)**, ...\]** |
+<table>
+<tr><th>
+
+Grammar Rule
+
+</th><th>
+
+FEEL Syntax
+
+</th><th>
+
+Mapped to Domain (scope s)
+
+</th></tr>
+<tr><td rowspan="2"></td><td>
+
+*{ n₁ : e₁, n₂ : e₂, ...}*
+
+</td><td rowspan="3">
+
+**{** "**n₁**"**:** FEEL(*e₁*, **s₁**)**,** "**n2**"**:** FEEL(*e₂*, **s₂**)**, ...}** such that the **si** are all **s** with a special first context **ci** containing a subset of the entries of this result context. If **ci** contains the entry for **nⱼ**, then **cⱼ** does not contain the entry for **nᵢ**.
+
+</td></tr>
+<tr><td>
+
+*{ "n₁" : e₁, "n₂" : e₂, ...}*
+
+</td></tr>
+<tr><td>57</td><td></td></tr>
+<tr><td>54</td><td>
+
+*\[e₁, e₂, ...\]*
+
+</td><td>
+
+**\[** FEEL(*e₁*)**,** FEEL(*e₂*)**, ...\]**
+
+</td></tr>
+</table>
 
 #### Error Handling
 
@@ -1577,14 +2744,91 @@ XML namespace semantics are not supported by the mappings. For example, given th
 
 ###### Table: Semantics of XML elements
 
-| **XML** | **context entry in p** | **Remark** |
-|-------------------------|------------------------|-----------------------|
-| *\<e /\>* | "**e**" **: null** | empty element → **null**-valued entry in **p** |
-| *\<q:e /\>* | "**e**" **: null** | namespaces are ignored. |
-| *\<e\>v\</e\>* | "**e**"**:**XV(*v*) | unrepeated element without attributes |
-| *\<e\>v₁\</e\> \<e\>v₂\</e\>* | "**e**"**: \[** XV(*v₁*)**,** XV(*v₂*) **\]** | repeating element without attributes |
-| *\<e a="v"/\>* *\<c₁\>v₁\</c₁\>* | **"e": { "a":** XV(*v*), **"c₁":** XV(*v₁*), | An element containing attributes or child elements → context |
-| *\<e a="v₁"\>v₂\</e\>* | "**e**"**: {** "**\@a**"**:** XV(*v₁*), "**\$content**"**:** XV(*v₂*) **}** | *v₂* is contained in a generated \$content entry |
+<table>
+<tr><th>
+
+XML
+
+</th><th>
+
+context entry in p
+
+</th><th>
+
+Remark
+
+</th></tr>
+<tr><td>
+
+*\<e /\>*
+
+</td><td>
+
+"**e**" **: null**
+
+</td><td>
+
+empty element → **null**-valued entry in **p**
+
+</td></tr>
+<tr><td>
+
+*\<q:e /\>*
+
+</td><td>
+
+"**e**" **: null**
+
+</td><td>namespaces are ignored.</td></tr>
+<tr><td>
+
+*\<e\>v\</e\>*
+
+</td><td>
+
+"**e**"**:**XV(*v*)
+
+</td><td>unrepeated element without attributes</td></tr>
+<tr><td>
+
+*\<e\>v₁\</e\> \<e\>v₂\</e\>*
+
+</td><td>
+
+"**e**"**: \[** XV(*v₁*)**,** XV(*v₂*) **\]**
+
+</td><td>repeating element without attributes</td></tr>
+<tr><td>
+
+*\<e a="v"/\>*
+
+*\<c₁\>v₁\</c₁\>*
+
+</td><td>
+
+**"e": { "a":** XV(*v*),
+
+**"c₁":** XV(*v₁*),
+
+</td><td>An element containing attributes or child elements → context</td></tr>
+<tr><td>
+
+*\<e a="v₁"\>v₂\</e\>*
+
+</td><td>
+
+"**e**"**: {** "**\@a**"**:** XV(*v₁*), "**\$content**"**:**
+
+XV(*v₂*) **}**
+
+</td><td>
+
+*v₂* is contained in a generated
+
+\$content entry
+
+</td></tr>
+</table>
 
 An entry in the **context entry in p** column such as **"e" : null** indicates a context entry with string key **"e"** and value **null**. The context entries are contained by context **p** that corresponds to the containing XML element, or to the XML document itself.
 
@@ -1596,7 +2840,7 @@ If an XML document was parsed with a schema, then some atomic values may have a 
 
 ###### Table: Semantics of XML values
 
-| **Type of *v***    | **FEEL Semantic Domain**   |
+| Type of *v*        | FEEL Semantic Domain       |
 |--------------------|----------------------------|
 | number             | FEEL(*v*)                  |
 | string             | FEEL(*"v"*)                |
@@ -1685,13 +2929,30 @@ The following schema and instance are equivalent to the following FEEL:
 
 ##### equivalent FEEL boxed context
 
-| **Context** |               |              |
-|-------------|---------------|--------------|
-| Employee    | salary        | 13000        |
-| Customer    | loyalty_level | credit_limit |
-|             | *gold*        | 10000        |
-|             | *gold*        | 20000        |
-|             | *silver*      | 5000         |
+<table>
+<tr><th>
+
+Context
+
+</th><th></th><th></th></tr>
+<tr><td>Employee</td><td>salary</td><td>13000</td></tr>
+<tr><td rowspan="4">Customer</td><td>loyalty_level</td><td>credit_limit</td></tr>
+<tr><td>
+
+*gold*
+
+</td><td>10000</td></tr>
+<tr><td>
+
+*gold*
+
+</td><td>20000</td></tr>
+<tr><td>
+
+*silver*
+
+</td><td>5000</td></tr>
+</table>
 
 When a decision model is evaluated, its input data described by an item definition such as an XML Schema element
 
@@ -1723,36 +2984,293 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 - duration string – a string value in the lexical space of the xs:dayTimeDuration or xs:yearMonthDuration datatypes specified by the XQuery 3.1 and XPath 3.1 Data Model.
 
-- range string – a string value conforming to grammar rule 66 “range literal" as defined in chapter [Grammar rules](#grammar-rules).
+- range string – a string value conforming to grammar [range literal](#rule-range-literal) “range literal" as defined in chapter [Grammar rules](#grammar-rules).
 
 ###### Table: Semantics of conversion functions
 
-| **Name(parameters)** | **Parameter** **Domain** | **Description** | **Example** |
-|-----------------|----------------|--------------|--------------------------|
-| date(*from*) | date string | convert *from* to a date | *date("2012-12-25") – date("2012-12-24") = duration("P1D ")* |
-| date(*from*) | date and time | convert *from* to a date (set time components to null) | *date( date and time("2012-12-25T11:00:00Z")) =* *date("2012-12-25")* |
-| date(*year*, *month*, *day*) | *year*, *month*, *day* are numbers² | creates a date from year, month, day component values | *date (2012, 12, 25) = date("2012-12-25")* |
-| date and time(*date*, *time*) | *date* is a date or date time; *time* is a time | creates a date time from the given date (ignoring any time component) and the given time | *date and time ("2012-12-24T23:59:00") = date and time (date("2012-12-24”), time (“23:59:00"))* |
-| date and time(*date*, *time*, *timezone*) | *date* is a date or date time; *time* is a time without timezone; *timezone* is a string denoting a timezone offset or a IANA zone identifier | creates a date time from the given date, time and timezone | *date and time (date("2024-12-24"), time("23:59:00"), "Z") = date and time ("2024-12-24T23:59:00Z")*; *date and time (date("2024-12-24"), time("23:59:00"), "America/Costa_Rica") = date and time ("2024-12-24T23:59:00@America/Costa_Rica")* |
-| date and time(*from*) | date time string | convert *from* to a date and time | *date and time("2012-12-24T23:59:00") + duration("PT1M") = date and time("2012-* *12-25T00:00:00")* |
-| time(*from*) | time string | convert *from* to time | *time("23:59:00z") + duration("PT2M") = time("00:01:00@Etc/UTC")* |
-| time(*from*) | time, date and time | convert *from* to time (ignoring date components) | *time( date and time("2012-12-25T11:00:00Z")) = time("1 1:00:00Z")* |
-| time(*hour*, *minute*, *second*, *offset?*) | *hour*, *minute*, *second*, are numbers², *offset* is a days and time duration, or null | creates a time from the given component values | *time (“23:59:00z") =* *time (23, 59, 0, duration(“PT0H”))* |
-| number(*from, grouping separator, decimal separator*) | string¹, string¹, string¹ | convert *from* to a number | *number("1 000,0", " ", ",") = number("1,000.0", " ,", ".")* |
-| number(*from*) | string¹ | convert *from* to a number | *number("1.1") = number("1.1", null, null) = 1.1* |
-| number(*from*) | number | return *from* | *number(5) = 5* |
-| string(*from*) | non-null | convert *from* to a string | *string(1.1) = "1.1" string(null) = null* |
-| duration(*from*) | duration string | convert *from* to a days and time or years and months duration | *date and time("2012-12-24T23:59:00") - date and time("2012-12-22T03:45:00") = duration("P2DT20H14M") duration("P2Y2M") = duration("P26M")* |
-| days and time duration(*from*) | duration string | convert *from* to a days and time duration | *date and time("2012-12-24T23:59:00") - date and time("2012-12-22T03:45:00") = days and time duration("P2DT20H14M")* |
-| years and months duration(*from*) | duration string | convert *from* to a years and months duration | *years and months duration("P2Y2M") = years and months duration("P26M")* |
-| years and months duration(*from, to*) | both are date or both are date and time | return years and months duration between *from* and *to* | *years and months duration (date("2011-12-22"), date("2013-08-24") ) = duration("P1Y8M")* |
-| range (*from*) | range string | Convert from a range string to a range, according to the definitions of chapter [Ranges](#ranges) “Ranges”. Please notice that in range string, only literal range endpoints are allowed as defined in grammar rule 67 “range endpoint" in chapter [Grammar rules](#grammar-rules). If range string does not conform with grammar rule 66, the result is **null**. | *range("\[18..21)")* is *\[18..21)* *range("\[2..)")* is *\>=2* *range("(..2)")* is *\<2* *range("") is* **null** *range("\[..\]") is* **null** |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter
+
+Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+date(*from*)
+
+</td><td>date string</td><td>
+
+convert *from* to a date
+
+</td><td>
+
+*date("2012-12-25") – date("2012-12-24") = duration("P1D ")*
+
+</td></tr>
+<tr><td>
+
+date(*from*)
+
+</td><td>date and time</td><td>
+
+convert *from* to a date (set time components to null)
+
+</td><td>
+
+*date( date and time("2012-12-25T11:00:00Z")) =*
+
+*date("2012-12-25")*
+
+</td></tr>
+<tr><td>
+
+date(*year*, *month*, *day*)
+
+</td><td>
+
+*year*, *month*, *day* are numbers²
+
+</td><td>creates a date from year, month, day component values</td><td>
+
+*date (2012, 12, 25) = date("2012-12-25")*
+
+</td></tr>
+<tr><td>
+
+date and time(*date*, *time*)
+
+</td><td>
+
+*date* is a date or date time; *time* is a time
+
+</td><td>creates a date time from the given date (ignoring any time component) and the given time</td><td>
+
+*date and time ("2012-12-24T23:59:00") = date and time (date("2012-12-24”), time (“23:59:00"))*
+
+</td></tr>
+<tr><td>
+
+date and time(*date*, *time*, *timezone*)
+
+</td><td>
+
+*date* is a date or date time; *time* is a time without timezone; *timezone* is a string denoting a timezone offset or a IANA zone identifier
+
+</td><td>creates a date time from the given date, time and timezone</td><td>
+
+*date and time (date("2024-12-24"), time("23:59:00"), "Z") = date and time ("2024-12-24T23:59:00Z")*
+
+*date and time (date("2024-12-24"), time("23:59:00"), "America/Costa_Rica") = date and time ("2024-12-24T23:59:00@America/Costa_Rica")*
+
+</td></tr>
+<tr><td>
+
+date and time(*from*)
+
+</td><td>date time string</td><td>
+
+convert *from* to a date and time
+
+</td><td>
+
+*date and time("2012-12-24T23:59:00") + duration("PT1M") = date and time("2012-*
+
+*12-25T00:00:00")*
+
+</td></tr>
+<tr><td>
+
+time(*from*)
+
+</td><td>time string</td><td>
+
+convert *from* to time
+
+</td><td>
+
+*time("23:59:00z") + duration("PT2M") = time("00:01:00@Etc/UTC")*
+
+</td></tr>
+<tr><td>
+
+time(*from*)
+
+</td><td>time, date and time</td><td>
+
+convert *from* to time (ignoring date components)
+
+</td><td>
+
+*time( date and time("2012-12-25T11:00:00Z")) = time("1 1:00:00Z")*
+
+</td></tr>
+<tr><td>
+
+time(*hour*, *minute*, *second*, *offset?*)
+
+</td><td>
+
+*hour*, *minute*, *second*, are numbers², *offset* is a days and time duration,
+
+or null
+
+</td><td>creates a time from the given component values</td><td>
+
+*time (“23:59:00z") =*
+
+*time (23, 59, 0, duration(“PT0H”))*
+
+</td></tr>
+<tr><td>
+
+number(*from, grouping separator, decimal separator*)
+
+</td><td>string¹, string¹, string¹</td><td>
+
+convert *from* to a number
+
+</td><td>
+
+*number("1 000,0", " ", ",") = number("1,000.0", " ,", ".")*
+
+</td></tr>
+<tr><td>
+
+number(*from*)
+
+</td><td>string¹</td><td>
+
+convert *from* to a number
+
+</td><td>
+
+*number("1.1") = number("1.1", null, null) = 1.1*
+
+</td></tr>
+<tr><td>
+
+number(*from*)
+
+</td><td>number</td><td>
+
+return *from*
+
+</td><td>
+
+*number(5) = 5*
+
+</td></tr>
+<tr><td>
+
+string(*from*)
+
+</td><td>non-null</td><td>
+
+convert *from* to a string
+
+</td><td>
+
+*string(1.1) = "1.1" string(null) = null*
+
+</td></tr>
+<tr><td>
+
+duration(*from*)
+
+</td><td>duration string</td><td>
+
+convert *from* to a days and time or years and months duration
+
+</td><td>
+
+*date and time("2012-12-24T23:59:00") - date and time("2012-12-22T03:45:00") = duration("P2DT20H14M") duration("P2Y2M") = duration("P26M")*
+
+</td></tr>
+<tr><td>
+
+days and time duration(*from*)
+
+</td><td>duration string</td><td>
+
+convert *from* to a days and time duration
+
+</td><td>
+
+*date and time("2012-12-24T23:59:00") - date and time("2012-12-22T03:45:00") = days and time duration("P2DT20H14M")*
+
+</td></tr>
+<tr><td>
+
+years and months duration(*from*)
+
+</td><td>duration string</td><td>
+
+convert *from* to a years and months duration
+
+</td><td>
+
+*years and months duration("P2Y2M") = years and months duration("P26M")*
+
+</td></tr>
+<tr><td>
+
+years and months duration(*from, to*)
+
+</td><td>both are date or both are date and time</td><td>
+
+return years and months duration between *from* and *to*
+
+</td><td>
+
+*years and months duration (date("2011-12-22"), date("2013-08-24") ) = duration("P1Y8M")*
+
+</td></tr>
+<tr><td>
+
+range (*from*)
+
+</td><td>range string</td><td>
+
+Convert from a range string to a range, according to the definitions of chapter [Ranges](#ranges) “Ranges”.
+
+Please notice that in range string, only literal range endpoints are allowed as defined in grammar [range endpoint](#rule-range-endpoint) “range endpoint" in chapter [Grammar rules](#grammar-rules).
+
+If range string does not conform with grammar [range literal](#rule-range-literal), the result is **null**.
+
+</td><td>
+
+*range("\[18..21)")* is *\[18..21)*
+
+*range("\[2..)")* is *\>=2*
+
+*range("(..2)")* is *\<2*
+
+*range("") is* **null**
+
+*range("\[..\]") is* **null**
+
+</td></tr>
+</table>
 
 > 1\. *grouping separator* SHALL be one of space (' '), comma (','), period ('.'), or null.
 >
 > *Decimal separator* SHALL be one of period, comma, or null, but SHALL NOT be the same as the grouping separator unless both are null.
 >
-> *from* SHALL conform to grammar rule 37, after removing all occurrences of the grouping separator, if any, and after changing the decimal separator, if present, to a period.
+> *from* SHALL conform to grammar [digits](#rule-digits), after removing all occurrences of the grouping separator, if any, and after changing the decimal separator, if present, to a period.
 >
 > 2\. If year. month, day, hour, minute or second are decimal numbers, the implicit conversion *from* *decimal* *to* *integer* is applied.
 >
@@ -1764,9 +3282,36 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 ###### Table: Semantics of Boolean functions
 
-| **Name(parameters)** | **Parameter** **Domain** | **Description** | **Example** |
-|-----------------|-------------|----------------|--------------------------|
-| not(*negand*) | boolean | logical negation | *not(true) = false not(null) = null* |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter
+
+Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+not(*negand*)
+
+</td><td>boolean</td><td>logical negation</td><td>
+
+*not(true) = false not(null) = null*
+
+</td></tr>
+</table>
 
 #### String functions
 
@@ -1774,23 +3319,181 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 ###### Table: Semantics of string functions
 
-| **Name(parameters)** | **Parameter** **Domain** | **Description** | **Example** |
-|---------------|-------------|----------------|-----------------------------|
-| substring(*string, start position, length?*) | string, number¹ | return *length* (or all) characters in *string*, starting at *start* *position*. 1st position is 1, last position is -1 | *substring("foobar",3) = "obar" substring("foobar",3,3) = "oba" substring("foobar", -2, 1) = "a"*; *substring("\\U01F40Eab", 2) = "ab" where "\\U01F40Eab" is the representation of* 🐎***ab*** |
-| string length(string) | string | return number of characters (or code points) in string. | *string length("foo") = 3 string length("\\U01F40Eab") = 3* |
-| upper case(string) | string | return uppercased string | *upper case("aBc4") = "ABC4"* |
-| lower case(string) | string | return lowercased string | *lower case("aBc4") = "abc4"* |
-| substring before (string, match) | string, string | return substring of string before the match in string | *Substring before("foobar","bar") =*; *"foo" substring before("foobar","xyz") = ""* |
-| substring after (string, match) | string, string | return substring of string after the match in string | *substring after("foobar", "ob") = "ar" substring after("", "a") = ""* |
-| replace(input, pattern, replacement, flags?) | string2 | regular expression pattern matching and replacement | *replace("banana","a","o") = "bonono"* *replace("abcd", "(ab)\|(a)",* *"\[1=\$1\]\[2=\$2\]") = "\[1=ab\]\[2=\]cd"* |
-| contains(string, match) | string | does the string contain the match? | *contains("foobar", "of") = false* |
-| starts with(string, match) | string | does the string start with the match? | *starts with("foobar", "fo") = true* |
-| ends with( string, match) | string | does the string end with the match? | *ends with("foobar", "r") = true* |
-| matches(input, pattern, flags?) | string2 | does the input match the regexp pattern? | *matches("foobar", "^fo\*b") = true* |
-| split( string, delimiter ) | *string* is a string, *delimiter* is a pattern2 | Splits the string into a list of substrings, breaking at each occurrence of the delimiter pattern. | *split( “John Doe”, “\\\\s” ) = \[“John”, “Doe”\] split( “a;b;c;;”, “;” ) =* *\[“a”,”b”,”c”,””,””\]* |
-| string join(list, delimiter) | *list* is a list of strings, *delimiter* is a string | return a string which is composed by joining all the string elements from the list parameter, separated by the delimiter. The delimiter can be an empty string. Null elements in the list parameter are ignored. If ***list*** is empty, the result is the empty string. If ***delimiter*** is null, the string elements are joined without a separator. | *string join(\["a","b","c"\], "\_and\_") =* *"a_and_b_and_c"* *string join(\["a","b","c"\], "") = "abc" string join(\["a","b","c"\], null) = "abc" string join(\["a"\], "X") = "a" string join(\["a",null,"c"\], "X") = "aXc" string join(\[\], "X") = ""* |
-| string join(list) | *list* is a list of strings | return a string which is composed by joining all the string elements from the list parameter Null elements in the list parameter are ignored. If ***list*** is empty, the result is the empty string. | *string join(\["a","b","c"\]) = "abc" string join(\["a",null,"c"\]) = "ac" string join(\[\]) = ""* |
-| trim(string) | *string* | return a string with white spaces (see rule 61 of the grammar) removed from the beginning and the end | *trim(" abc ") = "abc"*; *trim("x ") = "x"*; *trim("") = ""*; *trim(null) = null* |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter
+
+Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+substring(*string, start position, length?*)
+
+</td><td>string, number¹</td><td>
+
+return *length* (or all) characters in *string*, starting at *start*
+
+*position*. 1st position is 1, last position is -1
+
+</td><td>
+
+*substring("foobar",3) = "obar" substring("foobar",3,3) = "oba" substring("foobar", -2, 1) = "a"*
+
+*substring("\\U01F40Eab", 2) = "ab" where "\\U01F40Eab" is the representation of* 🐎***ab***
+
+</td></tr>
+<tr><td>string length(string)</td><td>string</td><td>return number of characters (or code points) in string.</td><td>
+
+*string length("foo") = 3 string length("\\U01F40Eab") = 3*
+
+</td></tr>
+<tr><td>upper case(string)</td><td>string</td><td>return uppercased string</td><td>
+
+*upper case("aBc4") = "ABC4"*
+
+</td></tr>
+<tr><td>lower case(string)</td><td>string</td><td>return lowercased string</td><td>
+
+*lower case("aBc4") = "abc4"*
+
+</td></tr>
+<tr><td>
+
+substring before
+
+(string, match)
+
+</td><td>string, string</td><td>return substring of string before the match in string</td><td>
+
+*Substring before("foobar","bar") =*
+
+*"foo" substring before("foobar","xyz") = ""*
+
+</td></tr>
+<tr><td>
+
+substring after
+
+(string, match)
+
+</td><td>string, string</td><td>return substring of string after the match in string</td><td>
+
+*substring after("foobar", "ob") = "ar" substring after("", "a") = ""*
+
+</td></tr>
+<tr><td>replace(input, pattern, replacement, flags?)</td><td>string2</td><td>regular expression pattern matching and replacement</td><td>
+
+*replace("banana","a","o") = "bonono"*
+
+*replace("abcd", "(ab)\|(a)",*
+
+*"\[1=\$1\]\[2=\$2\]") = "\[1=ab\]\[2=\]cd"*
+
+</td></tr>
+<tr><td>contains(string, match)</td><td>string</td><td>does the string contain the match?</td><td>
+
+*contains("foobar", "of") = false*
+
+</td></tr>
+<tr><td>starts with(string, match)</td><td>string</td><td>does the string start with the match?</td><td>
+
+*starts with("foobar", "fo") = true*
+
+</td></tr>
+<tr><td>ends with( string, match)</td><td>string</td><td>does the string end with the match?</td><td>
+
+*ends with("foobar", "r") = true*
+
+</td></tr>
+<tr><td>matches(input, pattern, flags?)</td><td>string2</td><td>does the input match the regexp pattern?</td><td>
+
+*matches("foobar", "^fo\*b") = true*
+
+</td></tr>
+<tr><td>split( string, delimiter )</td><td>
+
+*string* is a string, *delimiter* is a pattern2
+
+</td><td>Splits the string into a list of substrings, breaking at each occurrence of the delimiter pattern.</td><td>
+
+*split( “John Doe”, “\\\\s” ) = \[“John”, “Doe”\] split( “a;b;c;;”, “;” ) =*
+
+*\[“a”,”b”,”c”,””,””\]*
+
+</td></tr>
+<tr><td>string join(list, delimiter)</td><td>
+
+*list* is a list of strings, *delimiter* is a string
+
+</td><td>
+
+return a string which is composed by
+
+joining all the string elements from the list parameter, separated by the delimiter. The delimiter can be an empty string. Null elements in the list parameter are ignored.
+
+If ***list*** is empty, the result is the empty string.
+
+If ***delimiter*** is null, the string elements are joined without a separator.
+
+</td><td>
+
+*string join(\["a","b","c"\], "\_and\_") =*
+
+*"a_and_b_and_c"*
+
+*string join(\["a","b","c"\], "") = "abc" string join(\["a","b","c"\], null) = "abc" string join(\["a"\], "X") = "a" string join(\["a",null,"c"\], "X") = "aXc" string join(\[\], "X") = ""*
+
+</td></tr>
+<tr><td>string join(list)</td><td>
+
+*list* is a list of strings
+
+</td><td>
+
+return a string which is composed by
+
+joining all the string elements from the list parameter
+
+Null elements in the list parameter are ignored.
+
+If ***list*** is empty, the result is the empty string.
+
+</td><td>
+
+*string join(\["a","b","c"\]) = "abc" string join(\["a",null,"c"\]) = "ac" string join(\[\]) = ""*
+
+</td></tr>
+<tr><td>trim(string)</td><td>
+
+*string*
+
+</td><td>
+
+return a string with white spaces (see [white space](#rule-white-space) of the grammar) removed from the beginning and the end
+
+</td><td>
+
+*trim(" abc ") = "abc"  
+trim("x ") = "x"  
+trim("") = ""  
+trim(null) = null*
+
+</td></tr>
+</table>
 
 1.  *start position* must be a non-zero integer (0 scale number) in the range \[-L..L\], where L is the length of the string. *length* must be in the range \[1..E\], where E is L – *start position* + 1 if *start position* is positive, and *–start position* otherwise.
 
@@ -1802,32 +3505,401 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 ###### Table: Semantics of list functions
 
-| **Name(parameters)** | **Parameter** **Domain** | **Description** | **Example** |
-|-----------------|-------------|----------------------|---------------------|
-| list contains(*list, element*) | list, any element of the semantic domain including **null** | does the *list* contain the *element*? | *list contains(\[1,2,3\], 2) = true* |
-| count(*list*) | list | return size of *list*, or zero if *list* is empty | *count(\[1,2,3\]) = 3 count(\[\]) = 0 count(\[1,\[2,3\]\]) =* *2* |
-| min(*list*) min(*c₁,..., cN*), *N* \>0 max(*list*) max(*c₁,..., cN*), *N* \>0 | non-empy list of comparable items or argument list of one or more comparable items | return minimum(maximum) item, or **null** if *list* is empty | *min(\[1,2,3\]) = 1 max(1,2,3) = 3 min(1) = min(\[1\]) = 1 max(\[\]) = null* |
-| sum(*list*) sum(*n₁,..., nN*), *N* \>0 | list of 0 or more numbers or argument list of one or more numbers | return sum of numbers, or **null** if *list* is empty | *sum(\[1,2,3\]) = 6 sum(1,2,3) = 6 sum(1) = 1 sum(\[\]) = **null*** |
-| mean(*list*) mean(*n₁,..., nN*), *N* \>0 | non-empty list of numbers or argument list of one or more numbers | return arithmetic mean (average) of numbers | *mean (\[1,2,3\]) = 2 mean(1,2,3) = 2 mean(1) = 1 mean(\[\]) = null* |
-| all(*list*) all(*b₁,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *false* if any item is *false*, else *true* if empty or all items are *true*, else *null* | *all(\[false,null,true\]) = false all(true) = all(\[true\]) = true all(\[\]) = true all(0) = null* |
-| any(*list*) any(*b₁,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *true* if any item is *true*, else *false* if empty or all items are *false*, else *null* | *any(\[false,null,true\]) = true any(false) = false any(\[\]) = false any(0) = null* |
-| sublist(*list, start position, length?*) | list, number¹, number² | return list of *length* (or all) elements of *list,* starting with *list\[start position\]*. 1st position is 1, last position is -1 | *sublist(\[4,5,6\], 1, 2) = \[4,5\]* |
-| append(*list, item...*) | list, any element including **null** | return new *list* with *item*s appended | *append(\[1\], 2, 3) = \[1,2,3\]* |
-| concatenate(*list...*) | list | return new *list* that is a concatenation of the arguments | *concatenate(\[1,2\],\[3\]) = \[1,2,3\]* |
-| insert before(*list, position,* *newItem*) | list, number¹, any element including **null** | return new *list* with *newItem* inserted at *position* | *insert before (\[1,3\], 1,2) = \[2,1,3\]* |
-| insert after(*list, position, newItem*) | list, number¹, any element including **null** | return new *list* with *newItem* inserted after *position* | *insert after(\[1,3\],1,2) = \[1,2,3\]*; *insert after(\[1,3\], null, 2) = null*; *insert after(\[1,3\], 1, null) = \[1, null, 3\]*; *insert after(\[1,3\], 1, "2") = \[1,"2",3\]* |
-| remove(*list, position*) | list, number¹ | *list* with item at *position* removed | *remove (\[1,2,3\], 2) = \[1,3\]* |
-| list replace(*list, position, newItem*) list replace(*list, match, newItem*) | list, number¹ or boolean function(item, newItem), any element including null | return new list with *newItem* replaced at *position* (if *position* is a number) or return a new list where *newItem* replaced at all positions where the *match* function returned *true* | *list replace( \[2, 4, 7, 8\], 3, 6) = \[2, 4, 6, 8\]*; *list replace ( \[2, 4, 7, 8\], function(item, newItem) item \< newItem, 5) = \[5, 5, 7, 8\]* |
-| reverse(*list*) | list | reverse the *list* | *reverse (\[1,2,3\]) = \[3,2,1\]* |
-| index of(*list, match*) | list, any element including **null** | return ascending list of *list* positions containing *match* | *index of(\[1,2,3,2\],2) = \[2,4\]* |
-| union(*list...*) | list | return a list containing all the elements in the lists in no particular order with duplicate removal | *union (\[1,2\],\[2,3\]) = \[1,2,3\]* |
-| intersection(*list*...) | list | return the common elements of the lists in no particular order with duplicate removal | *intersection(\[1,2\],\[2,3\], \[2,3,4\]) = \[2\]*; *intersection(\["a”,"b","c"\],\["a”,"b"\]) = \["a", "b"\]*; *intersection(\[1\],\[2\]) = \[\]*; *intersection(\[1,2,3\], null) = null* |
-| distinct values(*list*) | list | duplicate removal | *distinct values(\[1,2,3,2, 1\]) =* *\[1,2,3\]* |
-| flatten(*list*) | list | flatten nested lists | *flatten (\[\[1,2\],\[\[3\]\], 4\]) = \[1,2,3,4\]* |
-| product( *list* ) product( *n₁, ..., nₙ*) | *list* is a list of numbers. *n₁ ... nₙ* are numbers. | Returns the product of the numbers | *product(\[2, 3, 4\]) = 24 product(\[\]) = null product(2, 3, 4) = 24* |
-| median( *list* ) median( *n₁, ..., nₙ* ) | *list* is a list of number. *n₁ ... nₙ* are numbers. | Returns the median element of the list of numbers. I.e., after sorting the list, if the list has an odd number of elements, it returns the middle element. If the list has an even number of elements, returns the average of the two middle elements. If the list is empty, returns null. | *median( 8, 2, 5, 3, 4 ) = 4 median( \[6, 1, 2, 3\] ) = 2.5 median( \[ \] ) = null* |
-| stddev( *list* ) stddev( *n₁, ..., nₙ* ) | *list* is a list of number. *n₁ ... nₙ* are numbers. | Returns the **sample standard** **deviation** of the list of numbers. If the *list* is empty or if the *list* contains only one element, the function returns null. | *stddev( 2, 4, 7, 5 ) =* *2.08166599946613273528229 7706979931* *stddev( \[ 47 \] ) = null stddev( 47 ) = null* |
-| mode( *list* ) mode( *n₁, ..., nₙ* ) | *list* is a list of number. *n₁ ... nₙ* are numbers. | Returns the mode of the list of numbers. If the result contains multiple elements, they are returned in ascending order. If the list is empty, an empty list is returned. | *mode( 6, 3, 9, 6, 6 ) = \[ 6 \] stddev( \[ \] ) = null*; *mode( \[6, 1, 9, 6, 1\] ) = \[ 1, 6 \]*; *mode( \[ \] ) = \[ \]* |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter
+
+Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+list contains(*list, element*)
+
+</td><td>
+
+list, any element of the semantic domain including
+
+**null**
+
+</td><td>
+
+does the *list* contain the *element*?
+
+</td><td>
+
+*list contains(\[1,2,3\], 2) = true*
+
+</td></tr>
+<tr><td>
+
+count(*list*)
+
+</td><td>list</td><td>
+
+return size of *list*, or zero if *list* is
+
+empty
+
+</td><td>
+
+*count(\[1,2,3\]) = 3 count(\[\]) = 0 count(\[1,\[2,3\]\]) =*
+
+*2*
+
+</td></tr>
+<tr><td>
+
+min(*list*) min(*c₁,..., cN*), *N* \>0 max(*list*) max(*c₁,..., cN*), *N* \>0
+
+</td><td>non-empy list of comparable items or argument list of one or more comparable items</td><td>
+
+return minimum(maximum) item, or **null** if *list* is empty
+
+</td><td>
+
+*min(\[1,2,3\]) = 1 max(1,2,3) = 3 min(1) = min(\[1\]) = 1 max(\[\]) = null*
+
+</td></tr>
+<tr><td>
+
+sum(*list*)
+
+sum(*n₁,..., nN*), *N* \>0
+
+</td><td>list of 0 or more numbers or argument list of one or more numbers</td><td>
+
+return sum of numbers, or **null** if *list* is empty
+
+</td><td>
+
+*sum(\[1,2,3\]) = 6 sum(1,2,3) = 6 sum(1) = 1 sum(\[\]) = **null***
+
+</td></tr>
+<tr><td>
+
+mean(*list*)
+
+mean(*n₁,..., nN*), *N* \>0
+
+</td><td>non-empty list of numbers or argument list of one or more numbers</td><td>return arithmetic mean (average) of numbers</td><td>
+
+*mean (\[1,2,3\]) = 2 mean(1,2,3) = 2 mean(1) = 1 mean(\[\]) = null*
+
+</td></tr>
+<tr><td>
+
+all(*list*)
+
+all(*b₁,..., bN*), *N* \>0
+
+</td><td>
+
+list of Boolean items or argument list of one or more
+
+Boolean items
+
+</td><td>
+
+return *false* if any item is *false*, else *true* if empty or all items are *true*, else *null*
+
+</td><td>
+
+*all(\[false,null,true\]) = false all(true) = all(\[true\]) = true all(\[\]) = true all(0) = null*
+
+</td></tr>
+<tr><td>
+
+any(*list*)
+
+any(*b₁,..., bN*), *N* \>0
+
+</td><td>
+
+list of Boolean items or argument list of one or more
+
+Boolean items
+
+</td><td>
+
+return *true* if any item is *true*, else *false* if empty or all items are *false*, else *null*
+
+</td><td>
+
+*any(\[false,null,true\]) = true any(false) = false any(\[\]) = false any(0) = null*
+
+</td></tr>
+<tr><td>
+
+sublist(*list, start position, length?*)
+
+</td><td>
+
+list, number¹,
+
+number²
+
+</td><td>
+
+return list of *length* (or all) elements of *list,* starting with *list\[start position\]*.
+
+1st position is 1, last position is -1
+
+</td><td>
+
+*sublist(\[4,5,6\], 1, 2) = \[4,5\]*
+
+</td></tr>
+<tr><td>
+
+append(*list, item...*)
+
+</td><td>
+
+list, any element including **null**
+
+</td><td>
+
+return new *list* with *item*s appended
+
+</td><td>
+
+*append(\[1\], 2, 3) = \[1,2,3\]*
+
+</td></tr>
+<tr><td>
+
+concatenate(*list...*)
+
+</td><td>list</td><td>
+
+return new *list* that is a concatenation of the arguments
+
+</td><td>
+
+*concatenate(\[1,2\],\[3\]) = \[1,2,3\]*
+
+</td></tr>
+<tr><td>
+
+insert before(*list, position,*
+
+*newItem*)
+
+</td><td>
+
+list, number¹, any element including **null**
+
+</td><td>
+
+return new *list* with *newItem* inserted at *position*
+
+</td><td>
+
+*insert before (\[1,3\], 1,2) = \[2,1,3\]*
+
+</td></tr>
+<tr><td>
+
+insert after(*list, position, newItem*)
+
+</td><td>
+
+list, number¹, any element including **null**
+
+</td><td>
+
+return new *list* with *newItem* inserted after *position*
+
+</td><td>
+
+*insert after(\[1,3\],1,2) = \[1,2,3\]  
+insert after(\[1,3\], null, 2) = null  
+insert after(\[1,3\], 1, null) = \[1, null, 3\]  
+insert after(\[1,3\], 1, "2") = \[1,"2",3\]*
+
+</td></tr>
+<tr><td>
+
+remove(*list, position*)
+
+</td><td>list, number¹</td><td>
+
+*list* with item at *position* removed
+
+</td><td>
+
+*remove (\[1,2,3\], 2) = \[1,3\]*
+
+</td></tr>
+<tr><td>
+
+list replace(*list, position, newItem*)
+
+list replace(*list, match, newItem*)
+
+</td><td>list, number¹ or boolean function(item, newItem), any element including null</td><td>
+
+return new list with *newItem* replaced at *position* (if *position* is a number) or return a new list where *newItem* replaced at all positions where the *match* function returned *true*
+
+</td><td>
+
+*list replace( \[2, 4, 7, 8\], 3, 6) = \[2, 4, 6, 8\]*
+
+*list replace ( \[2, 4, 7, 8\], function(item, newItem) item \< newItem, 5) = \[5, 5, 7, 8\]*
+
+</td></tr>
+<tr><td>
+
+reverse(*list*)
+
+</td><td>list</td><td>
+
+reverse the *list*
+
+</td><td>
+
+*reverse (\[1,2,3\]) = \[3,2,1\]*
+
+</td></tr>
+<tr><td>
+
+index of(*list, match*)
+
+</td><td>
+
+list, any element including **null**
+
+</td><td>
+
+return ascending list of *list* positions containing *match*
+
+</td><td>
+
+*index of(\[1,2,3,2\],2) = \[2,4\]*
+
+</td></tr>
+<tr><td>
+
+union(*list...*)
+
+</td><td>list</td><td>return a list containing all the elements in the lists in no particular order with duplicate removal</td><td>
+
+*union (\[1,2\],\[2,3\]) = \[1,2,3\]*
+
+</td></tr>
+<tr><td>
+
+intersection(*list*...)
+
+</td><td>list</td><td>return the common elements of the lists in no particular order with duplicate removal</td><td>
+
+*intersection(\[1,2\],\[2,3\], \[2,3,4\]) = \[2\]  
+intersection(\["a”,"b","c"\],\["a”,"b"\]) = \["a", "b"\]  
+intersection(\[1\],\[2\]) = \[\]  
+intersection(\[1,2,3\], null) = null*
+
+</td></tr>
+<tr><td>
+
+distinct values(*list*)
+
+</td><td>list</td><td>duplicate removal</td><td>
+
+*distinct values(\[1,2,3,2, 1\]) =*
+
+*\[1,2,3\]*
+
+</td></tr>
+<tr><td>
+
+flatten(*list*)
+
+</td><td>list</td><td>flatten nested lists</td><td>
+
+*flatten (\[\[1,2\],\[\[3\]\], 4\]) = \[1,2,3,4\]*
+
+</td></tr>
+<tr><td>
+
+product( *list* ) product( *n₁, ..., nₙ*)
+
+</td><td>
+
+*list* is a list of numbers. *n₁ ... nₙ* are numbers.
+
+</td><td>Returns the product of the numbers</td><td>
+
+*product(\[2, 3, 4\]) = 24 product(\[\]) = null product(2, 3, 4) = 24*
+
+</td></tr>
+<tr><td>
+
+median( *list* ) median( *n₁, ..., nₙ* )
+
+</td><td>
+
+*list* is a list of number. *n₁ ... nₙ* are numbers.
+
+</td><td>Returns the median element of the list of numbers. I.e., after sorting the list, if the list has an odd number of elements, it returns the middle element. If the list has an even number of elements, returns the average of the two middle elements. If the list is empty, returns null.</td><td>
+
+*median( 8, 2, 5, 3, 4 ) = 4 median( \[6, 1, 2, 3\] ) = 2.5 median( \[ \] ) = null*
+
+</td></tr>
+<tr><td>
+
+stddev( *list* ) stddev( *n₁, ..., nₙ* )
+
+</td><td>
+
+*list* is a list of number. *n₁ ... nₙ* are numbers.
+
+</td><td>
+
+Returns the **sample standard**
+
+**deviation** of the list of numbers. If the *list* is empty or if the *list* contains only one element, the function returns null.
+
+</td><td>
+
+*stddev( 2, 4, 7, 5 ) =*
+
+*2.08166599946613273528229 7706979931*
+
+*stddev( \[ 47 \] ) = null stddev( 47 ) = null*
+
+</td></tr>
+<tr><td>
+
+mode( *list* ) mode( *n₁, ..., nₙ* )
+
+</td><td>
+
+*list* is a list of number. *n₁ ... nₙ* are numbers.
+
+</td><td>Returns the mode of the list of numbers. If the result contains multiple elements, they are returned in ascending order. If the list is empty, an empty list is returned.</td><td>
+
+*mode( 6, 3, 9, 6, 6 ) = \[ 6 \] stddev( \[ \] ) = null*
+
+*mode( \[6, 1, 9, 6, 1\] ) = \[ 1, 6 \]*
+
+*mode( \[ \] ) = \[ \]*
+
+</td></tr>
+</table>
 
 1.  *position* must be a non-zero integer (0 scale number) in the range \[-L..L\], where L is the length of the list
 
@@ -1841,22 +3913,272 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 ###### Table: Semantics of numeric functions
 
-| **Name(parameters)** | **Parameter Domain** | **Description** | **Example** |
-|--------------|------------------|-------------------|---------------------|
-| decimal(*n, scale*) | number, number¹ | return *n* with given *scale* | *decimal(1/3, 2) = .33 decimal(1.5, 0) = 2 decimal(2. 5, 0) = 2* |
-| floor(*n*) floor(*n*, *scale*) | number number, number1 | Return n with given scale and rounding mode flooring. If at least one of n or scale is **null** the result is **null**. | *floor(1.5) = 1*; *floor(-1.56, 1) = -1.6* |
-| ceiling(*n*) ceiling(*n*, *scale*) | number number, number1 | Return n with given scale and rounding mode ceiling. If at least one of n or scale is **null** the result is **null**. | *ceiling(1.5) = 2*; *ceiling(-1.56, 1) = -1.5* |
-| round up(*n*) round up(*n*, *scale*) | number, number1 | Return n with given scale and rounding mode round up. If at least one of n or scale is **null** the result is **null**. | *round up(5.5) = 6*; *round up(-5.5, 0) = -6*; *round up(1.121, 2) = 1.13 round up(-1.126, 2) = -1.13* |
-| round down(*n*) round down(*n*, *scale*) | number, number1 | Return n with given scale and rounding mode round down. If at least one of n or scale is **null** the result is **null**. | *round down(5.5) = 5*; *round down (-5.5, 0) = -5*; *round down (1.121, 2) = 1.12 round down (-1.126, 2) = -1.12* |
-| round half up(*n*) round half up(*n*, *scale*) | number, number1 | Return n with given scale and rounding mode round half up. If at least one of n or scale is **null** the result is **null**. | *round half up(5.5) = 6*; *round half up(-5.5, 0) = -6*; *round half up(1.121, 2) = 1.12 round half up(-1.126, 2) = -1.13* |
-| round half down(*n*) round half down(*n*, *scale*) | number, number1 | Return n with given scale and rounding mode round up. If at least one of n or scale is **null** the result is **null**. | *round half down (5.5) = 5*; *round half down (-5.5, 0) = -5 round half down (1.121, 2) = 1.12 round half down (-1.126, 2) = -* *1.13* |
-| abs( *n* ) | *n i*s a number, a days and time duration or a year and month duration | Returns the absolute value of *n*. | *abs( 10 ) = 10*; *abs( -10 ) = 10 abs(@”PT5H”) = @”PT5H”*; *abs(@”-PT5H”) = @”PT5H”* |
-| modulo( *dividend*, *divisor* ) | *dividend* and *divisor* are numbers, where *divisor* must not be 0 (zero). Returns the remainder of the division of *dividend* by *divisor*. In case either *dividend* or *divisor* is negative, the result has the same sign of the *divisor*. The modulo function can be expressed as follows: modulo (dividend, divisor) = dividend - divisor\*floor (dividend/divisor). | Returns the remainder of the division of dividend by divisor. | *modulo( 12, 5 ) = 2 modulo(-12,5)= 3 modulo(12,-5)= -3 modulo(-12,-5)= -2 modulo(10. 1, 4.5)= 1.1 modulo(-10.1, 4.5)= 3.4 modulo(10.1, -4.5)= -3.4 modulo(-10.1, -4.5)= -1.1* |
-| sqrt( *number* ) | *number* is a number. | Returns the square root of the given number. If *number* is negative it returns null. | *sqrt( 16 ) = 4* |
-| log( *number* ) | *number* is a number | Returns the natural logarithm (base *e*) of the *number* parameter. | *log( 10 ) = 2.30258509299* |
-| exp( *number* ) | *number* is a number | Returns the Euler’s number *e* raised to the power of *number*. | *exp( 5 ) = 148.413159102577* |
-| odd( *number* ) | *number* is a number | Returns true if *number* is odd, false if it is even. | *odd( 5 ) = true*; odd( 2 ) = *false* |
-| even( *number* ) | *number* is a number | Returns true if *number* is even, false if it is odd. | *even( 5 ) = false*; even ( 2 ) = *true* |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+decimal(*n, scale*)
+
+</td><td>number, number¹</td><td>
+
+return *n* with given *scale*
+
+</td><td>
+
+*decimal(1/3, 2) = .33 decimal(1.5, 0) = 2 decimal(2. 5, 0) = 2*
+
+</td></tr>
+<tr><td>
+
+floor(*n*)  
+floor(*n*, *scale*)
+
+</td><td>number number, number1</td><td>
+
+Return n with given scale and rounding mode flooring.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*floor(1.5) = 1  
+floor(-1.56, 1) = -1.6*
+
+</td></tr>
+<tr><td>
+
+ceiling(*n*)  
+ceiling(*n*, *scale*)
+
+</td><td>number number, number1</td><td>
+
+Return n with given scale and rounding mode ceiling.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*ceiling(1.5) = 2  
+ceiling(-1.56, 1) = -1.5*
+
+</td></tr>
+<tr><td>
+
+round up(*n*)  
+round up(*n*, *scale*)
+
+</td><td>number, number1</td><td>
+
+Return n with given scale and rounding mode round up.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*round up(5.5) = 6  
+round up(-5.5, 0) = -6  
+round up(1.121, 2) = 1.13 round up(-1.126, 2) = -1.13*
+
+</td></tr>
+<tr><td>
+
+round down(*n*)  
+round down(*n*, *scale*)
+
+</td><td>number, number1</td><td>
+
+Return n with given scale and rounding mode round down.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*round down(5.5) = 5  
+round down (-5.5, 0) = -5  
+round down (1.121, 2) = 1.12 round down (-1.126, 2) = -1.12*
+
+</td></tr>
+<tr><td>
+
+round half up(*n*)  
+round half up(*n*, *scale*)
+
+</td><td>number, number1</td><td>
+
+Return n with given scale and rounding mode round half up.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*round half up(5.5) = 6  
+round half up(-5.5, 0) = -6  
+round half up(1.121, 2) = 1.12 round half up(-1.126, 2) = -1.13*
+
+</td></tr>
+<tr><td>
+
+round half down(*n*)  
+round half down(*n*, *scale*)
+
+</td><td>number, number1</td><td>
+
+Return n with given scale and rounding mode round up.
+
+If at least one of n or scale is **null** the result is **null**.
+
+</td><td>
+
+*round half down (5.5) = 5  
+round half down (-5.5, 0) = -5 round half down (1.121, 2) = 1.12 round half down (-1.126, 2) = -*
+
+*1.13*
+
+</td></tr>
+<tr><td>
+
+abs( *n* )
+
+</td><td>
+
+*n i*s a number, a days and time duration or a year and month duration
+
+</td><td>
+
+Returns the absolute value of *n*.
+
+</td><td>
+
+*abs( 10 ) = 10  
+abs( -10 ) = 10 abs(@”PT5H”) = @”PT5H”  
+abs(@”-PT5H”) = @”PT5H”*
+
+</td></tr>
+<tr><td>
+
+modulo( *dividend*, *divisor* )
+
+</td><td>
+
+*dividend* and *divisor* are numbers, where *divisor* must not be 0 (zero). Returns the remainder of the division of *dividend* by *divisor*. In case either *dividend* or *divisor* is negative, the result has the same sign of the *divisor*.
+
+The modulo function can be expressed as follows:
+
+modulo (dividend, divisor) = dividend
+
+\- divisor\*floor
+
+(dividend/divisor).
+
+</td><td>Returns the remainder of the division of dividend by divisor.</td><td>
+
+*modulo( 12, 5 ) = 2 modulo(-12,5)= 3 modulo(12,-5)= -3 modulo(-12,-5)= -2 modulo(10. 1, 4.5)= 1.1 modulo(-10.1, 4.5)= 3.4 modulo(10.1, -4.5)= -3.4 modulo(-10.1, -4.5)= -1.1*
+
+</td></tr>
+<tr><td>
+
+sqrt( *number* )
+
+</td><td>
+
+*number* is a number.
+
+</td><td>
+
+Returns the square root of the given number. If *number* is negative it returns null.
+
+</td><td>
+
+*sqrt( 16 ) = 4*
+
+</td></tr>
+<tr><td>
+
+log( *number* )
+
+</td><td>
+
+*number* is a number
+
+</td><td>
+
+Returns the natural logarithm (base *e*) of the *number* parameter.
+
+</td><td>
+
+*log( 10 ) = 2.30258509299*
+
+</td></tr>
+<tr><td>
+
+exp( *number* )
+
+</td><td>
+
+*number* is a number
+
+</td><td>
+
+Returns the Euler’s number *e* raised to the power of *number*.
+
+</td><td>
+
+*exp( 5 ) = 148.413159102577*
+
+</td></tr>
+<tr><td>
+
+odd( *number* )
+
+</td><td>
+
+*number* is a number
+
+</td><td>
+
+Returns true if *number* is odd, false if it is even.
+
+</td><td>
+
+*odd( 5 ) = true  *
+odd( 2 ) = *false*
+
+</td></tr>
+<tr><td>
+
+even( *number* )
+
+</td><td>
+
+*number* is a number
+
+</td><td>
+
+Returns true if *number* is even, false if it is odd.
+
+</td><td>
+
+*even( 5 ) = false  *
+even ( 2 ) = *true*
+
+</td></tr>
+</table>
 
 1.  Scale is in the range \[−6111..6176\]
 
@@ -1868,9 +4190,52 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 ###### Table: Semantics of date and time functions
 
-| **Name(parameters)** | **Parameter Domain** | **Description** | **Example** |
-|------------------|------------------|------------------|------------------|
-| is(*value₁*, *value₂*) | Both are elements of the **D** | Returns **true** if both values are the same element in the FEEL semantic domain **D** (see [Equality, Identity and Equivalence](#equality-identity-and-equivalence)) | *is(date("2012-12-25"), time("23:00:50”))* is **false** *is(date("2012-12-25"), date("2012-12-25"))* is **true** *is(time("23:00:50z"), time("23:00:50”))* is **false** *is(time("23:00:50z"), time("23:00:50+00:00”))* is **true** |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+is(*value₁*, *value₂*)
+
+</td><td>
+
+Both are elements of the **D**
+
+</td><td>
+
+Returns **true** if both values are the same element in the
+
+FEEL semantic domain **D**
+
+(see [Equality, Identity and Equivalence](#equality-identity-and-equivalence))
+
+</td><td>
+
+*is(date("2012-12-25"), time("23:00:50”))* is **false**
+
+*is(date("2012-12-25"), date("2012-12-25"))* is **true**
+
+*is(time("23:00:50z"), time("23:00:50”))* is **false**
+
+*is(time("23:00:50z"), time("23:00:50+00:00”))* is **true**
+
+</td></tr>
+</table>
 
 #### Range Functions
 
@@ -1884,37 +4249,412 @@ The specification of these functions is heavily inspired by the equivalent funct
 
 ###### Table: Semantics of range functions
 
-| **Name(parameters)** | **Evaluates to true if and only if (for each signature, respectively)** | **Example** |
-|------------------------|------------------------|------------------------|
-| \(a\) before(*point1*, *point2*) | \(a\) point1 \< point2 | before( 1, 10 ) = true before( 10, 1 ) = false |
-| \(b\) before(*point*, *range*) | \(b\) point \< range.start or (point = range.start and not(range.start included) ) | before( 1, \[1..10\] ) = false before( 1, (1.10\] ) = true before( 1, \[5..10\] ) = true |
-| \(c\) before(*range*, *point*) | \(c\) range.end \< point or (range.end = point and not(range.end included) ) | before( \[1..10\], 10 ) = false before( \[1..10), 10 ) = true before( \[1..10\], 15 ) = true |
-| \(d\) before(*range1*,*range2*) | \(d\) range 1 .end \< range2.start or (( not(range1 .end included) or not(range2.start included)) and range 1 .end = range2.start) | before( \[1..10\], \[15..20\] ) = true before( \[1..10\], \[10..20\] ) = false before( \[1..10), \[10..20\] ) = true before( \[1..10\], (10..20\] ) = true |
-| \(a\) after(*point1*, *point2*) | \(a\) point1 \> point2 | after( 10, 5 ) = true after( 5, 10 ) = false |
-| \(b\) after(*point*, *range*) | \(b\) point \> range.end or (point = range.end and not(range.end included) ) | after( 12, \[1..10\] ) = true after( 10, \[1..10) ) = true after( 10, \[1..10\] ) = false |
-| \(c\) after(range, point) | \(c\) range.start \> point or (range.start = point and not(range.start included) ) | after( \[11..20\], 12 ) = false after( \[11..20\], 10 ) = true after( (11..20\], 11 ) = true after( \[11..20\], 11 ) = false |
-| \(d\) after(*range1*, *range2*) | \(d\) range 1 .start \> range2.end or (( not(range1 .start included) or not(range2.end included) ) and range 1 .start = range2.end) | after( \[11..20\], \[1..10\] ) = true after( \[1..1 0\], \[11..20\] ) = false after( \[11..20\], \[1.. 11) ) = true after( (11..20\], \[1..11\] ) = true |
-| \(a\) meets(*range1*, *range2*) | \(a\) range1.end included and range2.start included and range 1 .end = range2.start | meets( \[1..5\], \[5..10\] ) = true meets( \[1..5), \[5..10\] ) = false meets( \[1..5\], (5..10\] ) = false meets( \[1..5\], \[6..10\] ) = false |
-| \(a\) met by(*range1*, *range2*) | \(a\) range1.start included and range2.end included and range 1 .start = range2.end | met by( \[5..10\], \[1..5\] ) = true met by( \[5..10\], \[1..5) ) = false met by( (5..10\], \[1..5\] ) = false met by( \[6..10\], \[1..5\] ) = false |
-| \(a\) overlaps(*range1*, *range2*) | \(a\) (range1.end \> range2.start or (range1.end = range2.start and range1.end included and range2.start included)) and (range1.start \< range2.end or (range1.start = range2.end and range1.start included and range2.end included)) | overlaps( \[1..5\], \[3..8\] ) = true overlaps( \[3..8\], \[1..5\] ) = true overlaps( \[1..8\], \[3..5\] ) = true overlaps( \[3..5\], \[1..8\] ) = true overlaps( \[1..5\], \[6..8\] ) = false overlaps( \[6..8\], \[1..5\] ) = false overlaps( \[1..5\], \[5..8\] ) = true overlaps( \[1..5\], (5..8\] ) = false overlaps( \[1..5), \[5..8\] ) = false overlaps( \[1..5), (5. .8\] ) = false overlaps( \[5..8\], \[1..5\] ) = true overlaps( (5..8\], \[1..5\] ) = false overlaps( \[5..8\], \[1..5) ) = false overlaps( (5..8\], \[1..5) ) = false |
+<table>
+<tr><th>
 
-| \(a\) overlaps before(*range1*, *range2*) | \(a\) (range1.start \< range2.start or (range1.start = range2.start and range1.start included and not(range2.start included))) and (range1.end \> range2.start or (range1.end = range2.start and range1.end included and range2.start included)) and (range1.end \< range2.end or (range1.end = range2.end and (not(range1.end included) or range2.end included ))) | overlaps before( \[1..5\], \[3..8\] ) = true overlaps before( \[1..5\], \[6..8\] ) = false overlaps before( \[1..5\], \[5..8\] ) = true overlaps before( \[1..5\], (5..8\] ) = false overlaps before( \[1..5), \[5..8\] ) = false overlaps before( \[1..5), (1. .5\] ) = true overlaps before( \[1..5\], (1..5\] ) = true overlaps before( \[1..5), \[1..5\] ) = false overlaps before( \[1..5\], \[1..5\] ) = false |
-|------------------------|------------------------|------------------------|
-| \(a\) overlaps after(*range1*, *range2*) | \(a\) (range2.start \< range1.start or (range2.start = range1.start and range2.start included and not( range 1.start included))) and (range2.end \> range 1.start or (range2.end = range 1.start and range2.end included and range 1.start included )) and (range2.end \< range1.end or (range2.end = range1.end and (not(range2.end included) or range1.end included))) | overlaps after( \[3..8\], \[1..5\]) = true overlaps after( \[6..8\], \[1..5\]) = false overlaps after( \[5..8\], \[1..5\]) = true overlaps after( (5..8\], \[1..5\]) = false overlaps after( \[5..8\], \[1..5)) = false overlaps after( (1..5\], \[1..5) ) = true overlaps after( (1..5\], \[1..5\] ) = true overlaps after( \[1..5\], \[1..5) ) = false overlaps after( \[1..5\], \[1..5\] ) = false |
-| \(a\) finishes(*point, range*) | \(a\) range.end included and range.end = point | finishes( 10, \[1..10\] ) = true finishes( 10, \[1..10) ) = false |
-| \(b\) finishes(*range1*, *range2*) | \(b\) range1.end included = range2.end included and; range1.end = range2.end and (range1.start \> range2.start or (range1.start = range2.start and (not(range1.start included) or range2.start included))) | finishes( \[5..10\], \[1..10\] ) = true finishes( \[5..10), \[1..10\] ) = false finishes( \[5..10), \[1..10) ) = true finishes( \[1..10\], \[1..10\] ) = true finishes( (1..10\], \[1..10\] ) = true |
-| \(a\) finished by(*range, point*) | \(a\) range.end included and range.end = point | finished by( \[1..10\], 10 ) = true finished by( \[1..10), 10 ) = false |
-| \(b\) finished by(*range1*, *range2*) | \(b\) range1.end included = range2.end included and range1.end = range2.end and (range1.start \< range2.start or (range1.start = range2.start and (range1.start included or not(range2.start included)))) | finished by( \[1..10\], \[5..10\] ) = true finished by( \[1..10\], \[5..10) ) = false finished by( \[1..10), \[5..10) ) = true finished by( \[1..10\], \[1..10\] ) = true finished by( \[1..10\], (1..10\] ) = true |
-| \(a\) includes(*range*, *point*) | \(a\) (range.start \< point and range.end \> point) or (range.start = point and range.start included) or; (range.end = point and range.end included) | includes( \[1..10\], 5 ) = true includes( \[1..10\], 12 ) = false includes( \[1..10\], 1 ) = true includes( \[1..10\], 10 ) = true includes( (1..10\], 1 ) = false includes( \[1..10), 10 ) = false |
-| \(b\) includes(*range1*, *range2*) | \(b\) (range1.start \< range2.start or (range1.start = range2.start and (range1.start included or not(range2.start included)))) and (range1.end \> range2.end or (range1.end = range2.end and (range1.end included or not(range2.end included)))) | includes( \[1..10\], \[4..6\] ) = true includes( \[1..10\], \[1..5\] ) = true includes( (1..10\], (1..5\] ) = true includes( \[1..10\], (1..10) ) = true includes( \[1..10), \[5..10) ) = true includes( \[1..10\], \[1..10) ) = true includes( \[1..10\], (1..10\] ) = true includes( \[1..10\], \[1..10\] ) = true |
-| \(a\) during(*point*, *range*) | \(a\) (range.start \< point and range.end \> point) or (range.start = point and range.start included) or; (range.end = point and range.end included) | during( 5, \[1..10\] ) = true during( 12, \[1..10\] ) = false during( 1, \[1..10\] ) = true during( 10, \[1..10\] ) = true during( 1, (1..10\] ) = false during( 10, \[1..10) ) = false |
-| \(b\) during(*range1*, *range2*) | \(b\) (range2.start \< range1.start or (range2.start = range1.start and (range2.start included or not(range1.start included)))) and (range2.end \> range1.end or (range2.end = range1.end and (range2.end included or not(range1.end included)))) | during( \[4..6\], \[1..10\] ) = true during( \[1..5\], \[1..10\] ) = true during( (1..5\], (1..10\] ) = true during( (1..10), \[1..10\] ) = true during( \[5..10), \[1..10) ) = true during( \[1..10), \[1..10\] ) = true during( (1..10\], \[1..10\] ) = true during( \[1..10\], \[1..10\] ) = true |
-| \(a\) starts(*point*, *range*) | \(a\) range.start = point and range.start included | starts( 1, \[1..10\] ) = true starts( 1, (1..10\] ) = false starts( 2, \[1..10\] ) = false |
-| \(b\) starts(*range1*, *range2*) | \(b\) range1.start = range2.start and range1.start included = range2.start included and (range1.end \< range2.end or (range1.end = range2.end and (not(range1.end included) or range2.end included))) | starts( \[1..5\], \[1..10\] ) = true starts( (1..5\], (1..10\] ) = true starts( (1..5\], \[1..10\] ) = false starts( \[1..5\], (1..10\] ) = false starts( \[1..10\], \[1..10\] ) = true starts( \[1..10), \[1..10\] ) = true starts( (1..10), (1..10) ) = true |
-| \(a\) started by(*range*, *point*) | \(a\) range.start = point and range.start included | started by( \[1..10\], 1 ) = true started by( (1..10\], 1 ) = false started by( \[1..10\], 2 ) = false |
-| \(b\) started by(*range1*, *range2*) | \(b\) range1.start = range2.start and range1.start included = range2.start included and (range2.end \< range1.end or (range2.end = range1.end and (not(range2.end included) or range1.end included))) | started by( \[1..10\], \[1..5\] ) = true started by( (1..10\], (1..5\] ) = true started by( \[1..10\], (1..5\] ) = false started by( (1..10\], \[1..5\] ) = false started by( \[1..10\], \[1..10\] ) = true started by( \[1..10\], \[1..10) ) = true started by( (1..10), (1..10) ) = true |
-| \(a\) coincides(*point1*, *point2*) | \(a\) point1 = point2 | coincides( 5, 5 ) = true coincides( 3, 4 ) = false |
-| \(b\) coincides(*range1*, *range2*) | \(b\) range1.start = range2.start and range1.start included = range2.start included and range1.end = range2.end and range1.end included = range2.end included | coincides( \[1..5\], \[1..5\] ) = true coincides( (1..5), \[1..5\] ) = false coincides( \[1..5\], \[2..6\] ) = false |
+Name(parameters)
+
+</th><th>
+
+Evaluates to true if and only if (for each signature, respectively)
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>
+
+\(a\) before(*point1*, *point2*)
+
+</td><td>
+
+\(a\)
+
+point1 \< point2
+
+</td><td>before( 1, 10 ) = true before( 10, 1 ) = false</td></tr>
+<tr><td>
+
+\(b\) before(*point*, *range*)
+
+</td><td>
+
+\(b\) point \< range.start or
+
+(point = range.start and
+
+not(range.start included) )
+
+</td><td>before( 1, [1..10] ) = false before( 1, (1.10] ) = true before( 1, [5..10] ) = true</td></tr>
+<tr><td>
+
+\(c\) before(*range*, *point*)
+
+</td><td>
+
+\(c\)
+
+range.end \< point or
+
+(range.end = point
+
+and
+
+not(range.end included) )
+
+</td><td>before( [1..10], 10 ) = false before( [1..10), 10 ) = true before( [1..10], 15 ) = true</td></tr>
+<tr><td>
+
+\(d\) before(*range1*,*range2*)
+
+</td><td>
+
+\(d\)
+
+range 1 .end \< range2.start or
+
+(( not(range1 .end included) or
+
+not(range2.start included)) and
+
+range 1 .end = range2.start)
+
+</td><td>before( [1..10], [15..20] ) = true before( [1..10], [10..20] ) = false before( [1..10), [10..20] ) = true before( [1..10], (10..20] ) = true</td></tr>
+<tr><td>
+
+\(a\) after(*point1*, *point2*)
+
+</td><td>
+
+\(a\)
+
+point1 \> point2
+
+</td><td>after( 10, 5 ) = true after( 5, 10 ) = false</td></tr>
+<tr><td>
+
+\(b\) after(*point*, *range*)
+
+</td><td>
+
+\(b\) point \> range.end or
+
+(point = range.end and
+
+not(range.end included) )
+
+</td><td>after( 12, [1..10] ) = true after( 10, [1..10) ) = true after( 10, [1..10] ) = false</td></tr>
+<tr><td>(c) after(range, point)</td><td>
+
+\(c\) range.start \> point or
+
+(range.start = point and
+
+not(range.start included) )
+
+</td><td>after( [11..20], 12 ) = false after( [11..20], 10 ) = true after( (11..20], 11 ) = true after( [11..20], 11 ) = false</td></tr>
+<tr><td>
+
+\(d\) after(*range1*, *range2*)
+
+</td><td>
+
+\(d\) range 1 .start \> range2.end or
+
+(( not(range1 .start included) or not(range2.end included) ) and
+
+range 1 .start = range2.end)
+
+</td><td>after( [11..20], [1..10] ) = true after( [1..1 0], [11..20] ) = false after( [11..20], [1.. 11) ) = true after( (11..20], [1..11] ) = true</td></tr>
+<tr><td>
+
+\(a\) meets(*range1*, *range2*)
+
+</td><td>
+
+\(a\)
+
+range1.end included and range2.start included and
+
+range 1 .end = range2.start
+
+</td><td>meets( [1..5], [5..10] ) = true meets( [1..5), [5..10] ) = false meets( [1..5], (5..10] ) = false meets( [1..5], [6..10] ) = false</td></tr>
+<tr><td>
+
+\(a\) met by(*range1*, *range2*)
+
+</td><td>
+
+\(a\) range1.start included and range2.end included and
+
+range 1 .start = range2.end
+
+</td><td>met by( [5..10], [1..5] ) = true met by( [5..10], [1..5) ) = false met by( (5..10], [1..5] ) = false met by( [6..10], [1..5] ) = false</td></tr>
+<tr><td>
+
+\(a\) overlaps(*range1*, *range2*)
+
+</td><td>
+
+\(a\)
+
+(range1.end \> range2.start or
+
+(range1.end = range2.start and range1.end included and range2.start included)) and
+
+(range1.start \< range2.end or
+
+(range1.start = range2.end and range1.start included and range2.end included))
+
+</td><td>overlaps( [1..5], [3..8] ) = true overlaps( [3..8], [1..5] ) = true overlaps( [1..8], [3..5] ) = true overlaps( [3..5], [1..8] ) = true overlaps( [1..5], [6..8] ) = false overlaps( [6..8], [1..5] ) = false overlaps( [1..5], [5..8] ) = true overlaps( [1..5], (5..8] ) = false overlaps( [1..5), [5..8] ) = false overlaps( [1..5), (5. .8] ) = false overlaps( [5..8], [1..5] ) = true overlaps( (5..8], [1..5] ) = false overlaps( [5..8], [1..5) ) = false overlaps( (5..8], [1..5) ) = false</td></tr>
+</table>
+<table>
+<tr><td>
+
+\(a\) overlaps before(*range1*, *range2*)
+
+</td><td>
+
+\(a\)
+
+(range1.start \< range2.start or
+
+(range1.start = range2.start
+
+and
+
+range1.start included
+
+and
+
+not(range2.start included))) and
+
+(range1.end \> range2.start or
+
+(range1.end = range2.start and
+
+range1.end included and
+
+range2.start included)) and
+
+(range1.end \< range2.end or
+
+(range1.end = range2.end and
+
+(not(range1.end included) or
+
+range2.end included )))
+
+</td><td>overlaps before( [1..5], [3..8] ) = true overlaps before( [1..5], [6..8] ) = false overlaps before( [1..5], [5..8] ) = true overlaps before( [1..5], (5..8] ) = false overlaps before( [1..5), [5..8] ) = false overlaps before( [1..5), (1. .5] ) = true overlaps before( [1..5], (1..5] ) = true overlaps before( [1..5), [1..5] ) = false overlaps before( [1..5], [1..5] ) = false</td></tr>
+<tr><td>
+
+\(a\) overlaps after(*range1*, *range2*)
+
+</td><td>
+
+\(a\)
+
+(range2.start \< range1.start or
+
+(range2.start = range1.start
+
+and
+
+range2.start included
+
+and
+
+not( range 1.start included))) and
+
+(range2.end \> range 1.start or
+
+(range2.end = range 1.start
+
+and
+
+range2.end included and
+
+range 1.start included )) and
+
+(range2.end \< range1.end or
+
+(range2.end = range1.end and
+
+(not(range2.end included) or
+
+range1.end included)))
+
+</td><td>overlaps after( [3..8], [1..5]) = true overlaps after( [6..8], [1..5]) = false overlaps after( [5..8], [1..5]) = true overlaps after( (5..8], [1..5]) = false overlaps after( [5..8], [1..5)) = false overlaps after( (1..5], [1..5) ) = true overlaps after( (1..5], [1..5] ) = true overlaps after( [1..5], [1..5) ) = false overlaps after( [1..5], [1..5] ) = false</td></tr>
+<tr><td>
+
+\(a\) finishes(*point, range*)
+
+</td><td>(a) range.end included and range.end = point</td><td>finishes( 10, [1..10] ) = true finishes( 10, [1..10) ) = false</td></tr>
+<tr><td>
+
+\(b\) finishes(*range1*, *range2*)
+
+</td><td>
+
+\(b\)
+
+range1.end included = range2.end included and
+
+range1.end = range2.end and
+
+(range1.start \> range2.start or
+
+(range1.start = range2.start and
+
+(not(range1.start included) or
+
+range2.start included)))
+
+</td><td>finishes( [5..10], [1..10] ) = true finishes( [5..10), [1..10] ) = false finishes( [5..10), [1..10) ) = true finishes( [1..10], [1..10] ) = true finishes( (1..10], [1..10] ) = true</td></tr>
+<tr><td>
+
+\(a\) finished by(*range, point*)
+
+</td><td>(a) range.end included and range.end = point</td><td>finished by( [1..10], 10 ) = true finished by( [1..10), 10 ) = false</td></tr>
+<tr><td>
+
+\(b\) finished by(*range1*, *range2*)
+
+</td><td>
+
+\(b\) range1.end included = range2.end included and range1.end = range2.end and
+
+(range1.start \< range2.start or
+
+(range1.start = range2.start and
+
+(range1.start included or not(range2.start included))))
+
+</td><td>finished by( [1..10], [5..10] ) = true finished by( [1..10], [5..10) ) = false finished by( [1..10), [5..10) ) = true finished by( [1..10], [1..10] ) = true finished by( [1..10], (1..10] ) = true</td></tr>
+<tr><td>
+
+\(a\) includes(*range*, *point*)
+
+</td><td>
+
+\(a\)
+
+(range.start \< point and range.end \> point) or
+
+(range.start = point and range.start included) or
+
+(range.end = point and range.end included)
+
+</td><td>includes( [1..10], 5 ) = true includes( [1..10], 12 ) = false includes( [1..10], 1 ) = true includes( [1..10], 10 ) = true includes( (1..10], 1 ) = false includes( [1..10), 10 ) = false</td></tr>
+<tr><td>
+
+\(b\) includes(*range1*, *range2*)
+
+</td><td>
+
+\(b\)
+
+(range1.start \< range2.start or
+
+(range1.start = range2.start and
+
+(range1.start included or not(range2.start included)))) and
+
+(range1.end \> range2.end or
+
+(range1.end = range2.end and
+
+(range1.end included or not(range2.end included))))
+
+</td><td>includes( [1..10], [4..6] ) = true includes( [1..10], [1..5] ) = true includes( (1..10], (1..5] ) = true includes( [1..10], (1..10) ) = true includes( [1..10), [5..10) ) = true includes( [1..10], [1..10) ) = true includes( [1..10], (1..10] ) = true includes( [1..10], [1..10] ) = true</td></tr>
+<tr><td>
+
+\(a\) during(*point*, *range*)
+
+</td><td>
+
+\(a\)
+
+(range.start \< point and range.end \> point) or
+
+(range.start = point and range.start included) or
+
+(range.end = point and range.end included)
+
+</td><td>during( 5, [1..10] ) = true during( 12, [1..10] ) = false during( 1, [1..10] ) = true during( 10, [1..10] ) = true during( 1, (1..10] ) = false during( 10, [1..10) ) = false</td></tr>
+<tr><td>
+
+\(b\) during(*range1*, *range2*)
+
+</td><td>
+
+\(b\)
+
+(range2.start \< range1.start or
+
+(range2.start = range1.start and
+
+(range2.start included or not(range1.start included)))) and
+
+(range2.end \> range1.end or
+
+(range2.end = range1.end and
+
+(range2.end included or not(range1.end included))))
+
+</td><td>during( [4..6], [1..10] ) = true during( [1..5], [1..10] ) = true during( (1..5], (1..10] ) = true during( (1..10), [1..10] ) = true during( [5..10), [1..10) ) = true during( [1..10), [1..10] ) = true during( (1..10], [1..10] ) = true during( [1..10], [1..10] ) = true</td></tr>
+<tr><td>
+
+\(a\) starts(*point*, *range*)
+
+</td><td>(a) range.start = point and range.start included</td><td>starts( 1, [1..10] ) = true starts( 1, (1..10] ) = false starts( 2, [1..10] ) = false</td></tr>
+<tr><td>
+
+\(b\) starts(*range1*, *range2*)
+
+</td><td>
+
+\(b\) range1.start = range2.start and range1.start included = range2.start included and
+
+(range1.end \< range2.end or
+
+(range1.end = range2.end and
+
+(not(range1.end included) or range2.end included)))
+
+</td><td>starts( [1..5], [1..10] ) = true starts( (1..5], (1..10] ) = true starts( (1..5], [1..10] ) = false starts( [1..5], (1..10] ) = false starts( [1..10], [1..10] ) = true starts( [1..10), [1..10] ) = true starts( (1..10), (1..10) ) = true</td></tr>
+<tr><td>
+
+\(a\) started by(*range*, *point*)
+
+</td><td>(a) range.start = point and range.start included</td><td>started by( [1..10], 1 ) = true started by( (1..10], 1 ) = false started by( [1..10], 2 ) = false</td></tr>
+<tr><td>
+
+\(b\) started by(*range1*, *range2*)
+
+</td><td>
+
+\(b\) range1.start = range2.start and range1.start included = range2.start included and
+
+(range2.end \< range1.end or
+
+(range2.end = range1.end and
+
+(not(range2.end included) or range1.end included)))
+
+</td><td>started by( [1..10], [1..5] ) = true started by( (1..10], (1..5] ) = true started by( [1..10], (1..5] ) = false started by( (1..10], [1..5] ) = false started by( [1..10], [1..10] ) = true started by( [1..10], [1..10) ) = true started by( (1..10), (1..10) ) = true</td></tr>
+<tr><td>
+
+\(a\) coincides(*point1*, *point2*)
+
+</td><td>(a) point1 = point2</td><td>coincides( 5, 5 ) = true coincides( 3, 4 ) = false</td></tr>
+<tr><td>
+
+\(b\) coincides(*range1*, *range2*)
+
+</td><td>(b) range1.start = range2.start and range1.start included = range2.start included and range1.end = range2.end and range1.end included = range2.end included</td><td>coincides( [1..5], [1..5] ) = true coincides( (1..5), [1..5] ) = false coincides( [1..5], [2..6] ) = false</td></tr>
+</table>
 
 #### Temporal built-in functions
 
@@ -1922,12 +4662,91 @@ The following set of functions provide common support utilities when dealing wit
 
 ###### Table: Temporal built-in functions
 
-| **Name(parameters)** | **Parameter Domain** | **Description** | **Example** |
-|------------------|------------------|------------------|-------------------|
-| day of year( date ) | date or date and time | returns the Gregorian number of the day within the year | day of year( date(2019, 9, 17) ) = 260 |
-| day of week( date ) | date or date and time | returns the day of the week according to the Gregorian calendar enumeration: “Monday”, “Tuesday”, “Wednesday”, “Thursday”, “Friday”, “Saturday”, “Sunday” | day of week( date(2019, 9, 17) ) = "Tuesday" |
-| month of year( date ) | date or date and time | returns the month of the year according to the Gregorian calendar enumeration: “January”, “February”, “March”, “April”, “May”, “June”, “July”, “August”, “September”, “October”, “November”, “December” | month of year( date(2019, 9, 17) ) = "September" |
-| week of year( date ) | date or date and time | returns the Gregorian number of the week within the year, accordingly to ISO 8601 | week of year( date(2019, 9, 17) ) = 38 week of year( date(2003, 12, 29) ) = 1 week of year( date(2004, 1, 4) ) = 1 week of year( date(2005, 1, 1) ) = 53 week of year( date(2005, 1, 3) ) = 1 week of year( date(2005, 1, 9) ) = 1 |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter Domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>day of year( date )</td><td>date or date and time</td><td>returns the Gregorian number of the day within the year</td><td>
+
+day of year( date(2019, 9,
+
+17\) ) = 260
+
+</td></tr>
+<tr><td>day of week( date )</td><td>date or date and time</td><td>
+
+returns the day of the week according to the Gregorian calendar enumeration: “Monday”,
+
+“Tuesday”, “Wednesday”,
+
+“Thursday”, “Friday”,
+
+“Saturday”, “Sunday”
+
+</td><td>
+
+day of week( date(2019, 9, 17)
+
+) = "Tuesday"
+
+</td></tr>
+<tr><td>month of year( date )</td><td>date or date and time</td><td>
+
+returns the month of the year according to the Gregorian calendar enumeration: “January”, “February”,
+
+“March”, “April”, “May”,
+
+“June”, “July”, “August”,
+
+“September”, “October”,
+
+“November”, “December”
+
+</td><td>
+
+month of year( date(2019, 9,
+
+17\) ) = "September"
+
+</td></tr>
+<tr><td>week of year( date )</td><td>date or date and time</td><td>
+
+returns the Gregorian number of the week within the year, accordingly to
+
+ISO 8601
+
+</td><td>
+
+week of year( date(2019, 9,
+
+17\) ) = 38 week of year( date(2003, 12,
+
+29\) ) = 1 week of year( date(2004, 1,
+
+4\) ) = 1 week of year( date(2005, 1,
+
+1\) ) = 53 week of year( date(2005, 1,
+
+3\) ) = 1 week of year( date(2005, 1,
+
+9\) ) = 1
+
+</td></tr>
+</table>
 
 #### Sort
 
@@ -1937,23 +4756,163 @@ Sort a list using an ordering function. The initial order of equal items is not 
 
 ###### Table: Semantics of sort functions
 
-| **Parameter name** (\* means optional) | **Domain** |
-|--------------------------------|----------------------------------------|
-| list | list of any element, be careful with nulls |
-| precedes | boolean function of 2 arguments defined on every pair of list elements. This function should return **true** if the first argument precedes the second and **false** if they are equal or the second precedes the first argument. |
+<table>
+<tr><td>
+
+**Parameter name** (\* means optional)
+
+</td><td>
+
+**Domain**
+
+</td></tr>
+<tr><td>list</td><td>list of any element, be careful with nulls</td></tr>
+<tr><td>precedes</td><td>
+
+boolean function of 2 arguments defined on every pair of list elements. This function should return **true** if the first argument precedes the second and **false** if they are equal or the second precedes the first argument.
+
+</td></tr>
+</table>
 
 #### Context function
 
 ###### Table: Context functions
 
-| **Name(parameters)** | **Parameter domain** | **Description** | **Example** |
-|------------------|------------------|------------------|------------------|
-| get value(m, key) | context, string | select the value of the entry named key from context m | *get value ({key1 : "value1"}, "key1 ") = "value1" get value ({key1 : "value 1"}, "unexistent-key") = null* |
-| get entries(m) | context | produces a list of key,value pairs from a context m | *get entries({key1 : "value 1 ", key2 : "value2"}) = \[ { key : "key1 ", value : "value 1" }, {key : "key2", value :* *"value2"} \]* |
-| context(entries) | *entries* is a list of contexts; each context item SHALL have two entries having keys: "key" and "value", respectively. | Returns a new context that includes all specified entries. If a context item contains additional entries beyond the required "key" and "value" entries, the additional entries are ignored. If a context item is missing the required "key" and "value" entries, the final result is null. See also: *get entries()* builtin function. | *context(\[{key:"a", value:1}, {key:"b", value:2}\]) = {a:1, b:2}* *context(\[{key:"a", value:1},* *{key:"b", value:2, something:* *"else"}\]) = {a:1, b:2}* *context(\[{key:"a", value:1},* *{key:"b"}\]) = null* |
-| \(a\) context put(context, key, value) | \(a\) *context* is a context, *key* is a string, *value* is Any type | \(a\) Returns a new context that includes the new entry or overriding the existing value if an entry for the same key already exists in the supplied context parameter. A new entry is added as the last entry of the new context. If overriding an existing entry, the order of the keys maintains the same order as in the original context. | *context put({x:1}, "y", 2) = {x:1, y:2} context put({x:1, y:0}, "y", 2) =* *{x:1, y:2} context put({x:1, y:0, z:0}, "y",* *2) = {x:1, y:2, z:0}*; *context put({x:1}, \["y"\], 2) = context put({x:1}, "y", 2) = {x:1, y:2}* |
-| \(b\) context put(context, keys, value) | \(b\) *context* is a context, *keys* is a list of string, *value* is Any type | \(b\) Returns the composite of nested invocations to *context put()* for each item in *keys* hierarchy in *context*. If keys is a list of 1 element, this is equivalent to *context put(context, key', value)*, where *key'* is the only element in the list *keys*. If keys is a list of 2 or more elements, this is equivalent of calling *context put(context, key', value')*, with: *key'* is the head element in the list *keys*, *value'* is the result of invocation of *context put(context', keys', value)*, where: *context'* is the result of context.key', *keys'* is the remainder of the list *keys* without the head element *key'*. If keys is an empty list or null, the result is null. | *context put({x:1, y: {a: 0} }, \["y", "a"\], 2)* *= context put({x:1, y: {a: 0} },* *"y", context put({a: 0}, \["a"\], 2))* *= {x:1, y: {a: 2} }*; *context put({x:1, y: {a: 0} }, \[\], 2) = null* |
-| context merge(contexts) | *contexts* is a list of contexts | Returns a new context that includes all entries from the given contexts; if some of the keys are equal, the entries are overriden. The entries are overridden in the same order as specified by the supplied parameter, with new entries added as the last entry in the new context. | *context merge(\[{x:1}, {y:2}\]) =* *{x:1, y:2}* *context merge(\[{x:1, y:0},* *{y:2}\]) = {x:1, y:2}* |
+<table>
+<tr><th>
+
+Name(parameters)
+
+</th><th>
+
+Parameter domain
+
+</th><th>
+
+Description
+
+</th><th>
+
+Example
+
+</th></tr>
+<tr><td>get value(m, key)</td><td>context, string</td><td>select the value of the entry named key from context m</td><td>
+
+*get value ({key1 : "value1"}, "key1 ") = "value1" get value ({key1 : "value 1"}, "unexistent-key") = null*
+
+</td></tr>
+<tr><td>get entries(m)</td><td>context</td><td>produces a list of key,value pairs from a context m</td><td>
+
+*get entries({key1 : "value 1 ", key2 : "value2"}) = \[ { key : "key1 ", value : "value 1" }, {key : "key2", value :*
+
+*"value2"} \]*
+
+</td></tr>
+<tr><td>context(entries)</td><td>
+
+*entries* is a list of contexts; each context item SHALL have two entries having keys:
+
+"key" and "value", respectively.
+
+</td><td>
+
+Returns a new context that includes all specified entries.
+
+If a context item contains additional entries beyond the required "key" and "value" entries, the additional entries are ignored.
+
+If a context item is missing the required "key" and "value" entries, the final result is null.
+
+See also: *get entries()* builtin function.
+
+</td><td>
+
+*context(\[{key:"a", value:1}, {key:"b", value:2}\]) = {a:1, b:2}*
+
+*context(\[{key:"a", value:1},*
+
+*{key:"b", value:2, something:*
+
+*"else"}\]) = {a:1, b:2}*
+
+*context(\[{key:"a", value:1},*
+
+*{key:"b"}\]) = null*
+
+</td></tr>
+<tr><td>(a) context put(context, key, value)</td><td>
+
+\(a\) *context* is a context, *key* is a string, *value* is Any type
+
+</td><td>
+
+\(a\) Returns a new context that includes the new entry or overriding the existing value if an entry for the same key already exists in the supplied context parameter.
+
+A new entry is added as the last entry of the new context. If overriding an existing entry, the order of the keys maintains the same order as in the original context.
+
+</td><td>
+
+*context put({x:1}, "y", 2) = {x:1, y:2} context put({x:1, y:0}, "y", 2) =*
+
+*{x:1, y:2} context put({x:1, y:0, z:0}, "y",*
+
+*2) = {x:1, y:2, z:0}*
+
+*context put({x:1}, \["y"\], 2) = context put({x:1}, "y", 2) = {x:1, y:2}*
+
+</td></tr>
+<tr><td>(b) context put(context, keys, value)</td><td>
+
+\(b\) *context* is a context, *keys* is a list of string, *value* is Any type
+
+</td><td>
+
+\(b\) Returns the composite of nested invocations to *context put()* for each item in *keys* hierarchy in *context*.
+
+If keys is a list of 1 element, this is equivalent to *context put(context, key', value)*, where *key'* is the only element in the list *keys*.
+
+If keys is a list of 2 or more elements, this is equivalent of calling *context put(context, key', value')*, with:
+
+*key'* is the head element in the list *keys*, *value'* is the result of invocation of *context put(context', keys', value)*, where:
+
+*context'* is the result of context.key', *keys'* is the remainder of the list *keys* without the head element *key'*.
+
+If keys is an empty list or null, the result is null.
+
+</td><td>
+
+*context put({x:1, y: {a: 0} }, \["y", "a"\], 2)*
+
+*= context put({x:1, y: {a: 0} },*
+
+*"y", context put({a: 0}, \["a"\], 2))*
+
+*= {x:1, y: {a: 2} }*
+
+*context put({x:1, y: {a: 0} }, \[\], 2) = null*
+
+</td></tr>
+<tr><td>context merge(contexts)</td><td>
+
+*contexts* is a list of contexts
+
+</td><td>
+
+Returns a new context that includes all entries from the given contexts; if some of the keys are equal, the entries are overriden.
+
+The entries are overridden in the same order as specified by the supplied parameter, with new entries added as the last entry in the new context.
+
+</td><td>
+
+*context merge(\[{x:1}, {y:2}\]) =*
+
+*{x:1, y:2}*
+
+*context merge(\[{x:1, y:0},*
+
+*{y:2}\]) = {x:1, y:2}*
+
+</td></tr>
+</table>
 
 #### Miscellaneous functions
 
@@ -1967,34 +4926,36 @@ Users are encouraged to isolate decision logic that uses these functions in spec
 
 ###### Table: Miscellaneous functions
 
-| **Name(parameters)** | **Parameter domain** | **Description**               |
-|------------------------|------------------------|------------------------|
-| now()                | (none)               | returns current date and time |
-| today()              | (none)               | returns current date          |
+| Name(parameters) | Parameter domain | Description                   |
+|------------------|------------------|-------------------------------|
+| now()            | (none)           | returns current date and time |
+| today()          | (none)           | returns current date          |
 
 ### FEEL Libraries
 
 A library has a name, is defined in a namespace, and contains a list of function declarations. The syntax of a library is defined below:
 
-    library =
-    "namespace" , qualified name , ";"
-    name , "{" , functions , "}"
-    ;
-    functions =
-    function , { ";" , function }
-    function =
-    "function" , name, "(" , [ formal parameter { "," , formal parameter } ] , ")" , ":" , type
-    ;
+```
+library =
+"namespace" , qualified name , ";"
+name , "{" , functions , "}"
+;
+functions =
+function , { ";" , function }
+function =
+"function" , name, "(" , [ formal parameter { "," , formal parameter } ] , ")" , ":" , type
+;
+```
 
 where
 
-- name is described in section [Grammar rules](#grammar-rules), rule 25
+- name is described in section [Grammar rules](#grammar-rules), [name](#rule-name)
 
-- qualified name is described in section [Grammar rules](#grammar-rules), rule 18
+- qualified name is described in section [Grammar rules](#grammar-rules), [qualified name](#rule-qualified-name)
 
-- formal parameter is described in section [Grammar rules](#grammar-rules), rule 56
+- formal parameter is described in section [Grammar rules](#grammar-rules), [formal parameter](#rule-formal-parameter)
 
-- type is described in section [Grammar rules](#grammar-rules), rule 52
+- type is described in section [Grammar rules](#grammar-rules), [type](#rule-type)
 
 - name, qualified name and formal parameter contain only symbols that are classified as letters and digits in the Unicode standard
 
@@ -2008,21 +4969,25 @@ The functions defined in a library are invoked in the same way as the imported B
 
 For example, for the following library
 
-    namespace org.omg.feel.stringUtil;
-    stringLib {
-    // Checks if str is empty ("") or null.
-    function isEmpty(str: string) : boolean ;
-    ...
-    // The capitalized str, null if str is null
-    function capitalize(str: string) : string
-    }
+```feel
+namespace org.omg.feel.stringUtil;
+stringLib {
+// Checks if str is empty ("") or null.
+function isEmpty(str: string) : boolean ;
+...
+// The capitalized str, null if str is null
+function capitalize(str: string) : string
+}
+```
 
 once the library is imported with
 
-    <import namespace="org.omg.feel.stringUtil"
-    name="myLib"
-    importType="https://www.omg.org/spec/DMN/20240513/FEEL/"
-    />
+```feel
+<import namespace="org.omg.feel.stringUtil"
+name="myLib"
+importType="https://www.omg.org/spec/DMN/20240513/FEEL/"
+/>
+```
 
 the function isEmpty can be invoked by myLib.isEmpty("abc").
 
@@ -2074,13 +5039,13 @@ Boxed expressions are Expressions that have a standard diagrammatic representati
 
 A Context is composed of any number of contextEntrys, which are instances of ContextEntry.
 
-A Context element is represented diagrammatically as a **boxed context** (clause [Boxed Context](#boxed-context)). A FEEL *context* (grammar rule 57 and clause [Context](#context)) SHOULD be modeled as a Context element whenever possible.
+A Context element is represented diagrammatically as a **boxed context** (clause [Boxed Context](#boxed-context)). A FEEL *context* (grammar [context](#rule-context) and clause [Context](#context)) SHOULD be modeled as a Context element whenever possible.
 
 Context inherits all the attributes and model associations from Expression. [Context attributes and model association](#table-context-attributes-and-model-association) presents the additional attributes and model associations of the Context element.
 
 ###### Table: Context attributes and model association
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-------------------------------|-----------------------------------------|
 | **contextEntry**: ContextEntry \[\*\] | This attributes lists the instances of ContextEntry that compose this Context. |
 
@@ -2094,36 +5059,100 @@ An instance of ContextEntry is composed of an optional variable, which is an Inf
 
 ###### Table: ContexEntry attributes and model associations
 
-| **Attribute** | **Description** |
-|-------------------------------|-----------------------------------------|
-| **variable**: InformationItem \[0..1\] | The instance of InformationItem that is contained in this ContextEntry, and whose name is the *key* in the modeled *context* *entry* |
-| **value**: Expression | The instance of Expression that is the *expression* in this ContextEntry |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**variable**: InformationItem \[0..1\]
+
+</td><td>
+
+The instance of InformationItem that is contained in this ContextEntry, and whose name is the *key* in the modeled *context* *entry*
+
+</td></tr>
+<tr><td>
+
+**value**: Expression
+
+</td><td>
+
+The instance of Expression that is the *expression* in this
+
+ContextEntry
+
+</td></tr>
+</table>
 
 ### FunctionDefinition metamodel
 
 A FunctionDefinition has formalParameters and a body. A FunctionDefinition element is
 
-represented diagrammatically as a **boxed function**, as described in clause. A FEEL *function definition* (grammar rule 55 and clause [Semantic mappings](#semantic-mappings)) SHOULD be modeled as a FunctionDefinition element whenever possible.
+represented diagrammatically as a **boxed function**, as described in clause. A FEEL *function definition* (grammar [function definition](#rule-function-definition) and clause [Semantic mappings](#semantic-mappings)) SHOULD be modeled as a FunctionDefinition element whenever possible.
 
 FunctionDefinition inherits all the attributes and model associations from Expression. [FunctionDefinition attributes and model associations](#table-functiondefinition-attributes-and-model-associations) presents the additional attributes and model associations of the Function Definition element.
 
 ###### Table: FunctionDefinition attributes and model associations
 
-| **Attribute** | **Description** |
-|-------------------------------|-----------------------------------------|
-| **FormalParameter**: InformationItem \[\*\] | This attributes lists the instances of InformationItem that are the parameters of this Context. |
-| **body**: Expression \[0..1\] | The instance of Expression that is the body in this FunctionDefinition |
-| **kind**: FunctionKind = FEEL { FEEL \| Java \| ONNX \| PMML } | The kind attribute defines the type of the FunctionDefinition. The default value is FEEL. Supported values also include Java, ONNX and PMML |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**FormalParameter**: InformationItem \[\*\]
+
+</td><td>This attributes lists the instances of InformationItem that are the parameters of this Context.</td></tr>
+<tr><td>
+
+**body**: Expression \[0..1\]
+
+</td><td>
+
+The instance of Expression that is the body in this
+
+FunctionDefinition
+
+</td></tr>
+<tr><td>
+
+**kind**: FunctionKind = FEEL
+
+{ FEEL \| Java \| ONNX \| PMML }
+
+</td><td>
+
+The kind attribute defines the type of the FunctionDefinition.
+
+The default value is FEEL. Supported values also include Java, ONNX and
+
+PMML
+
+</td></tr>
+</table>
 
 ### List metamodel
 
-A List is simply a list of element, which are instances of Expressions. A List element is represented diagrammatically as a **boxed list**, as described in clause [Boxed List](#boxed-list). A FEEL *list* (grammar rule 54 and clause [Semantic mappings](#semantic-mappings)) SHOULD be modeled as a List element whenever possible.
+A List is simply a list of element, which are instances of Expressions. A List element is represented diagrammatically as a **boxed list**, as described in clause [Boxed List](#boxed-list). A FEEL *list* (grammar [list](#rule-list) and clause [Semantic mappings](#semantic-mappings)) SHOULD be modeled as a List element whenever possible.
 
 List inherits all the attributes and model associations from Expression. [List attributes and model associations](#table-list-attributes-and-model-associations) presents the additional attributes and model associations of the List element.
 
 ###### Table: List attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-------------------------------|-----------------------------------------|
 | **element**: Expression \[\*\] | This attributes lists the instances of Expression that are the elements in this List. |
 
@@ -2135,7 +5164,7 @@ Relation inherits all the attributes and model associations from Expression. [Re
 
 ###### Table: Relation attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |-------------------------------|-----------------------------------------|
 | **row**: List \[\*\] | This attributes lists the instances of List that compose the rows of this Relation. |
 | **column**: InformationItem \[\*\] | This attributes lists the instances of InformationItem that define the columns in this Relation. |
@@ -2148,7 +5177,7 @@ Conditional inherits all the attributes and model associations from Expression. 
 
 ###### Table: Conditional attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------|------------------------------------------------|
 | **if**: ChildExpression | This attribute holds the expression that is evaluate by the conditional expression. |
 | **then**: ChildExpression | This attribute holds the expression that will be evaluated when the condition in the if statement evaluates to **true**. |
@@ -2162,10 +5191,33 @@ ChildExpression.
 
 ###### Table: ChildExpression attributes and model associations
 
-| **Attribute** | **Description** |
-|------------------------------------|------------------------------------|
-| **id**: ID\[0..1\] | Optional identifier for this element. SHALL be unique within its containing Definitions element. |
-| **value**: Expression | The instance of Expression that is the expression in this ChildExpression |
+<table>
+<tr><th>
+
+Attribute
+
+</th><th>
+
+Description
+
+</th></tr>
+<tr><td>
+
+**id**: ID\[0..1\]
+
+</td><td>Optional identifier for this element. SHALL be unique within its containing Definitions element.</td></tr>
+<tr><td>
+
+**value**: Expression
+
+</td><td>
+
+The instance of Expression that is the expression in this
+
+ChildExpression
+
+</td></tr>
+</table>
 
 ### Filter metamodel
 
@@ -2175,7 +5227,7 @@ Filter inherits all the attributes and model associations from Expression. [Chil
 
 ###### Table: Filter attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **in**: ChildExpression | This attribute holds the expression that is evaluate as the collection to be filtered. |
 | **match**: ChildExpression | This attribute holds the expression that is used to filter the collection. |
@@ -2188,7 +5240,7 @@ Iterator inherits all the attributes and model associations from Expression. [It
 
 ###### Table: Iterator attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **iteratorVariable**: String | This attribute holds name of the iterator variable that will be populated at each iteration. |
 | **in**: TypedChildExpression | This attribute holds the expression that is evaluated as the collection to be processed. |
@@ -2201,7 +5253,7 @@ For inherits all the attributes and model associations from Iterator. [For attri
 
 ###### Table: For attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **return**: ChildExpression | This attribute holds the expression that is evaluated to create the new collection that will be returned. |
 
@@ -2213,7 +5265,7 @@ Quantified inherits all the attributes and model associations from Iterator. [Fo
 
 ###### Table: Quantified attributes and model associations
 
-| **Attribute** | **Description** |
+| Attribute | Description |
 |------------------------------------|------------------------------------|
 | **satisfies**: ChildExpression | This attribute holds the expression that is evaluated to determine if the current item satisfies a condition. |
 

@@ -41,3 +41,17 @@ Check the generated PDF:
     in GitHub's preview is also a list or heading in the PDF.
 11. The horse 🐎 is shown in the text, inline code, code block and table of
     [Characters outside the Basic Multilingual Plane](13_Other_Elements.md#characters-outside-the-basic-multilingual-plane).
+12. All tables have a full grid and bold header rows; the tables in
+    [Merged cells and rich cell content](10_Tables.md#merged-cells-and-rich-cell-content)
+    show merged cells, paragraphs, lists, code, math and images in cells, and the
+    footnote of the string function table below that table.
+13. The decision tables in
+    [Specification-specific table styles](10_Tables.md#specification-specific-table-styles)
+    match DMN Figures 8-6, 8-19 and 8-12: the name box above and adjoining the
+    table, the hit policy cell spanning the clause rows, double lines below the
+    clauses and before the first output and the annotation column, only the
+    clauses shaded, string literals in italics, annotations left-aligned, and
+    the two wide tables wrapped to the text width.
+14. The grammar in [Grammar rules](13_Other_Elements.md#grammar-rules) is numbered
+    1 to 4 with alternatives i, ii, iii, and the references above it read
+    "rule 2.i", "rule 2" and "rule 1".

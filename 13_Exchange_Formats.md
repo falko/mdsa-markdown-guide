@@ -44,22 +44,26 @@ Starting from DMN 1.7, the XML namespace URIs for backwards-compatible 1.x versi
 
 The \<dmn:definitions\> root element of a DMN XML file MUST indicate the concrete DMN version that is used in the file by setting the dmnVersion attribute, e.g.:
 
-    <dmn:definitions dmnVersion="1.7" ...
+```
+<dmn:definitions dmnVersion="1.7" ...
+```
 
 In addition, the \<dmn:definitions\> root element SHOULD include an xsi:schemaLocation attribute that points to the XML schema files for all namespaces, i.e. the URLs of the XSDs that are publicly hosted by OMG without dated version stamps, e.g.
 
-    <dmn:definitions dmnVersion="1.7" ...
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-    https://www.omg.org/spec/DMN/
-    https://www.omg.org/spec/DMN/DMN.xsd
-    https://www.omg.org/spec/DMN/DMNDI/
-    https://www.omg.org/spec/DMN/DMNDI.xsd
-    https://www.omg.org/spec/SCE/DI/
-    https://www.omg.org/spec/SCE/DI.xsd
-    https://www.omg.org/spec/SCE/DC/
-    https://www.omg.org/spec/SCE/DC.xsd
-    ">
+```
+<dmn:definitions dmnVersion="1.7" ...
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+https://www.omg.org/spec/DMN/
+https://www.omg.org/spec/DMN/DMN.xsd
+https://www.omg.org/spec/DMN/DMNDI/
+https://www.omg.org/spec/DMN/DMNDI.xsd
+https://www.omg.org/spec/SCE/DI/
+https://www.omg.org/spec/SCE/DI.xsd
+https://www.omg.org/spec/SCE/DC/
+https://www.omg.org/spec/SCE/DC.xsd
+">
+```
 
 ### References within the DMN XSD
 

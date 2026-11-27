@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Lists where the pages of the Word PDF of DMN begin, for dmn-pages.lua: one
-line per page, "page<TAB>part<TAB>position<TAB>first words", where part is the
+"""Lists where the pages of the Word PDF of DMN begin, for specification.lua: one
+line per page, "page<TAB>part<TAB>position<TAB>first words<TAB>words before",
+where part is the
 clause the page belongs to (N for the notices, P for the preface, 1 to 14, A
 for the annexes), position the number of words of the clause before the page,
-and the first words the first eight words of the page, in lower case, without
-numbers and punctuation. The build starts a new page where these words are,
+the first words the first eight words of the page, and the words before the
+last six words of the page before, in lower case, without numbers and
+punctuation. The build starts a new page where these words are,
 so that the pages of the PDF begin where those of the Word PDF do.
 
 Usage: pages.py DMN_1.7_SOURCE.pdf > tools/dmn-pages.txt
@@ -39,6 +41,7 @@ def main():
     starts = clause_starts(pdf)
     offset = None
     count = {}
+    previous = {}
     for page in range(2, npages + 1):
         text = subprocess.run(['pdftotext', '-f', str(page), '-l', str(page), '-layout', pdf, '-'],
                               capture_output=True, text=True).stdout
@@ -80,8 +83,13 @@ def main():
         w = words(first)
         position = count.get(part, 0)
         count[part] = position + len(words(' '.join(lines), None))
+        before = previous.get(part, [])
+        previous[part] = words(' '.join(lines), None)[-6:]
         if w:
-            print('%d\t%s\t%d\t%s' % (page, part, position, ' '.join(w)))
+            print('%d\t%s\t%d\t%s\t%s' % (page, part, position, ' '.join(w), ' '.join(before)))
+    # the number of words of each clause, as page 0
+    for part, total in count.items():
+        print('0\t%s\t%d\t\t' % (part, total))
 
 
 if __name__ == '__main__':

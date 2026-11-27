@@ -304,41 +304,127 @@ In addition to the information represented in the DRD, the business context of t
 
 **Performance indicators**
 
-| Monthly bureau costs | The total cost charged by the bureau for all Bureau Data requested while originating Loans in a calendar month. |
-|-----------------------|-------------------------------------------------|
-| Monthly loan accept rate | The percentage of loans accepted in a calendar month. |
-| Monthly auto-adjudication rate | The percentage of loans that did not require a credit officer to review the case in a calendar month. |
-| Monthly value of loans written | The total value of Loans written in a calendar month |
-| Auto adjudication rate 90% | By end of the current year, have an auto-adjudication rate of at least 90 percent |
+<table>
+<tr><td>Monthly bureau costs</td><td>The total cost charged by the bureau for all Bureau Data requested while originating Loans in a calendar month.</td></tr>
+<tr><td>Monthly loan accept rate</td><td>The percentage of loans accepted in a calendar month.</td></tr>
+<tr><td>Monthly auto-adjudication rate</td><td>The percentage of loans that did not require a credit officer to review the case in a calendar month.</td></tr>
+<tr><td>Monthly value of loans written</td><td>The total value of Loans written in a calendar month</td></tr>
+<tr><td>Auto adjudication rate 90%</td><td>By end of the current year, have an auto-adjudication rate of at least 90 percent</td></tr>
+</table>
 
 Decisions are mapped to the Performance Indicators and Goals that they impact as follows:
 
-|  | **Monthly Loan** **Accept Rate** | **Monthly Value** **of Loans WrittenCosts** | **Monthly Bureau** | **Auto-adjudication rate 90%** | **Monthly Auto- adjudication** **Rate** |
-|----------------|-----------|-----------|------------|------------|-----------|
-| **Adjudication** | Yes | Yes |  |  |  |
-| **Application risk score** |  |  | Yes |  |  |
-| **Bureau Call Type** |  |  | Yes |  |  |
-| **Routing** | Yes | Yes |  | Yes | Yes |
-| **Strategy** | Yes | Yes |  | Yes | Yes |
+<table>
+<tr><th></th><th>
+
+Monthly Loan
+
+Accept Rate
+
+</th><th>
+
+Monthly Value
+
+of Loans WrittenCosts
+
+</th><th>
+
+Monthly Bureau
+
+</th><th>
+
+Auto-adjudication rate 90%
+
+</th><th>
+
+Monthly Auto- adjudication
+
+Rate
+
+</th></tr>
+<tr><td>
+
+**Adjudication**
+
+</td><td>Yes</td><td>Yes</td><td></td><td></td><td></td></tr>
+<tr><td>
+
+**Application risk score**
+
+</td><td></td><td></td><td>Yes</td><td></td><td></td></tr>
+<tr><td>
+
+**Bureau Call Type**
+
+</td><td></td><td></td><td>Yes</td><td></td><td></td></tr>
+<tr><td>
+
+**Routing**
+
+</td><td>Yes</td><td>Yes</td><td></td><td>Yes</td><td>Yes</td></tr>
+<tr><td>
+
+**Strategy**
+
+</td><td>Yes</td><td>Yes</td><td></td><td>Yes</td><td>Yes</td></tr>
+</table>
 
 **Organizations**
 
-| Credit officers | Individuals in the Retail Banking Organization responsible for manual adjudication of loans. |
-|-----------------|-------------------------------------------------------|
-| Product management | Organization responsible for defining loan and other banking products, how those products are priced, sold and tracked for profitability. |
-| Credit risk analytics group | Organization responsible for credit risk models and the use of data to predict credit risk for customers and loan applicants. |
-| Retail banking | Overall Organization focused on banking products for consumers. |
-| Credit risk | Organization within the bank responsible for defining credit risk strategies and policies and providing tools for managing against these. |
+<table>
+<tr><td>Credit officers</td><td>Individuals in the Retail Banking Organization responsible for manual adjudication of loans.</td></tr>
+<tr><td>Product management</td><td>Organization responsible for defining loan and other banking products, how those products are priced, sold and tracked for profitability.</td></tr>
+<tr><td>Credit risk analytics group</td><td>Organization responsible for credit risk models and the use of data to predict credit risk for customers and loan applicants.</td></tr>
+<tr><td>Retail banking</td><td>Overall Organization focused on banking products for consumers.</td></tr>
+<tr><td>Credit risk</td><td>Organization within the bank responsible for defining credit risk strategies and policies and providing tools for managing against these.</td></tr>
+</table>
 
 Credit officers are likely to be part of the Retail Banking organization, Credit risk analytic and Risk management are part of the Credit risk organization, although these relationships are not managed in DMN.
 
 These organizations own decisions, make decisions and own knowledge sources as follows:
 
-|  | **Owns Decisions** | **Makes Decisions** | **Knowledge Sources** |
-|----------------|------------------|------------------|---------------------|
-| **Credit officers** |  | Adjudication | Credit officer experience |
-| **Credit risk analytics group** | Application risk score |  | Credit risk analytics |
-| **Credit risk** | Adjudication Bureau call type Eligibility Pre-bureau risk category Post-bureau risk category Routing |  | Risk management strategy |
+<table>
+<tr><th></th><th>
+
+Owns Decisions
+
+</th><th>
+
+Makes Decisions
+
+</th><th>
+
+Knowledge Sources
+
+</th></tr>
+<tr><td>
+
+**Credit officers**
+
+</td><td></td><td>Adjudication</td><td>Credit officer experience</td></tr>
+<tr><td>
+
+**Credit risk analytics group**
+
+</td><td>Application risk score</td><td></td><td>Credit risk analytics</td></tr>
+<tr><td>
+
+**Credit risk**
+
+</td><td>
+
+Adjudication
+
+Bureau call type
+
+Eligibility
+
+Pre-bureau risk category Post-bureau risk category
+
+Routing
+
+</td><td></td><td>Risk management strategy</td></tr>
+</table>
 
 #### Decision Services
 

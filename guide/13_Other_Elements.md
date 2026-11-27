@@ -37,6 +37,56 @@ one with its file and line, and the character to write instead, e.g.
 "code contains ’ (U+2019) ...; write ' instead", and then stops. Curly quotes
 and dashes in normal text are fine.
 
+FEEL code is highlighted with a language definition for `listings` in
+`_Specification_AuthorSettings.tex`, built from the grammar that the bpmn.io
+editors use:
+
+```feel
+// Applicant risk
+if Applicant.Age > 60 and Applicant.MedicalHistory = "bad" then "High"
+else for x in [1, 2, 3] return x * 2
+```
+
+Inline FEEL code works the same way: `some x in [1, 2] satisfies x > 1`{.feel}.
+
+## Grammar rules
+
+A grammar whose rules are referenced by number, such as the FEEL grammar, is a
+numbered list. Each rule that is referenced starts with an HTML anchor named
+after the rule; alternatives are a nested numbered list:
+
+```markdown
+1. <a id="rule-expression"></a>expression =
+   1. boxed expression |
+   1. textual expression ;
+1. <a id="rule-textual-expression"></a>textual expression =
+   1. <a id="rule-textual-expression-for"></a>for expression | if expression | quantified expression |
+   1. disjunction ;
+```
+
+Write every item as `1.`: GitHub and the PDF number the rules themselves, so
+inserting a rule changes only that line. Alternatives are numbered i, ii, iii,
+as GitHub shows nested numbered lists. A link to a rule's anchor becomes the
+rule number in the PDF: [for expressions](#rule-textual-expression-for) are
+defined by [textual expression](#rule-textual-expression), which is part of
+[expression](#rule-expression). The excerpt from the FEEL grammar of DMN 1.7:
+
+1. <a id="rule-expression"></a>expression =
+   1. boxed expression |
+   1. textual expression ;
+1. <a id="rule-textual-expression"></a>textual expression =
+   1. <a id="rule-textual-expression-for"></a>for expression | if expression | quantified expression |
+   1. disjunction |
+   1. conjunction |
+   1. comparison |
+   1. arithmetic expression ;
+1. textual expressions = textual expression , { "," , textual expression } ;
+1. <a id="rule-arithmetic-expression"></a>arithmetic expression =
+   1. addition | subtraction |
+   1. multiplication | division |
+   1. exponentiation |
+   1. arithmetic negation ;
+
 ## Characters outside the Basic Multilingual Plane
 
 Some characters lie outside Unicode's Basic Multilingual Plane, such as the

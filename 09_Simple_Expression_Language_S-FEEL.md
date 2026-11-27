@@ -14,53 +14,52 @@ The syntax for the S-FEEL expressions used in this section is specified in the E
 
 **Grammar rules**:
 
-    1. expression = simple expression ;
-    2. arithmetic expression =
-       a. addition | subtraction |
-       b. multiplication | division |
-       c. exponentiation |
-       d. arithmetic negation ;
-
-    3. simple expression = arithmetic expression | simple value | comparison ;
-    4. simple expressions = simple expression , { "," , simple expression } ;
-    5. simple positive unary test =
-       a. [ "<" | "<=" | ">" | ">=" ] , endpoint |
-       b. interval ;
-    6. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
-    7. open interval start = "(" | "]" ;
-    8. closed interval start = "[" ;
-    9. open interval end = ")" | "[" ;
-    10. closed interval end = "]" ;
-    11. simple positive unary tests = simple positive unary test , { "," , simple positive unary test } ;
-    12. simple unary tests =
-        a. simple positive unary tests |
-        b. "not", "(", simple positive unary tests, ")" |
-        c. "-";
-    13. endpoint = simple value ;
-    14. simple value = qualified name | simple literal ;
-    15. qualified name = name , { "." , name } ;
-    16. addition = expression , "+" , expression ;
-    17. subtraction = expression , "-" , expression ;
-    18. multiplication = expression , "*" , expression ;
-    19. division = expression , "/" , expression ;
-    20. exponentiation = expression, "**", expression ;
-    21. arithmetic negation = "-" , expression ;
-    22. name = name start , { name part | additional name symbols } ;
-    23. name start = name start char, { name part char } ;
-    24. name part = name part char , { name part char } ;
-    25. name start char = "?" | [A-Z] | "_" | [a-z] | [\uC0-\uD6] | [\uD8-\uF6] | [\uF8-\u2FF] | [\u370-\u37D] | [\u37F\u1FFF] | [\u200C-\u200D] | [\u2070-\u218F] | [\u2C00-\u2FEF] | [\u3001-\uD7FF] | [\uF900-\uFDCF] | [\uFDF0-\uFFFD] | [\u1 0000-\uEFFFF] ;
-    26. name part char = name start char | digit | \uB7 | [\u0300-\u036F] | [\u203F-\u2040] ;
-    27. additional name symbols = "." | "/" | "-" | """'" | "+" | "*" ;
-    28. simple literal = numeric literal | string literal | boolean literal | date time literal ;
-    29. string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
-    30. boolean literal = "true" | "false" ;
-    31. numeric literal = [ "-" ] , ( digits , [ ".", digits ] | "." , digits ) ;
-    32. digit = [0-9] ;
-    33. digits = digit , {digit} ;
-    34. 34 date time literal = ("date" | "time" | "duration" | "days and time duration" | "years and months duration") , "(" , string literal , ")" ;comparison = expression , ( "=" | "!=" | "<" | "<=" | ">" | ">=" ) , expression ;
-    35. white space = vertical space | \u0009 | \u0020 | \u0085 | \u00A0 | \u1 680 | \u1 80E | [\u2000-\u200B] | \u2028 | \u2029 | \u202F | \u205F | \u3000 | \uFEFF ;
-    36. vertical space = [\u000A-\u000D];
-    37. string escape sequence = "\'" | "\"" | "\\" | "\n" | "\r" | "\t" | "\u", hex digit, hex digit, hex digit, hex digit;
+1. expression = simple expression ;
+1. arithmetic expression =
+   1. <a id="rule-s-feel-arithmetic-expression-a"></a>addition | subtraction |
+   1. <a id="rule-s-feel-arithmetic-expression-b"></a>multiplication | division |
+   1. <a id="rule-s-feel-arithmetic-expression-c"></a>exponentiation |
+   1. <a id="rule-s-feel-arithmetic-expression-d"></a>arithmetic negation ;
+1. <a id="rule-s-feel-simple-expression"></a>simple expression = arithmetic expression | simple value | comparison ;
+1. simple expressions = simple expression , { "," , simple expression } ;
+1. simple positive unary test =
+   1. \[ "\<" | "\<=" | "\>" | "\>=" \] , endpoint |
+   1. interval ;
+1. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
+1. open interval start = "(" | "\]" ;
+1. closed interval start = "\[" ;
+1. open interval end = ")" | "\[" ;
+1. closed interval end = "\]" ;
+1. simple positive unary tests = simple positive unary test , { "," , simple positive unary test } ;
+1. <a id="rule-s-feel-simple-unary-tests"></a>simple unary tests =
+   1. simple positive unary tests |
+   1. "not", "(", simple positive unary tests, ")" |
+   1. "-";
+1. endpoint = simple value ;
+1. simple value = qualified name | simple literal ;
+1. qualified name = name , { "." , name } ;
+1. addition = expression , "+" , expression ;
+1. subtraction = expression , "-" , expression ;
+1. multiplication = expression , "\*" , expression ;
+1. division = expression , "/" , expression ;
+1. exponentiation = expression, "\*\*", expression ;
+1. arithmetic negation = "-" , expression ;
+1. name = name start , { name part | additional name symbols } ;
+1. name start = name start char, { name part char } ;
+1. name part = name part char , { name part char } ;
+1. name start char = "?" | \[A-Z\] | "\_" | \[a-z\] | \[\\uC0-\\uD6\] | \[\\uD8-\\uF6\] | \[\\uF8-\\u2FF\] | \[\\u370-\\u37D\] | \[\\u37F\\u1FFF\] | \[\\u200C-\\u200D\] | \[\\u2070-\\u218F\] | \[\\u2C00-\\u2FEF\] | \[\\u3001-\\uD7FF\] | \[\\uF900-\\uFDCF\] | \[\\uFDF0-\\uFFFD\] | \[\\u1 0000-\\uEFFFF\] ;
+1. name part char = name start char | digit | \\uB7 | \[\\u0300-\\u036F\] | \[\\u203F-\\u2040\] ;
+1. additional name symbols = "." | "/" | "-" | """'" | "+" | "\*" ;
+1. simple literal = numeric literal | string literal | boolean literal | date time literal ;
+1. string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
+1. boolean literal = "true" | "false" ;
+1. numeric literal = \[ "-" \] , ( digits , \[ ".", digits \] | "." , digits ) ;
+1. digit = \[0-9\] ;
+1. digits = digit , {digit} ;
+1. 34 date time literal = ("date" | "time" | "duration" | "days and time duration" | "years and months duration") , "(" , string literal , ")" ;comparison = expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression ;
+1. <a id="rule-s-feel-white-space"></a>white space = vertical space | \\u0009 | \\u0020 | \\u0085 | \\u00A0 | \\u1 680 | \\u1 80E | \[\\u2000-\\u200B\] | \\u2028 | \\u2029 | \\u202F | \\u205F | \\u3000 | \\uFEFF ;
+1. vertical space = \[\\u000A-\\u000D\];
+1. string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | "\\u", hex digit, hex digit, hex digit, hex digit;
 
 ## S-FEEL data types
 
@@ -84,7 +83,7 @@ S-FEEL contains only a limited set of basic features that are common to most exp
 
 The semantics of S-FEEL expressions are defined in this section, in terms of the semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data Model datatypes, and in terms of the corresponding functions and operators defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:” below). A complete standalone specification of the semantics is to be found in clause [Semantics](10_Expression_Language_FEEL.md#semantics), as part of the definition of FEEL. Within the scope of S- FEEL, the two definitions are equivalent and equally normative.
 
-Arithmetic addition and subtraction (grammar rule 2.a) have the same semantics as:
+Arithmetic addition and subtraction (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-a)) have the same semantics as:
 
 - op:numeric-add and op:numeric-subtract, when its two operands are numbers.
 
@@ -102,13 +101,13 @@ In addition, arithmetic subtraction has the semantics of op:subtract-dates or op
 
 Arithmetic addition and subtraction are not defined in other cases.
 
-Arithmetic multiplication and division (grammar rule 2.b) have the same semantics as defined for op:numeric-multiply and op:numeric-divide, respectively, when the two operands are numbers. They are not defined otherwise.
+Arithmetic multiplication and division (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-b)) have the same semantics as defined for op:numeric-multiply and op:numeric-divide, respectively, when the two operands are numbers. They are not defined otherwise.
 
-Arithmetic exponentiation (grammar rule 2.c) is defined as the result of raising the first operand to the power of the second operand, when the two operands are numbers. It is not defined in other cases.
+Arithmetic exponentiation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-c)) is defined as the result of raising the first operand to the power of the second operand, when the two operands are numbers. It is not defined in other cases.
 
-Arithmetic negation (grammar rule 2.d) is defined only when its operand is a number: in that case, its semantics is according to the specification of op:numeric-unary-minus.
+Arithmetic negation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-d)) is defined only when its operand is a number: in that case, its semantics is according to the specification of op:numeric-unary-minus.
 
-Comparison operators (grammar rule 35) between numbers are defined according to the specification of op:numericequal, op-numeric-less-than and op:numeric-greater-than, comparisons between dates are defined according to the specification of op:date-equal, op:date-less-than and op:date-greater-than; comparisons between times are defined according to the specification of op:time-equal, op:time-less-than and op:time-greater-than; comparisons between years and months durations are defined according to the specification of op:duration-equal,
+Comparison operators (grammar [white space](#rule-s-feel-white-space)) between numbers are defined according to the specification of op:numericequal, op-numeric-less-than and op:numeric-greater-than, comparisons between dates are defined according to the specification of op:date-equal, op:date-less-than and op:date-greater-than; comparisons between times are defined according to the specification of op:time-equal, op:time-less-than and op:time-greater-than; comparisons between years and months durations are defined according to the specification of op:duration-equal,
 
 op:yearMonthDuration-less-than and op:year-MonthDuration-greater-than; comparisons between days and time durations are defined according to the specification of op:duration-equal, op:dayTimeDuration-less-than and op:dayTimeDuration-greater-than.
 
@@ -126,7 +125,7 @@ Given an expression o to be tested and two endpoint e1 and e2:
 
 - is in the interval \[e1..e2), also notated \[e1..e2\[, if and only if o ≥ e1 and o \< e2
 
-An expression to be tested satisfies an instance of simple unary tests (grammar rule 12) if and only if, either the expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is “-”.
+An expression to be tested satisfies an instance of simple unary tests (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)) if and only if, either the expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is “-”.
 
 ## Use of S-FEEL expressions
 
@@ -134,18 +133,18 @@ This section summarizes which kinds of S-FEEL expressions are allowed in which r
 
 ### Item definitions
 
-The expression that defines an **allowed value** SHALL be an instance of *simple unary tests* (grammar rule 12), where only the values in the defined or referenced type that satisfy the test are allowed values.
+The expression that defines an **allowed value** SHALL be an instance of *simple unary tests* (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)), where only the values in the defined or referenced type that satisfy the test are allowed values.
 
 ### Invocations
 
-In the bindings of an invocation, the **binding formula** SHALL be a *simple expression* (grammar rule 3).
+In the bindings of an invocation, the **binding formula** SHALL be a *simple expression* (grammar [simple expression](#rule-s-feel-simple-expression)).
 
 ### Decision tables
 
-Each **input expression** SHALL be a *simple expression* (grammar rule 3).
+Each **input expression** SHALL be a *simple expression* (grammar [simple expression](#rule-s-feel-simple-expression)).
 
-Each list of **input values** SHALL be an instance of *simple unary tests* (grammar rule 12).
+Each list of **input values** SHALL be an instance of *simple unary tests* (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)).
 
-Each list of **output values** SHALL be an instance of *simple unary tests* (grammar rule 12). Each **input entry** SHALL be an instance of *simple unary tests* (grammar rule 12).
+Each list of **output values** SHALL be an instance of *simple unary tests* (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)). Each **input entry** SHALL be an instance of *simple unary tests* (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)).
 
-Each **output entry** SHALL be a *simple expression* (grammar rule 3).
+Each **output entry** SHALL be a *simple expression* (grammar [simple expression](#rule-s-feel-simple-expression)).

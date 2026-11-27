@@ -35,10 +35,8 @@ all: spec
 .PHONY: all 
 include ./mdsa-omg-core/_core.mk
 
-# DMN: the filter that starts pages where they start in the Word PDF, and its
-# data (see omgLaTeX.yaml), copied next to the Pandoc settings
-# (after the core rules, which define ${build}, ${source} and ${markdowns})
-$(subst ${source}/,${build}/,$(subst .md,.tex,${markdowns})): ${build}/dmn-pages.lua ${build}/dmn-pages.txt
-${build}/dmn-pages.lua: ${source}/tools/dmn-pages.lua ; mkdir -p "${build}" && cp $< $@
+# DMN: the pages of the Word PDF (tools/dmn-pages.txt), which DMN's filter
+# specification.lua reads, next to the filter in the build folder (after the
+# core rules, which define ${build}, ${source} and ${markdowns})
+$(subst ${source}/,${build}/,$(subst .md,.tex,${markdowns})): ${build}/dmn-pages.txt
 ${build}/dmn-pages.txt: ${source}/tools/dmn-pages.txt ; mkdir -p "${build}" && cp $< $@
-

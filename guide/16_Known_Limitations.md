@@ -6,7 +6,9 @@
   build until `_Specification_AuthorSettings.tex` maps them (see
   [Characters outside the Basic Multilingual Plane](13_Other_Elements.md#characters-outside-the-basic-multilingual-plane)).
 - Code blocks are highlighted only for languages known to the LaTeX
-  `listings` package. Code in other languages, such as FEEL, is shown without
-  highlighting unless the template defines the language.
+  `listings` package, or defined by the specification, as FEEL is here.
+- In a table, text next to an image is aligned with the middle of the image's
+  first line, not centered in the row.
+- Whether change bars (latexdiff) mark changes inside tables has not been tested.
 - GitHub's preview shows citations as typed, and figures without their
   captions (see [Reviewing on GitHub](15_Reviewing_on_GitHub.md#reviewing-on-github)).
