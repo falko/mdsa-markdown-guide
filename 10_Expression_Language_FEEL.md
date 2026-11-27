@@ -277,12 +277,12 @@ The grammar rules use the ISO EBNF notation. Each rule defines a non-terminal sy
 
 | **Example** | **Meaning**                                   |
 |-------------|-----------------------------------------------|
-| *S = S1 ;*  | Symbol *S* is defined in terms of symbol *S1* |
-| *S1 \| S2*  | Either *S1* or *S2*                           |
-| *S1, S2*    | *S1* followed by *S2*                         |
-| *\[S1\]*    | *S1* occurring 0 or 1 time                    |
-| *{S1}*      | *S1* repeated 0 or more times                 |
-| *k \* S1*   | *S1* repeated k times                         |
+| *S = S₁ ;*  | Symbol *S* is defined in terms of symbol *S₁* |
+| *S₁ \| S₂*  | Either *S₁*or *S₂*                            |
+| *S₁, S₂*    | *S₁* followed by *S₂*                         |
+| *\[S₁\]*    | *S₁* occurring 0 or 1 time                    |
+| *{S₁}*      | *S₁* repeated 0 or more times                 |
+| *k \* S₁*   | *S₁* repeated k times                         |
 | "and"       | literal terminal symbol                       |
 
 We extend the ISO notation with character ranges for brevity, as follows:
@@ -1006,7 +1006,7 @@ Unary tests (grammar rule 15) are used to represent both input values and input 
 
 - grammar rule 15.c when *v* is provided: FEEL(*e in (v)*)**=true**
 
-A rule with input entries *t1,t2,...,tN* is said to *match* the input expression list *\[e1,e2,...,eN\]* (with optional input values list *\[v1,v2, ...vN\]*) if *ei satisfies ti* (with optional input values *vi*) for all *i* in 1..N.
+A rule with input entries *t₁,t₂,...,tN* is said to *match* the input expression list *\[e₁,e₂,...,eN\]* (with optional input values list *\[v₁,v₂, ...vN\]*) if *eᵢ satisfies tᵢ* (with optional input values *vᵢ*) for all *i* in 1..N.
 
 A rule is *hit* if it is matched, and the hit policy indicates that the matched rule's output value should be included in the decision table result. Each hit results in one output value (multiple outputs are collected into a single context value). Therefore, multiple hits require aggregation.
 
@@ -1188,7 +1188,7 @@ or
 >
 > *}*
 
-The meaning of an externally defined function is an element in the semantic domain that we denote as **function(argument list: \[***X1, ... Xₙ***\], external: mapping-information)**.
+The meaning of an externally defined function is an element in the semantic domain that we denote as **function(argument list: \[***X₁, ... Xₙ***\], external: mapping-information)**.
 
 The *java* form of the mapping information indicates that the external function is to be accessed as a method on a Java class. The *class-name* SHALL be the string name of a Java class on the classpath. Classpath configuration is implementation-defined. The *method-signature* SHALL be a string consisting of the name of a public static method in the named class, followed by an argument list containing only Java argument type names. The argument type information SHOULD be used to resolve overloaded methods and MAY be used to detect out-of-domain errors before runtime.
 
@@ -1278,8 +1278,8 @@ The meaning of each substantive grammar rule is given below by mapping the synta
 
 | **Grammar Rule** | **FEEL Syntax** | **Mapped to Domain** |
 |------------|-----------------------|--------------------------------------|
-| 55 | *function(n1, ...nN) e* | **function(argument list: \[***n1, ... nN***\], body:** *e***, scope: s)** |
-| 55 | *function(n1, ...nN) external e* | **function(argument list: \[***n1, ... nN***\], external: e)** |
+| 55 | *function(n₁, ...nN) e* | **function(argument list: \[***n₁, ... nN***\], body:** *e***, scope: s)** |
+| 55 | *function(n₁, ...nN) external e* | **function(argument list: \[***n₁, ... nN***\], external: e)** |
 
 See [Ranges](#ranges).
 
@@ -1288,11 +1288,11 @@ See [Ranges](#ranges).
 | **Grammar** **Rule** | **FEEL Syntax** | **Mapped to Domain** |
 |------------|-----------------------|--------------------------------------|
 | 44 | *for i₁ in ic₁, i₂ in ic₂, ... return e* | **\[ FEEL(***e*, **s'), FEEL(***e*, **si, ... \]** |
-| 45 | *if e1 then e2 else e3* | **if FEEL(***e1***) is true then FEEL(***e2***) else FEEL(***e3***)** |
-| 46 | *some n1 in e1, n2 in e2, ...* *satisfies e* | **false or FEEL(***e,* **s') or FEEL(***e,* **s") or ...** |
+| 45 | *if e₁ then e₂ else e₃* | **if FEEL(***e₁***) is true then FEEL(***e₂***) else FEEL(***e₃***)** |
+| 46 | *some n₁ in e₁, n₂ in e₂, ...* *satisfies e* | **false or FEEL(***e,* **s') or FEEL(***e,* **s") or ...** |
 | 46 | *every n 1 in e 1, n2 in e2, ...* *satisfies e* | **true and FEEL(***e,* **s') and FEEL(***e,* **s") and ...** |
-| 47 | *e1 or e2 or ...* | **FEEL(***e1***) or FEEL(***e2***) or** ... |
-| 48 | *e1 and e2 and ...* | **FEEL(***e1***) and FEEL(***e2***) and** ... |
+| 47 | *e₁ or e₂ or ...* | **FEEL(***e₁***) or FEEL(***e₂***) or** ... |
+| 48 | *e₁ and e₂ and ...* | **FEEL(***e₁***) and FEEL(***e₂***) and** ... |
 | 49.a | *e = null* | **FEEL(***e***) is null** |
 | 49.a | *null = e* | **FEEL(***e***) is null** |
 | 49.a | *e != null* | **FEEL(***e***) is not null** |
@@ -1304,7 +1304,7 @@ The meaning of the conjunction **a and b** and the disjunction **a or b** is def
 
 A conditional **if a then b else c** is equal to **b** if **a** is **true**, and equal to **c** otherwise.
 
-**s'** is the scope **s** with a special first context containing keys n1, n2, etc. bound to the first element of the Cartesian product of FEEL**(***e1***) x** FEEL**(***e2***) x ..., s"** is **s** with a special first context containing keys bound to the second element of the Cartesian product, *etc*. When the Cartesian product is empty, the *some ... satisfies* quantifier returns **false** and the *every ... satisfies* quantifier returns **true**.
+**s'** is the scope **s** with a special first context containing keys n1, n2, etc. bound to the first element of the Cartesian product of FEEL**(***e₁***) x** FEEL**(***e₂***) x ..., s"** is **s** with a special first context containing keys bound to the second element of the Cartesian product, *etc*. When the Cartesian product is empty, the *some ... satisfies* quantifier returns **false** and the *every ... satisfies* quantifier returns **true**.
 
 ###### Table: Semantics of conjunction and disjunction
 
@@ -1337,36 +1337,36 @@ Equality and inequality map to several kind- and datatype-specific tests, as sho
 | **Grammar Rule** | **FEEL Syntax** | **Input Domain** | **Result** |
 |------------|---------------|----------------------|------------------------|
 | 49.a | *e1 = e2* | **e1 and e2 must both be of the same kind/datatype – both numbers, both strings, etc.** | *See below* |
-| 49.a | *e1 \< e2* | **e1** and **e2** must both be of the same kind/datatype – both numbers, both strings, *etc.* | *See below* |
+| 49.a | *e₁ \< e₂* | **e₁** and **e₂** must both be of the same kind/datatype – both numbers, both strings, *etc.* | *See below* |
 
 ###### Table: Specific semantics of equality
 
-| **kind/datatype** | ***e1 = e2*** |
+| **kind/datatype** | ***e₁ = e₂*** |
 |---------------------------|---------------------------------------------|
-| list | lists must be same length N and **e1\[i\] = e2\[i\]** for 1 ≤ **i** ≤ N. |
-| context | contexts must have same set of keys K and **e1.k = e2.k** for every k in K |
+| list | lists must be same length N and **e₁\[i\] = e₂\[i\]** for 1 ≤ **i** ≤ N. |
+| context | contexts must have same set of keys K and **e₁.k = e₂.k** for every k in K |
 | range | the ranges must specify the same endpoint(s) and the same comparison operator or endpoint inclusivity flag. |
 | function | internal functions must have the same parameters, body, and scope. Externally defined functions must have the same parameters and external mapping information. |
-| number | **value(e1) = value(e2)**. Value is defined in [number](#number). Precision is not considered. |
-| string | **e1** is the same sequence of characters as **e2** |
-| date | **value(e1) = value(e2)**. Value is defined in [date](#date) |
-| date and time | **value(e1) = value(e2)**. Value is defined in [date-time](#date-time) |
-| time | **value(e1) = value(e2)**. Value is defined in [time](#time). |
-| days and time duration | **value(e1) = value(e2)**. Value is defined in [days and time duration](#days-and-time-duration) |
-| years and months duration | **value(e1) = value(e2)**. Value is defined in [years and months duration](#years-and-months-duration). |
-| boolean | **e1** and **e2** must both be **true** or both be **false** |
+| number | **value(e₁) = value(e₂)**. Value is defined in [number](#number). Precision is not considered. |
+| string | **e₁** is the same sequence of characters as **e₂** |
+| date | **value(e₁) = value(e₂)**. Value is defined in [date](#date) |
+| date and time | **value(e₁) = value(e₂)**. Value is defined in [date-time](#date-time) |
+| time | **value(e₁) = value(e₂)**. Value is defined in [time](#time). |
+| days and time duration | **value(e₁) = value(e₂)**. Value is defined in [days and time duration](#days-and-time-duration) |
+| years and months duration | **value(e₁) = value(e₂)**. Value is defined in [years and months duration](#years-and-months-duration). |
+| boolean | **e₁** and **e₂** must both be **true** or both be **false** |
 
 ###### Table: Specific semantics of inequality
 
-| **datatype** | ***e1 \< e2*** |
+| **datatype** | ***e₁ \< e₂*** |
 |---------------------------|---------------------------------------------|
-| number | **value(e1) \< value(e2)**. **value** is defined in [number](#number). Precision is not considered. |
-| string | sequence of characters **e1** is lexicographically less than the sequence of characters **e2**. *I.e.,* the sequences are padded to the same length if needed with *\\u0* characters, stripped of common prefix characters, and then the first character in each sequence is compared. |
+| number | **value(e₁) \< value(e₂)**. **value** is defined in [number](#number). Precision is not considered. |
+| string | sequence of characters **e₁** is lexicographically less than the sequence of characters **e₂**. *I.e.,* the sequences are padded to the same length if needed with *\\u0* characters, stripped of common prefix characters, and then the first character in each sequence is compared. |
 | date | e1 \< e2 if the year value of e1 \< the year value of e2 e1 \< e2 if the year values are equal and the month value of e1 \< the month value of e2 e1 \< e2 if the year and month values are equal and the day value of e1 \< the day value of e2 |
-| date and time | **valuedt(e1) \< valuedt(e2)**. **valuedt** is defined in [date](#date). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
-| time | **valuet(e1) \< valuet(e2)**. **valuet** is defined in [time](#time). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
-| days and time duration | **valuedtd(e1) \< valuedtd(e2)**. **valuedtd** is defined in [days and time duration](#days-and-time-duration). |
-| years and months duration | **valueymd(e1) \< valueymd(e2)**. **valueymd** is defined in [years and months duration](#years-and-months-duration). |
+| date and time | **valuedt(e₁) \< valuedt(e₂)**. **valuedt** is defined in [date](#date). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
+| time | **valueₜ(e₁) \< valueₜ(e₂)**. **valuet** is defined in [time](#time). If one input has a null timezone offset, that input uses the timezone offset of the other input. |
+| days and time duration | **valuedtd(e₁) \< valuedtd(e₂)**. **valuedtd** is defined in [days and time duration](#days-and-time-duration). |
+| years and months duration | **valueymd(e₁) \< valueymd(e₂)**. **valueymd** is defined in [years and months duration](#years-and-months-duration). |
 
 FEEL supports additional syntactic sugar for comparison. Note that Grammar Rules (clause [Grammar rules](#grammar-rules)) are used in decision table condition cells. These decision table syntaxes are defined in [Semantics of decision table syntax](#table-semantics-of-decision-table-syntax).
 
@@ -1374,17 +1374,17 @@ FEEL supports additional syntactic sugar for comparison. Note that Grammar Rules
 
 | **Grammar** **Rule** | **FEEL Syntax** | **Equivalent FEEL Syntax** | **applicability** |
 |-----------|------------------|----------------------|---------------------|
-| 49.b | *e1 between e2 and e3* | *e1 \>= e2 and e1 \<= e3* |  |
-| 49.c | *e1 in \[e2,e3, ... \]* | *e1 = e2 or e1 = e3 or...* | e2 and e3 are endpoints |
-| 49.c | *e1 in \[e2,e3, ... \]* | *e1 in e2 or e1 in e3 or...* | e2 and e3 are ranges |
-| 49.c | *e1 in \<=e2* | *e1 \<= e2* |  |
-| 49.c | *e1 in \<e2* | *e1 \< e2* |  |
-| 49.c | *e1 in \>=e2* | *e1 \>= e2* |  |
-| 49.c | *e1 in \>e2* | *e1 \> e2* |  |
-| 49.c | *e1 in (e2..e3)* | *e1 \> e2 and e1\<e3* |  |
-| 49.c | *e1 in (e2..e3\]* | *e1 \> e2 and e1\<=e3* |  |
-| 49.c | *e1 in \[e2..e3)* | *e1 \>= e2 and e1\<e3* |  |
-| 49.c | *e1 in \[e2..e3\]* | *e1 \>= e2 and e1\<=e3* |  |
+| 49.b | *e₁ between e₂ and e₃* | *e₁ \>= e₂ and e₁ \<= e₃* |  |
+| 49.c | *e₁ in \[e₂,e₃, ... \]* | *e₁ = e₂ or e₁ = e₃ or...* | e₂ and e₃ are endpoints |
+| 49.c | *e₁ in \[e₂,e₃, ... \]* | *e₁ in e₂ or e₁ in e₃ or...* | e₂ and e₃ are ranges |
+| 49.c | *e₁ in \<=e₂* | *e₁ \<= e₂* |  |
+| 49.c | *e₁ in \<e₂* | *e₁ \< e₂* |  |
+| 49.c | *e₁ in \>=e₂* | *e₁ \>= e₂* |  |
+| 49.c | *e₁ in \>e₂* | *e₁ \> e₂* |  |
+| 49.c | *e₁ in (e₂..e₃)* | *e₁ \> e₂ and e₁\<e₃* |  |
+| 49.c | *e₁ in (e₂..e₃\]* | *e₁ \> e₂ and e₁\<=e₃* |  |
+| 49.c | *e₁ in \[e₂..e₃)* | *e₁ \>= e₂ and e₁\<e₃* |  |
+| 49.c | *e₁ in \[e₂..e₃\]* | *e₁ \>= e₂ and e₁\<=e₃* |  |
 | 49.c | *e1 in e2* | *e1 = e2* | e2 is a qualified name that does *not* evaluate to a list |
 | 49.c | *e1 in e2* | *list contains( e2, e1 )* | e1 is a simple value that is not a list and e2 is a qualified name that evaluates to a list |
 | 49.c | *e1 in e2* | *{ ? : e1, r : e2 }.r* | e2 is a boolean expression that uses the special |
@@ -1395,8 +1395,8 @@ Addition and subtraction are defined in [General semantics of addition and subtr
 
 | **Grammar Rule** | **FEEL**  | **Input Domain and Result** |
 |------------------|-----------|-----------------------------|
-| 19               | *e1 + e2* | *See below*                 |
-| 20               | *e1 – e2* | *See below*                 |
+| 19               | *e₁ + e₂* | *See below*                 |
+| 20               | *e₁ – e₂* | *See below*                 |
 
 ###### Table: Specific semantics of addition and subtraction
 
@@ -1425,26 +1425,26 @@ Multiplication and division are defined in [General semantics of multiplication 
 
 | **Grammar Rule** | **FEEL**   | **Input Domain and Result** |
 |------------------|------------|-----------------------------|
-| 21               | *e1 \* e2* | *See below*                 |
-| 22               | *e1 / e2*  | *See below*                 |
+| 21               | *e₁ \* e₂* | *See below*                 |
+| 22               | *e₁ / e₂*  | *See below*                 |
 
 ###### Table: Specific semantics of multiplication and division
 
-| **type(e1)** | **type(e2)** | ***e1 \* e2*** | ***e1 / e2*** | **result type** |
+| **type(e₁)** | **type(e₂)** | ***e₁ \* e₂*** | ***e₁ / e₂*** | **result type** |
 |----------|----------|--------------------|---------------------|------------|
-| number **e1=(p1,s1)** | number **e2=(p2,s2)** | If **value(p1,s1) \* value(p2,s2)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that • **value(p,s) = value(p1,s1)** **\* value(p2,s2) + ε** • **s ≤ s1+s2** • **s** is maximized subject to the limitation that **p** has 34 digits or less • **ε** is a possible rounding error | If **value(p2,s2)=0** or **value(p1,s1) / value(p2,s2)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that; • **value(p,s) = value(p1,s1) / value(p2,s2) + ε** • **s ≤ s1-s2** • **s** is maximized subject to the limitation that **p** has 34 digits or less | number |
-| years and months duration | number | **valueymd ⁻¹(valueymd(e1) \* value(e2))** where **valueymd** and **valueymd ₋₁** are defined in [years and months duration](#years-and-months-duration) | If **value(e2)=0**, the result is **null**. Else the result is **valueymd⁻ ¹(valueymd(e1) / value(e2))** where **valueymd** and **valueymd⁻¹** are defined in [years and months duration](#years-and-months-duration). | years and months duration |
-| number | years and months duration | *See above, reversing e1 and e2* | *Not allowed* | years and months duration |
-| years and months duration | years and months duration | *Not allowed* | If **valueymd(e2)=0**, the result is **null**. Else the result is **valueymd(e1) / valueymd(e2)** where **valueymd** is defined in [years and months duration](#years-and-months-duration). | number |
-| days and time duration | number | **valuedtd⁻¹(valuedtd(e1) \* value(e2))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | If **value(e2)=0**, the result is **null**. Else the result is **valuedtd ¹(valuedtd(e1) \* value(e2))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | days and time duration |
-| number | days and time duration | *See above, reversing e1 and e2* | *Not allowed* | days and time duration |
-| days and time duration | days and time duration | *Not allowed* | If **valuedtd(e2)=0**, the result is **null**. Else the result is **valuedtd(e1) / valuedtd(e2)** where **\_valuedtd** is defined in [days and time duration](#days-and-time-duration). | number |
+| number **e₁=(p₁,s₁)** | number **e₂=(p₂,s₂)** | If **value(p₁,s₁) \* value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that • **value(p,s) = value(p₁,s₁)** **\* value(p₂,s₂) + ε** • **s ≤ s₁+s₂** • **s** is maximized subject to the limitation that **p** has 34 digits or less • **ε** is a possible rounding error | If **value(p₂,s₂)=0** or **value(p₁,s₁) / value(p₂,s₂)** requires a scale outside the range of valid scales, the result is **null**. Else the result is **(p,s)** such that; • **value(p,s) = value(p₁,s₁) / value(p₂,s₂) + ε** • **s ≤ s₁-s₂** • **s** is maximized subject to the limitation that **p** has 34 digits or less | number |
+| years and months duration | number | **valueymd ⁻¹(valueymd(e₁) \* value(e₂))** where **valueymd** and **valueymd ₋₁** are defined in [years and months duration](#years-and-months-duration) | If **value(e₂)=0**, the result is **null**. Else the result is **valueymd⁻ ¹(valueymd(e₁) / value(e₂))** where **valueymd** and **valueymd⁻¹** are defined in [years and months duration](#years-and-months-duration). | years and months duration |
+| number | years and months duration | *See above, reversing e₁ and e₂* | *Not allowed* | years and months duration |
+| years and months duration | years and months duration | *Not allowed* | If **valueymd(e₂)=0**, the result is **null**. Else the result is **valueymd(e₁) / valueymd(e₂)** where **valueymd** is defined in [years and months duration](#years-and-months-duration). | number |
+| days and time duration | number | **valuedtd⁻¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | If **value(e₂)=0**, the result is **null**. Else the result is **valuedtd ¹(valuedtd(e₁) \* value(e₂))** where **valuedtd** and **valuedtd ₋₁** are defined in [days and time duration](#days-and-time-duration). | days and time duration |
+| number | days and time duration | *See above, reversing e₁ and e₂* | *Not allowed* | days and time duration |
+| days and time duration | days and time duration | *Not allowed* | If **valuedtd(e₂)=0**, the result is **null**. Else the result is **valuedtd(e₁) / valuedtd(e₂)** where **\_valuedtd** is defined in [days and time duration](#days-and-time-duration). | number |
 
 ###### Table: Semantics of exponentiation
 
 | **Grammar** **Rule** | **FEEL** **Syntax** | **Input Domain** | **Result** |
 |----------|----------|------------------------|-----------------------------|
-| 23 | *e1 \*\* e2* | **type(e1)** is number. **value(e2)** is a number in the range \[-999,999,999..999,999,999\]. | If **value(e1)value(e2 )** requires a scale that is out of range, the result is **null**. Else the result is **(p,s)** such that • **value(p,s)= value(e1)^value(e₂⁾ + ε** • **p** is limited to 34 digits • **ε** is rounding error |
+| 23 | *e₁ \*\* e₂* | **type(e₁)** is number. **value(e₂)** is a number in the range \[-999,999,999..999,999,999\]. | If **value(e₁)value(e2 )** requires a scale that is out of range, the result is **null**. Else the result is **(p,s)** such that • **value(p,s)= value(e₁)^value(e₂⁾ + ε** • **p** is limited to 34 digits • **ε** is rounding error |
 
 Type-checking is defined in [Semantics of type-checking](#table-semantics-of-type-checking). Note that *type* is not mapped to the domain, and **null** is the only value in the Null type (see [Semantic Domain](#semantic-domain)).
 
@@ -1454,7 +1454,7 @@ Before evaluating the *instance of* operator both operands are mapped to the typ
 
 | **Grammar** **Rule** | **FEEL Syntax** | **Mapped to Domain** | **Examples** |
 |---------|--------------|---------------------|-----------------------------|
-| 51 | *e1 instance of e2* | If ***e₂*** cannot be mapped to a node in the lattice L, the result is **null.** If **e₁** is **null** and **type(***e₂***)** is *Null*, the result is **true**. If **type(***e₁***)** conforms to **type(***e₂***)** (see section [Relations between types](#relations-between-types)) and **e₁** is not **null,** the result is **true**. Otherwise, the result is **false**. | *\[123\] instance of list\<number\>* is **true** *"abc" instance of string* is **true** *123 instance of string* is **false** *123 instance of list* is **null** as a list type requires parameters (see rule 54). |
+| 51 | *e₁ instance of e₂* | If ***e₂*** cannot be mapped to a node in the lattice L, the result is **null.** If **e₁** is **null** and **type(***e₂***)** is *Null*, the result is **true**. If **type(***e₁***)** conforms to **type(***e₂***)** (see section [Relations between types](#relations-between-types)) and **e₁** is not **null,** the result is **true**. Otherwise, the result is **false**. | *\[123\] instance of list\<number\>* is **true** *"abc" instance of string* is **true** *123 instance of string* is **false** *123 instance of list* is **null** as a list type requires parameters (see rule 54). |
 | 51 | *e1 as e2* | If **e₁** instance of **e₂** is **false** or **null**, the result is **null.** Otherwise the result is **e₁** and **type(**e₁ instance of e₂**)** is **type(**e₂**)** | *"abc" as string =* "abc"; *123 as string =* **null**; *\[1, 2, 3\] as list\<number\>* = \[1, 2, 3\] *abs(x as number)* where x is a variable of type Any*.* If x is a number, the function is invoked with that number as argument; otherwise, the function is invoked with null as argument. |
 
 Negative numbers and negation of durations are defined in [Semantics of negative numbers and negation of durations](#table-semantics-of-negative-numbers-and-negation-of-durations).
@@ -1471,8 +1471,8 @@ Invocation is defined in [Semantics of invocation](#table-semantics-of-invocatio
 
 | **Grammar Rule** | **FEEL** | **Mapped to Domain** | **Applicability** |
 |------------|-------------------|---------------------|---------------------|
-| 38, 39, 42 | *e(e1,..)* | **e(e1**,...**)** | **e** is a function with matching arity and conforming parameter types |
-| 38, 39, 40, 41 | *e(n1:e1,...)* | **e(***n1***:e1,...)** | **e** is a function with matching parameter names and conforming parameter types |
+| 38, 39, 42 | *e(e₁,..)* | **e(e₁**,...**)** | **e** is a function with matching arity and conforming parameter types |
+| 38, 39, 40, 41 | *e(n₁:e₁,...)* | **e(***n₁***:e₁,...)** | **e** is a function with matching parameter names and conforming parameter types |
 
 Properties are defined in [General semantics of properties](#table-general-semantics-of-properties) and [List of properties per type](#table-list-of-properties-per-type). If **type(***e***)** is date and time, time, or duration, and **name** is a property name, then the meaning is given by [List of properties per type](#table-list-of-properties-per-type) and [Specific semantics of date, time, and duration properties](#table-specific-semantics-of-date-time-and-duration-properties). For example, FEEL(*date and time("2012-0307Z").year*) = **2012**.
 
@@ -1545,10 +1545,10 @@ Lists are defined in [Semantics of lists](#table-semantics-of-lists).
 
 | **Grammar** **Rule** | **FEEL** **Syntax** | **Mapped to Domain (scope s)** | **Applicability** |
 |-----------|----------|--------------------------|--------------------------|
-| 54 | *e1\[e2\]* | **e1\[e2\]** | **e1** is a list and **e2** is an integer (0 scale number) |
-| 54 | *e1\[e2\]* | **e 1** | **e1** is not a list and not **null** and **value(e2)** = **1** |
-| 54 | *e1\[e2\]* | list of items **e** such that **i** is in **e** iff **i** is in **e1** and FEEL(*e2,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **i**) and if **i** is a context, the special context also contains all the context entries of **i**. | **e1** is a list and **type(**FEEL(*e2,* **s'**)**)** is boolean |
-| 54 | *e1\[e2\]* | **\[e1\]** if FEEL(*e2,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **e1**) and if **e1** is a context, the special context also contains all the context entries of **e1**. Else **\[\]**. | **e1** is not a list and not **null** and **type(**FEEL(*e2,* **s'**)**)** is boolean |
+| 54 | *e₁\[e₂\]* | **e₁\[e₂\]** | **e₁** is a list and **e₂** is an integer (0 scale number) |
+| 54 | *e₁\[e₂\]* | **e 1** | **e₁** is not a list and not **null** and **value(e₂)** = **1** |
+| 54 | *e₁\[e₂\]* | list of items **e** such that **i** is in **e** iff **i** is in **e₁** and FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **i**) and if **i** is a context, the special context also contains all the context entries of **i**. | **e₁** is a list and **type(**FEEL(*e₂,* **s'**)**)** is boolean |
+| 54 | *e₁\[e₂\]* | **\[e₁\]** if FEEL(*e₂,* **s'**) is **true**, where **s'** is the scope **s** with a special first context containing the context entry ("**item**", **e₁**) and if **e₁** is a context, the special context also contains all the context entries of **e₁**. Else **\[\]**. | **e₁** is not a list and not **null** and **type(**FEEL(*e₂,* **s'**)**)** is boolean |
 
 Contexts are defined in [Semantics of contexts](#table-semantics-of-contexts).
 
@@ -1556,10 +1556,10 @@ Contexts are defined in [Semantics of contexts](#table-semantics-of-contexts).
 
 | **Grammar Rule** | **FEEL Syntax** | **Mapped to Domain (scope s)** |
 |-------------|----------------------|-------------------------------------|
-|  | *{ n1 : e1, n2 : e2, ...}* | **{** "**n1**"**:** FEEL(*e1*, **s1**)**,** "**n2**"**:** FEEL(*e2*, **s2**)**, ...}** such that the **si** are all **s** with a special first context **ci** containing a subset of the entries of this result context. If **ci** contains the entry for **nj**, then **cj** does not contain the entry for **ni**. |
-|  | *{ "n1" : e1, "n2" : e2, ...}* |  |
+|  | *{ n₁ : e₁, n₂ : e₂, ...}* | **{** "**n₁**"**:** FEEL(*e₁*, **s₁**)**,** "**n2**"**:** FEEL(*e₂*, **s₂**)**, ...}** such that the **si** are all **s** with a special first context **ci** containing a subset of the entries of this result context. If **ci** contains the entry for **nⱼ**, then **cⱼ** does not contain the entry for **nᵢ**. |
+|  | *{ "n₁" : e₁, "n₂" : e₂, ...}* |  |
 | 57 |  |  |
-| 54 | *\[e1, e2, ...\]* | **\[** FEEL(*e1*)**,** FEEL(*e2*)**, ...\]** |
+| 54 | *\[e₁, e₂, ...\]* | **\[** FEEL(*e₁*)**,** FEEL(*e₂*)**, ...\]** |
 
 #### Error Handling
 
@@ -1582,9 +1582,9 @@ XML namespace semantics are not supported by the mappings. For example, given th
 | *\<e /\>* | "**e**" **: null** | empty element → **null**-valued entry in **p** |
 | *\<q:e /\>* | "**e**" **: null** | namespaces are ignored. |
 | *\<e\>v\</e\>* | "**e**"**:**XV(*v*) | unrepeated element without attributes |
-| *\<e\>v1\</e\> \<e\>v2\</e\>* | "**e**"**: \[** XV(*v1*)**,** XV(*v2*) **\]** | repeating element without attributes |
-| *\<e a="v"/\>* *\<c1\>v1\</c1\>* | **"e": { "a":** XV(*v*), **"c1":** XV(*v1*), | An element containing attributes or child elements → context |
-| *\<e a="v1"\>v2\</e\>* | "**e**"**: {** "**\@a**"**:** XV(*v1*), "**\$content**"**:** XV(*v2*) **}** | *v2* is contained in a generated \$content entry |
+| *\<e\>v₁\</e\> \<e\>v₂\</e\>* | "**e**"**: \[** XV(*v₁*)**,** XV(*v₂*) **\]** | repeating element without attributes |
+| *\<e a="v"/\>* *\<c₁\>v₁\</c₁\>* | **"e": { "a":** XV(*v*), **"c₁":** XV(*v₁*), | An element containing attributes or child elements → context |
+| *\<e a="v₁"\>v₂\</e\>* | "**e**"**: {** "**\@a**"**:** XV(*v₁*), "**\$content**"**:** XV(*v₂*) **}** | *v₂* is contained in a generated \$content entry |
 
 An entry in the **context entry in p** column such as **"e" : null** indicates a context entry with string key **"e"** and value **null**. The context entries are contained by context **p** that corresponds to the containing XML element, or to the XML document itself.
 
@@ -1806,11 +1806,11 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 |-----------------|-------------|----------------------|---------------------|
 | list contains(*list, element*) | list, any element of the semantic domain including **null** | does the *list* contain the *element*? | *list contains(\[1,2,3\], 2) = true* |
 | count(*list*) | list | return size of *list*, or zero if *list* is empty | *count(\[1,2,3\]) = 3 count(\[\]) = 0 count(\[1,\[2,3\]\]) =* *2* |
-| min(*list*) min(*c1,..., cN*), *N* \>0 max(*list*) max(*c1,..., cN*), *N* \>0 | non-empy list of comparable items or argument list of one or more comparable items | return minimum(maximum) item, or **null** if *list* is empty | *min(\[1,2,3\]) = 1 max(1,2,3) = 3 min(1) = min(\[1\]) = 1 max(\[\]) = null* |
-| sum(*list*) sum(*n1,..., nN*), *N* \>0 | list of 0 or more numbers or argument list of one or more numbers | return sum of numbers, or **null** if *list* is empty | *sum(\[1,2,3\]) = 6 sum(1,2,3) = 6 sum(1) = 1 sum(\[\]) = **null*** |
-| mean(*list*) mean(*n1,..., nN*), *N* \>0 | non-empty list of numbers or argument list of one or more numbers | return arithmetic mean (average) of numbers | *mean (\[1,2,3\]) = 2 mean(1,2,3) = 2 mean(1) = 1 mean(\[\]) = null* |
-| all(*list*) all(*b1,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *false* if any item is *false*, else *true* if empty or all items are *true*, else *null* | *all(\[false,null,true\]) = false all(true) = all(\[true\]) = true all(\[\]) = true all(0) = null* |
-| any(*list*) any(*b1,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *true* if any item is *true*, else *false* if empty or all items are *false*, else *null* | *any(\[false,null,true\]) = true any(false) = false any(\[\]) = false any(0) = null* |
+| min(*list*) min(*c₁,..., cN*), *N* \>0 max(*list*) max(*c₁,..., cN*), *N* \>0 | non-empy list of comparable items or argument list of one or more comparable items | return minimum(maximum) item, or **null** if *list* is empty | *min(\[1,2,3\]) = 1 max(1,2,3) = 3 min(1) = min(\[1\]) = 1 max(\[\]) = null* |
+| sum(*list*) sum(*n₁,..., nN*), *N* \>0 | list of 0 or more numbers or argument list of one or more numbers | return sum of numbers, or **null** if *list* is empty | *sum(\[1,2,3\]) = 6 sum(1,2,3) = 6 sum(1) = 1 sum(\[\]) = **null*** |
+| mean(*list*) mean(*n₁,..., nN*), *N* \>0 | non-empty list of numbers or argument list of one or more numbers | return arithmetic mean (average) of numbers | *mean (\[1,2,3\]) = 2 mean(1,2,3) = 2 mean(1) = 1 mean(\[\]) = null* |
+| all(*list*) all(*b₁,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *false* if any item is *false*, else *true* if empty or all items are *true*, else *null* | *all(\[false,null,true\]) = false all(true) = all(\[true\]) = true all(\[\]) = true all(0) = null* |
+| any(*list*) any(*b₁,..., bN*), *N* \>0 | list of Boolean items or argument list of one or more Boolean items | return *true* if any item is *true*, else *false* if empty or all items are *false*, else *null* | *any(\[false,null,true\]) = true any(false) = false any(\[\]) = false any(0) = null* |
 | sublist(*list, start position, length?*) | list, number¹, number² | return list of *length* (or all) elements of *list,* starting with *list\[start position\]*. 1st position is 1, last position is -1 | *sublist(\[4,5,6\], 1, 2) = \[4,5\]* |
 | append(*list, item...*) | list, any element including **null** | return new *list* with *item*s appended | *append(\[1\], 2, 3) = \[1,2,3\]* |
 | concatenate(*list...*) | list | return new *list* that is a concatenation of the arguments | *concatenate(\[1,2\],\[3\]) = \[1,2,3\]* |
@@ -1870,7 +1870,7 @@ Built-ins are summarized in [Semantics of conversion functions](#table-semantics
 
 | **Name(parameters)** | **Parameter Domain** | **Description** | **Example** |
 |------------------|------------------|------------------|------------------|
-| is(*value1*, *value2*) | Both are elements of the **D** | Returns **true** if both values are the same element in the FEEL semantic domain **D** (see [Equality, Identity and Equivalence](#equality-identity-and-equivalence)) | *is(date("2012-12-25"), time("23:00:50”))* is **false** *is(date("2012-12-25"), date("2012-12-25"))* is **true** *is(time("23:00:50z"), time("23:00:50”))* is **false** *is(time("23:00:50z"), time("23:00:50+00:00”))* is **true** |
+| is(*value₁*, *value₂*) | Both are elements of the **D** | Returns **true** if both values are the same element in the FEEL semantic domain **D** (see [Equality, Identity and Equivalence](#equality-identity-and-equivalence)) | *is(date("2012-12-25"), time("23:00:50”))* is **false** *is(date("2012-12-25"), date("2012-12-25"))* is **true** *is(time("23:00:50z"), time("23:00:50”))* is **false** *is(time("23:00:50z"), time("23:00:50+00:00”))* is **true** |
 
 #### Range Functions
 
@@ -2050,7 +2050,7 @@ The syntax for FEEL function *F* is *funcion(nid₁, nid₂, ..., ndi₁, ndi₂
 >
 > *result: { ndo₁ : edo₁, ndo₂ : edo₂, . ..}*
 
-such that *si*, *bkmi*, *dei* and *doi* are partially ordered by requirements (e.g., the context entry for a required decision comes before a decision that requires it).
+such that *sᵢ*, *bkmᵢ*, *dei* and *doi* are partially ordered by requirements (e.g., the context entry for a required decision comes before a decision that requires it).
 
 The qualified name of an element named E (decision, input data, decision service, or BKM) that is defined in the same decision model as S is simply E. Otherwise, the qualified name is I.E, where I is the name of the import element that refers to the model where E is defined.
 

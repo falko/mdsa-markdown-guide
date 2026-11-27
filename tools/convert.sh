@@ -23,8 +23,9 @@ trap 'rm -rf "$work"' EXIT
 
 echo "--- Markdown"
 python3 "$root/tools/unnumbered.py" "$docx" > "$work/unnumbered.tsv"
+python3 "$root/tools/subscripts.py" "$docx" "$work/source.docx"
 (cd "$work" && OUT="$out" MANIFEST="$work/images.tsv" LOG="$out/convert.log" UNNUMBERED="$work/unnumbered.tsv" \
-  pandoc -f docx+styles "$docx" --extract-media=. -L "$root/tools/docx2md.lua" -t plain -o /dev/null)
+  pandoc -f docx+styles source.docx --extract-media=. -L "$root/tools/docx2md.lua" -t plain -o /dev/null)
 
 echo "--- Images"
 python3 "$root/tools/images.py" "$work/images.tsv" "$work" "$pdf" "$out"

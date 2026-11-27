@@ -697,5 +697,3 @@ The ExtensionAttribute element contains an Element or a reference to an Element 
 ## Examples
 
 Examples of DRDs are provided in clause [The decision requirements level](12_DMN_Examples.md#the-decision-requirements-level).
-
-The page intentionally left blank
