@@ -2,28 +2,15 @@
 
 ## Introduction
 
-**DMN** defines the friendly enough expression language (FEEL) for the purpose
-of giving standard executable semantics to many kinds of expressions in decision
-model (see [Expression Language
-(FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)).
+**DMN** defines the friendly enough expression language (FEEL) for the purpose of giving standard executable semantics to many kinds of expressions in decision model (see [Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)).
 
-This section defines a simple subset of FEEL, S-FEEL, for the purpose of giving
-standard executable semantics to decision models that use only simple
-expressions: in particular, decision models where the decision logic is modeled
-mostly or only using decision tables.
+This section defines a simple subset of FEEL, S-FEEL, for the purpose of giving standard executable semantics to decision models that use only simple expressions: in particular, decision models where the decision logic is modeled mostly or only using decision tables.
 
-Experience with DMN since its release has shown that few if any complete
-decision models can be defined using S- FEEL. Individual decision tables can be
-defined using only S-FEEL but within a decision model there is generally at
-least one decision that requires FEEL. Developers and users are therefore
-encouraged to use and implement the full FEEL specification rather than the
-S-FEEL subset.
+Experience with DMN since its release has shown that few if any complete decision models can be defined using S- FEEL. Individual decision tables can be defined using only S-FEEL but within a decision model there is generally at least one decision that requires FEEL. Developers and users are therefore encouraged to use and implement the full FEEL specification rather than the S-FEEL subset.
 
 ## S-FEEL syntax
 
-The syntax for the S-FEEL expressions used in this section is specified in the
-EBNF below: it is a subset of the FEEL syntax specified in clause [Grammar
-rules](12_Expression_Language_FEEL.md#grammar-rules).
+The syntax for the S-FEEL expressions used in this section is specified in the EBNF below: it is a subset of the FEEL syntax specified in clause [Grammar rules](12_Expression_Language_FEEL.md#grammar-rules).
 
 **Grammar rules**:
 
@@ -77,171 +64,88 @@ rules](12_Expression_Language_FEEL.md#grammar-rules).
 
 ## S-FEEL data types
 
-S-FEEL supports all FEEL data types: *number*, *string*, *boolean*, *days and
-time duration*, *years and months duration*, *time,* and *date*, although with a
-simplified definition for some of them.
+S-FEEL supports all FEEL data types: *number*, *string*, *boolean*, *days and time duration*, *years and months duration*, *time,* and *date*, although with a simplified definition for some of them.
 
-S-FEEL *number* has the same literal and values spaces as the XML Schema decimal
-datatype. Implementations are allowed to limit precision to 34 decimal digits
-and to round toward the nearest neighbor with ties favoring the even neighbor.
-Notice that “*precision is not reflected in this value space: the number 2.0 is
-not distinct from the number 2.00*” \[XML Schema\]. Notice, also, that this
-value space is totally ordered. The definition of S-FEEL *number* is a
-simplification over the definition of FEEL *number*.
+S-FEEL *number* has the same literal and values spaces as the XML Schema decimal datatype. Implementations are allowed to limit precision to 34 decimal digits and to round toward the nearest neighbor with ties favoring the even neighbor. Notice that “*precision is not reflected in this value space: the number 2.0 is not distinct from the number 2.00*” \[XML Schema\]. Notice, also, that this value space is totally ordered. The definition of S-FEEL *number* is a simplification over the definition of FEEL *number*.
 
-S-FEEL supports FEEL *string* and FEEL *Boolean*: FEEL *string* has the same
-literal and values spaces as the Java String and XML Schema string datatypes.
-FEEL *boolean* has the same literal and values spaces as the Java Boolean and
-XML Schema Boolean datatypes.
+S-FEEL supports FEEL *string* and FEEL *Boolean*: FEEL *string* has the same literal and values spaces as the Java String and XML Schema string datatypes. FEEL *boolean* has the same literal and values spaces as the Java Boolean and XML Schema Boolean datatypes.
 
-> S-FEEL supports the FEEL *time* data type. The lexical and value spaces of
-> FEEL *time* are the literal and value spaces of the XML Schema time datatype.
-> Notice that “*since the lexical representation allows an optional time zone
-> indicator, time values are partially ordered because it may not be able to
-> determine the order of two values one of which has a time zone and the other
-> does not. Pairs of time values with or without time zone indicators are
-> totally ordered*” \[XSD\].
+> S-FEEL supports the FEEL *time* data type. The lexical and value spaces of FEEL *time* are the literal and value spaces of the XML Schema time datatype. Notice that “*since the lexical representation allows an optional time zone indicator, time values are partially ordered because it may not be able to determine the order of two values one of which has a time zone and the other does not. Pairs of time values with or without time zone indicators are totally ordered*” \[XSD\].
 
-S-FEEL does not support FEEL date and time. However, it supports the *date*
-type, which is like FEEL *date and time* with hour, minute, and second required
-to be absent. The lexical and value spaces of FEEL *date* are the literal and
-value spaces of the XML Schema date datatype.
+S-FEEL does not support FEEL date and time. However, it supports the *date* type, which is like FEEL *date and time* with hour, minute, and second required to be absent. The lexical and value spaces of FEEL *date* are the literal and value spaces of the XML Schema date datatype.
 
-S-FEEL supports the FEEL *days and time duration* and *years and months
-duration* datatypes. FEEL *days and time duration* and *years and months
-duration* have the same literal and value spaces as the XPath Data Model
-dayTimeDuration and yearMonthDuration datatypes, respectively. That is, FEEL
-*days and time duration* is derived from the XML Schema duration datatype by
-restricting its lexical representation to contain only the days, hours, minutes,
-and seconds components, and FEEL *years and months duration* is derived from the
-XML Schema duration datatype by restricting its lexical representation to
-contain only the year and month components.
+S-FEEL supports the FEEL *days and time duration* and *years and months duration* datatypes. FEEL *days and time duration* and *years and months duration* have the same literal and value spaces as the XPath Data Model dayTimeDuration and yearMonthDuration datatypes, respectively. That is, FEEL *days and time duration* is derived from the XML Schema duration datatype by restricting its lexical representation to contain only the days, hours, minutes, and seconds components, and FEEL *years and months duration* is derived from the XML Schema duration datatype by restricting its lexical representation to contain only the year and month components.
 
-The FEEL data types are specified in detail in clause [Equality, Identity and
-Equivalence](12_Expression_Language_FEEL.md#equality-identity-and-equivalence).
+The FEEL data types are specified in detail in clause [Equality, Identity and Equivalence](12_Expression_Language_FEEL.md#equality-identity-and-equivalence).
 
 ## S-FEEL semantics
 
-S-FEEL contains only a limited set of basic features that are common to most
-expression and programming languages, and on the semantics of which most
-expression and programming languages agree.
+S-FEEL contains only a limited set of basic features that are common to most expression and programming languages, and on the semantics of which most expression and programming languages agree.
 
-The semantics of S-FEEL expressions are defined in this section, in terms of the
-semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data
-Model datatypes, and in terms of the corresponding functions and operators
-defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:”
-below). A complete standalone specification of the semantics is to be found in
-clause [Semantics](12_Expression_Language_FEEL.md#semantics), as part of the
-definition of FEEL. Within the scope of S- FEEL, the two definitions are
-equivalent and equally normative.
+The semantics of S-FEEL expressions are defined in this section, in terms of the semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data Model datatypes, and in terms of the corresponding functions and operators defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:” below). A complete standalone specification of the semantics is to be found in clause [Semantics](12_Expression_Language_FEEL.md#semantics), as part of the definition of FEEL. Within the scope of S- FEEL, the two definitions are equivalent and equally normative.
 
-Arithmetic addition and subtraction (grammar rule 2.a) have the same semantics
-as:
+Arithmetic addition and subtraction (grammar rule 2.a) have the same semantics as:
 
 - op:numeric-add and op:numeric-subtract, when its two operands are numbers.
 
-- op:add-yearMonthDurations and op:subtract-yearMonthDurations, when the two
-  operands are years and months durations.
+- op:add-yearMonthDurations and op:subtract-yearMonthDurations, when the two operands are years and months durations.
 
-- op:add-dayTimeDuration and subtract:dayTimeDurations, when the two operands
-  are days and time durations.
+- op:add-dayTimeDuration and subtract:dayTimeDurations, when the two operands are days and time durations.
 
-- op:add-yearMonthDuration-to-date and op:subtract-yearMonthDuration-from-date,
-  when the first operand is a years and months duration, and the second operand
-  is a date.
+- op:add-yearMonthDuration-to-date and op:subtract-yearMonthDuration-from-date, when the first operand is a years and months duration, and the second operand is a date.
 
-- op:add-dayTimeDuration-to-date and op:subtract-dayTimeDuration-from-date, when
-  the first operand is a days and time duration, and the second operand is a
-  date.
+- op:add-dayTimeDuration-to-date and op:subtract-dayTimeDuration-from-date, when the first operand is a days and time duration, and the second operand is a date.
 
-- op:add-dayTimeDuration-to-time and op:subtract-dayTimeDuration-from-time, when
-  the first operand is a days and time duration, and the second operand is a
-  time.
+- op:add-dayTimeDuration-to-time and op:subtract-dayTimeDuration-from-time, when the first operand is a days and time duration, and the second operand is a time.
 
-In addition, arithmetic subtraction has the semantics of op:subtract-dates or
-op:subtract-times, when the two operands are dates or times, respectively.
+In addition, arithmetic subtraction has the semantics of op:subtract-dates or op:subtract-times, when the two operands are dates or times, respectively.
 
 Arithmetic addition and subtraction are not defined in other cases.
 
-Arithmetic multiplication and division (grammar rule 2.b) have the same
-semantics as defined for op:numeric-multiply and op:numeric-divide,
-respectively, when the two operands are numbers. They are not defined otherwise.
+Arithmetic multiplication and division (grammar rule 2.b) have the same semantics as defined for op:numeric-multiply and op:numeric-divide, respectively, when the two operands are numbers. They are not defined otherwise.
 
-Arithmetic exponentiation (grammar rule 2.c) is defined as the result of raising
-the first operand to the power of the second operand, when the two operands are
-numbers. It is not defined in other cases.
+Arithmetic exponentiation (grammar rule 2.c) is defined as the result of raising the first operand to the power of the second operand, when the two operands are numbers. It is not defined in other cases.
 
-Arithmetic negation (grammar rule 2.d) is defined only when its operand is a
-number: in that case, its semantics is according to the specification of
-op:numeric-unary-minus.
+Arithmetic negation (grammar rule 2.d) is defined only when its operand is a number: in that case, its semantics is according to the specification of op:numeric-unary-minus.
 
-Comparison operators (grammar rule 35) between numbers are defined according to
-the specification of op:numericequal, op-numeric-less-than and
-op:numeric-greater-than, comparisons between dates are defined according to the
-specification of op:date-equal, op:date-less-than and op:date-greater-than;
-comparisons between times are defined according to the specification of
-op:time-equal, op:time-less-than and op:time-greater-than; comparisons between
-years and months durations are defined according to the specification of
-op:duration-equal,
+Comparison operators (grammar rule 35) between numbers are defined according to the specification of op:numericequal, op-numeric-less-than and op:numeric-greater-than, comparisons between dates are defined according to the specification of op:date-equal, op:date-less-than and op:date-greater-than; comparisons between times are defined according to the specification of op:time-equal, op:time-less-than and op:time-greater-than; comparisons between years and months durations are defined according to the specification of op:duration-equal,
 
-op:yearMonthDuration-less-than and op:year-MonthDuration-greater-than;
-comparisons between days and time durations are defined according to the
-specification of op:duration-equal, op:dayTimeDuration-less-than and
-op:dayTimeDuration-greater-than.
+op:yearMonthDuration-less-than and op:year-MonthDuration-greater-than; comparisons between days and time durations are defined according to the specification of op:duration-equal, op:dayTimeDuration-less-than and op:dayTimeDuration-greater-than.
 
-String and Booleans can only be compared for equality: the semantics of strings
-and Booleans equality is as defined in the specification of fn:codepoint-equal
-and op:Boolean-equal, respectively.
+String and Booleans can only be compared for equality: the semantics of strings and Booleans equality is as defined in the specification of fn:codepoint-equal and op:Boolean-equal, respectively.
 
-Comparison operators are defined only when the two operands have the same type,
-except for years and months duration and days and time duration, which can be
-compared for equality. Notice, however, that “*with the exception of the zero-
-length duration, no instance of xs:dayTimeDuration can ever be equal to an
-instance of xs:yearMonthDuration*.” \[XFO\].
+Comparison operators are defined only when the two operands have the same type, except for years and months duration and days and time duration, which can be compared for equality. Notice, however, that “*with the exception of the zero- length duration, no instance of xs:dayTimeDuration can ever be equal to an instance of xs:yearMonthDuration*.” \[XFO\].
 
 Given an expression o to be tested and two endpoint e1 and e2:
 
-- is in the interval (e1..e2), also notated \]e1..e2\[, if and only if o \> e1
-  and o \< e1
+- is in the interval (e1..e2), also notated \]e1..e2\[, if and only if o \> e1 and o \< e1
 
-- is in the interval (e1..e2\], also notated \]e1..e2\], if and only if o \> e1
-  and o ≤ e2
+- is in the interval (e1..e2\], also notated \]e1..e2\], if and only if o \> e1 and o ≤ e2
 
 - is in the interval \[e1..e2\] if and only if o ≥ e1 and o ≤ e2
 
-- is in the interval \[e1..e2), also notated \[e1..e2\[, if and only if o ≥ e1
-  and o \< e2
+- is in the interval \[e1..e2), also notated \[e1..e2\[, if and only if o ≥ e1 and o \< e2
 
-An expression to be tested satisfies an instance of simple unary tests (grammar
-rule 12) if and only if, either the expression is a list and the expression
-satisfies at least one simple unitary test in the list, or the simple unitary
-tests is “-”.
+An expression to be tested satisfies an instance of simple unary tests (grammar rule 12) if and only if, either the expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is “-”.
 
 ## Use of S-FEEL expressions
 
-This section summarizes which kinds of S-FEEL expressions are allowed in which
-role when the expression language is S-FEEL.
+This section summarizes which kinds of S-FEEL expressions are allowed in which role when the expression language is S-FEEL.
 
 ### Item definitions
 
-The expression that defines an **allowed value** SHALL be an instance of *simple
-unary tests* (grammar rule 12), where only the values in the defined or
-referenced type that satisfy the test are allowed values.
+The expression that defines an **allowed value** SHALL be an instance of *simple unary tests* (grammar rule 12), where only the values in the defined or referenced type that satisfy the test are allowed values.
 
 ### Invocations
 
-In the bindings of an invocation, the **binding formula** SHALL be a *simple
-expression* (grammar rule 3).
+In the bindings of an invocation, the **binding formula** SHALL be a *simple expression* (grammar rule 3).
 
 ### Decision tables
 
 Each **input expression** SHALL be a *simple expression* (grammar rule 3).
 
-Each list of **input values** SHALL be an instance of *simple unary tests*
-(grammar rule 12).
+Each list of **input values** SHALL be an instance of *simple unary tests* (grammar rule 12).
 
-Each list of **output values** SHALL be an instance of *simple unary tests*
-(grammar rule 12). Each **input entry** SHALL be an instance of *simple unary
-tests* (grammar rule 12).
+Each list of **output values** SHALL be an instance of *simple unary tests* (grammar rule 12). Each **input entry** SHALL be an instance of *simple unary tests* (grammar rule 12).
 
 Each **output entry** SHALL be a *simple expression* (grammar rule 3).

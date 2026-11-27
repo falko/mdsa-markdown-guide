@@ -1343,7 +1343,7 @@ function Pandoc(doc)
       Image = function(i) i.identifier = ''; i.attributes = {}; i.classes = {}; return i end,
       Link = function(l) l.identifier = ''; l.attributes = {}; l.classes = {}; return l end,
     }
-    local md = pandoc.write(d, WRITER_EXT, { columns = 80, wrap_text = 'auto' })
+    local md = pandoc.write(d, WRITER_EXT, { wrap_text = 'none' })
     local fh = io.open(OUT .. '/' .. f.name .. '.md', 'w')
     fh:write(md)
     fh:close()
