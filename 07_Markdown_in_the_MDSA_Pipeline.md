@@ -27,6 +27,12 @@ Each Markdown file is converted separately, using the Pandoc settings in the
 file `omgLaTeX.yaml`. The default settings come from `mdsa-omg-core`. A file
 `omgLaTeX.yaml` in the specification repository replaces them.
 
+The conversion runs Pandoc filters of `mdsa-omg-core`: they turn links into
+numbered references, HTML tables into tables, and write all tables in the OMG
+style. A specification can add its own filter, a file `specification.lua` in
+its repository, for example for its own table styles; this document has one
+(see [Specification-specific table styles](10_Tables.md#specification-specific-table-styles)).
+
 ## Files of this test suite
 
 [Markdown files of this test suite](#table-markdown-files-of-this-test-suite) lists the Markdown files of this document and the features they

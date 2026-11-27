@@ -35,6 +35,9 @@ Links to web pages stay links. Links to other files in the repository, such as
 models, cannot be followed in the PDF; the build warns about them. Refer to
 other documents with citations instead (see [Citations](12_Citations.md)).
 
+Links to the rules of a grammar work the same way and become "rule 2" or
+"rule 2.i" in the PDF (see [Grammar rules](13_Other_Elements.md#grammar-rules)).
+
 ## Links to figures and tables
 
 Figures and tables are referenced the same way: with a link whose text is the

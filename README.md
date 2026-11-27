@@ -39,6 +39,11 @@ Specification Authoring) pipeline. It serves two purposes:
 | Citations, normative and non-normative | `[@DMN16]` | [`12_Citations.md`](12_Citations.md), [`01_Scope.md`](01_Scope.md), [`specification.bib`](specification.bib) |
 | Terms and definitions | definition lists | [`04_Terms.md`](04_Terms.md) |
 | Lists, footnotes, code | standard Markdown | [`13_Other_Elements.md`](13_Other_Elements.md) |
+| Tables with merged cells, paragraphs, lists or code in cells | HTML table structure, Markdown in the cells | [`10_Tables.md`](10_Tables.md) |
+| DMN decision tables in the official notation | HTML table with a `<colgroup>`, styled by [`specification.lua`](specification.lua) and [`dmn-notation.css`](dmn-notation.css) | [`10_Tables.md`](10_Tables.md) |
+| Math | `$e_1 + e_2$` | [`10_Tables.md`](10_Tables.md) |
+| Grammar rules, numbered automatically, with references | numbered list, `<a id="rule-...">` anchors | [`13_Other_Elements.md`](13_Other_Elements.md) |
+| FEEL code | ```` ```feel ```` | [`13_Other_Elements.md`](13_Other_Elements.md) |
 | Notes | `> [!NOTE]` | [`15_Reviewing_on_GitHub.md`](15_Reviewing_on_GitHub.md) |
 | Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](A_Annexes.md) |
 | Table of contents, lists of figures and tables | generated | — |
@@ -147,14 +152,18 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
   links to headings, lists and headings without blank lines); in a second step, zero-padded clause file names and the
   automatic inclusion of the clause files from Clause 7 on (older specifications with
   unpadded names keep working). Also: typographic characters in code (curly quotes,
-  dashes, copied from Word or PDF) reported with file and line, and annotations in
-  GitHub Actions.
+  dashes, copied from Word or PDF) reported with file and line, annotations in
+  GitHub Actions, all tables as tabularray tables in the OMG style (full grid),
+  HTML tables with Markdown in the cells, automatically numbered grammar rules
+  with references, and a hook for a specification's own filter
+  (`specification.lua`).
 - [Pull requests to mdsa-omg-spec](https://github.com/ObjectManagementGroup/mdsa-omg-spec/pulls?q=is%3Apr+author%3Afalko):
   `mdsa-omg-core` submodule from the OMG repository; zero-padded clause file names.
 - To follow for `containerized-spec` (already applied here in `Dockerfile` and
   `Makefile`): zero-padded clause file names, Inkscape and the `catchfile` LaTeX
   package for SVG images, `tlmgr update --self`, picking up new core versions without
-  `make forcebuild`, the `check`, `core=`, `pandoc_tag=`, `texlive_repository=`
+  `make forcebuild`, the LaTeX packages `tabularray`, `ninecolors` and `varwidth` for
+  tables, the `check`, `core=`, `pandoc_tag=`, `texlive_repository=`
   and `docker_build_opts=` options, and passing `GITHUB_ACTIONS` into the container
   for annotations.
 
@@ -177,5 +186,7 @@ This repository needs changes to the MDSA pipeline that are proposed upstream:
 | `00_*.tex`, `02_*.tex`, `06_Additional.tex` | Clauses kept from the template (LaTeX) |
 | `_Specification_Setup.tex`, `_Specification_AuthorSettings.tex` | Specification metadata and author settings |
 | `specification.bib` | Bibliography entries of this specification |
+| `specification.lua` | This specification's own Pandoc filter: DMN decision tables, FEEL code |
+| `dmn-notation.css` | DMN decision table notation for web browsers |
 | `Images/` | SVG figures |
 | `Dockerfile`, `Makefile`, `Makefile.mdsa`, `user-pkgs.txt` | Containerized build, from `containerized-spec` with the changes listed above |

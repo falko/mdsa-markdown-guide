@@ -1,0 +1,20 @@
+/* DMN decision tables in the notation of DMN 1.7, 8.2, for web browsers.
+   Used with the HTML tables of class dmn-decision-table (see Clause 10),
+   driven only by the <colgroup> and the class "values" of allowed values:
+   single lines between all cells, double lines between input and output
+   columns, between output and annotation columns, and below the clauses;
+   the clauses shaded per column group; the hit policy cell, the allowed values
+   and the entries white; the caption as the name box above the table.
+   Italics (string literals) come from the author's <em>. */
+table.dmn-decision-table { border-collapse: collapse; font-family: Calibri, Carlito, "Helvetica Neue", Arial, sans-serif; font-size: 10pt; }
+table.dmn-decision-table th, table.dmn-decision-table td { border: 1px solid #000; padding: 2px 8px; text-align: center; font-weight: normal; }
+table.dmn-decision-table thead th[rowspan] { vertical-align: top; }
+table.dmn-decision-table thead { border-bottom: 4px double #000; }
+table.dmn-decision-table col.input + col.output,
+table.dmn-decision-table col.input + col.annotation,
+table.dmn-decision-table col.output + col.annotation { border-left: 4px double #000; }
+table.dmn-decision-table col.input { background: #C5D9F1; }
+table.dmn-decision-table col.output { background: #F2DCDB; }
+table.dmn-decision-table col.annotation { background: #EDEDED; }
+table.dmn-decision-table td { background: #fff; }
+table.dmn-decision-table caption { caption-side: top; text-align: left; font-weight: bold; border: 1px solid #000; border-bottom: none; padding: 2px 8px; width: 12em; }

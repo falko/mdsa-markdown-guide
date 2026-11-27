@@ -65,6 +65,22 @@
 \newunicodechar{🐎}{\twemoji{1f40e}}
 \lstset{literate={🐎}{{\twemoji{1f40e}}}1}
 
+%%% FEEL for listings: keywords from the lezer-feel grammar of bpmn.io (MIT),
+%%% https://github.com/nikku/lezer-feel. Code blocks marked ```feel use it.
+\lstdefinelanguage{FEEL}{
+  morekeywords={for,in,return,if,then,else,some,every,satisfies,and,or,between,
+    instance,of,function,external,null,true,false},
+  morekeywords=[2]{date,time,duration,days,years,months,context,list,not},
+  morecomment=[l]{//}, morecomment=[s]{/*}{*/},
+  morestring=[b]", sensitive=true}
+\lstset{keywordstyle=\bfseries, keywordstyle=[2]\itshape}
+
+%%% Colors of DMN decision tables (specification.lua): suggested colors for the
+%%% input, output and annotation clauses (DMN 8.2.1).
+\definecolor{dmninput}{HTML}{C5D9F1}
+\definecolor{dmnoutput}{HTML}{F2DCDB}
+\definecolor{dmnannotation}{HTML}{EDEDED}
+
 %%% Support for tables that span across multiple pages
 %%% https://www.overleaf.com/learn/latex/Tables#Multi-page_tables
 \usepackage{longtable}
