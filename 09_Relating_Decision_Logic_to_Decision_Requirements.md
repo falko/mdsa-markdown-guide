@@ -31,7 +31,7 @@ include tabular expressions such as decision tables and invocations, and literal
   executable expression language called **FEEL**. [Simple Expression Language
   (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel)
   specifies a subset of FEEL (S-FEEL) that is the default language for literal
-  expressions in **DMN** decision tables (clause [Decision
+  expressions in **DMN** decision tables ([Decision
   Table](10_Decision_Table.md#decision-table)).
 
 - A **decision table** is a tabular representation of decision logic, based on a

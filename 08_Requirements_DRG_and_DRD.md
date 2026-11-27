@@ -390,8 +390,8 @@ DMNElement is the abstract superclass for the decision model elements. It
 provides the optional attributes id, description and label, which are Strings
 which other elements will inherit. The id of a DMNElement is further restricted
 to the syntax of an XML ID
-[(](http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#ID),)<https://www.w3.org/TR/2004/REC>[-xmlschema-2-20041028/datatypes.html#ID),](http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#ID),)
-and SHALL be unique within the decision model.
+(<https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#ID>), and
+SHALL be unique within the decision model.
 
 DMNElement has abstract specializations NamedElement and Expression NamedElement
 adds the required attribute name, and includes the abstract specializations
@@ -441,33 +441,32 @@ An instance of Definitions may specify an expressionLanguage, which is a URI
 that identifies the default expression language used in elements within the
 scope of this Definitions. This value may be overridden on each individual
 LiteralExpression. The language SHALL be specified in a URI format. The default
-expression language is FEEL (clause [Expression Language
+expression language is FEEL ([Expression Language
 (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)), indicated by
 the URI: "https://www.omg.org/spec/DMN/FEEL/". If FEEL is used in other
 languages, e.g. as an expression language in a **BPMN** process model, a version
 number MUST be added to the URL, i.e. "https://www.omg.org/spec/DMN/FEEL/1.7".
-The simple expression language S-FEEL (clause [Simple Expression Language
+The simple expression language S-FEEL ([Simple Expression Language
 (S-FEEL)](11_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel)),
 being a subset of FEEL, is indicated by the same URI. **DMN** provides a URI for
 expression languages that are not meant to be interpreted automatically (e.g.,
 pseudo-code that may resemble FEEL but is not):
-"http://www.omg.org/spec/DMN/uninterpreted/20140801["](http://www.omg.org/spec/DMN/uninterpreted/20140801).
+"http://www.omg.org/spec/DMN/uninterpreted/20140801".
 
 An instance of Definitions may specify a typeLanguage, which is a URI that
 identifies the default type language used in elements within the scope of this
 Definitions. For example, a typeLanguage value of
 
-[“](http://www.w3.org/2001/XMLSchema)http://www.w3.org/2001/XMLSchema[”](http://www.w3.org/2001/XMLSchema)
-indicates that the data structures defined within that Definitions are, by
-default, in the form of XML Schema types. If unspecified, the default
-typeLanguage is FEEL. This value may be overridden on each individual
-ItemDefinition.
+“http://www.w3.org/2001/XMLSchema” indicates that the data structures defined
+within that Definitions are, by default, in the form of XML Schema types. If
+unspecified, the default typeLanguage is FEEL. This value may be overridden on
+each individual ItemDefinition.
 
 The typeLanguage SHALL be specified in a URI format (the URI for FEEL is
 “https://www.omg.org/spec/DMN/20230324/FEEL/”; the URI
 
-["](http://www.omg.org/spec/DMN/uninterpreted/20140801)http://www.omg.org/spec/DMN/uninterpreted/20140801["](http://www.omg.org/spec/DMN/uninterpreted/20140801)
-can be used to indicate that a type definition is not meant to be interpreted)).
+"http://www.omg.org/spec/DMN/uninterpreted/20140801" can be used to indicate
+that a type definition is not meant to be interpreted)).
 
 An instance of Definitions may specify an exporter and exporterVersion, which
 are Strings naming
@@ -500,8 +499,8 @@ element.
 |---------------------------------------|-----------------------------------------|
 | **namespace**: anyURI \[1\] | This attribute identifies the namespace associated with this Definitions and follows the convention established by XML Schema. |
 | **dmnVersion:** string \[1\] | This attribute identifies the concrete DMN version used in this Definitions (see clause [Document Structure](15_Exchange_Formats.md#document-structure) for its use in the XML serialization). |
-| **expressionLanguage**: anyURI \[0.. 1\] | This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL (clause 10). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. |
-| **typeLanguage**: anyURI \[0.. 1\] | This attribute identifies the type language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL (clause 10). This value MAY be overridden on each individual ItemDefinition. The language SHALL be specified in a URI format. |
+| **expressionLanguage**: anyURI \[0.. 1\] | This attribute identifies the expression language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual LiteralExpression. The language SHALL be specified in a URI format. |
+| **typeLanguage**: anyURI \[0.. 1\] | This attribute identifies the type language used in LiteralExpressions within the scope of this Definitions. The Default is FEEL ([Expression Language (FEEL)](12_Expression_Language_FEEL.md#expression-language-feel)). This value MAY be overridden on each individual ItemDefinition. The language SHALL be specified in a URI format. |
 | **exporter**: string \[0..1\] | This attribute names the tool used to export the XML serialization. |
 | **exporterVersion**: string \[0.. 1\] | This attribute names the version of the tool used to export the XML serialization. |
 | **itemDefinition**: ItemDefinition \[\*\] | This attribute lists the instances of ItemDefinition that are contained in this Definitions. |
@@ -521,9 +520,9 @@ explicitly defined.
 
 An instance of Import has an importType, which is a String that specifies the
 type of import associated with the element. For example, a value of
-“http://www.w3.org/2001/XMLSchema[”](http://www.w3.org/2001/XMLSchema) indicates
-that the imported element is an XML schema. The **DMN** namespace indicates that
-the imported element is a **DMN** Definitions element.
+“http://www.w3.org/2001/XMLSchema” indicates that the imported element is an XML
+schema. The **DMN** namespace indicates that the imported element is a **DMN**
+Definitions element.
 
 The location of the imported element may be specified by associating an optional
 locationURI with an instance of Import. The locationURI is a URI.

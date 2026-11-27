@@ -27,3 +27,6 @@ archivedTex/
 
 # CI checkout of mdsa-omg-core
 .ci/
+
+# TEMPORARY
+.docx

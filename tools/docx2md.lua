@@ -231,6 +231,13 @@ local function keyed(h, target)
   return h
 end
 local numbers = { sec = {}, fig = {}, tbl = {} }   -- DMN numbers -> target
+-- "Table 111" -> target, per file: the Word source has duplicate numbers and
+-- bookmarks, and a reference means the figure or table of its own clause
+local local_labels = {}
+local function label_target(kind, num, target)
+  local_labels[target.file] = local_labels[target.file] or {}
+  local_labels[target.file][kind .. ' ' .. num] = target
+end
 
 local function register(ids, target)
   for _, id in ipairs(ids) do
@@ -242,23 +249,32 @@ end
 -- Tables
 ------------------------------------------------------------------------------
 
--- Inline content of a table cell: paragraphs joined by spaces, list items
--- marked with bullets, images kept
+-- Inline content of a table cell, in one line: the lines of the cell
+-- (paragraphs and line breaks) are joined with spaces, and with semicolons
+-- between lines that are both FEEL examples ("... = ..."); list items are
+-- marked with bullets; images are kept
 local function cell_inlines(blocks)
-  local out = List()
-  local function sep()
-    if #out > 0 and out[#out].t ~= 'Space' then out:insert(pandoc.Space()) end
+  local units = List()   -- lines of the cell, each a list of inlines
+  local function add_inlines(inls, prefix)
+    local cur = List()
+    if prefix then cur:insert(pandoc.Str(prefix)); cur:insert(pandoc.Space()) end
+    for _, i in ipairs(inls) do
+      if i.t == 'LineBreak' then
+        units:insert(cur); cur = List()
+      else
+        cur:insert(i)
+      end
+    end
+    units:insert(cur)
   end
   local function add(bs, bullet)
     for _, b in ipairs(bs) do
       if b.t == 'Para' or b.t == 'Plain' then
-        sep()
-        if bullet then out:insert(pandoc.Str(bullet)); out:insert(pandoc.Space()); bullet = nil end
-        out:extend(b.content)
+        add_inlines(b.content, bullet); bullet = nil
       elseif b.t == 'LineBlock' then
-        for _, l in ipairs(b.content) do sep(); out:extend(l) end
+        for _, l in ipairs(b.content) do add_inlines(l) end
       elseif b.t == 'CodeBlock' then
-        sep(); out:insert(pandoc.Code(b.text:gsub('\n', ' ')))
+        units:insert(List({ pandoc.Code((b.text:gsub('\n', ' '))) }))
       elseif b.t == 'BlockQuote' or b.t == 'Div' then
         add(b.content, bullet); bullet = nil
       elseif b.t == 'BulletList' then
@@ -266,21 +282,52 @@ local function cell_inlines(blocks)
       elseif b.t == 'OrderedList' then
         local n = b.listAttributes.start or 1
         for _, item in ipairs(b.content) do add(item, tostring(n) .. '.'); n = n + 1 end
-      elseif b.t == 'Table' then
-        log('nested-table', stringify(b):sub(1, 60))
-        sep(); out:insert(pandoc.Str(stringify(b)))
       elseif b.t == 'Header' then
-        sep(); out:extend(b.content)
+        add_inlines(b.content)
       elseif b.t == 'Figure' then
-        b:walk{ Image = function(i) sep(); out:insert(i) end }
+        b:walk{ Image = function(i) units:insert(List({ i })) end }
       elseif b.t == 'HorizontalRule' then
       else
         log('cell-block', b.t)
-        sep(); out:insert(pandoc.Str(stringify(b)))
+        units:insert(List({ pandoc.Str(stringify(b)) }))
       end
     end
   end
+  -- line breaks inside emphasis end the emphasis: *a↵b* -> *a*↵*b*
+  local function split_breaks(el)
+    local parts, cur = List(), List()
+    for _, i in ipairs(el.content) do
+      if i.t == 'LineBreak' then parts:insert(cur); cur = List() else cur:insert(i) end
+    end
+    parts:insert(cur)
+    if #parts == 1 then return nil end
+    local res = List()
+    for k, p in ipairs(parts) do
+      if k > 1 then res:insert(pandoc.LineBreak()) end
+      if #p > 0 then
+        local e = el:clone(); e.content = p; res:insert(e)
+      end
+    end
+    return res
+  end
+  blocks = pandoc.Pandoc(blocks):walk{ Emph = split_breaks, Strong = split_breaks, Span = split_breaks }.blocks
   add(blocks)
+  local out = List()
+  local prevtext
+  for _, u in ipairs(units) do
+    u = trim_inlines(u)
+    if #u > 0 then
+      local text = stringify(u)
+      if prevtext then
+        if prevtext:find('=') and text:find('=') and not prevtext:match('[%.;,]$') then
+          out:insert(pandoc.Str(';'))
+        end
+        out:insert(pandoc.Space())
+      end
+      out:extend(u)
+      prevtext = text
+    end
+  end
   out = pandoc.Pandoc({ pandoc.Plain(out) }):walk{
     LineBreak = function() return pandoc.Space() end,
     SoftBreak = function() return pandoc.Space() end,
@@ -516,6 +563,7 @@ local function make_figure(img, cap, ids)
   if cap then
     register(cap.ids, target)
     numbers.fig[cap.num] = target
+    label_target(cap.kind, cap.num, target)
     log('figure', cap.num, text)
   end
   entries_by_src[src] = entry
@@ -786,7 +834,41 @@ end
 -- Annexes: headings are list items with styles ANNEX and a2
 ------------------------------------------------------------------------------
 
+local function is_heading_list(b)
+  if not b or b.t ~= 'OrderedList' then return false end
+  local first = b.content[1] and b.content[1][1]
+  local style = first and first.t == 'Div' and first.attributes['custom-style']
+  return style == 'ANNEX' or style == 'a2'
+end
+
+-- Annex headings nested in the last item of a list (Word continues the
+-- numbering of the heading list inside the bullet list before it): the
+-- heading and everything after it in the item are moved after the list.
+local function lift_headings(blocks)
+  local out = List()
+  for _, b in ipairs(blocks) do
+    if (b.t == 'BulletList' or b.t == 'OrderedList') and not is_heading_list(b) then
+      local items = b.content
+      local last = items[#items]
+      local after = List()
+      for k, x in ipairs(last) do
+        if is_heading_list(x) then
+          for j = k, #last do after:insert(last[j]) end
+          for j = #last, k, -1 do last:remove(j) end
+          break
+        end
+      end
+      out:insert(b)
+      out:extend(lift_headings(after))
+    else
+      out:insert(b)
+    end
+  end
+  return out
+end
+
 local function annex_headings(blocks)
+  blocks = lift_headings(blocks)
   local out = List()
   for _, b in ipairs(blocks) do
     if b.t == 'OrderedList' then
@@ -798,8 +880,7 @@ local function annex_headings(blocks)
           local inls = List()
           for _, x in ipairs(d.content) do if x.content then inls:extend(x.content); inls:insert(pandoc.Space()) end end
           local title = clean_inlines(inls)
-          -- "Relation to BPMN (informative)": the template marks annexes itself
-          local text = stringify(title):gsub('%s*%(informative%)%s*$', '')
+          local text = stringify(title)
           local h = pandoc.Header(style == 'ANNEX' and 1 or 2, { pandoc.Str(trim(text)) })
           h.attributes['ids'] = table.concat(ids_in(d), ' ')
           out:insert(h)
@@ -846,13 +927,18 @@ end
 local function drop_word_before(out, target)
   if #out < 2 or out[#out].t ~= 'Space' or out[#out - 1].t ~= 'Str' then return end
   local w = out[#out - 1].text
+  local lead = w:match('^(%p*)')
+  w = w:sub(#lead + 1)
   local drop = false
   if target.kind == 'fig' and (w == 'Figure' or w == 'figure') then drop = true end
   if target.kind == 'tbl' and (w == 'Table' or w == 'table') then drop = true end
   if target.kind == 'sec' and target.level == 1 and not target.whole and (SEC_WORDS[w] or w == 'Annex' or w == 'annex') then
     if not w:match('s$') then drop = true end
   end
-  if drop then out:remove(#out); out:remove(#out) end
+  if drop then
+    out:remove(#out); out:remove(#out)
+    if lead ~= '' then out:insert(pandoc.Str(lead)) end
+  end
 end
 
 local function lookup_number(kind, text)
@@ -878,6 +964,8 @@ local function text_references(inls, file)
     if x.t == 'Str' then
       local prev = out[#out - 1]
       local word = (out[#out] and out[#out].t == 'Space' and prev and prev.t == 'Str') and prev.text or nil
+      -- "(clause 10)"
+      if word then word = word:gsub('^%p+', '') end
       local kind
       if word == 'Figure' or word == 'figure' or word == 'Figures' or word == 'figures' then kind = 'fig'
       elseif word == 'Table' or word == 'table' or word == 'Tables' or word == 'tables' then kind = 'tbl'
@@ -929,24 +1017,42 @@ local function text_references(inls, file)
 end
 
 local function resolve_links(blocks, file)
-  local doc = pandoc.Pandoc(blocks)
+  -- 1. links to bookmarks and headings of the Word document; their text
+  -- becomes the title or caption of the target. (A separate pass, so that the
+  -- text of a link, such as "Table 111", is not taken for a reference.)
+  local doc = pandoc.Pandoc(blocks):walk{
+    Link = function(x)
+      if x.target:sub(1, 1) ~= '#' then return nil end
+      local target = targets[x.target:sub(2)]
+      local label = stringify(x):gsub('\u{00A0}', ' '):gsub('%s+', ' ')
+      local loc = local_labels[file] and local_labels[file][label]
+      if loc and loc ~= target then
+        log('same-file-label', file, label)
+        target = loc
+      end
+      if not target then
+        log('unresolved-link', file, x.target, stringify(x))
+        return x.content
+      end
+      local res = link_to(target, file)
+      if res.t == 'Link' then
+        res.attributes['refkind'] = target.kind
+        res.attributes['level'] = tostring(target.level or 0)
+      end
+      return res
+    end,
+  }
+  -- 2. the word before a reference that the PDF prints itself, and
+  -- references written as text
   doc = doc:walk{
     Inlines = function(inls)
       local out = List()
       for _, x in ipairs(inls) do
-        if x.t == 'Link' and x.target:sub(1, 1) == '#' then
-          local id = x.target:sub(2)
-          local target = targets[id]
-          if target then
-            drop_word_before(out, target)
-            out:insert(link_to(target, file))
-          else
-            log('unresolved-link', file, x.target, stringify(x))
-            out:extend(x.content)
-          end
-        else
-          out:insert(x)
+        if x.t == 'Link' and x.attributes['refkind'] then
+          drop_word_before(out, { kind = x.attributes['refkind'], level = tonumber(x.attributes['level']) })
+          x.attributes = {}
         end
+        out:insert(x)
       end
       return text_references(out, file)
     end,
@@ -978,6 +1084,46 @@ function Pandoc(doc)
     Subscript = function(s) return script_filter(s, SUB, 'sub') end,
     Superscript = function(s) return script_filter(s, SUP, 'sup') end,
     SmallCaps = function(s) return s.content end,
+  }
+  -- Web addresses that Word split into several links ("(", "https://...REC",
+  -- "-xmlschema-2...#ID),") become one link; targets lose trailing spaces
+  doc = doc:walk{
+    Link = function(l)
+      l.target = l.target:gsub('%%20$', ''):gsub('%s+$', '')
+      -- a quote character that Word made part of a link
+      local text = stringify(l)
+      if not l.target:match('^#') and not text:match('[%w]') then return l.content end
+      return l
+    end,
+  }
+  doc = doc:walk{
+    Inlines = function(inls)
+      local out = List()
+      local i = 1
+      while i <= #inls do
+        local x = inls[i]
+        if x.t == 'Link' and not x.target:match('^#') and inls[i + 1] and inls[i + 1].t == 'Link' and not inls[i + 1].target:match('^#') then
+          local j = i
+          local text = ''
+          while inls[j] and inls[j].t == 'Link' and not inls[j].target:match('^#') do
+            text = text .. stringify(inls[j]); j = j + 1
+          end
+          local pre, url, post = text:match('^(.-)(https?://[^%s]-)([%),;%.]*)$')
+          if url then
+            log('merged-link', url)
+            if pre ~= '' then out:insert(pandoc.Str(pre)) end
+            out:insert(pandoc.Link({ pandoc.Str(url) }, url))
+            if post ~= '' then out:insert(pandoc.Str(post)) end
+            i = j
+          else
+            out:insert(x); i = i + 1
+          end
+        else
+          out:insert(x); i = i + 1
+        end
+      end
+      return out
+    end,
   }
   -- Word styles: keep the divs that carry meaning, unwrap all others
   local keep = { Code = true, caption = true, ANNEX = true, a2 = true }
@@ -1032,6 +1178,39 @@ function Pandoc(doc)
       in_annexes = true
       new_file('A_Annexes')
       body = annex_headings(s.blocks)
+      -- "(informative)" after an annex title belongs to it, as in "Relation
+      -- to BPMN (informative)"
+      local merged = List()
+      for _, b in ipairs(body) do
+        local prev = merged[#merged]
+        if prev and prev.t == 'Header' and prev.level == 1 and b.t == 'Para' and trim(stringify(b)) == '(informative)' then
+          prev.content:extend({ pandoc.Space(), pandoc.Str('(informative)') })
+        else
+          merged:insert(b)
+        end
+      end
+      body = merged
+      -- footnotes typed as text ("1.Shipment Process ...") and marked with
+      -- superscript digits become Markdown footnotes
+      local notes = {}
+      local rest = List()
+      for _, b in ipairs(body) do
+        local n = b.t == 'Para' and stringify(b):match('^(%d)%.%u')
+        if n then
+          local inls = List(b.content)
+          inls[1] = pandoc.Str((inls[1].text:gsub('^%d%.', '')))
+          notes[n] = pandoc.Para(inls)
+        else
+          rest:insert(b)
+        end
+      end
+      local marks = { ['¹'] = '1', ['²'] = '2', ['³'] = '3' }
+      body = pandoc.Pandoc(rest):walk{
+        Str = function(x)
+          local n = marks[x.text]
+          if n and notes[n] then return pandoc.Note({ notes[n] }) end
+        end,
+      }.blocks
       -- the introduction ("All the Annexes are informative ...") goes into the
       -- first annex
       local intro = List()
