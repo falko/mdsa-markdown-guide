@@ -1,11 +1,53 @@
-% Specification-specific bibliography entries.
-% Entries for OMG, ISO and W3C specifications belong in mdsa-omg-core (omg.bib, iso.bib, w3.bib).
-% Use the same @standard + shorthand style, so biblatex (style=alphabetic) renders [DMN].
+% References of DMN (Clause 3). All entries are listed in the PDF (\nocite in
+% _Specification_AuthorSettings.tex); the normative ones are put in the category
+% "normative" there. The shorthand is the label printed in the PDF, e.g. [BMM].
 
-@standard{DMN16, shorthand={DMN}, title={Decision Model and Notation (DMN)}, version={1.6}, note={OMG Specification}, url={https://www.omg.org/spec/DMN/1.6}, organization={Object Management Group}}
+% Normative references
 
-@standard{SCE10, shorthand={SCE}, title={Specification Common Elements (SCE)}, version={1.0}, note={OMG Specification}, url={https://www.omg.org/spec/SCE/1.0}, organization={Object Management Group}}
+@standard{BMM, shorthand={BMM}, title={Business Motivation Model (BMM)}, version={1.2}, note={OMG Document Number: formal/2014-05-01}, date={2014-05}, url={https://www.omg.org/spec/BMM/1.2}, organization={Object Management Group}}
 
-@manual{PANDOC, shorthand={Pandoc}, title={Pandoc User's Guide}, author={MacFarlane, John}, url={https://pandoc.org/MANUAL.html}}
+@standard{BPMN20, shorthand={BPMN 2.0}, title={Business Process Model and Notation}, version={2.0}, note={OMG Document Number: formal/2011-01-03}, date={2011-01}, url={https://www.omg.org/spec/BPMN/2.0}, organization={Object Management Group}}
 
-@manual{CROSSREF, shorthand={pandoc-crossref}, title={pandoc-crossref Manual}, author={Lierdakil}, url={https://lierdakil.github.io/pandoc-crossref/}}
+@standard{CQL, shorthand={CQL}, title={Clinical Quality Language}, version={1.4}, organization={HL7}, url={https://cql.hl7.org/09-b-cqlreference.html#interval-operators-3}}
+
+@standard{IEEE754, shorthand={IEEE 754}, title={IEEE 754-2008, IEEE Standard for Floating-Point Arithmetic}, organization={International Electrical and Electronics Engineering Society}, date={2008-12}, url={https://www.techstreet.com/ieee/searches/5835853}}
+
+@standard{ISO8601, shorthand={ISO 8601}, title={ISO 8601:2004, Data elements and interchange formats -- Information interchange -- Representation of dates and times}, organization={International Organization for Standardization}, date={2004}, url={https://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=40874}}
+
+@standard{ISOEBNF, shorthand={ISO EBNF}, title={ISO/IEC 14977:1996, Information technology -- Syntactic metalanguage -- Extended BNF}, organization={International Organization for Standardization}, date={1996}, url={https://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996(E).zip}}
+
+@manual{Java, shorthand={Java}, title={The Java Language Specification, Java SE 7 Edition}, organization={Oracle Corporation}, date={2013-02}, url={https://docs.oracle.com/javase/specs/jls/se7/jls7.pdf}}
+
+@online{ONNX, shorthand={ONNX}, title={Open Neural Network Exchange (ONNX)}, url={https://onnx.ai/}}
+
+@standard{PMML, shorthand={PMML}, title={Predictive Model Markup Language (PMML)}, organization={Data Mining Group}, date={2014-05}, url={http://www.dmg.org/v4-2-1/GeneralStructure.html}}
+
+@standard{RFC3986, shorthand={RFC 3986}, title={RFC 3986: Uniform Resource Identifier (URI): Generic Syntax}, editor={Berners-Lee, T. and Fielding, R. and Masinter, L.}, organization={Internet Engineering Task Force}, date={2005}, url={https://www.ietf.org/rfc/rfc3986.txt}}
+
+@standard{SCE10, shorthand={SCE}, title={Specification Common Elements (SCE)}, version={1.0}, url={https://www.omg.org/spec/SCE/1.0}, organization={Object Management Group}}
+
+@standard{UML241, shorthand={UML}, title={Unified Modeling Language (UML)}, version={2.4.1}, note={OMG Document Number: formal/2011-08-05}, date={2011-08}, url={https://www.omg.org/spec/UML/2.4.1}, organization={Object Management Group}}
+
+@standard{XBASE, shorthand={XBASE}, title={XML Base (Second Edition)}, editor={Marsh, Jonathan and Tobin, Richard}, organization={World Wide Web Consortium}, date={2009}, url={https://www.w3.org/TR/xmlbase/}}
+
+@standard{XML, shorthand={XML}, title={Extensible Markup Language (XML) 1.0 (Fifth Edition)}, note={W3C Recommendation 26 November 2008}, organization={World Wide Web Consortium}, url={https://www.w3.org/TR/xml/}}
+
+@standard{XSD2, shorthand={XML Schema}, title={XML Schema Part 2: Datatypes Second Edition}, note={W3C Recommendation 28 October 2004}, organization={World Wide Web Consortium}, url={http://www.w3.org/TR/xmlschema-2/}}
+
+@standard{XDM, shorthand={XPath Data Model}, title={XQuery 3.1 and XPath 3.1 Data Model (XDM) (Second Edition)}, note={W3C Recommendation 14 December 2010}, organization={World Wide Web Consortium}, url={https://www.w3.org/TR/xpath-datamodel/}}
+
+@standard{XFO, shorthand={XQuery and XPath Functions and Operators}, title={XQuery 3.1 and XPath 3.1 Functions and Operators (Second Edition)}, note={W3C Recommendation 14 December 2010}, organization={World Wide Web Consortium}, url={http://www.w3.org/TR/xpath-functions/}}
+
+% Non-normative references
+
+@standard{JSON, shorthand={JSON}, title={ECMA-404 The JSON Data Interchange Standard}, organization={European Computer Manufacturers Association}, date={2013-10}, url={https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf}}
+
+@standard{PRR, shorthand={PRR}, title={Production Rule Representation (PRR)}, version={1.0}, note={OMG Document Number: formal/2009-12-01}, date={2009-12}, url={https://www.omg.org/spec/PRR/1.0/}, organization={Object Management Group}}
+
+@standard{RIF, shorthand={RIF}, title={RIF production rule dialect}, editor={de Sainte Marie, Ch. and others}, note={W3C Recommendation, 22 June 2010}, organization={World Wide Web Consortium}, url={https://www.w3.org/TR/rif-prd/}}
+
+@standard{SBVR, shorthand={SBVR}, title={Semantics of Business Vocabulary and Business Rules (SBVR)}, version={1.2}, note={OMG Document Number: formal/2013-11-04}, date={2013-11}, url={https://www.omg.org/spec/SBVR/1.2/}, organization={Object Management Group}}
+
+@standard{SQL, shorthand={SQL}, title={ISO/IEC 9075-11:2011, Information technology -- Database languages -- SQL -- Part 11: Information and Definition Schemas (SQL/Schemata)}, organization={International Organization for Standardization}, date={2011}, url={https://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=5368}}
+
+@standard{XPath, shorthand={XPath}, title={XML Path Language (XPath) Version 1.0}, note={W3C Recommendation 16 November 1999}, organization={World Wide Web Consortium}, url={https://www.w3.org/TR/xpath}}

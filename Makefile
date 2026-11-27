@@ -22,7 +22,7 @@
 # To use a pandoc based workflow, use 'make pandoc' instead of 'make'. i.e. `make pandoc build` or `make pandoc all`
 #
 
-.PHONY: all build run debug check clean help pandoc
+.PHONY: all build run debug check clean help pandoc _core_checkout
 
 help:
 	    @echo "Makefile arguments:"
@@ -55,17 +55,19 @@ help:
 # Tag for Docker image. Override with `make tag=foo`
 tag ?= latest
 
-_suffix :=
-_image := omg/mdsa:${tag}
-_base := texlive/texlive
-_basetag := latest-small
-_baseimage := ${_base}:${_basetag}
-
-# pandoc/latex image tag for `make pandoc`. Override to pin a version, e.g.
-# make pandoc_tag=3.11-ubuntu pandoc build run
+# pandoc/latex image tag. Override to pin a version, e.g.
+# make pandoc_tag=3.11-ubuntu
 # Note: in some 'latest' images, pandoc-crossref was built for an older pandoc
 # version and prints a warning during conversion. The output is still correct.
 pandoc_tag ?= latest-ubuntu
+
+# The specification is written in Markdown, so the pandoc toolchain is the
+# default ('make pandoc ...' still works).
+_suffix := .pandoc
+_image := omg/mdsa${_suffix}:${tag}
+_base := pandoc/latex
+_basetag := ${pandoc_tag}
+_baseimage := ${_base}:${_basetag}
 
 # Optional: TeX Live package repository used by tlmgr during the image build,
 # e.g. make texlive_repository=https://mirrors.mit.edu/CTAN/systems/texlive/tlnet
@@ -89,9 +91,15 @@ _buildargs = --build-arg BASEIMAGE=${_baseimage} --build-arg TEXLIVE_REPOSITORY=
 	--build-arg MDSA_CORE_VERSION=$(call _version,mdsa-omg-core,core) \
 	${docker_build_opts}
 
-# Optional: use a local checkout of mdsa-omg-core instead of the one in the image,
-# e.g. to test core changes before they are published: make core=../mdsa-omg-core pandoc run
-core ?=
+# mdsa-omg-core with the Markdown pipeline fixes, until they are merged into
+# ObjectManagementGroup/mdsa-omg-core: checked out into .ci/mdsa-omg-core on the
+# first build and used instead of the core in the image. Use another checkout with
+# make core=../mdsa-omg-core, or the core of the image with make core=
+core_repository ?= https://github.com/falko/mdsa-omg-core.git
+core_ref ?= clause-autoinclude
+core ?= .ci/mdsa-omg-core
+# Checkout of the core, if it does not exist yet
+_core = $(if ${core},$(if $(wildcard ${core}),,_core_checkout))
 # In GitHub Actions, the build reports problems as annotations on the changed lines
 _runargs = -v "${CURDIR}:/source" $(if ${core},-v "$(abspath ${core}):/app/mdsa-omg-core:ro") \
 	$(if ${GITHUB_ACTIONS},-e GITHUB_ACTIONS)
@@ -114,7 +122,7 @@ forcebuild: Dockerfile user-pkgs.txt
 	@echo Forcing build from ${_baseimage} to ${_image}
 	docker build ${_buildargs} -t ${_image} --no-cache --file Dockerfile .
 
-interactive:
+interactive: ${_core}
 	@sed -e 's|ENTRYPOINT .*$$|ENTRYPOINT ["/bin/bash"]|g' Dockerfile > Dockerfile.interactive
 	@docker build ${_buildargs} -t ${_image} --file Dockerfile.interactive .
 	@rm Dockerfile.interactive
@@ -123,15 +131,18 @@ interactive:
 	@echo
 	@docker run -it ${_runargs} ${_image}
 
-run: build
+_core_checkout:
+	${git} clone --depth 1 --branch ${core_ref} ${core_repository} "${core}"
+
+run: build ${_core}
 	@echo Building PDF
 	@docker run --rm ${_runargs} ${_image}
 
-check: build
+check: build ${_core}
 	@echo Building and checking PDF
 	@docker run --rm ${_runargs} ${_image} check
 
-debug: build
+debug: build ${_core}
 	@echo Debugging PDF run
 	docker run --rm ${_runargs} ${_image} debug
 
