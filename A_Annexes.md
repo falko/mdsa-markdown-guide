@@ -51,8 +51,9 @@ Check the generated PDF:
     captions:
     - rules as rows (Figures 8-6, 8-19, 8-12): the name box, the hit policy
       cell spanning the clause rows, double lines below the clauses and before
-      the first output and the annotation column, only the clauses shaded,
-      string literals in italics, annotations left-aligned, the default output
+      the first output and the annotation column ("Rules as rows with a rule
+      annotation"), only the clauses shaded, string literals in straight quotes
+      and italics, annotations left-aligned, the default output
       value underlined, and the two wide tables wrapped to the text width;
     - rules as columns (Figures 8-8, 8-13): a double line between the clauses
       with their allowed values and the entries, and between inputs and
@@ -69,4 +70,5 @@ Check the generated PDF:
     reads "Table 10.5", like links to pipe tables.
 15. The grammar in [Grammar rules](13_Other_Elements.md#grammar-rules) is numbered
     1 to 4 with alternatives i, ii, iii, and the references above it read
-    "rule 2.i", "rule 2" and "rule 1".
+    "rule 2.i", "rule 2" and "rule 1", and the number in a column of rule
+    numbers reads "2.i", without "rule".

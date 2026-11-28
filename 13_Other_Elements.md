@@ -52,40 +52,51 @@ Inline FEEL code works the same way: `some x in [1, 2] satisfies x > 1`{.feel}.
 ## Grammar rules
 
 A grammar whose rules are referenced by number, such as the FEEL grammar, is a
-numbered list. Each rule that is referenced starts with an HTML anchor named
-after the rule; alternatives are a nested numbered list:
+numbered list. Every rule starts with an HTML anchor `rule-` and the rule's
+name; alternatives are a nested numbered list, and each starts with the anchor
+of its rule followed by `-i`, `-ii`, `-iii`, as they are numbered:
 
 ```markdown
 1. <a id="rule-expression"></a>expression =
-   1. boxed expression |
-   1. textual expression ;
+   1. <a id="rule-expression-i"></a>boxed expression |
+   1. <a id="rule-expression-ii"></a>textual expression ;
 1. <a id="rule-textual-expression"></a>textual expression =
-   1. <a id="rule-textual-expression-for"></a>for expression | if expression | quantified expression |
-   1. disjunction ;
+   1. <a id="rule-textual-expression-i"></a>for expression | if expression | quantified expression |
+   1. <a id="rule-textual-expression-ii"></a>disjunction ;
 ```
+
+Write the anchor as `<a id="..."></a>`, not `<a id="..."/>`: HTML has no
+self-closing `<a>`, so GitHub would treat everything up to the end of the item,
+including the alternatives and their links, as part of the anchor.
+
+A link whose text is a rule number, as in a table column of rule numbers,
+prints the generated number only: `[2.i](#rule-textual-expression-i)` prints
+"2.i", while `[for expressions](#rule-textual-expression-i)` prints "rule 2.i".
 
 Write every item as `1.`: GitHub and the PDF number the rules themselves, so
 inserting a rule changes only that line. Alternatives are numbered i, ii, iii,
 as GitHub shows nested numbered lists. A link to a rule's anchor becomes the
-rule number in the PDF: [for expressions](#rule-textual-expression-for) are
+rule number in the PDF: [for expressions](#rule-textual-expression-i) are
 defined by [textual expression](#rule-textual-expression), which is part of
-[expression](#rule-expression). The excerpt from the FEEL grammar of DMN 1.7:
+[expression](#rule-expression). In a column of rule numbers, for expressions
+are [2.i](#rule-textual-expression-i). The excerpt from the FEEL grammar of DMN
+1.7:
 
 1. <a id="rule-expression"></a>expression =
-   1. boxed expression |
-   1. textual expression ;
+   1. <a id="rule-expression-i"></a>boxed expression |
+   1. <a id="rule-expression-ii"></a>textual expression ;
 1. <a id="rule-textual-expression"></a>textual expression =
-   1. <a id="rule-textual-expression-for"></a>for expression | if expression | quantified expression |
-   1. disjunction |
-   1. conjunction |
-   1. comparison |
-   1. arithmetic expression ;
-1. textual expressions = textual expression , { "," , textual expression } ;
+   1. <a id="rule-textual-expression-i"></a>for expression | if expression | quantified expression |
+   1. <a id="rule-textual-expression-ii"></a>disjunction |
+   1. <a id="rule-textual-expression-iii"></a>conjunction |
+   1. <a id="rule-textual-expression-iv"></a>comparison |
+   1. <a id="rule-textual-expression-v"></a>arithmetic expression ;
+1. <a id="rule-textual-expressions"></a>textual expressions = textual expression , { "," , textual expression } ;
 1. <a id="rule-arithmetic-expression"></a>arithmetic expression =
-   1. addition | subtraction |
-   1. multiplication | division |
-   1. exponentiation |
-   1. arithmetic negation ;
+   1. <a id="rule-arithmetic-expression-i"></a>addition | subtraction |
+   1. <a id="rule-arithmetic-expression-ii"></a>multiplication | division |
+   1. <a id="rule-arithmetic-expression-iii"></a>exponentiation |
+   1. <a id="rule-arithmetic-expression-iv"></a>arithmetic negation ;
 
 ## Characters outside the Basic Multilingual Plane
 

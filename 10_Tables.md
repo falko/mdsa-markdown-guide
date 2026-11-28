@@ -240,14 +240,13 @@ have the class `values`:
 </tbody>
 </table>
 
-With two output components and an annotation column, and inputs without
-allowed values (DMN Figure 8-19, with the double line before the annotation
-column that 8.2.1 requires):
+With three output components, one of them ("Reason") without output values,
+and inputs without allowed values (DMN Figure 8-19):
 
 ###### Table: Output order with compound output
 
 <table class="dmn-decision-table">
-<colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="input"><col class="output"><col class="output"><col class="annotation"></colgroup>
+<colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="input"><col class="output"><col class="output"><col class="output"></colgroup>
 <thead>
 <tr><th colspan="7">Routing rules</th></tr>
 <tr><th rowspan="2">O</th><th>Age</th><th>Risk category</th><th>Debt review</th><th>Routing</th><th>Review level</th><th>Reason</th></tr>
@@ -264,6 +263,26 @@ column that 8.2.1 requires):
 An output label above several output components spans their columns, and the
 hit policy cell spans all three clause rows (DMN Figure 8-12). Here, output
 value 1a is the default output value:
+
+Annotation columns (DMN 8.2.1) have the class `annotation`: a double line
+separates them from the outputs, and their entries are left-aligned. (This
+example is not a figure of DMN; DMN 1.7 has no figure with an annotation
+column.)
+
+###### Table: Rules as rows with a rule annotation
+
+<table class="dmn-decision-table">
+<colgroup><col class="hit-policy"><col class="input"><col class="output"><col class="annotation"></colgroup>
+<thead>
+<tr><th colspan="4">Discount</th></tr>
+<tr><th rowspan="2">U</th><th>Customer</th><th>Discount</th><th>Reason</th></tr>
+<tr><td class="values"><em>Business</em>, <em>Private</em></td><td class="values">0, 0.05</td><td></td></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><em>Business</em></td><td>0.05</td><td>Volume customers</td></tr>
+<tr><td>2</td><td><em>Private</em></td><td>0</td><td>No discount for private customers</td></tr>
+</tbody>
+</table>
 
 ###### Table: Horizontal table with multiple output components
 
