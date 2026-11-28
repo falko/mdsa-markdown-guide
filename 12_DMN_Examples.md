@@ -122,21 +122,19 @@ Question: What is the risk score for this applicant?
 
 Allowed Answers: A number greater than 70 and less than 150
 
-Description: The **Application Risk Score** decision logic invokes the Application risk score model business knowledge model, passing Applicant data.Age as the Age parameter, Applicant data.MaritalStatus as the Marital Status parameter and Applicant data.EmploymentStatus as the Employment Status parameter.
+Description: The **Application Risk Score** decision logic invokes the Application risk score model business knowledge model, passing `Applicant data.Age` as the Age parameter, `Applicant data.MaritalStatus` as the Marital Status parameter and `Applicant data.EmploymentStatus` as the Employment Status parameter.
 
 #### Bureau call type {-}
 
-Question: How much data should be requested from the credit bureau for this application? Allowed Answers: A value from the explicit list "Full", "Mini", "None"
+Question: How much data should be requested from the credit bureau for this application? Allowed Answers: A value from the explicit list `"Full", "Mini", "None"`
 
 Description: The **Bureau call type** decision logic invokes the Bureau call type table, passing the output of the Prebureau risk category decision as the Pre-Bureau Risk Category parameter.
 
 #### Eligibility {-}
 
-Question: Does this applicant appear eligible for the loan they applied for given only their application data? Allowed Answers: Value from the explicit list "Eligible", "Not Eligible"
+Question: Does this applicant appear eligible for the loan they applied for given only their application data? Allowed Answers: Value from the explicit list `"Eligible", "Not Eligible"`
 
-Description: The **Eligibility** decision logic invokes the Eligibility rules business knowledge model, passing
-
-Applicant data.Age as the Age parameter, the output of the Pre-bureau risk category decision as the Pre-Bureau Risk Category parameter, and the output of the Pre-bureau affordability decision as the Pre-Bureau Affordability parameter.
+Description: The **Eligibility** decision logic invokes the Eligibility rules business knowledge model, passing `Applicant data.Age` as the Age parameter, the output of the Pre-bureau risk category decision as the Pre-Bureau Risk Category parameter, and the output of the Pre-bureau affordability decision as the Pre-Bureau Affordability parameter.
 
 #### Pre-bureau affordability {-}
 
@@ -144,7 +142,7 @@ Question: Can the applicant afford the loan they applied for given only their ap
 
 Allowed Answers: Yes/No
 
-Description: The **Pre-bureau affordability** decision logic invokes the Affordability calculation business knowledge model, passing Applicant data.Monthly.Income as the Monthly Income parameter, Applicant data.Monthly.Repayments as the Monthly Repayments parameter, Applicant data.Monthly.Expenses as the Monthly Expenses parameter, the output of the Pre-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
+Description: The **Pre-bureau affordability** decision logic invokes the Affordability calculation business knowledge model, passing `Applicant data.Monthly.Income` as the Monthly Income parameter, `Applicant data.Monthly.Repayments` as the Monthly Repayments parameter, `Applicant data.Monthly.Expenses` as the Monthly Expenses parameter, the output of the Pre-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
 #### Post-bureau affordability {-}
 
@@ -152,49 +150,43 @@ Question: Can the applicant afford the loan they applied for given all available
 
 Allowed Answers: Yes/No
 
-Description: The **Post-bureau affordability** decision logic invokes the Affordability calculation business knowledge model, passing Applicant data.Monthly.Income as the Monthly Income parameter, Applicant
-
-data.Monthly.Repayments as the Monthly Repayments parameter, Applicant data.Monthly.Expenses as the Monthly Expenses parameter, the output of the Post-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
+Description: The **Post-bureau affordability** decision logic invokes the Affordability calculation business knowledge model, passing `Applicant data.Monthly.Income` as the Monthly Income parameter, `Applicant data.Monthly.Repayments` as the Monthly Repayments parameter, `Applicant data.Monthly.Expenses` as the Monthly Expenses parameter, the output of the Post-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
 #### Pre-bureau risk category {-}
 
 Question: Which risk category is most appropriate for this applicant given only their application data?
 
-Allowed Answers: Value from explicit list "Decline", "High Risk", "Medium Risk", "Low Risk", "Very Low Risk"
+Allowed Answers: Value from explicit list `"Decline", "High Risk", "Medium Risk", "Low Risk", "Very Low Risk"`
 
-Description: The Pre-Bureau Risk Category decision logic invokes the Pre-bureau risk category table business knowledge model, passing Applicant data.ExistingCustomer as the Existing Customer parameter and the output of the Application risk score decision as the Application Risk Score parameter.
+Description: The Pre-Bureau Risk Category decision logic invokes the Pre-bureau risk category table business knowledge model, passing `Applicant data.ExistingCustomer` as the Existing Customer parameter and the output of the Application risk score decision as the Application Risk Score parameter.
 
 #### Post-bureau risk category {-}
 
 Question: Which risk category is most appropriate for this applicant given all available data?
 
-Allowed Answers: A value from the explicit list "Decline", "High Risk", "Medium Risk", "Low Risk", "Very Low Risk"
+Allowed Answers: A value from the explicit list `"Decline", "High Risk", "Medium Risk", "Low Risk", "Very Low Risk"`
 
-Description: The **Post-bureau risk category** decision logic invokes the Post-bureau risk category business knowledge model, passing Applicant data.ExistingCustomer as the Existing Customer parameter, Bureau data.CreditScore as the Credit Score parameter, and the output of the Application risk score decision as the Application Risk Score parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Credit Score parameter will be null.
+Description: The **Post-bureau risk category** decision logic invokes the Post-bureau risk category business knowledge model, passing `Applicant data.ExistingCustomer` as the Existing Customer parameter, `Bureau data.CreditScore` as the Credit Score parameter, and the output of the Application risk score decision as the Application Risk Score parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Credit Score parameter will be null.
 
 #### Required monthly installment {-}
 
 Question: What is the minimum monthly installment payment required for this loan product? Allowed Answers: A dollar amount greater than zero
 
-Description: The **Required monthly installment** decision logic invokes the Installment calculation business knowledge model, passing Requested product.ProductType as the Product Type parameter, Requested product.Rate as the Rate parameter, Requested product.Term as the Term parameter, and Requested product.Amount as the Amount parameter.
+Description: The **Required monthly installment** decision logic invokes the Installment calculation business knowledge model, passing `Requested product.ProductType` as the Product Type parameter, `Requested product.Rate` as the Rate parameter, `Requested product.Term` as the Term parameter, and `Requested product.Amount` as the Amount parameter.
 
 #### Routing {-}
 
 Question: How this should this applicant be routed given all available data?
 
-Allowed Answers: A value from the explicit list "Decline", "Refer for Adjudication", "Accept without Review"
+Allowed Answers: A value from the explicit list `"Decline", "Refer for Adjudication", "Accept without Review"`
 
-Description: The **Routing** decision logic invokes the Routing rules business knowledge model, passing Bureau data.
-
-Bankrupt as the Bankrupt parameter, Bureau data. Credit Score as the Credit Score parameter, the output of the Post- bureau risk category decision as the Post-Bureau Risk Category parameter, and the output of the Post-bureau affordability decision as the Post-Bureau Affordability parameter. Note that if Bureau data is null (due to the
-
-THROUGH strategy bypassing the Collect bureau data task) the Bankrupt and Credit Score parameters will be null.
+Description: The **Routing** decision logic invokes the Routing rules business knowledge model, passing `Bureau data.Bankrupt` as the Bankrupt parameter, `Bureau data.Credit Score` as the Credit Score parameter, the output of the Post-bureau risk category decision as the Post-Bureau Risk Category parameter, and the output of the Post-bureau affordability decision as the Post-Bureau Affordability parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Bankrupt and Credit Score parameters will be null.
 
 #### Strategy {-}
 
 Question: What is the appropriate handling strategy for this application?
 
-Allowed Answers: A value from the explicit list "Decline","Bureau”,“Through"
+Allowed Answers: A value from the explicit list `"Decline","Bureau","Through"`
 
 Description: The **Strategy** decision logic defines a complete, unique-hit decision table deriving Strategy from Eligibility and Bureau call type.
 
@@ -280,7 +272,7 @@ Description: The Affordability calculation decision logic defines a boxed functi
 
 **Pre-bureau risk category table  **
 
-Description: The Pre-bureau risk category table decision logic defines a complete, unique-hit decision table deriving Pre- bureau risk category from Existing Customer and Application Risk Score.
+Description: The Pre-bureau risk category table decision logic defines a complete, unique-hit decision table deriving Pre-bureau risk category from Existing Customer and Application Risk Score.
 
 #### Post-bureau risk category table {-}
 
@@ -444,43 +436,39 @@ The DRG in [DRD of all automated decision-making](Images/drd-of-all-automated-de
 
 - The **Bureau call type table** decision logic ([Bureau call type table decision logic](#table-bureau-call-type-table-decision-logic)) defines a complete, unique-hit decision table deriving Bureau Call Type from Pre-Bureau Risk Category.
 
-- The **Eligibility** decision logic (shown as a boxed invocation in [Eligibility decision logic](#table-eligibility-decision-logic)) invokes the Eligibility rules business knowledge model, passing Applicant data. Age as the Age parameter, the output of the Pre-bureau risk category decision as the Pre-Bureau Risk Category parameter, and the output of the Pre-bureau affordability decision as the Pre-Bureau Affordability parameter.
+- The **Eligibility** decision logic (shown as a boxed invocation in [Eligibility decision logic](#table-eligibility-decision-logic)) invokes the Eligibility rules business knowledge model, passing `Applicant data.Age` as the Age parameter, the output of the Pre-bureau risk category decision as the Pre-Bureau Risk Category parameter, and the output of the Pre-bureau affordability decision as the Pre-Bureau Affordability parameter.
 
 - The **Eligibility rules** decision logic ([Eligibility rules decision logic](#table-eligibility-rules-decision-logic)) defines a complete, priority-ordered single hit decision table deriving Eligibility from Pre-Bureau Risk Category, Pre-Bureau Affordability and Age.
 
-- The **Pre-bureau risk category** decision logic (shown as a boxed invocation in [Pre-bureau risk category decision logic](#table-pre-bureau-risk-category-decision-logic)) invokes the Pre- bureau risk category table business knowledge model, passing Applicant data. ExistingCustomer as the Existing Customer parameter and the output of the Application risk score decision as the Application Risk Score parameter.
+- The **Pre-bureau risk category** decision logic (shown as a boxed invocation in [Pre-bureau risk category decision logic](#table-pre-bureau-risk-category-decision-logic)) invokes the Pre-bureau risk category table business knowledge model, passing `Applicant data.ExistingCustomer` as the Existing Customer parameter and the output of the Application risk score decision as the Application Risk Score parameter.
 
 - The **Pre-bureau risk category table** decision logic ([Pre-bureau risk category table decision logic](#table-pre-bureau-risk-category-table-decision-logic)) defines a complete, unique-hit decision table deriving Pre-Bureau Risk Category from Existing Customer and Application Risk Score.
 
-- The **Application risk score** decision logic (shown as a boxed invocation in [Application risk score decision logic](#table-application-risk-score-decision-logic)) invokes the Application risk score model business knowledge model, passing Applicant data. Age as the Age parameter, Applicant data. MaritalStatus as the Marital Status parameter and Applicant data. EmploymentStatus as the Employment Status parameter.
+- The **Application risk score** decision logic (shown as a boxed invocation in [Application risk score decision logic](#table-application-risk-score-decision-logic)) invokes the Application risk score model business knowledge model, passing `Applicant data.Age` as the Age parameter, `Applicant data.MaritalStatus` as the Marital Status parameter and `Applicant data.EmploymentStatus` as the Employment Status parameter.
 
 - The **Application Risk Score Model** decision logic ([Application risk score model decision logic](#table-application-risk-score-model-decision-logic)) defines a complete, no-order multiple-hit table with aggregation, deriving Application risk score from Age, Marital Status and Employment Status, as the sum of the Partial scores of all matching rows (this is therefore a predictive scorecard represented as a decision table).
 
-- The **Routing** decision logic (shown as a boxed invocation in [Routing decision logic](#table-routing-decision-logic)) invokes the Routing rules business knowledge model, passing Bureau data. Bankrupt as the Bankrupt parameter, Bureau data. CreditScore as the Credit Score parameter, the output of the Post-bureau risk category decision as the Post-Bureau Risk Category parameter, and the output of the Post-bureau affordability decision as the Post-Bureau Affordability parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Bankrupt and Credit Score parameters will be null.
+- The **Routing** decision logic (shown as a boxed invocation in [Routing decision logic](#table-routing-decision-logic)) invokes the Routing rules business knowledge model, passing `Bureau data.Bankrupt` as the Bankrupt parameter, `Bureau data.CreditScore` as the Credit Score parameter, the output of the Post-bureau risk category decision as the Post-Bureau Risk Category parameter, and the output of the Post-bureau affordability decision as the Post-Bureau Affordability parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Bankrupt and Credit Score parameters will be null.
 
 - The **Routing rules** decision logic ([Routing rules decision logic](#table-routing-rules-decision-logic)) defines a complete, priority-ordered single hit decision table deriving Routing from Post-Bureau Risk Category, Post-Bureau Affordability, Bankrupt and Credit Score.
 
-- The **Post-bureau risk category** decision logic (shown as a boxed invocation in [Post-bureau risk category decision logic](#table-post-bureau-risk-category-decision-logic)) invokes the Post- bureau risk category business knowledge model, passing Applicant data. ExistingCustomer as the Existing Customer parameter, Bureau data. CreditScore as the Credit Score parameter, and the output of the
-
-> Application risk score decision as the Application Risk Score parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Credit Score parameter will be null.
+- The **Post-bureau risk category** decision logic (shown as a boxed invocation in [Post-bureau risk category decision logic](#table-post-bureau-risk-category-decision-logic)) invokes the Post-bureau risk category business knowledge model, passing `Applicant data.ExistingCustomer` as the Existing Customer parameter, `Bureau data.CreditScore` as the Credit Score parameter, and the output of the Application risk score decision as the Application Risk Score parameter. Note that if Bureau data is null (due to the THROUGH strategy bypassing the Collect bureau data task) the Credit Score parameter will be null.
 
 - The **Post-bureau risk category table** decision logic ([Post-bureau risk category table decision logic](#table-post-bureau-risk-category-table-decision-logic)) defines a complete, unique-hit decision table deriving Post-Bureau Risk Category from Existing Customer, Application Risk Score and Credit Score.
 
-- The **Pre-bureau affordability** decision logic (shown as a boxed invocation in [Pre-bureau affordability decision logic](#table-pre-bureau-affordability-decision-logic)) invokes the Affordability calculation business knowledge model, passing Applicant data. Monthly. Income as the Monthly Income parameter, Applicant data. Monthly. Repayments as the Monthly Repayments parameter, Applicant data. Monthly. Expenses as the Monthly Expenses parameter, the output of the Pre-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
+- The **Pre-bureau affordability** decision logic (shown as a boxed invocation in [Pre-bureau affordability decision logic](#table-pre-bureau-affordability-decision-logic)) invokes the Affordability calculation business knowledge model, passing `Applicant data.Monthly.Income` as the Monthly Income parameter, `Applicant data.Monthly.Repayments` as the Monthly Repayments parameter, `Applicant data.Monthly.Expenses` as the Monthly Expenses parameter, the output of the Pre-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
-- The **Post-bureau affordability** decision logic (shown as a boxed invocation in [Post-bureau affordability decision logic](#table-post-bureau-affordability-decision-logic)) invokes the Affordability calculation business knowledge model, passing Applicant data. Monthly. Income as the Monthly
+- The **Post-bureau affordability** decision logic (shown as a boxed invocation in [Post-bureau affordability decision logic](#table-post-bureau-affordability-decision-logic)) invokes the Affordability calculation business knowledge model, passing `Applicant data.Monthly.Income` as the Monthly
 
-> Income parameter, Applicant data. Monthly. Repayments as the Monthly Repayments parameter, Applicant data. Monthly. Expenses as the Monthly Expenses parameter, the output of the Post-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
+> Income parameter, `Applicant data.Monthly.Repayments` as the Monthly Repayments parameter, `Applicant data.Monthly.Expenses` as the Monthly Expenses parameter, the output of the Post-bureau risk category decision as the Risk Category parameter, and the output of the Required monthly installment decision as the Required Monthly Installment parameter.
 
 - The **Affordability calculation** decision logic ([Affordability calculation decision logic](#table-affordability-calculation-decision-logic)) defines a boxed function deriving Affordability from Monthly Income, Monthly Repayments, Monthly Expenses and Required Monthly Installment. One step in this calculation derives Credit contingency factor by invoking the Credit contingency factor table business knowledge model, passing the output of the Risk category decision as the Risk Category parameter.
 
 - The **Credit contingency factor table** decision logic ([Credit contingency factor table decision logic](#table-credit-contingency-factor-table-decision-logic)) defines a complete, unique-hit decision table deriving Credit contingency factor from Risk Category.
 
-- The **Required monthly installment** decision logic (shown as a boxed invocation in [Required monthly installment decision logic](#table-required-monthly-installment-decision-logic)) invokes the Installment calculation business knowledge model, passing Requested product. ProductType as the Product Type parameter, Requested product. Rate as the Rate parameter, Requested product. Term as the Term parameter and Requested product. Amount as the Amount parameter.
+- The **Required monthly installment** decision logic (shown as a boxed invocation in [Required monthly installment decision logic](#table-required-monthly-installment-decision-logic)) invokes the Installment calculation business knowledge model, passing `Requested product.ProductType` as the Product Type parameter, `Requested product.Rate` as the Rate parameter, `Requested product.Term` as the Term parameter and `Requested product.Amount` as the Amount parameter.
 
 - The **Installment calculation** decision logic ([Installment calculation decision logic](#table-installment-calculation-decision-logic)) defines a boxed function deriving monthly installment from Product Type, Rate, Term and Amount. One step in this calculation invokes an external function PMT, imported from a DMN XML file as “Financial”. [Financial.PMT decision logic](#table-financialpmt-decision-logic) shows the decision logic of PMT function.
-
-- 
 
 ###### Table: Strategy decision logic
 
@@ -727,7 +715,7 @@ The DRG in [DRD of all automated decision-making](Images/drd-of-all-automated-de
 <tr><td class="name" colspan="2">Disposable Income</td><td colspan="2">Monthly Income - (Monthly Repayments + Monthly Expenses)</td></tr>
 <tr><td class="name" rowspan="2" colspan="2">Credit Contingency Factor</td><td colspan="2">Credit contingency factor table</td></tr>
 <tr><td class="name">Risk Category</td><td>Risk Category</td></tr>
-<tr><td class="name" colspan="2">Affordability</td><td colspan="2">if Disposable Income &#42; Credit Contingency Factor &gt; Required Monthly Installment<br>then true<br>else false</td></tr>
+<tr><td class="name" colspan="2">Affordability</td><td colspan="2">if Disposable Income * Credit Contingency Factor &gt; Required Monthly Installment<br>then true<br>else false</td></tr>
 <tr><td colspan="4">Affordability</td></tr>
 </tbody>
 </table>
@@ -779,7 +767,7 @@ The DRG in [DRD of all automated decision-making](Images/drd-of-all-automated-de
 <thead><tr><th colspan="2">Financial.PMT</th></tr></thead>
 <tbody>
 <tr><td><strong>F</strong></td><td>(Rate, Term, Amount)</td></tr>
-<tr><td colspan="2">(Amount &#42;Rate/12) / (1 - (1 + Rate/12)&#42;&#42;-Term)</td></tr>
+<tr><td colspan="2">(Amount *Rate/12) / (1 - (1 + Rate/12)**-Term)</td></tr>
 </tbody>
 </table>
 
@@ -805,8 +793,6 @@ For convenience, we will specify case data using boxed expressions instead of XM
 <tr><td class="name">Expenses</td><td>100000</td></tr>
 </tbody>
 </table>
-
-**  **
 
 ###### Table: Requested Product input data sample
 
@@ -871,7 +857,7 @@ The input data elements include:
 
 - **Lender Ratings,** a structure of type *tLenderRatings* ([Type tLenderRatings, a collection of tLenderRating](#table-type-tlenderratings-a-collection-of-tlenderrating))
 
-The boxed expression format for the datatype definitions in [Type tProperty (non-normative representation)](#table-type-tproperty-non-normative-representation), [Type tBorrower](#table-type-tborrower), and [Type tLenderRatings, a collection of tLenderRating](#table-type-tlenderratings-a-collection-of-tlenderrating)is non- normative. [Type tProperty (non-normative representation)](#table-type-tproperty-non-normative-representation), for example, is a visualization of the XML representation of [Type tProperty (XML representation)](Images/type-tproperty-xml-representation.svg).
+The boxed expression format for the datatype definitions in [Type tProperty (non-normative representation)](#table-type-tproperty-non-normative-representation), [Type tBorrower](#table-type-tborrower), and [Type tLenderRatings, a collection of tLenderRating](#table-type-tlenderratings-a-collection-of-tlenderrating) is non-normative. [Type tProperty (non-normative representation)](#table-type-tproperty-non-normative-representation), for example, is a visualization of the XML representation of [Type tProperty (XML representation)](#example-2-ranked-loan-products).
 
 ###### Table: Type tProperty (non-normative representation)
 
@@ -889,7 +875,41 @@ The boxed expression format for the datatype definitions in [Type tProperty (non
 </tbody>
 </table>
 
-![Type tProperty (XML representation)](Images/type-tproperty-xml-representation.svg)
+**Type tProperty (XML representation)**
+
+```xml
+<semantic:itemDefinition name="tProperty" label="tProperty">
+  <semantic:itemComponent id="_5e820b14-1f14-44e2-bee1-a35fbedc477f" name="Address">
+    <semantic:itemComponent id="_d40919e3-168d-46dc-a7da-ccefeead8a49" name="Street">
+      <semantic:typeRef>string</semantic:typeRef>
+    </semantic:itemComponent>
+    <semantic:itemComponent id="_a03ae467-fb6a-46f0-ab1a-dc0992d81095" name="Unit">
+      <semantic:typeRef>string</semantic:typeRef>
+    </semantic:itemComponent>
+    <semantic:itemComponent id="_f902cd87-2c95-4b90-95cf-a2c6b1b87a1e" name="City">
+      <semantic:typeRef>string</semantic:typeRef>
+    </semantic:itemComponent>
+    <semantic:itemComponent id="_97f12b0d-be5c-4d42-abb5-d565599fee87" name="State">
+      <semantic:typeRef>string</semantic:typeRef>
+    </semantic:itemComponent>
+    <semantic:itemComponent id="_2fdc92bc-55da-4ff7-8a9d-c5213b69a0a8" name="ZIP">
+      <semantic:typeRef>string</semantic:typeRef>
+    </semantic:itemComponent>
+  </semantic:itemComponent>
+  <semantic:itemComponent id="_cc0e8c3f-ae44-4080-88db-555d8a2f8560" name="Purchase Price">
+    <semantic:typeRef>number</semantic:typeRef>
+  </semantic:itemComponent>
+  <semantic:itemComponent id="_ce17ee0b-f1e1-43cf-8a5e-4a18390fc6d6" name="Monthly Tax Payment">
+    <semantic:typeRef>number</semantic:typeRef>
+  </semantic:itemComponent>
+  <semantic:itemComponent id="_338c3f84-8ff7-404d-9b61-d211a5cebe4b" name="Monthly Insurance Payment">
+    <semantic:typeRef>number</semantic:typeRef>
+  </semantic:itemComponent>
+  <semantic:itemComponent id="_fe427d63-1cf3-4d2d-b268-f7e01dccad59" name="Monthly HOA Condo Fee">
+    <semantic:typeRef>number</semantic:typeRef>
+  </semantic:itemComponent>
+</semantic:itemDefinition>
+```
 
 ###### Table: Type tBorrower
 
@@ -982,10 +1002,10 @@ The **Recommended Loan Products** model imports another decision model **Loan In
 <table class="dmn-boxed-expression">
 <thead><tr><th colspan="3">Loan Data<br><em>tLoanData</em></th></tr></thead>
 <tbody>
-<tr><td>1</td><td class="name">Points Amount<br><em>Number</em></td><td>decimal((Property.Purchase Price - Down Payment)&#42;Loan Product.Points Pct/100,2)</td></tr>
+<tr><td>1</td><td class="name">Points Amount<br><em>Number</em></td><td>decimal((Property.Purchase Price - Down Payment)*Loan Product.Points Pct/100,2)</td></tr>
 <tr><td>2</td><td class="name">Note Amount<br><em>Number</em></td><td>Property.Purchase Price - Down Payment + Loan Product.Fees Amount + Points Amount</td></tr>
-<tr><td>3</td><td class="name">LTV<br><em>tPercent</em></td><td>decimal(100&#42;Note Amount/Property.Purchase Price,2)</td></tr>
-<tr><td>4</td><td class="name">Closing Costs<br><em>Number</em></td><td>decimal(0.02&#42;Note Amount,2)</td></tr>
+<tr><td>3</td><td class="name">LTV<br><em>tPercent</em></td><td>decimal(100*Note Amount/Property.Purchase Price,2)</td></tr>
+<tr><td>4</td><td class="name">Closing Costs<br><em>Number</em></td><td>decimal(0.02*Note Amount,2)</td></tr>
 <tr><td>5</td><td class="name">Funds Toward Purchase<br><em>Number</em></td><td>Note Amount - Loan Product.Fees Amount - Points Amount - Closing Costs</td></tr>
 <tr><td>6</td><td class="name">Interest Rate Percent<br><em>tPercent</em></td><td>Loan Product.Best Rate Pct + Rate Adjustment(Credit Score, LTV)</td></tr>
 <tr><td>7</td><td class="name">Qualifying Rate Percent<br><em>tPercent</em></td><td>if Loan Product.Type="Variable rate" then Interest Rate Percent+2 else Interest Rate Percent</td></tr>
@@ -997,7 +1017,7 @@ The **Recommended Loan Products** model imports another decision model **Loan In
 
 Within the service, **Loan Data** performs calculations used in the presentation decision, **Loan Info**. It is modeled as a context with no final result box, meaning every context entry creates a component of the result. (The text “Result” in the final result box is a tool artifact not in the spec, overwritten by a literal expression if the context has a final result box value.) A few things to note about the logic shown in [Loan Data](#table-loan-data):
 
-- FEEL arithmetic can create values with many digits following the decimal point. The function decimal(x, 2) rounds value x to 2 decimal places.
+- FEEL arithmetic can create values with many digits following the decimal point. The function `decimal(x, 2)` rounds value x to 2 decimal places.
 
 - Context entry Interest Rate Percent invokes the BKM **Rate Adjustment** ([BKM Rate Adjustment](#table-bkm-rate-adjustment)), a function of the borrower’s **Credit Score** and the loan-to-value ratio **LTV**. This increments the Loan Product’s interest rate by a small amount based on the loan risk.
 
@@ -1023,11 +1043,11 @@ The decision **Loan Info** ([Loan Info](#table-loan-info)), the output of **Serv
 <tr><td>1</td><td>&gt;=660</td><td>&lt;=60</td><td>0</td></tr>
 <tr><td>2</td><td>[620..660)</td><td>&lt;=60</td><td>0.125</td></tr>
 <tr><td>3</td><td>&gt;=700</td><td>&gt;60</td><td>0.125</td></tr>
-<tr><td>4</td><td>[660..700)</td><td>(60..70&#93;</td><td>0.125</td></tr>
-<tr><td>5</td><td>[620..660)</td><td>(60..70&#93;</td><td>0.25</td></tr>
+<tr><td>4</td><td>[660..700)</td><td>(60..70]</td><td>0.125</td></tr>
+<tr><td>5</td><td>[620..660)</td><td>(60..70]</td><td>0.25</td></tr>
 <tr><td>6</td><td>[680..700)</td><td>&gt;70</td><td>0.25</td></tr>
 <tr><td>7</td><td>[640..680)</td><td>&gt;70</td><td>0.375</td></tr>
-<tr><td>8</td><td>[620..640)</td><td>(70..80&#93;</td><td>0.375</td></tr>
+<tr><td>8</td><td>[620..640)</td><td>(70..80]</td><td>0.375</td></tr>
 <tr><td>9</td><td>[620..640)</td><td>&gt;80</td><td>0.5</td></tr>
 <tr><td>10</td><td>&lt;620</td><td>-</td><td>0.5</td></tr>
 </tbody>
@@ -1039,7 +1059,7 @@ The decision **Loan Info** ([Loan Info](#table-loan-info)), the output of **Serv
 <thead><tr><th colspan="2">payment<br><em>Number</em></th></tr></thead>
 <tbody>
 <tr><td><strong>F</strong></td><td>(p <em>Number</em>, r <em>Number</em>, n <em>Number</em>)</td></tr>
-<tr><td colspan="2">decimal(p&#42;r/12/(1-(1+r/12)&#42;&#42;-n),2)</td></tr>
+<tr><td colspan="2">decimal(p*r/12/(1-(1+r/12)**-n),2)</td></tr>
 </tbody>
 </table>
 
@@ -1066,7 +1086,7 @@ The decision **Loan Info** ([Loan Info](#table-loan-info)), the output of **Serv
 </tbody>
 </table>
 
-In the importing model, the decision **Loan Info Table** ([Loan Info Table](#table-loan-info-table)) iterates invocation of **Loan Info** over rows of **Loan Products.** It is modeled as a literal expression using the FEEL *for. . in. .return* operator. Here *x* is a range variable meaning one item in a list – one **Loan Product** in **Loan Products** – producing an argument of the function call.
+In the importing model, the decision **Loan Info Table** ([Loan Info Table](#table-loan-info-table)) iterates invocation of **Loan Info** over rows of **Loan Products.** It is modeled as a literal expression using the FEEL `for..in..return` operator. Here *x* is a range variable meaning one item in a list – one **Loan Product** in **Loan Products** – producing an argument of the function call.
 
 ###### Table: Loan Info Table
 
@@ -1103,7 +1123,7 @@ At the heart of the logic for determining eligibility for a particular loan is t
 </tbody>
 </table>
 
-**Min Credit Score** is called by the BKM **Eligibility,** which in turn calls the BKM **Eligibility Parameters** ([Eligibility Parameters](#table-eligibility-parameters)). **Eligibility Parameters** calculates the two key parameters of **Min Credit Score**, the debt-to-income ratio *DTI Pct*, and the liquid assets after closing, called *Reserves*. Note that context entry *Housing Expense*, which sums the loan payment, tax and insurance payments, and homeowner association/condo fee, must account for the possibility that the latter is left blank, i.e., null, in the input data **Property**, since adding null to a number gives null. To prevent this, instead of the + operator we use the *sum()* function on a list filtered by the condition *item != null.* We use this technique also on context entry *Income*.
+**Min Credit Score** is called by the BKM **Eligibility,** which in turn calls the BKM **Eligibility Parameters** ([Eligibility Parameters](#table-eligibility-parameters)). **Eligibility Parameters** calculates the two key parameters of **Min Credit Score**, the debt-to-income ratio *DTI Pct*, and the liquid assets after closing, called *Reserves*. Note that context entry *Housing Expense*, which sums the loan payment, tax and insurance payments, and homeowner association/condo fee, must account for the possibility that the latter is left blank, i.e., null, in the input data **Property**, since adding null to a number gives null. To prevent this, instead of the `+` operator we use the `sum()` function on a list filtered by the condition `item != null`. We use this technique also on context entry *Income*.
 
 ###### Table: Eligibility Parameters
 
@@ -1114,7 +1134,7 @@ At the heart of the logic for determining eligibility for a particular loan is t
 <tr><td>1</td><td class="name">Housing Expense<br><em>Number</em></td><td>sum([Loan Info.Qualifying Monthly Payment, Property.Monthly Tax Payment, Property.Monthly Insurance Payment, Property.Monthly HOA Condo Fee][item != null])</td></tr>
 <tr><td>2</td><td class="name">Non-Housing Debt Payments<br><em>Number</em></td><td>sum(Borrower.Liabilities[Type!="Real estate loan" and To be paid off =false].Monthly payment)</td></tr>
 <tr><td>3</td><td class="name">Income<br><em>Number</em></td><td>sum([Borrower.Employment Income, Borrower.Other Income][item != null])</td></tr>
-<tr><td>4</td><td class="name">DTI Pct<br><em>tPercent</em></td><td>decimal((Housing Expense+Non-Housing Debt Payments)/Income&#42;100,2)</td></tr>
+<tr><td>4</td><td class="name">DTI Pct<br><em>tPercent</em></td><td>decimal((Housing Expense+Non-Housing Debt Payments)/Income*100,2)</td></tr>
 <tr><td>5</td><td class="name">Liquid Assets Before Closing<br><em>Number</em></td><td>sum(Borrower.Assets[Type="Checking Savings Brokerage account"<br>or Type="Other Liquid"].Value)</td></tr>
 <tr><td>6</td><td class="name">Debts Paid Off By Closing<br><em>Number</em></td><td>sum(Borrower.Liabilities[Type!="Real estate loan"<br>and To be paid off=true].Balance[item!=null])</td></tr>
 <tr><td>7</td><td class="name">Liquid Assets After Closing<br><em>Number</em></td><td>Liquid Assets Before Closing - Debts Paid Off By Closing - Loan Info.Cash to Close</td></tr>
@@ -1123,13 +1143,13 @@ At the heart of the logic for determining eligibility for a particular loan is t
 </tbody>
 </table>
 
-For legibility, the BKM **Eligibility** is shown in two pieces ([Eligibility (top)](#table-eligibility-top)and [Eligibility (bottom)](#table-eligibility-bottom)). This BKM creates a row of type *tTableRow* for the decision **Eligibility Table**. It is modeled as a context, where the first four context entries ([Eligibility (bottom)](#table-eligibility-bottom)) call BKMs to determine values to populate the *Table Row* components.
+For legibility, the BKM **Eligibility** is shown in two pieces ([Eligibility (top)](#table-eligibility-top) and [Eligibility (bottom)](#table-eligibility-bottom)). This BKM creates a row of type *tTableRow* for the decision **Eligibility Table**. It is modeled as a context, where the first four context entries ([Eligibility (bottom)](#table-eligibility-bottom)) call BKMs to determine values to populate the *Table Row* components.
 
 - *Params* calls the BKM **Eligibility Parameters** for a given **Loan Product**.
 
 - *Required Credit Score* uses Params to call the BKM **Min Credit Score**, returning the minimum credit score required by that **Loan Product** for the Borrower to be eligible.
 
-- *Eligible* is a Boolean comparing the Borrower’s credit score to **Min Credit Score.** *Recommendation* uses the input data **Lender Ratings** in combination with **Eligible** to return a recommendation value for the **Loan Product**. *Recommendation* illustrates an alternative decision table syntax introduced in DMN 1.2 called generalized unary test. With generalized unary tests, a decision table input entry may be any FEEL expression, substituting ? for the input expression. For example, in the first column of this decision table the rules filter the **Lender Ratings** table for an item with *Lender Name* matching that of the **Loan Product** and *Customer Rating* in a specified range, returning true if that filter returns any values.
+- *Eligible* is a Boolean comparing the Borrower’s credit score to **Min Credit Score.** *Recommendation* uses the input data **Lender Ratings** in combination with **Eligible** to return a recommendation value for the **Loan Product**. *Recommendation* illustrates an alternative decision table syntax introduced in DMN 1.2 called generalized unary test. With generalized unary tests, a decision table input entry may be any FEEL expression, substituting `?` for the input expression. For example, in the first column of this decision table the rules filter the **Lender Ratings** table for an item with *Lender Name* matching that of the **Loan Product** and *Customer Rating* in a specified range, returning true if that filter returns any values.
 
 ###### Table: Eligibility (top)
 
@@ -1150,7 +1170,7 @@ For legibility, the BKM **Eligibility** is shown in two pieces ([Eligibility (to
 </tbody>
 </table>
 
-The rest of **Eligibility** is shown in[Eligibility (bottom)](#table-eligibility-bottom).
+The rest of **Eligibility** is shown in [Eligibility (bottom)](#table-eligibility-bottom).
 
 - *Table Row* is a nested context with no final result box value. Each context entry represents a column in the row.
 
@@ -1176,7 +1196,7 @@ The rest of **Eligibility** is shown in[Eligibility (bottom)](#table-eligibility
 </tbody>
 </table>
 
-The decision **Eligibility Table** ([Eligibility Table](#table-eligibility-table)) uses an alternative form of the *for. .in..return* operator to iterate over an index rather than iterate over list item values. This alterative format allows the returned expression to involve corresponding items in multiple lists, in this case **Loan Products** and **Loan Info Table**.
+The decision **Eligibility Table** ([Eligibility Table](#table-eligibility-table)) uses an alternative form of the `for..in..return` operator to iterate over an index rather than iterate over list item values. This alterative format allows the returned expression to involve corresponding items in multiple lists, in this case **Loan Products** and **Loan Info Table**.
 
 ###### Table: Eligibility Table
 
@@ -1201,13 +1221,11 @@ The top-level decision **Recommended Loan Products** ([Recommended Loan Products
 </tbody>
 </table>
 
-- The first context entry *precedes* is a function definition used by the FEEL *sort()* function. The second parameter of *sort()*, called the *precedes function*, is a Boolean function with two arguments representing list items. It returns true if the first argument precedes the second in the sorted list.
+- The first context entry *precedes* is a function definition used by the FEEL `sort()` function. The second parameter of `sort()`, called the *precedes function*, is a Boolean function with two arguments representing list items. It returns true if the first argument precedes the second in the sorted list.
 
-- The context entry *Sorted Table* performs the sort. With simple sort criteria, the precedes function is typically defined inline as an anonymous function using the keyword *function*, as in
-
-> sort(myTable, function(x, y) x.Amount \< y.Amount)
+- The context entry *Sorted Table* performs the sort. With simple sort criteria, the precedes function is typically defined inline as an anonymous function using the keyword `function`, as in `sort(myTable, function(x, y) x.Amount < y.Amount)`
 >
-> which sorts the rows of *myTable* in ascending order of the column *Amount*. However, in **Recommended Loan Products** we instead use a named precedes function, the context entry *precedes*. In that case, the name of the function provides the second argument of *sort().*
+> which sorts the rows of *myTable* in ascending order of the column *Amount*. However, in **Recommended Loan Products** we instead use a named precedes function, the context entry *precedes*. In that case, the name of the function provides the second argument of `sort()`.
 
 - The final result box iterates a call to the BKM **Format Row**, which executes a static Java method to format number values in *Sorted Table* as strings with a currency symbol and two digits following the decimal point.
 
@@ -1229,10 +1247,10 @@ The top-level decision **Recommended Loan Products** ([Recommended Loan Products
 <tr><td class="name" colspan="2">class</td><td>"java.lang.String"</td></tr>
 <tr><td class="name" colspan="2">method signature</td><td>"format( java.lang.String, [Ljava.lang.Object; )"</td></tr>
 <tr><td rowspan="8">2</td><td class="name" rowspan="8">formatted row<br><em>tformattedrow_1</em></td><td>1</td><td class="name">Product<br><em>Text</em></td><td>row.Product</td></tr>
-<tr><td>2</td><td class="name">Note Amount<br><em>Text</em></td><td>string format("&#36;%,4.2f", row.Note Amount)</td></tr>
+<tr><td>2</td><td class="name">Note Amount<br><em>Text</em></td><td>string format("$%,4.2f", row.Note Amount)</td></tr>
 <tr><td>3</td><td class="name">Interest Rate Pct<br><em>Text</em></td><td>string format(" %,4.2f", row.Interest Rate Pct)</td></tr>
-<tr><td>4</td><td class="name">Monthly Payment<br><em>Text</em></td><td>string format("&#36;%,4.2f", row.Monthly Payment)</td></tr>
-<tr><td>5</td><td class="name">Cash to Close<br><em>Text</em></td><td>string format("&#36;%,4.2f", row.Cash to Close)</td></tr>
+<tr><td>4</td><td class="name">Monthly Payment<br><em>Text</em></td><td>string format("$%,4.2f", row.Monthly Payment)</td></tr>
+<tr><td>5</td><td class="name">Cash to Close<br><em>Text</em></td><td>string format("$%,4.2f", row.Cash to Close)</td></tr>
 <tr><td>6</td><td class="name">Required Credit Score<br><em>tCreditScore<br>[300..850]</em></td><td>row.Required Credit Score</td></tr>
 <tr><td>7</td><td class="name">Recommendation<br><em>Text</em></td><td>row.Recommendation</td></tr>
 <tr><td colspan="3">Result</td></tr>
@@ -1247,12 +1265,12 @@ The top-level decision **Recommended Loan Products** ([Recommended Loan Products
 <table class="dmn-boxed-expression">
 <thead><tr><th class="name">Product</th><th class="name">Note Amount</th><th class="name">Interest Rate Pct</th><th class="name">Monthly Payment</th><th class="name">Cash to Close</th><th class="name">Required Credit Score</th><th class="name">Recommendation</th></tr></thead>
 <tbody>
-<tr><td>Lender B - ARM5/1-Standard</td><td>&#36;273,775.90</td><td>3.75</td><td>&#36;1,267.90</td><td>&#36;75,475.52</td><td>720</td><td>Good</td></tr>
-<tr><td>Lender C - Fixed30-Standard</td><td>&#36;274,599.40</td><td>3.88</td><td>&#36;1,291.27</td><td>&#36;75,491.99</td><td>680</td><td>Best</td></tr>
-<tr><td>Lender B - ARM5/1-NoPoints</td><td>&#36;271,776.00</td><td>4.00</td><td>&#36;1,297.50</td><td>&#36;75,435.52</td><td>720</td><td>Good</td></tr>
-<tr><td>Lender A - Fixed30-NoPoints</td><td>&#36;271,925.00</td><td>4.08</td><td>&#36;1,310.00</td><td>&#36;75,438.50</td><td>680</td><td>Best</td></tr>
-<tr><td>Lender C - Fixed15-Standard</td><td>&#36;274,045.90</td><td>3.38</td><td>&#36;1,942.33</td><td>&#36;75,480.92</td><td>720</td><td>Best</td></tr>
-<tr><td>Lender A - Fixed15-NoPoints</td><td>&#36;270,816.00</td><td>3.75</td><td>&#36;1,969.43</td><td>&#36;75,416.32</td><td>720</td><td>Best</td></tr>
+<tr><td>Lender B - ARM5/1-Standard</td><td>$273,775.90</td><td>3.75</td><td>$1,267.90</td><td>$75,475.52</td><td>720</td><td>Good</td></tr>
+<tr><td>Lender C - Fixed30-Standard</td><td>$274,599.40</td><td>3.88</td><td>$1,291.27</td><td>$75,491.99</td><td>680</td><td>Best</td></tr>
+<tr><td>Lender B - ARM5/1-NoPoints</td><td>$271,776.00</td><td>4.00</td><td>$1,297.50</td><td>$75,435.52</td><td>720</td><td>Good</td></tr>
+<tr><td>Lender A - Fixed30-NoPoints</td><td>$271,925.00</td><td>4.08</td><td>$1,310.00</td><td>$75,438.50</td><td>680</td><td>Best</td></tr>
+<tr><td>Lender C - Fixed15-Standard</td><td>$274,045.90</td><td>3.38</td><td>$1,942.33</td><td>$75,480.92</td><td>720</td><td>Best</td></tr>
+<tr><td>Lender A - Fixed15-NoPoints</td><td>$270,816.00</td><td>3.75</td><td>$1,969.43</td><td>$75,416.32</td><td>720</td><td>Best</td></tr>
 </tbody>
 </table>
 
