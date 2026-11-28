@@ -1,4 +1,4 @@
-# Preface {-}
+# Preface
 
 **About the Object Management Group**
 

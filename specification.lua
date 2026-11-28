@@ -605,7 +605,7 @@ end
 -- schematic layouts (Figures 8-5, 8-7, 8-12); highlight and invalid mark cells
 -- in illustrations (merged input entry cells allowed and not allowed, Figures
 -- 8-15, 8-16)
-local MARK = { optional = 'bg=dmnoptional, fg=white', highlight = 'bg=dmnhighlight', invalid = 'bg=dmninvalid, fg=white' }
+local MARK = { optional = 'bg=dmnoptional, fg=white', highlight = 'bg=dmnhighlight', invalid = 'bg=dmninvalid' }
 
 local function marks(tbl)
   local _, cells = grid(tbl)
@@ -621,6 +621,18 @@ local function marks(tbl)
     tbl.attributes['tblr-inner'] = (tbl.attributes['tblr-inner'] or '') .. ',\n  ' .. table.concat(inner, ',\n  ')
   end
   return tbl
+end
+
+-- Quotes in the notation are FEEL (string literals): straight, not the curly
+-- quotes of pandoc's smart typography
+local function straight_quotes(tbl)
+  return tbl:walk({ Quoted = function(q)
+    local mark = q.quotetype == 'DoubleQuote' and '"' or "'"
+    local out = pandoc.Inlines({ pandoc.Str(mark) })
+    out:extend(q.content)
+    out:insert(pandoc.Str(mark))
+    return out
+  end })
 end
 
 local function notation(tbl)
@@ -665,7 +677,7 @@ end
 
 function Pandoc(doc)
   doc = doc:walk{ Table = function(t)
-    if t.classes:includes('dmn-decision-table') or t.classes:includes('dmn-boxed-expression') then t = marks(notation(t)) end
+    if t.classes:includes('dmn-decision-table') or t.classes:includes('dmn-boxed-expression') then t = marks(notation(straight_quotes(t))) end
     return table_style(t)
   end }
   doc = doc:walk(feel)

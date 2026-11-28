@@ -37,7 +37,9 @@ include ./mdsa-omg-core/_core.mk
 
 # DMN: to give the PDF the pages of the Word PDF of DMN 1.7 Beta 1 (for a
 # page-by-page comparison with it), uncomment these lines: specification.lua then
-# starts pages where tools/dmn-pages.txt says. Only for the Markdown as converted
-# from Word; after edits, the pages no longer match.
+# starts pages where tools/dmn-pages.txt says. Also add \dmnwordpagestrue to
+# _Specification_AuthorSettings.tex, for the clause start pages of
+# Specification_Template.tex. Only for the Markdown as converted from Word;
+# after edits, the pages no longer match.
 #$(subst ${source}/,${build}/,$(subst .md,.tex,${markdowns})): ${build}/dmn-pages.txt
 #${build}/dmn-pages.txt: ${source}/tools/dmn-pages.txt ; mkdir -p "${build}" && cp $< $@

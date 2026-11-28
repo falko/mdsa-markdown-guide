@@ -64,13 +64,28 @@ In addition to the generic notation of **boxed expression**, this section specif
 
 The boxed expression for a decision table is defined in [Decision Table](08_Decision_Table.md#decision-table). Further types of boxed expressions are defined for FEEL, in [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel).
 
-Boxed expressions are defined recursively, *i.e.,* boxed expressions can contain other boxed expressions. The top-level boxed expression corresponds to the decision logic of a single DRG artifact. This boxed expression SHALL have a name box that contains the name of the DRG artifact. The name box may be attached in a single box on top, as shown in [Boxed Expression](Images/boxed-expression.svg):
+Boxed expressions are defined recursively, *i.e.,* boxed expressions can contain other boxed expressions. The top-level boxed expression corresponds to the decision logic of a single DRG artifact. This boxed expression SHALL have a name box that contains the name of the DRG artifact. The name box may be attached in a single box on top, as shown in [Boxed Expression](#table-boxed-expression):
 
-![Boxed Expression](Images/boxed-expression.svg)
+###### Table: Boxed Expression
 
-Alternatively, the name box and expression box can be separated by white space and connected on the left side with a line, as shown in [Boxed expression with separated name and expression boxes](Images/boxed-expression-with-separated-name-and-expression-boxes.svg):
+<table class="dmn-boxed-expression">
+<thead><tr><th>Name</th></tr></thead>
+<tbody>
+<tr><td>top-level boxed expression</td></tr>
+</tbody>
+</table>
 
-![Boxed expression with separated name and expression boxes](Images/boxed-expression-with-separated-name-and-expression-boxes.svg)
+Alternatively, the name box and expression box can be separated by white space and connected on the left side with a line, as shown in [Boxed expression with separated name and expression boxes](#table-boxed-expression-with-separated-name-and-expression-boxes):
+
+###### Table: Boxed expression with separated name and expression boxes
+
+<table class="dmn-boxed-expression">
+<thead><tr><th>Name</th></tr></thead>
+<tbody>
+<tr><td class="gap"></td></tr>
+<tr><td>top-level boxed expression</td></tr>
+</tbody>
+</table>
 
 Name is the only visual link defined between DRD elements and boxed expressions. Graphical tools are expected to support appropriate graphical links, for example, clicking on a decision shape opens a decision table. How the boxed expression is visually associated with the DRD element is left to the implementation.
 
@@ -80,11 +95,37 @@ In a boxed expression, a literal expression is represented by its text. However,
 
 #### Typographical string literals
 
-A string literal such as "DECLINED" can be represented alternatively as the italicized literal *DECLINED*. For example, [Decision table with italicized literals](Images/decision-table-with-italicized-literals.svg) is equivalent to [Decision table with string literals](Images/decision-table-with-string-literals.svg):
+A string literal such as "DECLINED" can be represented alternatively as the italicized literal *DECLINED*. For example, [Decision table with italicized literals](#table-decision-table-with-italicized-literals) is equivalent to [Decision table with string literals](#table-decision-table-with-string-literals):
 
-![Decision table with italicized literals](Images/decision-table-with-italicized-literals.svg)
+###### Table: Decision table with italicized literals
 
-![Decision table with string literals](Images/decision-table-with-string-literals.svg)
+<table class="dmn-decision-table">
+<colgroup><col class="hit-policy"><col class="input"><col class="output"></colgroup>
+<thead>
+<tr><th colspan="3">Credit contingency factor table</th></tr>
+<tr><th>U</th><th>Risk Category</th><th>Credit Contingency Factor</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><em>HIGH, DECLINE</em></td><td>0.6</td></tr>
+<tr><td>2</td><td><em>MEDIUM</em></td><td>0.7</td></tr>
+<tr><td>3</td><td><em>LOW, VERY LOW</em></td><td>0.8</td></tr>
+</tbody>
+</table>
+
+###### Table: Decision table with string literals
+
+<table class="dmn-decision-table">
+<colgroup><col class="hit-policy"><col class="input"><col class="output"></colgroup>
+<thead>
+<tr><th colspan="3">Credit contingency factor table</th></tr>
+<tr><th>U</th><th>Risk Category</th><th>Credit Contingency Factor</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>"HIGH", "DECLINE"</td><td>0.6</td></tr>
+<tr><td>2</td><td>"MEDIUM"</td><td>0.7</td></tr>
+<tr><td>3</td><td>"LOW", "VERY LOW"</td><td>0.8</td></tr>
+</tbody>
+</table>
 
 To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is "HIGH," "DECLINE," or "HIGH, DECLINE," typographical string literals SHALL be free of commas ("," characters). FEEL typographical string literals SHALL conform to grammar [division](10_Expression_Language_FEEL.md#rule-division) (name).
 
@@ -98,9 +139,20 @@ An invocation is a container for the parameter bindings that provide the context
 
 The representation of an invocation is the name of the business knowledge model with the parameters’ bindings explicitly listed.
 
-As a boxed expression, an invocation is represented by a box containing the name of the business knowledge model to be invoked, and boxes for a list of bindings, where each binding is represented by two boxed expressions on a row: the box on the left contains the name of a parameter, and the box on the right contains the binding expression, that is the expression whose value is assigned to the parameter for the purpose of evaluating the invoked business knowledge model (see [Boxed invocation](Images/boxed-invocation.svg)).
+As a boxed expression, an invocation is represented by a box containing the name of the business knowledge model to be invoked, and boxes for a list of bindings, where each binding is represented by two boxed expressions on a row: the box on the left contains the name of a parameter, and the box on the right contains the binding expression, that is the expression whose value is assigned to the parameter for the purpose of evaluating the invoked business knowledge model (see [Boxed invocation](#table-boxed-invocation)).
 
-![Boxed invocation](Images/boxed-invocation.svg)
+###### Table: Boxed invocation
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Name</th></tr></thead>
+<tbody>
+<tr><td colspan="2">invoked business knowledge model</td></tr>
+<tr><td class="name">parameter 1</td><td>Binding expression 1</td></tr>
+<tr><td colspan="2">...</td></tr>
+<tr><td class="name">parameter 2</td><td>Binding expression 2</td></tr>
+<tr><td class="name">parameter <em>n</em></td><td>Binding expression <em>n</em></td></tr>
+</tbody>
+</table>
 
 The invoked business knowledge model is represented by the name of the business knowledge model. Any other visual linkage is left to the implementation.
 

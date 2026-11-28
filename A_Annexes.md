@@ -1,5 +1,3 @@
-# ANNEXES {-}
-
 All the Annexes are informative.
 
 [Relation to BPMN (informative)](#relation-to-bpmn-informative). discuss issues around the application of **DMN** in combination with **BPMN**. This section is intended to provide some direction to practitioners but is non-normative.
@@ -76,7 +74,7 @@ In the latter case, a Decision Task (task used to make a decision using **DMN**)
 
 **DMN** offers two approaches to linking business process models in **BPMN** with decision models: one normative and the other non-normative:
 
-### a) Associating Decisions with Tasks and Processes {-}
+### Associating Decisions with Tasks and Processes
 
 As described in clause [Artifact metamodel](06_Requirements_DRG_and_DRD.md#artifact-metamodel), in **DMN**, the process context for an instance of Decision is defined by its association with any number of usingProcesses, which are instances of Process as defined in OMG **BPMN 2**, and any number of usingTasks, which are instances of Task as defined in OMG **BPMN 2**. Each decision may therefore be associated with one or more business processes (to indicate that the decision is taken during those processes), and/or with one or more specific tasks (to indicate that the tasks involve making the decision). An implementation SHALL allow these associations to be defined for each decision.
 
@@ -90,7 +88,7 @@ During development it may be appropriate to associate a Decision only with a Pro
 
 Note that this approach allows the relationships between business process models and decision models to be defined and validated but does not of itself permit the decisions modeled in **DMN** to be executed automatically by processes modeled in **BPMN**.
 
-### b) Decision Services {-}
+### Decision Services
 
 One approach to decision automation is described non-normatively in [Relation to BPMN (informative)](#relation-to-bpmn-informative): the encapsulation of **DMN** Decisions in a “decision service” called from a **BPMN** Task (e.g., a Service Task or Business Rule Task, as discussed in Annex A..3 above). The usingProcesses and usingTasks properties allow definition and validation of associations between **BPMN** and **DMN**; the definition of decision services then provides a detailed specification of the required interface.
 

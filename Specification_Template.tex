@@ -37,11 +37,14 @@
 
 \buildauthornames
 
-% As in DMN, each clause from Clause 5 on, the page "ANNEXES" and the annexes
-% start on the page they start on in the Word PDF of DMN, preceded by a page
-% "This page intentionally left blank.". If the clause before ends later, the
-% blank page is left out; if it ends earlier, empty pages fill the gap.
-% (\dmnblankpages is switched on before Clause 5.)
+% Each clause from Clause 5 on, the page "ANNEXES" and the annexes start on a
+% new page. With \dmnwordpagestrue (for a page-by-page comparison with the Word
+% PDF of DMN 1.7 Beta 1, together with the page starts of specification.lua,
+% see Makefile.mdsa), they start on the page they start on in the Word PDF,
+% preceded by a page "This page intentionally left blank.": if the clause
+% before ends later, the blank page is left out; if it ends earlier, empty
+% pages fill the gap. (\dmnblankpages is switched on before Clause 5.)
+\newif\ifdmnwordpages
 \newif\ifdmnblankpages
 \newcounter{dmnchapter}
 \newcommand{\dmnstartpage}{%
@@ -50,6 +53,8 @@
   241\or 243\or 248\else 0\fi}                                     % ANNEXES, A, B
 \newcommand{\dmnblankpage}{%
   \clearpage
+  \ifdmnwordpages\dmnwordpage\fi}
+\newcommand{\dmnwordpage}{%
   \stepcounter{dmnchapter}%
   \edef\dmntarget{\dmnstartpage}%
   \loop\ifnum\numexpr\value{page}+1<\dmntarget\relax
@@ -111,11 +116,11 @@
 \appendix
 % Annex figures are numbered A.1, A.2, ...
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
-% DMN numbers its table in Annex A "Table 111", as the last table of Clause 14
-\setcounter{table}{110}
+% The page "ANNEXES" (with the introduction at the top of A_Annexes.md)
+\chapter*{ANNEXES}\addcontentsline{toc}{chapter}{ANNEXES}
 \subimport{\userfiles}{A_Annexes}
 
 % The Word PDF of DMN ends with an empty page
-\clearpage\null
+\ifdmnwordpages\clearpage\null\fi
 
 \end{document}

@@ -26,7 +26,7 @@ All machine-readable files, including XSD, XMI and XML files, can be found at <h
 
 ### Document Structure
 
-A domain-specific set of model elements is interchanged in one or more **DMN** files. The root element of each file SHALL be \<DMN**:** Definitions\>. The set of files SHALL be self-contained, i.e., all definitions that are used in a file SHALL be imported directly or indirectly using the \<DMN**:** Import\> element.
+A domain-specific set of model elements is interchanged in one or more **DMN** files. The root element of each file SHALL be `<DMN:Definitions>`. The set of files SHALL be self-contained, i.e., all definitions that are used in a file SHALL be imported directly or indirectly using the `<DMN:Import>` element.
 
 Each file SHALL declare a “name space” that MAY differ between multiple files of one model.
 
@@ -42,15 +42,15 @@ Starting from DMN 1.7, the XML namespace URIs for backwards-compatible 1.x versi
 
 - <https://www.omg.org/spec/DMN/B-FEEL/> for the B-FEEL expression language
 
-The \<dmn:definitions\> root element of a DMN XML file MUST indicate the concrete DMN version that is used in the file by setting the dmnVersion attribute, e.g.:
+The `<dmn:definitions>` root element of a DMN XML file MUST indicate the concrete DMN version that is used in the file by setting the dmnVersion attribute, e.g.:
 
-```
+```xml
 <dmn:definitions dmnVersion="1.7" ...
 ```
 
-In addition, the \<dmn:definitions\> root element SHOULD include an xsi:schemaLocation attribute that points to the XML schema files for all namespaces, i.e. the URLs of the XSDs that are publicly hosted by OMG without dated version stamps, e.g.
+In addition, the `<dmn:definitions>` root element SHOULD include an xsi:schemaLocation attribute that points to the XML schema files for all namespaces, i.e. the URLs of the XSDs that are publicly hosted by OMG without dated version stamps, e.g.
 
-```
+```xml
 <dmn:definitions dmnVersion="1.7" ...
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="
@@ -71,11 +71,17 @@ Many **DMN** elements that may need to be referenced contain IDs and within the 
 
 For example, consider the following Decision:
 
-\<decision name="Pre-Bureau Risk Category" id="prebureauriskDec01"\>...\</decision\>
+```xml
+<decision name="Pre-Bureau Risk Category" id="prebureauriskDec01">...</decision>
+```
 
-When this Decision is referenced, e.g., by an InformationRequirement in a Decision that is defined in another file, the reference could take the following form:  
-\<requiredDecision href=”<http://www.example.org/Definitions01#prebureauriskDec01>”/\>  
-where “<http://www.example.org/Definitions01>” is a URI representing the namespace of the model specified in the DMN file. When the Decision is referenced in the same file, the reference could take both of the following forms: \<requiredDecision href=”http://www.example.org/Definitions01.xml#prebureauriskDec01”/\> or \<requiredDecision href=”#prebureauriskDec01”/\>
+When this Decision is referenced, e.g., by an InformationRequirement in a Decision that is defined in another file, the reference could take the following form:
+
+```xml
+<requiredDecision href="http://www.example.org/Definitions01#prebureauriskDec01"/>
+```
+
+where `http://www.example.org/Definitions01` is a URI representing the namespace of the model specified in the DMN file. When the Decision is referenced in the same file, the reference could take both of the following forms: `<requiredDecision href="http://www.example.org/Definitions01.xml#prebureauriskDec01"/>` or `<requiredDecision href="#prebureauriskDec01"/>`
 
 Notice that the **BPMN** processes and tasks that use a decision are referenced using the href attribute as well:
 

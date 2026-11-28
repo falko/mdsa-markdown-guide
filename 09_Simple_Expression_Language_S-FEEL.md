@@ -14,52 +14,52 @@ The syntax for the S-FEEL expressions used in this section is specified in the E
 
 **Grammar rules**:
 
-1. expression = simple expression ;
-1. arithmetic expression =
-   1. <a id="rule-s-feel-arithmetic-expression-a"></a>addition | subtraction |
-   1. <a id="rule-s-feel-arithmetic-expression-b"></a>multiplication | division |
-   1. <a id="rule-s-feel-arithmetic-expression-c"></a>exponentiation |
-   1. <a id="rule-s-feel-arithmetic-expression-d"></a>arithmetic negation ;
+1. <a id="rule-s-feel-expression"></a>expression = simple expression ;
+1. <a id="rule-s-feel-arithmetic-expression"></a>arithmetic expression =
+   1. <a id="rule-s-feel-arithmetic-expression-i"></a>addition | subtraction |
+   1. <a id="rule-s-feel-arithmetic-expression-ii"></a>multiplication | division |
+   1. <a id="rule-s-feel-arithmetic-expression-iii"></a>exponentiation |
+   1. <a id="rule-s-feel-arithmetic-expression-iv"></a>arithmetic negation ;
 1. <a id="rule-s-feel-simple-expression"></a>simple expression = arithmetic expression | simple value | comparison ;
-1. simple expressions = simple expression , { "," , simple expression } ;
-1. simple positive unary test =
-   1. \[ "\<" | "\<=" | "\>" | "\>=" \] , endpoint |
-   1. interval ;
-1. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
-1. open interval start = "(" | "\]" ;
-1. closed interval start = "\[" ;
-1. open interval end = ")" | "\[" ;
-1. closed interval end = "\]" ;
-1. simple positive unary tests = simple positive unary test , { "," , simple positive unary test } ;
+1. <a id="rule-s-feel-simple-expressions"></a>simple expressions = simple expression , { "," , simple expression } ;
+1. <a id="rule-s-feel-simple-positive-unary-test"></a>simple positive unary test =
+   1. <a id="rule-s-feel-simple-positive-unary-test-i"></a>\[ "\<" | "\<=" | "\>" | "\>=" \] , endpoint |
+   1. <a id="rule-s-feel-simple-positive-unary-test-ii"></a>interval ;
+1. <a id="rule-s-feel-interval"></a>interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
+1. <a id="rule-s-feel-open-interval-start"></a>open interval start = "(" | "\]" ;
+1. <a id="rule-s-feel-closed-interval-start"></a>closed interval start = "\[" ;
+1. <a id="rule-s-feel-open-interval-end"></a>open interval end = ")" | "\[" ;
+1. <a id="rule-s-feel-closed-interval-end"></a>closed interval end = "\]" ;
+1. <a id="rule-s-feel-simple-positive-unary-tests"></a>simple positive unary tests = simple positive unary test , { "," , simple positive unary test } ;
 1. <a id="rule-s-feel-simple-unary-tests"></a>simple unary tests =
-   1. simple positive unary tests |
-   1. "not", "(", simple positive unary tests, ")" |
-   1. "-";
-1. endpoint = simple value ;
-1. simple value = qualified name | simple literal ;
-1. qualified name = name , { "." , name } ;
-1. addition = expression , "+" , expression ;
-1. subtraction = expression , "-" , expression ;
-1. multiplication = expression , "\*" , expression ;
-1. division = expression , "/" , expression ;
-1. exponentiation = expression, "\*\*", expression ;
-1. arithmetic negation = "-" , expression ;
-1. name = name start , { name part | additional name symbols } ;
-1. name start = name start char, { name part char } ;
-1. name part = name part char , { name part char } ;
-1. name start char = "?" | \[A-Z\] | "\_" | \[a-z\] | \[\\uC0-\\uD6\] | \[\\uD8-\\uF6\] | \[\\uF8-\\u2FF\] | \[\\u370-\\u37D\] | \[\\u37F\\u1FFF\] | \[\\u200C-\\u200D\] | \[\\u2070-\\u218F\] | \[\\u2C00-\\u2FEF\] | \[\\u3001-\\uD7FF\] | \[\\uF900-\\uFDCF\] | \[\\uFDF0-\\uFFFD\] | \[\\u1 0000-\\uEFFFF\] ;
-1. name part char = name start char | digit | \\uB7 | \[\\u0300-\\u036F\] | \[\\u203F-\\u2040\] ;
-1. additional name symbols = "." | "/" | "-" | """'" | "+" | "\*" ;
-1. simple literal = numeric literal | string literal | boolean literal | date time literal ;
-1. string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
-1. boolean literal = "true" | "false" ;
-1. numeric literal = \[ "-" \] , ( digits , \[ ".", digits \] | "." , digits ) ;
-1. digit = \[0-9\] ;
-1. digits = digit , {digit} ;
-1. 34 date time literal = ("date" | "time" | "duration" | "days and time duration" | "years and months duration") , "(" , string literal , ")" ;comparison = expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression ;
+   1. <a id="rule-s-feel-simple-unary-tests-i"></a>simple positive unary tests |
+   1. <a id="rule-s-feel-simple-unary-tests-ii"></a>"not", "(", simple positive unary tests, ")" |
+   1. <a id="rule-s-feel-simple-unary-tests-iii"></a>"-";
+1. <a id="rule-s-feel-endpoint"></a>endpoint = simple value ;
+1. <a id="rule-s-feel-simple-value"></a>simple value = qualified name | simple literal ;
+1. <a id="rule-s-feel-qualified-name"></a>qualified name = name , { "." , name } ;
+1. <a id="rule-s-feel-addition"></a>addition = expression , "+" , expression ;
+1. <a id="rule-s-feel-subtraction"></a>subtraction = expression , "-" , expression ;
+1. <a id="rule-s-feel-multiplication"></a>multiplication = expression , "\*" , expression ;
+1. <a id="rule-s-feel-division"></a>division = expression , "/" , expression ;
+1. <a id="rule-s-feel-exponentiation"></a>exponentiation = expression, "\*\*", expression ;
+1. <a id="rule-s-feel-arithmetic-negation"></a>arithmetic negation = "-" , expression ;
+1. <a id="rule-s-feel-name"></a>name = name start , { name part | additional name symbols } ;
+1. <a id="rule-s-feel-name-start"></a>name start = name start char, { name part char } ;
+1. <a id="rule-s-feel-name-part"></a>name part = name part char , { name part char } ;
+1. <a id="rule-s-feel-name-start-char"></a>name start char = "?" | \[A-Z\] | "\_" | \[a-z\] | \[\\uC0-\\uD6\] | \[\\uD8-\\uF6\] | \[\\uF8-\\u2FF\] | \[\\u370-\\u37D\] | \[\\u37F\\u1FFF\] | \[\\u200C-\\u200D\] | \[\\u2070-\\u218F\] | \[\\u2C00-\\u2FEF\] | \[\\u3001-\\uD7FF\] | \[\\uF900-\\uFDCF\] | \[\\uFDF0-\\uFFFD\] | \[\\u1 0000-\\uEFFFF\] ;
+1. <a id="rule-s-feel-name-part-char"></a>name part char = name start char | digit | \\uB7 | \[\\u0300-\\u036F\] | \[\\u203F-\\u2040\] ;
+1. <a id="rule-s-feel-additional-name-symbols"></a>additional name symbols = "." | "/" | "-" | """'" | "+" | "\*" ;
+1. <a id="rule-s-feel-simple-literal"></a>simple literal = numeric literal | string literal | boolean literal | date time literal ;
+1. <a id="rule-s-feel-string-literal"></a>string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
+1. <a id="rule-s-feel-boolean-literal"></a>boolean literal = "true" | "false" ;
+1. <a id="rule-s-feel-numeric-literal"></a>numeric literal = \[ "-" \] , ( digits , \[ ".", digits \] | "." , digits ) ;
+1. <a id="rule-s-feel-digit"></a>digit = \[0-9\] ;
+1. <a id="rule-s-feel-digits"></a>digits = digit , {digit} ;
+1. <a id="rule-s-feel-date-time-literal"></a>date time literal = ("date" | "time" | "duration" | "days and time duration" | "years and months duration") , "(" , string literal , ")" ;comparison = expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression ;
 1. <a id="rule-s-feel-white-space"></a>white space = vertical space | \\u0009 | \\u0020 | \\u0085 | \\u00A0 | \\u1 680 | \\u1 80E | \[\\u2000-\\u200B\] | \\u2028 | \\u2029 | \\u202F | \\u205F | \\u3000 | \\uFEFF ;
-1. vertical space = \[\\u000A-\\u000D\];
-1. string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | "\\u", hex digit, hex digit, hex digit, hex digit;
+1. <a id="rule-s-feel-vertical-space"></a>vertical space = \[\\u000A-\\u000D\];
+1. <a id="rule-s-feel-string-escape-sequence"></a>string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | "\\u", hex digit, hex digit, hex digit, hex digit;
 
 ## S-FEEL data types
 
@@ -83,7 +83,7 @@ S-FEEL contains only a limited set of basic features that are common to most exp
 
 The semantics of S-FEEL expressions are defined in this section, in terms of the semantics of the XML Schema datatypes and the XQuery 3.1 and XPath 3.1 Data Model datatypes, and in terms of the corresponding functions and operators defined by XQuery 3.1 and XPath 3.1 Functions and Operators (prefixed by “op:” below). A complete standalone specification of the semantics is to be found in clause [Semantics](10_Expression_Language_FEEL.md#semantics), as part of the definition of FEEL. Within the scope of S- FEEL, the two definitions are equivalent and equally normative.
 
-Arithmetic addition and subtraction (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-a)) have the same semantics as:
+Arithmetic addition and subtraction (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-i)) have the same semantics as:
 
 - op:numeric-add and op:numeric-subtract, when its two operands are numbers.
 
@@ -101,11 +101,11 @@ In addition, arithmetic subtraction has the semantics of op:subtract-dates or op
 
 Arithmetic addition and subtraction are not defined in other cases.
 
-Arithmetic multiplication and division (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-b)) have the same semantics as defined for op:numeric-multiply and op:numeric-divide, respectively, when the two operands are numbers. They are not defined otherwise.
+Arithmetic multiplication and division (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-ii)) have the same semantics as defined for op:numeric-multiply and op:numeric-divide, respectively, when the two operands are numbers. They are not defined otherwise.
 
-Arithmetic exponentiation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-c)) is defined as the result of raising the first operand to the power of the second operand, when the two operands are numbers. It is not defined in other cases.
+Arithmetic exponentiation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-iii)) is defined as the result of raising the first operand to the power of the second operand, when the two operands are numbers. It is not defined in other cases.
 
-Arithmetic negation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-d)) is defined only when its operand is a number: in that case, its semantics is according to the specification of op:numeric-unary-minus.
+Arithmetic negation (grammar [arithmetic expression](#rule-s-feel-arithmetic-expression-iv)) is defined only when its operand is a number: in that case, its semantics is according to the specification of op:numeric-unary-minus.
 
 Comparison operators (grammar [white space](#rule-s-feel-white-space)) between numbers are defined according to the specification of op:numericequal, op-numeric-less-than and op:numeric-greater-than, comparisons between dates are defined according to the specification of op:date-equal, op:date-less-than and op:date-greater-than; comparisons between times are defined according to the specification of op:time-equal, op:time-less-than and op:time-greater-than; comparisons between years and months durations are defined according to the specification of op:duration-equal,
 
