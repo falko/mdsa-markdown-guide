@@ -117,15 +117,15 @@ Comparison operators are defined only when the two operands have the same type, 
 
 Given an expression o to be tested and two endpoint e1 and e2:
 
-- is in the interval (e1..e2), also notated \]e1..e2\[, if and only if o \> e1 and o \< e1
+- is in the interval `(e1..e2)`, also notated `]e1..e2[`, if and only if `o > e1 and o < e1`
 
-- is in the interval (e1..e2\], also notated \]e1..e2\], if and only if o \> e1 and o ≤ e2
+- is in the interval `(e1..e2]`, also notated `]e1..e2]`, if and only if o \> e1 and o ≤ e2
 
-- is in the interval \[e1..e2\] if and only if o ≥ e1 and o ≤ e2
+- is in the interval `[e1..e2]` if and only if o ≥ e1 and o ≤ e2
 
-- is in the interval \[e1..e2), also notated \[e1..e2\[, if and only if o ≥ e1 and o \< e2
+- is in the interval `[e1..e2)`, also notated `[e1..e2[`, if and only if o ≥ e1 and o \< e2
 
-An expression to be tested satisfies an instance of simple unary tests (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)) if and only if, either the expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is “-”.
+An expression to be tested satisfies an instance of simple unary tests (grammar [simple unary tests](#rule-s-feel-simple-unary-tests)) if and only if, either the expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is `-`.
 
 ## Use of S-FEEL expressions
 

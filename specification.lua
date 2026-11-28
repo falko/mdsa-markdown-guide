@@ -25,7 +25,8 @@ dmn-boxed-expression), as described in the guide (guide/10_Tables.md,
 "Specification-specific table styles"); this filter adds the tabularray
 settings of the notation (see guide/specification.lua for the details). DMN
 also has cells of class optional (inverse, in the schematic layouts),
-highlight and invalid (in illustrations).
+highlight and invalid (in illustrations), and in boxed expressions rows of
+class double-line (a double line above the row, as between list items).
 
 FEEL: inline code is FEEL, highlighted with the listings language FEEL
 (_Specification_AuthorSettings.tex), unless it starts with "<" (XML) or has a
@@ -562,6 +563,11 @@ local function boxed_lines(rows, owner, n)
   local segments = {}
   local function add(kind_, i, from, to)
     table.insert(segments, ('%s{%d}={1}{%d-%d}{solid}'):format(kind_, i, from, to))
+    -- a row of class double-line has a double line above it (e.g. between the
+    -- items of a boxed list, Figure 10-12)
+    if kind_ == 'hline' and rows[i] and rows[i].attr.classes:includes('double-line') then
+      table.insert(segments, ('%s{%d}={2}{%d-%d}{solid}'):format(kind_, i, from, to))
+    end
   end
   for i = 1, R + 1 do -- hline i is above row i
     local start

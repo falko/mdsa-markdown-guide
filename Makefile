@@ -22,7 +22,7 @@
 # To use a pandoc based workflow, use 'make pandoc' instead of 'make'. i.e. `make pandoc build` or `make pandoc all`
 #
 
-.PHONY: all build run debug check clean help pandoc _core_checkout
+.PHONY: all build run debug check clean help pandoc _core_checkout _core_update
 
 help:
 	    @echo "Makefile arguments:"
@@ -99,7 +99,7 @@ core_repository ?= https://github.com/falko/mdsa-omg-core.git
 core_ref ?= clause-autoinclude
 core ?= .ci/mdsa-omg-core
 # Checkout of the core, if it does not exist yet
-_core = $(if ${core},$(if $(wildcard ${core}),,_core_checkout))
+_core = $(if ${core},$(if $(wildcard ${core}),$(if $(filter .ci/%,${core}),_core_update),_core_checkout))
 # In GitHub Actions, the build reports problems as annotations on the changed lines
 _runargs = -v "${CURDIR}:/source" $(if ${core},-v "$(abspath ${core}):/app/mdsa-omg-core:ro") \
 	$(if ${GITHUB_ACTIONS},-e GITHUB_ACTIONS)
@@ -133,6 +133,11 @@ interactive: ${_core}
 
 _core_checkout:
 	${git} clone --depth 1 --branch ${core_ref} ${core_repository} "${core}"
+
+# The checkout in .ci/ follows its branch (which may be rebased); a checkout given
+# with core=... is never touched. Offline, the existing checkout is used.
+_core_update:
+	-@${git} -C "${core}" fetch -q --depth 1 origin ${core_ref} && ${git} -C "${core}" reset -q --hard FETCH_HEAD
 
 run: build ${_core}
 	@echo Building PDF

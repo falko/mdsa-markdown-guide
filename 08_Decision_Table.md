@@ -32,22 +32,28 @@ The decision table shows the rules in a shorthand notation by arranging the entr
 
 For example:
 
-<table>
-<tr><td>Customer</td><td>OrderSize</td><td>Discount</td></tr>
-<tr><td>
-
-*Business*
-
-</td><td>&lt;10</td><td>0.10</td></tr>
+<table class="dmn-decision-table">
+<colgroup><col class="input"><col class="input"><col class="output"></colgroup>
+<thead>
+<tr><th>Customer</th><th>OrderSize</th><th>Discount</th></tr>
+</thead>
+<tbody>
+<tr><td><em>Business</em></td><td>&lt;10</td><td>0.10</td></tr>
+</tbody>
 </table>
 
 reads as:
 
-**If** Customer = “Business” **and** OrderSize \< 10 **then** Discount = 0.10 In general, this is expressed as:
+**If** `Customer = "Business"` **and** `OrderSize < 10` **then** `Discount = 0.10` In general, this is expressed as:
 
-<table>
-<tr><td>input expression 1</td><td>input expression 2</td><td>Output label</td></tr>
-<tr><td>input entry a</td><td>input entry b</td><td>output entry c</td></tr>
+<table class="dmn-decision-table">
+<colgroup><col class="input"><col class="input"><col class="output"></colgroup>
+<thead>
+<tr><th>input expression 1</th><th>input expression 2</th><th>Output label</th></tr>
+</thead>
+<tbody>
+<tr><td class="highlight">input entry a</td><td class="highlight">input entry b</td><td class="highlight">output entry c</td></tr>
+</tbody>
 </table>
 
 The three highlighted cells in the decision table fragment above represent the following rule:
@@ -58,13 +64,13 @@ The three highlighted cells in the decision table fragment above represent the f
 
 **then** the rule *matches* and the result of the decision table is output entry c.
 
-An input expression value *satisfies* an input entry if the value is equal to the input entry or belongs to the list of values indicated by the input entry (e.g., a list or a range), or one of the expressions in the input entry evaluates to true. For the complete specification of the input entry satisfaction conditions, please refer to section [Decision Rule metamodel](#decision-rule-metamodel). If the input entry is ‘-’ (meaning *irrelevant*), every value of the input expression satisfies the input entry, and that particular input is irrelevant in the specified rule.
+An input expression value *satisfies* an input entry if the value is equal to the input entry or belongs to the list of values indicated by the input entry (e.g., a list or a range), or one of the expressions in the input entry evaluates to true. For the complete specification of the input entry satisfaction conditions, please refer to section [Decision Rule metamodel](#decision-rule-metamodel). If the input entry is `-` (meaning *irrelevant*), every value of the input expression satisfies the input entry, and that particular input is irrelevant in the specified rule.
 
 A rule *matches* if the value of every input expression satisfies the corresponding input entry. If there are no input entries, any rule matches.
 
 The list of rules expresses the logic of the decision. For a given set of input values, the matching rule (or rules) indicate the resulting value for the output name. If rules *overlap*, multiple rules can match, and a *hit policy* indicates how to handle the multiple matches.
 
-If two input entries of the same input expression share no values, the entries (cells) are called *disjoint*. If there is an intersection, the entries are called *overlapping* (or even equal). ‘Irrelevant’ (‘-’) overlaps with any input entry of the input expression.
+If two input entries of the same input expression share no values, the entries (cells) are called *disjoint*. If there is an intersection, the entries are called *overlapping* (or even equal). ‘Irrelevant’ (`-`) overlaps with any input entry of the input expression.
 
 Two rules are overlapping if all corresponding input entries are *overlapping*. A specific configuration of input data may then match the two rules.
 
@@ -104,7 +110,7 @@ Decision table inputs and outputs should not be mixed. In a horizontal table, al
 
 The table SHALL be arranged in one of the following ways (see [Rules as rows - schematic layout](#table-rules-as-rows---schematic-layout), [Rules as columns - schematic layout](#table-rules-as-columns---schematic-layout), [Rules as crosstab - schematic layout (optional input and output values not shown)](#table-rules-as-crosstab---schematic-layout-optional-input-and-output-values-not-shown)). Cells indicated in inverse are optional.
 
-The input cell entry ‘-’ means ‘irrelevant’. HC is a placeholder for hit policy indicator (e.g., U, A, F, ...).
+The input cell entry `-` means ‘irrelevant’. HC is a placeholder for hit policy indicator (e.g., U, A, F, ...).
 
 ###### Table: Rules as rows - schematic layout
 
@@ -212,7 +218,7 @@ Crosstab tables with more than two inputs are possible (as shown in [Rules as cr
 
 ### Input expressions
 
-Input expressions are usually simple, for example, a name (e.g., CustomerStatus) or a test (e.g., Age\<25). The order of input expressions is not related to any execution order in implementation.
+Input expressions are usually simple, for example, a name (e.g., `CustomerStatus`) or a test (e.g., `Age<25`). The order of input expressions is not related to any execution order in implementation.
 
 ### Input values
 
@@ -220,7 +226,7 @@ Input expressions may be expected to result in a limited number or a limited ran
 
 Regardless of how the expected input values are modeled, input values SHOULD be exclusive and complete. Exclusive means that input values are disjoint. Complete means that all relevant input values from the domain are present.
 
-For example, the following two input value ranges overlap: \<5, \<10. The following two ranges are incomplete: \<5, \>5. The list of input values is optional. If provided, it is a list of unary tests that must be satisfied by the corresponding input.
+For example, the following two input value ranges overlap: `<5`, `<10`. The following two ranges are incomplete: `<5`, `>5`. The list of input values is optional. If provided, it is a list of unary tests that must be satisfied by the corresponding input.
 
 ### Information Item names, output labels, and output component names
 
@@ -294,13 +300,13 @@ The decision table can show a compound output (see [Horizontal table with multip
 
 Rule input entries are unary tests (grammar [unary tests](10_Expression_Language_FEEL.md#rule-unary-tests)).
 
-A dash symbol (‘-’) can be used to mean any input value, *i.e.,* the input is irrelevant for the containing rule.
+A dash symbol (`-`) can be used to mean any input value, *i.e.,* the input is irrelevant for the containing rule.
 
-The input entries in a unary test SHOULD be ‘-’ or a subset of the input values specified. For example, if the input values for input ‘Age’ are specified as *\[0..120\]*, then an input entry of *\<0* SHOULD be reported as invalid.
+The input entries in a unary test SHOULD be `-` or a subset of the input values specified. For example, if the input values for input `Age` are specified as `[0..120]`, then an input entry of `<0` SHOULD be reported as invalid.
 
-Tables containing at least one ‘-’ input entry are called *contracted* tables. The others are called *expanded*.
+Tables containing at least one `-` input entry are called *contracted* tables. The others are called *expanded*.
 
-Tables where every input entry is *true, false, or ‘-*’ are historically called *limited-entry* tables, but there is no need to maintain this restriction.
+Tables where every input entry is `true`, `false`, or `-` are historically called *limited-entry* tables, but there is no need to maintain this restriction.
 
 Evaluation of the input expressions in a decision table does not produce side-effects that influence the evaluation of other input expressions. This means that evaluating an expression or executing a rule should not change the evaluation of other expressions or rules of the same table. This is particularly important in first hit tables where the rules are evaluated in a predefined sequence: evaluating or executing a rule should not influence other rules.
 
@@ -441,7 +447,7 @@ Decision tables with compound outputs support only the following hit policies: U
 
 For the Priority and Output order hit policies, priority is decided in compound output tables over all the outputs for which output values have been provided (ignoring rule annotations). The priority for each output is specified in the ordered list of output values in decreasing order of priority, and the overall priority is established by considering the ordered outputs from left to right in horizontal tables (i.e., columns to the left take precedence over columns to the right), or from top to bottom in vertical tables. Outputs for which no output values are provided are not considered in the ordering, although their output entries are included in the ordered compound output.
 
-So, for example, if called with Age = 17, Risk category = “HIGH” and Debt review = true, the Routing rules table in [Output order with compound output](#table-output-order-with-compound-output) would return the outputs of all four rules, in the order 2, 4, 3, 1.
+So, for example, if called with `Age = 17`, `Risk category = "HIGH"` and `Debt review = true`, the Routing rules table in [Output order with compound output](#table-output-order-with-compound-output) would return the outputs of all four rules, in the order 2, 4, 3, 1.
 
 ###### Table: Output order with compound output
 

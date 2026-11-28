@@ -4,7 +4,7 @@
 
 [Requirements (DRG and DRD)](06_Requirements_DRG_and_DRD.md#requirements-drg-and-drd) described how the decision requirements level of a decision model – a DRG represented in one or more DRDs – may be used to model the structure of an area of decision making. However, the details of how each decision's outcome is derived from its inputs must be modeled at the decision logic level. This section introduces the principles by which decision logic may be associated with elements in the DRG. Specific representations of decision logic (decision tables and FEEL expressions) are then defined in clauses [Decision Table](08_Decision_Table.md#decision-table), [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) and [Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel).
 
-The decision logic level of a decision model in **DMN** consists of one or more value expressions. The elements of decision logic modeled as value expressions include tabular expressions such as decision tables and invocations, and literal (text) expressions such as *age \> 30*.
+The decision logic level of a decision model in **DMN** consists of one or more value expressions. The elements of decision logic modeled as value expressions include tabular expressions such as decision tables and invocations, and literal (text) expressions such as `age > 30`.
 
 - A **literal expression** represents decision logic as text that describes how an output value is derived from its input values. The expression language may, but need not, be formal or executable: examples of literal expressions include a plain English description of the logic of a decision, a first order logic proposition, a Java computer program and a PMML document or ONNX file. Clause[Expression Language (FEEL)](10_Expression_Language_FEEL.md#expression-language-feel) specifies an executable expression language called **FEEL**. [Simple Expression Language (S-FEEL)](09_Simple_Expression_Language_S-FEEL.md#simple-expression-language-s-feel) specifies a subset of FEEL (S-FEEL) that is the default language for literal expressions in **DMN** decision tables ([Decision Table](08_Decision_Table.md#decision-table)).
 
@@ -95,7 +95,7 @@ In a boxed expression, a literal expression is represented by its text. However,
 
 #### Typographical string literals
 
-A string literal such as "DECLINED" can be represented alternatively as the italicized literal *DECLINED*. For example, [Decision table with italicized literals](#table-decision-table-with-italicized-literals) is equivalent to [Decision table with string literals](#table-decision-table-with-string-literals):
+A string literal such as `"DECLINED"` can be represented alternatively as the italicized literal *DECLINED*. For example, [Decision table with italicized literals](#table-decision-table-with-italicized-literals) is equivalent to [Decision table with string literals](#table-decision-table-with-string-literals):
 
 ###### Table: Decision table with italicized literals
 
@@ -127,11 +127,11 @@ A string literal such as "DECLINED" can be represented alternatively as the ital
 </tbody>
 </table>
 
-To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is "HIGH," "DECLINE," or "HIGH, DECLINE," typographical string literals SHALL be free of commas ("," characters). FEEL typographical string literals SHALL conform to grammar [division](10_Expression_Language_FEEL.md#rule-division) (name).
+To avoid having to discern whether (e.g.,) *HIGH, DECLINE* is `"HIGH"`, `"DECLINE"`, or `"HIGH, DECLINE"`, typographical string literals SHALL be free of commas ("," characters). FEEL typographical string literals SHALL conform to grammar [division](10_Expression_Language_FEEL.md#rule-division) (name).
 
 #### Typographical date and time literals
 
-A date, time, date and time, or duration expression such as date("2013-08-09") can be represented alternatively as the bold italicized literal ***2013-08-09*.** The literal SHALL obey the syntax specified in clauses [time](10_Expression_Language_FEEL.md#time), [date](10_Expression_Language_FEEL.md#date), and [days and time duration](10_Expression_Language_FEEL.md#days-and-time-duration).
+A date, time, date and time, or duration expression such as `date("2013-08-09")` can be represented alternatively as the bold italicized literal ***2013-08-09*.** The literal SHALL obey the syntax specified in clauses [time](10_Expression_Language_FEEL.md#time), [date](10_Expression_Language_FEEL.md#date), and [days and time duration](10_Expression_Language_FEEL.md#days-and-time-duration).
 
 ### Boxed invocation
 
@@ -186,7 +186,7 @@ Expression inherits from the attributes and model associations of DMNElement.
 
 ### UnaryTests Metamodel
 
-The class UnaryTests is used to model a boolean test where the argument to be tested is implicit or denoted with a ?, and whose value is specified by text in some specified expression language.
+The class UnaryTests is used to model a boolean test where the argument to be tested is implicit or denoted with a `?`, and whose value is specified by text in some specified expression language.
 
 UnaryTests is a concrete subclass of Expression.
 
@@ -200,7 +200,7 @@ b\) One of the expressions in the UnaryTests evaluates to a list of values, and 
 
 c\) One of the expressions in the UnaryTests evaluates to true when the implicit value is applied to it.
 
-d\) One of the expressions in the UnaryTests is a boolean expression using the special ‘?’ variable and that expression evaluates to true when the implicit value is assigned to ‘?’.
+d\) One of the expressions in the UnaryTests is a boolean expression using the special `?` variable and that expression evaluates to true when the implicit value is assigned to `?`.
 
 [UnaryTests attributes and model associations](#table-unarytests-attributes-and-model-associations) presents additional attributes and model associations of the UnaryTests element.
 
@@ -246,7 +246,7 @@ The type language can be overridden locally using the typeLanguage attribute in 
 
 Notice, also, that the data types and structures that are defined at the top level in a data model that is imported using an Import element that is associated with an instance of Definitions need not be redefined by ItemDefinition elements contained in that Definitions element: they are considered imported and can be referenced in **DMN** elements within the Definitions element.
 
-An ItemDefinition element MAY have a typeRef, which is a string that references, as a qualified name, either an ItemDefinition in the current instance of Definitions or a built-in type in the specified typeLanguage or a type defined in an imported DMN, XSD, or other document. In the latter case, the external document SHALL be imported in the Definitions element that contains the instance of ItemDefinition, using an Import element specifying both the namespace value and its name when used a qualifier. For example, in the case of data structures contributed by an XML schema, an Import would be used to specify the file location of that schema, and the typeRef attribute would reference the type or element definition in the imported schema. If the type language is FEEL the built-in types are the FEEL built-in data types: *number*, *string*, *boolean*, *days and time duration*, *years and months duration*, *date, time*, *date, and time* and *Any*. A typeRef referencing a built-in type SHALL omit the prefix.
+An ItemDefinition element MAY have a typeRef, which is a string that references, as a qualified name, either an ItemDefinition in the current instance of Definitions or a built-in type in the specified typeLanguage or a type defined in an imported DMN, XSD, or other document. In the latter case, the external document SHALL be imported in the Definitions element that contains the instance of ItemDefinition, using an Import element specifying both the namespace value and its name when used a qualifier. For example, in the case of data structures contributed by an XML schema, an Import would be used to specify the file location of that schema, and the typeRef attribute would reference the type or element definition in the imported schema. If the type language is FEEL the built-in types are the FEEL built-in data types: `number`, `string`, `boolean`, `days and time duration`, `years and months duration`, `date`, `time`, `date and time` and `Any`. A typeRef referencing a built-in type SHALL omit the prefix.
 
 An ItemDefinition element may restrict the values that are allowed from typeRef, using the allowedValues attribute. allowedValues is an instance of UnaryTests that constrains the domain of the typeRef. If an ItemDefinition element does not contain allowedValues, its range of allowed values is the full range of the referenced typeRef. When an ItemDefinition has sibling itemComponents, their values are available in the evaluation context of the UnaryTests of the allowedValues. In cases where the isCollection attribute of an ItemDefinition is true, each element of the collection must satisfy the UnaryTests of the allowedValues, i.e. the allowedValues are projected onto the collection elements. The default value of isCollection is false. The allowedValues attribute has been deprecated as of DMN 1.5 and replaced with the typeConstraint attribute. The typeConstraint attribute differs from allowedValues by not projecting onto collection elements but directly constraining the collection.
 
