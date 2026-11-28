@@ -137,5 +137,9 @@ the `twemojis` package:
 ```
 
 The packages are listed in `user-pkgs.txt`, so that the build installs them.
+Put all characters that code may contain into one `literate` list: a second
+`\lstset{literate=...}` replaces the first. DMN, for example, maps the
+subscripts of FEEL metavariables (`e₁`, `eₙ`) there too:
+`literate={🐎}{{\twemoji{1f40e}}}1 {₁}{{\textsubscript{1}}}1 ...`.
 Never map such a character to nothing to make the build pass: the examples
 above would then silently become wrong.
