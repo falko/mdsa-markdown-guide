@@ -13,6 +13,9 @@
 - A table nested in a table cell keeps its natural width, so a narrower nested
   boxed expression leaves a jagged edge (which DMN allows). Nested tables do
   not break across pages.
+- In the DMN notation of the PDF, the top line of a boxed expression is
+  not drawn over a gap column (as in "Horizontal context"), a quirk of the
+  tabularray package with partial lines.
 - The DMN notation in a web browser (`dmn-notation.css`) lacks the double line
   between the clauses and the entries of tables with rules as columns and of
   crosstabs; GitHub shows the DMN tables with a plain grid.

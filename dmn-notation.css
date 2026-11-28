@@ -48,3 +48,10 @@ table.dmn-decision-table.crosstab tbody td { background: #F2DCDB; }
 table.dmn-boxed-expression .name { background: #D7E4BD; }
 table.dmn-boxed-expression td.gap { height: 1.2em; border-top-color: transparent; border-right-color: transparent; border-bottom-color: transparent; }
 table.dmn-boxed-expression table.dmn-boxed-expression { margin: -2px -8px; }
+
+/* Double line above a row of a boxed expression (between list items) */
+table.dmn-boxed-expression tr.double-line > * { border-top: 4px double #000; }
+/* Optional cells (inverse) and marked cells in illustrations */
+table.dmn-decision-table .optional, table.dmn-boxed-expression .optional { background: #A6A6A6; color: #fff; }
+table.dmn-decision-table .highlight, table.dmn-boxed-expression .highlight { background: #D7E4BD; }
+table.dmn-decision-table .invalid, table.dmn-boxed-expression .invalid { background: #FF0000; }

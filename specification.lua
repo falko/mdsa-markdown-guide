@@ -38,7 +38,10 @@
 -- (a decision table entry of a context, Figure 10-10); nested boxed
 -- expressions are merged cells or tables in cells. Cells of class gap are whitespace: they draw no lines of their own,
 -- except the line on the left (top) edge of the table that connects the
--- entries of a context (10.2.1.4, Figures 10-6, 10-7 and 10-10).
+-- entries of a context (10.2.1.4, Figures 10-6, 10-7 and 10-10). A row of
+-- class double-line has a double line above it (between list items, 10-12).
+-- Cells of class optional are drawn in inverse (the optional cells of the
+-- schematic layouts), highlight and invalid mark cells in illustrations.
 --
 -- tables.lua of the core writes the tables; this filter only adds tabularray
 -- settings through the table's tblr-* attributes.
@@ -248,6 +251,11 @@ local function boxed_lines(rows, owner, n)
     -- vertical lines run through the gap of a double line (abovepos, belowpos)
     local style = kind_ == 'vline' and 'solid, abovepos=1, belowpos=1' or 'solid'
     table.insert(segments, ('%s{%d}={1}{%d-%d}{%s}'):format(kind_, i, from, to, style))
+    -- a row of class double-line has a double line above it (e.g. between the
+    -- items of a boxed list, Figure 10-12)
+    if kind_ == 'hline' and rows[i] and rows[i].attr.classes:includes('double-line') then
+      table.insert(segments, ('%s{%d}={2}{%d-%d}{solid}'):format(kind_, i, from, to))
+    end
   end
   for i = 1, R + 1 do -- hline i is above row i
     local start
@@ -287,9 +295,30 @@ local function boxed_expression(tbl)
   return tbl
 end
 
+-- Cells of class optional are drawn in inverse, as the optional cells of the
+-- schematic layouts (DMN Figures 8-5, 8-7, 8-12); highlight and invalid mark
+-- cells in illustrations (Figures 8-15, 8-16)
+local MARK = { optional = 'bg=dmnoptional, fg=white', highlight = 'bg=dmnhighlight', invalid = 'bg=dmninvalid' }
+
+local function marks(tbl)
+  local _, cells = grid(tbl)
+  local inner = {}
+  for _, p in ipairs(cells) do
+    for class, style in pairs(MARK) do
+      if p.cell.classes:includes(class) then
+        table.insert(inner, ('cell{%d}{%d}={%s}'):format(p.row, p.col, style))
+      end
+    end
+  end
+  if #inner > 0 then
+    tbl.attributes['tblr-inner'] = (tbl.attributes['tblr-inner'] or '') .. ',\n  ' .. table.concat(inner, ',\n  ')
+  end
+  return tbl
+end
+
 function Table(tbl)
-  if tbl.classes:includes('dmn-decision-table') then return decision_table(tbl) end
-  if tbl.classes:includes('dmn-boxed-expression') then return boxed_expression(tbl) end
+  if tbl.classes:includes('dmn-decision-table') then return marks(decision_table(tbl)) end
+  if tbl.classes:includes('dmn-boxed-expression') then return marks(boxed_expression(tbl)) end
 end
 
 -- FEEL code (```feel, `...`{.feel}): pandoc passes only languages it knows to

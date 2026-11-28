@@ -48,6 +48,10 @@ else for x in [1, 2, 3] return x * 2
 ```
 
 Inline FEEL code works the same way: `some x in [1, 2] satisfies x > 1`{.feel}.
+GitHub shows the `{.feel}`, though. A specification whose inline code is
+almost always in one language can instead make that language the default in
+its `specification.lua`: DMN treats all inline code as FEEL, unless it starts
+with `<` (XML element names), so its Markdown needs only plain backticks.
 
 ## Grammar rules
 

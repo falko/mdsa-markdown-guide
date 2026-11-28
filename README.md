@@ -49,6 +49,36 @@ Specification Authoring) pipeline. It serves two purposes:
 | Annexes | `# Title` in `A_Annexes.md` | [`A_Annexes.md`](A_Annexes.md) |
 | Table of contents, lists of figures and tables | generated | — |
 
+## Starting a specification
+
+There is no command that sets up a Markdown specification or converts an
+existing one; the setup is a copy of the template plus a few edits:
+
+1. Copy the containerized template
+   ([jasonmccsmith/containerized-spec](https://github.com/jasonmccsmith/containerized-spec))
+   into a new repository. Until the changes listed under
+   [Status of the pipeline changes](#status-of-the-pipeline-changes) are merged,
+   take `Dockerfile`, `Makefile` and the CI workflow from this repository.
+2. Set the metadata in `_Specification_Setup.tex`: name, acronym, version,
+   document number, date, submitters, IRIs.
+3. For each clause written in Markdown, add a `.md` file with the name of the
+   template's `.tex` file (`01_Scope.md` for `01_Scope.tex`) and delete the
+   `.tex` file; a `.md` file takes precedence, but two files for one clause
+   confuse reviewers. Front matter files (`00_*.md`, e.g. a preface) have
+   unnumbered headings.
+4. Write the technical clauses as `07_Title.md`, `08_Title.md`, ... (see below).
+5. Put specification-specific settings into `_Specification_AuthorSettings.tex`
+   (packages, colors, `\omgtablecaptionabove`), extra LaTeX packages into
+   `user-pkgs.txt`, a filter for the specification's own notation into
+   `specification.lua`, and a structure that differs from the template's into a
+   local `Specification_Template.tex`, which replaces the core's.
+6. Build with `make pandoc check` and in CI.
+
+Converting an existing specification is a separate step: DMN 1.7 was converted
+from its Word source with Pandoc and its own scripts, then cleaned up following
+this guide (decision tables and boxed expressions as notation tables, FEEL as
+inline code, grammar anchors, XML as code blocks).
+
 ## How it works
 
 Each clause of an MDSA specification is a file named with a two-digit clause number,
