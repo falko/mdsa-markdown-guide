@@ -39,6 +39,12 @@ the contents of the cells in Markdown, with a blank line after each opening
 correctly, and the build reads them into the same table model as pipe tables.
 The rest of this subclause uses excerpts from DMN 1.7.
 
+Text typed directly between the tags, as in `<td>a * b</td>`, is shown as
+typed, by GitHub and in the PDF: Markdown is not read there, so `*`, `$`,
+brackets and quotes need no escaping, and formatting needs HTML (`<em>`,
+`<strong>`, `<code>`, `<br>`). Markdown is read only in a cell whose contents
+are separated from the tags by blank lines, as below.
+
 Merged cells use the HTML attributes `rowspan` and `colspan`:
 
 ```html
@@ -189,6 +195,9 @@ links. Only their content follows the notation:
   `<em>Business</em>`.
 - The default output value is underlined (DMN 8.2.12) with `<ins>`, which
   GitHub shows too.
+- Cells of class `optional` are drawn in inverse, as the optional cells of
+  DMN's schematic layouts; `highlight` and `invalid` mark cells in
+  illustrations (DMN Figures 8-15 and 8-16).
 - A `class` attribute marks what the notation needs to know: kinds of columns,
   rows or cells. GitHub ignores it and shows the table with a plain grid and its
   merged cells. The file `dmn-notation.css` in this repository draws most of
@@ -432,6 +441,20 @@ make a jagged edge (DMN Figure 10-10). On GitHub they are empty cells:
 <tr><td class="gap" colspan="3"></td></tr>
 <tr><td class="name">Name <em>n</em></td><td>Value <em>n</em></td><td class="gap"></td></tr>
 <tr><td colspan="2">Result</td><td class="gap"></td></tr>
+</tbody>
+</table>
+
+Items of a boxed list are separated by double lines (DMN 10.2.1.5: "Line
+styles are normative"): a row of class `double-line` has a double line above
+it:
+
+###### Table: Vertical list
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td>Item 1</td></tr>
+<tr class="double-line"><td>Item 2</td></tr>
+<tr class="double-line"><td>Item <em>n</em></td></tr>
 </tbody>
 </table>
 
