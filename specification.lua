@@ -651,19 +651,16 @@ local function notation(tbl)
 end
 
 
--- FEEL code: inline code (unless XML or with a class) and ```feel blocks
-local function delimiter(text)
-  for c in ('!|+@#%&^~'):gmatch('.') do
-    if not text:find(c, 1, true) then return c end
-  end
-end
-
+-- FEEL code: inline code (unless XML or with a class) and ```feel blocks.
+-- pandoc writes inline code (escaping and delimiters) only with a language it
+-- knows, so it is written as Ada and the language is then replaced by FEEL.
 local function feel_code(el)
   if #el.classes == 0 and not el.text:match('^%s*<') then
-    local d = delimiter(el.text)
-    if d then
-      return pandoc.RawInline('latex', '\\passthrough{\\lstinline[language=FEEL]' .. d .. el.text .. d .. '}')
-    end
+    local code = pandoc.Code(el.text, pandoc.Attr('', { 'ada' }))
+    local tex = pandoc.write(pandoc.Pandoc({ pandoc.Plain({ code }) }), 'latex', PANDOC_WRITER_OPTIONS)
+    tex = tex:gsub('%s+$', '')
+    local replaced, n = tex:gsub('language=Ada', 'language=FEEL', 1)
+    if n == 1 then return pandoc.RawInline('latex', replaced) end
   end
 end
 

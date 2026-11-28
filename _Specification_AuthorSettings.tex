@@ -67,7 +67,28 @@
 \usepackage{twemojis}
 %%% U+1F40E horse, in DMN's FEEL string examples
 \newunicodechar{🐎}{\twemoji{1f40e}}
-\lstset{literate={🐎}{{\twemoji{1f40e}}}1}
+%%% One literate list for all characters that code may contain (a second
+%%% literate option would replace the first): the horse, and the subscripts of
+%%% FEEL metavariables (e₁, eₙ) in inline code
+\lstset{literate={🐎}{{\twemoji{1f40e}}}1
+  {₀}{{\textsubscript{0}}}1
+  {₁}{{\textsubscript{1}}}1
+  {₂}{{\textsubscript{2}}}1
+  {₃}{{\textsubscript{3}}}1
+  {₄}{{\textsubscript{4}}}1
+  {₅}{{\textsubscript{5}}}1
+  {₆}{{\textsubscript{6}}}1
+  {₇}{{\textsubscript{7}}}1
+  {₈}{{\textsubscript{8}}}1
+  {₉}{{\textsubscript{9}}}1
+  {ᵢ}{{\textsubscript{i}}}1
+  {ⱼ}{{\textsubscript{j}}}1
+  {ₖ}{{\textsubscript{k}}}1
+  {ₘ}{{\textsubscript{m}}}1
+  {ₙ}{{\textsubscript{n}}}1
+  {ₐ}{{\textsubscript{a}}}1
+  {ₑ}{{\textsubscript{e}}}1
+  {ₓ}{{\textsubscript{x}}}1}
 
 %%% Subscripts and superscripts. The Markdown files write them as Unicode
 %%% characters (e₁, eₙ, 10⁻¹), which GitHub shows; pdfLaTeX prints them with
