@@ -162,6 +162,12 @@ tables:
 | U          | Unique      |
 | F          | First       |
 
+A table can consist of a header row only, here with an image as its only
+cell:
+
+| ![Decision](Images/dmn-decision.svg) |
+|---|
+
 ## Specification-specific table styles
 
 All tables have the OMG style: a full grid, header rows in bold, the caption

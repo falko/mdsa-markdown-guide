@@ -64,6 +64,9 @@ Check the generated PDF:
       left (top), and a jagged right edge in "Vertical context with decision
       table entry"; the context nested in the function definition fills its
       cell.
-14. The grammar in [Grammar rules](13_Other_Elements.md#grammar-rules) is numbered
+14. A link from this file to an HTML table in another file,
+    [Rules as rows - example](10_Tables.md#table-rules-as-rows---example),
+    reads "Table 10.5", like links to pipe tables.
+15. The grammar in [Grammar rules](13_Other_Elements.md#grammar-rules) is numbered
     1 to 4 with alternatives i, ii, iii, and the references above it read
     "rule 2.i", "rule 2" and "rule 1".
