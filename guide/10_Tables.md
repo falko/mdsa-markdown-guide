@@ -162,24 +162,58 @@ tables:
 | U          | Unique      |
 | F          | First       |
 
+A table can consist of a header row only, here with an image as its only
+cell:
+
+| ![Decision](Images/dmn-decision.svg) |
+|---|
+
 ## Specification-specific table styles
 
 All tables have the OMG style: a full grid, header rows in bold, the caption
 below the table. A specification can give some of its tables their own style,
 with a filter `specification.lua` in its repository (see
 [How Markdown files are built](07_Markdown_in_the_MDSA_Pipeline.md#how-markdown-files-are-built)).
-This document has one, as an example: it draws DMN decision tables in the
-notation of DMN 1.7, 8.2. The table is written in HTML; a `<colgroup>` marks
-each column as hit policy, input, output or annotation, the hit policy cell
-spans the clause rows, allowed values have the class `values`, and the caption
-is the name of the decision. Italics are written by the author, because in DMN
-they mean string literals:
+This document has one, as an example: it draws DMN decision tables and boxed
+expressions in the notation of DMN 1.7 (8.2 and 10.2.1). The tables below are
+the figures of DMN 1.7 Beta 1, written in HTML.
+
+These tables are ordinary tables: they have a caption heading like all other
+tables, are numbered, appear in the list of tables, and are referenced with
+links. Only their content follows the notation:
+
+- The name box (the name of the decision or other information item) is the
+  first header row, with one cell spanning the table:
+  `<thead><tr><th colspan="5">Discount</th></tr>...`.
+- Italics are written by the author, because in DMN they mean string literals:
+  `<em>Business</em>`.
+- The default output value is underlined (DMN 8.2.12) with `<ins>`, which
+  GitHub shows too.
+- A `class` attribute marks what the notation needs to know: kinds of columns,
+  rows or cells. GitHub ignores it and shows the table with a plain grid and its
+  merged cells. The file `dmn-notation.css` in this repository draws most of
+  the notation in a web browser, from the same HTML.
+
+The PDF draws single lines between all cells and the double lines of DMN 8.2.1,
+shades the clauses per kind (the colors are suggestions of DMN, defined in
+`_Specification_AuthorSettings.tex`), and keeps the hit policy, the allowed
+values and the entries white. A table that fits the text width keeps the
+natural widths of its columns; a wider one wraps its cells to the text width,
+like [Output order with compound output](#table-output-order-with-compound-output).
+
+### Decision tables: rules as rows
+
+A `<colgroup>` marks each column as `hit-policy`, `input`, `output` or
+`annotation`. The hit policy cell spans the clause rows, and the allowed values
+have the class `values`:
 
 ```html
+###### Table: Rules as rows - example
+
 <table class="dmn-decision-table">
-<caption>Discount</caption>
 <colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="input"><col class="output"></colgroup>
 <thead>
+<tr><th colspan="5">Discount</th></tr>
 <tr><th rowspan="2">U</th><th>Customer</th><th>OrderSize</th><th>Delivery</th><th>Discount</th></tr>
 <tr><td class="values"><em>Business</em>, <em>Private</em>, <em>Government</em></td>...</tr>
 </thead>
@@ -188,16 +222,12 @@ they mean string literals:
 ...
 ```
 
-GitHub shows such a table with a grid and merged cells. The PDF follows the
-notation: the name box above and adjoining the table, double lines between the
-input and output columns, between the output and annotation columns and below
-the clauses, and the clauses shaded per column group, while the hit policy
-cell, the allowed values and the entries stay white. This is DMN Figure 8-6:
+###### Table: Rules as rows - example
 
 <table class="dmn-decision-table">
-<caption>Discount</caption>
 <colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="input"><col class="output"></colgroup>
 <thead>
+<tr><th colspan="5">Discount</th></tr>
 <tr><th rowspan="2">U</th><th>Customer</th><th>OrderSize</th><th>Delivery</th><th>Discount</th></tr>
 <tr><td class="values"><em>Business</em>, <em>Private</em>, <em>Government</em></td><td class="values">&lt;10, &gt;=10</td><td class="values"><em>sameday</em>, <em>slow</em></td><td class="values">0, 0.05, 0.10, 0.15</td></tr>
 </thead>
@@ -210,14 +240,16 @@ cell, the allowed values and the entries stay white. This is DMN Figure 8-6:
 </tbody>
 </table>
 
-A table with two output components and an annotation column (DMN Figure 8-19,
-with the double line before the annotation column that 8.2.1 requires). Inputs
-without allowed values have an empty `values` cell:
+With two output components and an annotation column, and inputs without
+allowed values (DMN Figure 8-19, with the double line before the annotation
+column that 8.2.1 requires):
+
+###### Table: Output order with compound output
 
 <table class="dmn-decision-table">
-<caption>Routing rules</caption>
 <colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="input"><col class="output"><col class="output"><col class="annotation"></colgroup>
 <thead>
+<tr><th colspan="7">Routing rules</th></tr>
 <tr><th rowspan="2">O</th><th>Age</th><th>Risk category</th><th>Debt review</th><th>Routing</th><th>Review level</th><th>Reason</th></tr>
 <tr><td class="values"></td><td class="values"><em>LOW</em>, <em>MEDIUM</em>, <em>HIGH</em></td><td class="values"></td><td class="values"><em>DECLINE</em>, <em>REFER</em>, <em>ACCEPT</em></td><td class="values"><em>LEVEL 2</em>, <em>LEVEL 1</em>, <em>NONE</em></td><td class="values"></td></tr>
 </thead>
@@ -230,15 +262,18 @@ without allowed values have an empty `values` cell:
 </table>
 
 An output label above several output components spans their columns, and the
-hit policy cell spans all three clause rows (DMN Figure 8-12):
+hit policy cell spans all three clause rows (DMN Figure 8-12). Here, output
+value 1a is the default output value:
+
+###### Table: Horizontal table with multiple output components
 
 <table class="dmn-decision-table">
-<caption>information item name</caption>
 <colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="output"><col class="output"></colgroup>
 <thead>
+<tr><th colspan="5">information item name</th></tr>
 <tr><th rowspan="3">H</th><th rowspan="2">input expression 1</th><th rowspan="2">input expression 2</th><th colspan="2">output label</th></tr>
 <tr><th>output component 1</th><th>output component 2</th></tr>
-<tr><td class="values">input value 1a, input value 1b</td><td class="values">input value 2a, input value 2b</td><td class="values">output value 1a, output value 1b</td><td class="values">output value 2a, output value 2b</td></tr>
+<tr><td class="values">input value 1a, input value 1b</td><td class="values">input value 2a, input value 2b</td><td class="values"><ins>output value 1a</ins>, output value 1b</td><td class="values">output value 2a, output value 2b</td></tr>
 </thead>
 <tbody>
 <tr><td>1</td><td rowspan="2">input entry 1a</td><td>input entry 2a</td><td>output entry 1.1</td><td>output entry 2.1</td></tr>
@@ -247,11 +282,203 @@ hit policy cell spans all three clause rows (DMN Figure 8-12):
 </tbody>
 </table>
 
-Rules as columns and crosstab tables (DMN Figures 8-7 to 8-11) are not
-implemented in this example filter.
+### Decision tables: rules as columns
 
-The file `dmn-notation.css` in this repository draws the same notation in a web
-browser, from the same HTML.
+Each row has the class `input`, `output`, `annotation` or `hit-policy` (the
+last row, with the hit policy and the rule numbers). In each row, the clause
+cells come first, then the allowed values, then the entries:
+
+```html
+<table class="dmn-decision-table">
+<thead><tr><th colspan="7">Discount</th></tr></thead>
+<tbody>
+<tr class="input"><th>Customer</th><td class="values"><em>Business</em>, <em>Private</em>, <em>Government</em></td><td colspan="2"><em>Business</em></td>...</tr>
+...
+<tr class="hit-policy"><td>U</td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+```
+
+###### Table: Rules as columns - example
+
+<table class="dmn-decision-table">
+<thead><tr><th colspan="7">Discount</th></tr></thead>
+<tbody>
+<tr class="input"><th>Customer</th><td class="values"><em>Business</em>, <em>Private</em>, <em>Government</em></td><td colspan="2"><em>Business</em></td><td colspan="2"><em>Private</em></td><td><em>Government</em></td></tr>
+<tr class="input"><th>Ordersize</th><td class="values">&lt;10, &gt;=10</td><td>&lt;10</td><td>&gt;=10</td><td colspan="2">-</td><td>-</td></tr>
+<tr class="input"><th>Delivery</th><td class="values"><em>sameday</em>, <em>slow</em></td><td>-</td><td>-</td><td><em>sameday</em></td><td><em>slow</em></td><td>-</td></tr>
+<tr class="output"><th>Discount</th><td class="values">0, 0.05, 0.10, 0.15</td><td>0.05</td><td>0.10</td><td>0</td><td>0.05</td><td>0.15</td></tr>
+<tr class="hit-policy"><td>U</td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+</tbody>
+</table>
+
+With an output label for two output components (DMN Figure 8-13):
+
+###### Table: Vertical table with multiple output components
+
+<table class="dmn-decision-table">
+<thead><tr><th colspan="6">information item name</th></tr></thead>
+<tbody>
+<tr class="input"><th colspan="2">input expression 1</th><td class="values">input value 1a, input value 1b</td><td colspan="2">input entry 1a</td><td>input entry 1b</td></tr>
+<tr class="input"><th colspan="2">input expression 2</th><td class="values">input value 2a, input value 2b</td><td>input entry 2a</td><td>input entry 2b</td><td>-</td></tr>
+<tr class="output"><th rowspan="2">output label</th><th>output component 1</th><td class="values">output value 1a, output value 1b</td><td>output entry 1.1</td><td>output entry 1.2</td><td>output entry 1.3</td></tr>
+<tr class="output"><th>output component 2</th><td class="values">output value 2a, output value 2b</td><td>output entry 2.1</td><td>output entry 2.2</td><td>output entry 2.3</td></tr>
+<tr class="hit-policy"><td colspan="2">H</td><td></td><td>1</td><td>2</td><td>3</td></tr>
+</tbody>
+</table>
+
+### Decision tables: crosstab
+
+The table also has the class `crosstab`. The header rows hold the output label
+(as wide as the row headers on its left) and the column inputs; the input
+expressions and the output label have the class `input` or `output`. The
+other body cells right of the row headers are the output entries:
+
+###### Table: Rules as crosstab - simplified example with only two inputs
+
+<table class="dmn-decision-table crosstab">
+<thead>
+<tr><th colspan="5">Discount</th></tr>
+<tr><th class="output" colspan="2" rowspan="2">Discount</th><th class="input" colspan="3">Customer</th></tr>
+<tr><th><em>Business</em></th><th><em>Private</em></th><th><em>Government</em></th></tr>
+</thead>
+<tbody>
+<tr><th class="input" rowspan="2">Ordersize</th><th>&lt;10</th><td>0.05</td><td>0</td><td>0.15</td></tr>
+<tr><th>&gt;=10</th><td>0.10</td><td>0</td><td>0.15</td></tr>
+</tbody>
+</table>
+
+###### Table: Rules as crosstab - example with three inputs
+
+<table class="dmn-decision-table crosstab">
+<thead>
+<tr><th colspan="6">Discount</th></tr>
+<tr><th class="output" colspan="2" rowspan="3">Discount</th><th class="input" colspan="4">Customer, Delivery</th></tr>
+<tr><th><em>Business</em></th><th colspan="2"><em>Private</em></th><th><em>Government</em></th></tr>
+<tr><th>-</th><th><em>sameday</em></th><th><em>slow</em></th><th>-</th></tr>
+</thead>
+<tbody>
+<tr><th class="input" rowspan="2">Ordersize</th><th>&lt;10</th><td>0.05</td><td>0</td><td>0.05</td><td>0.15</td></tr>
+<tr><th>&gt;=10</th><td>0.10</td><td>0</td><td>0.05</td><td>0.15</td></tr>
+</tbody>
+</table>
+
+### Boxed expressions
+
+A boxed expression has the class `dmn-boxed-expression`. Name cells (context
+entry names, parameters, `if`, `then`, `else`) have the class `name` and are
+shaded. A nested boxed expression is written with merged cells, as in
+[Use of context entries](#table-use-of-context-entries), or as a table in a
+cell, as in [Boxed function definition with a context as body](#table-boxed-function-definition-with-a-context-as-body).
+
+Context entries "may be separated by whitespace and connected with a line on
+the left (top)" (DMN 10.2.1.4). Cells of class `gap` are such whitespace: they
+draw no lines of their own, except the connecting line on the left of a gap
+across the whole table, or on the top of a gap down the whole table. Other gaps
+make a jagged edge (DMN Figure 10-10). On GitHub they are empty cells:
+
+```html
+<tr><td class="name">Name 1</td><td>Value 1</td></tr>
+<tr><td class="gap" colspan="2"></td></tr>
+<tr><td class="name">Name 2</td><td>Value 2</td></tr>
+```
+
+###### Table: Vertical context
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td>Value 1</td></tr>
+<tr><td class="gap" colspan="2"></td></tr>
+<tr><td class="name">Name 2</td><td>Value 2</td></tr>
+<tr><td class="name">Name <em>n</em></td><td>Value <em>n</em></td></tr>
+<tr><td colspan="2">Result</td></tr>
+</tbody>
+</table>
+
+###### Table: Horizontal context
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td class="name">Name 2</td><td class="name">Name <em>n</em></td><td></td><td class="gap" rowspan="2"></td><td rowspan="2">Result</td></tr>
+<tr><td>Value 1</td><td>Value 2</td><td>Value <em>n</em></td><td></td></tr>
+</tbody>
+</table>
+
+###### Table: Vertical context with decision table entry
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td>Value 1</td><td class="gap"></td></tr>
+<tr><td class="gap" colspan="3"></td></tr>
+<tr><td class="input" colspan="2"></td><td class="output">Name 2</td></tr>
+<tr><td colspan="2"></td><td></td></tr>
+<tr><td class="gap" colspan="3"></td></tr>
+<tr><td class="name">Name <em>n</em></td><td>Value <em>n</em></td><td class="gap"></td></tr>
+<tr><td colspan="2">Result</td><td class="gap"></td></tr>
+</tbody>
+</table>
+
+###### Table: Boxed invocation
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Name</th></tr></thead>
+<tbody>
+<tr><td colspan="2">function-valued expression</td></tr>
+<tr><td class="name">parameter 1</td><td>binding expression 1</td></tr>
+<tr><td class="name">parameter 2</td><td>binding expression 2</td></tr>
+<tr><td colspan="2">...</td></tr>
+<tr><td class="name">parameter <em>n</em></td><td>binding expression <em>n</em></td></tr>
+</tbody>
+</table>
+
+###### Table: Use of context entries
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="3">Applicant Data</th></tr></thead>
+<tbody>
+<tr><td class="name">Age</td><td colspan="2">51</td></tr>
+<tr><td class="name">MaritalStatus</td><td colspan="2">"M"</td></tr>
+<tr><td class="name">EmploymentStatus</td><td colspan="2">"EMPLOYED"</td></tr>
+<tr><td class="name">ExistingCustomer</td><td colspan="2">false</td></tr>
+<tr><td class="name" rowspan="3">Monthly</td><td class="name">Income</td><td>10000.00</td></tr>
+<tr><td class="name">Repayments</td><td>2500.00</td></tr>
+<tr><td class="name">Expenses</td><td>3000.00</td></tr>
+</tbody>
+</table>
+
+###### Table: Use of final result box
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Eligibility</th></tr></thead>
+<tbody>
+<tr><td class="name">Age</td><td>Applicant. Age</td></tr>
+<tr><td class="name">Monthly Income</td><td>Applicant. Monthly. Income</td></tr>
+<tr><td class="name">Pre-Bureau Risk Category</td><td>Affordability. Pre-Bureau Risk Category</td></tr>
+<tr><td class="name">Installment Affordable</td><td>Affordability. Installment Affordable</td></tr>
+<tr><td colspan="2">if Pre-Bureau Risk Category = "DECLINE" or<br>Installment Affordable = false or<br>Age &lt; 18 or<br>Monthly Income &lt; 100 then<br>"INELIGIBLE" else<br>"ELIGIBLE"</td></tr>
+</tbody>
+</table>
+
+###### Table: Boxed conditional
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">if</td><td>FEEL expression</td></tr>
+<tr><td class="name">then</td><td>FEEL expression</td></tr>
+<tr><td class="name">else</td><td>FEEL expression</td></tr>
+</tbody>
+</table>
+
+A boxed function definition (DMN Figure 10-15) whose body is a boxed context,
+written as a table in a cell:
+
+###### Table: Boxed function definition with a context as body
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Installment calculation</th></tr></thead>
+<tbody>
+<tr><td>FEEL</td><td>(Product Type, Rate, Term, Amount)</td></tr>
+<tr><td colspan="2"><table class="dmn-boxed-expression"><tr><td class="name">Monthly Fee</td><td>if Product Type = "STANDARD LOAN" then 20.00 else 25.00</td></tr><tr><td class="name">Monthly Repayment</td><td>PMT(Rate, Term, Amount)</td></tr><tr><td colspan="2">Monthly Repayment + Monthly Fee</td></tr></table></td></tr>
+</tbody>
+</table>
 
 Settings that apply to all tables of a specification go into
 `_Specification_AuthorSettings.tex`. For example, DMN puts table captions above
