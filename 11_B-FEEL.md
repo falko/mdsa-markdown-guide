@@ -116,7 +116,7 @@ Some specific FEEL grammar expression can reference collections that could be **
 
 - for quantified expression (grammar [quantified expression](10_Expression_Language_FEEL.md#rule-quantified-expression)), when one of the expression is evaluated to **null**, the expression returns **false**.
 
-- for comparison using `in` (grammar rules 49c, 49d), when the positive unary test is evaluated to **null**, the expression returns **false**.
+- for comparison using `in` (grammar rules [49.iii](10_Expression_Language_FEEL.md#rule-comparison-iii), [49.iv](10_Expression_Language_FEEL.md#rule-comparison-iv)), when the positive unary test is evaluated to **null**, the expression returns **false**.
 
 | Expression                       | FEEL   | B-FEEL  |
 |----------------------------------|--------|---------|

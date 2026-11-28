@@ -52,13 +52,28 @@ A boxed expression is either:
 
 - a boxed iterator
 
-Boxed expressions are defined recursively, i.e., boxed expressions can contain other boxed expressions. The top-level boxed expression corresponds to the decision logic of a single DRG artifact. This boxed expression SHALL have a name box that contains the name of the DRG artifact. The name box may be attached in a single box on top, as shown in [Boxed expression](Images/boxed-expression-2.svg):
+Boxed expressions are defined recursively, i.e., boxed expressions can contain other boxed expressions. The top-level boxed expression corresponds to the decision logic of a single DRG artifact. This boxed expression SHALL have a name box that contains the name of the DRG artifact. The name box may be attached in a single box on top, as shown in [Boxed expression](#table-boxed-expression):
 
-![Boxed expression](Images/boxed-expression-2.svg)
+###### Table: Boxed expression
 
-Alternatively, the name box and expression box can be separated by white space and connected on the left side with a line, as shown in [Boxed expression with separated name and expression boxes](Images/boxed-expression-with-separated-name-and-expression-boxes-2.svg):
+<table class="dmn-boxed-expression">
+<thead><tr><th>Name</th></tr></thead>
+<tbody>
+<tr><td>top-level boxed expression</td></tr>
+</tbody>
+</table>
 
-![Boxed expression with separated name and expression boxes](Images/boxed-expression-with-separated-name-and-expression-boxes-2.svg)
+Alternatively, the name box and expression box can be separated by white space and connected on the left side with a line, as shown in [Boxed expression with separated name and expression boxes](#table-boxed-expression-with-separated-name-and-expression-boxes):
+
+###### Table: Boxed expression with separated name and expression boxes
+
+<table class="dmn-boxed-expression">
+<thead><tr><th>Name</th></tr></thead>
+<tbody>
+<tr><td class="gap"></td></tr>
+<tr><td>top-level boxed expression</td></tr>
+</tbody>
+</table>
 
 Graphical tools are expected to support appropriate graphical links, for example, clicking on a decision shape opens a decision table.
 
@@ -68,9 +83,15 @@ The executable decision tables defined here use the same notation as the decisio
 
 #### Boxed FEEL expression
 
-A **boxed FEEL expression** is any FEEL expression *e,* as defined by the FEEL grammar (clause [Syntax](#syntax)), in a table cell, as shown in [Boxed FEEL expression](Images/boxed-feel-expression.svg):
+A **boxed FEEL expression** is any FEEL expression *e,* as defined by the FEEL grammar (clause [Syntax](#syntax)), in a table cell, as shown in [Boxed FEEL expression](#table-boxed-feel-expression):
 
-![Boxed FEEL expression](Images/boxed-feel-expression.svg)
+###### Table: Boxed FEEL expression
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td><em>e</em></td></tr>
+</tbody>
+</table>
 
 The meaning of a boxed expression containing *e* is **FEEL(***e,* **s)**, where **s** is the scope. The scope includes the context derived from the containing DRD as described in [Execution Semantics of Decision Services](#execution-semantics-of-decision-services), and any boxed contexts containing *e*.
 
@@ -80,45 +101,137 @@ It is usually good practice to make *e* relatively simple and compose small boxe
 
 The syntax for boxed invocation is described in clause [Boxed invocation](07_Relating_Decision_Logic_to_Decision_Requirements.md#boxed-invocation). This syntax may be used to invoke any function (e.g., business knowledge model, FEEL built-in function, boxed function definition).
 
-The box labeled 'invoked business knowledge model' can be any boxed expression whose value is a function, as shown in [Boxed invocation](Images/boxed-invocation-2.svg):
+The box labeled 'invoked business knowledge model' can be any boxed expression whose value is a function, as shown in [Boxed invocation](#table-boxed-invocation):
 
-![Boxed invocation](Images/boxed-invocation-2.svg)
+###### Table: Boxed invocation
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Name</th></tr></thead>
+<tbody>
+<tr><td colspan="2">function-valued expression</td></tr>
+<tr><td class="name">parameter 1</td><td>binding expression 1</td></tr>
+<tr><td class="name">parameter 2</td><td>binding expression 2</td></tr>
+<tr><td colspan="2">...</td></tr>
+<tr><td class="name">parameter <em>n</em></td><td>binding expression <em>n</em></td></tr>
+</tbody>
+</table>
 
 The boxed syntax maps to the textual syntax defined by grammar [function invocation](#rule-function-invocation), [parameters](#rule-parameters), [named parameters](#rule-named-parameters), [parameter name](#rule-parameter-name). Boxed invocation uses named parameters. Positional invocation can be achieved using a boxed expression containing a textual positional invocation.
 
-The boxed syntax requires at least one parameter. A parameterless function must be invoked using the textual syntax, e.g., as shown in [Parameterless function](Images/parameterless-function.svg).
+The boxed syntax requires at least one parameter. A parameterless function must be invoked using the textual syntax, e.g., as shown in [Parameterless function](#table-parameterless-function).
 
-![Parameterless function](Images/parameterless-function.svg)
+###### Table: Parameterless function
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td>function-valued expression()</td></tr>
+</tbody>
+</table>
 
 Formally, the meaning of a boxed invocation is given by the semantics of the equivalent textual invocation, *e.g.,* **function-valued expression (**parameter1**: binding expression1,** parameter2**: binding expression2, ...)**.
 
 #### Boxed Context
 
-A **boxed context** is a collection of *n* (name, value) pairs with an optional result value. The names SHALL be distinct within a context. Each pair is called a context entry. Context entries may be separated by whitespace and connected with a line on the left (top). The intent is that all the entries of a context should be easily identified by looking down the left edge of a vertical context or across the top edge of a horizontal context. Cells SHALL be arranged in one of the following ways (see [Vertical context](Images/vertical-context.svg), [Horizontal context](Images/horizontal-context.svg)):
+A **boxed context** is a collection of *n* (name, value) pairs with an optional result value. The names SHALL be distinct within a context. Each pair is called a context entry. Context entries may be separated by whitespace and connected with a line on the left (top). The intent is that all the entries of a context should be easily identified by looking down the left edge of a vertical context or across the top edge of a horizontal context. Cells SHALL be arranged in one of the following ways (see [Vertical context](#table-vertical-context), [Horizontal context](#table-horizontal-context)):
 
-![Vertical context](Images/vertical-context.svg)
+###### Table: Vertical context
 
-![Horizontal context](Images/horizontal-context.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td>Value 1</td></tr>
+<tr><td class="gap" colspan="2"></td></tr>
+<tr><td class="name">Name 2</td><td>Value 2</td></tr>
+<tr><td class="name">Name <em>n</em></td><td>Value <em>n</em></td></tr>
+<tr><td colspan="2">Result</td></tr>
+</tbody>
+</table>
 
-The context entries in a context are often used to decompose a complex expression into simpler expressions, each with a name. These context entries may be thought of as intermediate results. For example, contexts without a final Result box are useful for representing case data (see [Use of context entries](Images/use-of-context-entries.svg)).
+###### Table: Horizontal context
 
-![Use of context entries](Images/use-of-context-entries.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td class="name">Name 2</td><td class="name">Name <em>n</em></td><td class="gap" rowspan="2"></td><td rowspan="2">Result</td></tr>
+<tr><td>Value 1</td><td>Value 2</td><td>Value <em>n</em></td></tr>
+</tbody>
+</table>
 
-Contexts with a final result box are useful for representing calculations (see [Use of final result box](Images/use-of-final-result-box.svg)).
+The context entries in a context are often used to decompose a complex expression into simpler expressions, each with a name. These context entries may be thought of as intermediate results. For example, contexts without a final Result box are useful for representing case data (see [Use of context entries](#table-use-of-context-entries)).
 
-![Use of final result box](Images/use-of-final-result-box.svg)
+###### Table: Use of context entries
 
-When decision tables are (non-result) context entries, the output cell can be used to name the entry, thus saving space. Any format decision table can be used in a vertical context. A jagged right edge is allowed. Whitespace between context entries may be helpful. See [Vertical context with decision table entry](Images/vertical-context-with-decision-table-entry.svg).
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="3">Applicant Data</th></tr></thead>
+<tbody>
+<tr><td class="name">Age</td><td colspan="2">51</td></tr>
+<tr><td class="name">MaritalStatus</td><td colspan="2">"M"</td></tr>
+<tr><td class="name">EmploymentStatus</td><td colspan="2">"EMPLOYED"</td></tr>
+<tr><td class="name">ExistingCustomer</td><td colspan="2">false</td></tr>
+<tr><td class="name" rowspan="3">Monthly</td><td class="name">Income</td><td>10000.00</td></tr>
+<tr><td class="name">Repayments</td><td>2500.00</td></tr>
+<tr><td class="name">Expenses</td><td>3000.00</td></tr>
+</tbody>
+</table>
 
-![Vertical context with decision table entry](Images/vertical-context-with-decision-table-entry.svg)
+Contexts with a final result box are useful for representing calculations (see [Use of final result box](#table-use-of-final-result-box)).
+
+###### Table: Use of final result box
+
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="2">Eligibility</th></tr></thead>
+<tbody>
+<tr><td class="name">Age</td><td>Applicant. Age</td></tr>
+<tr><td class="name">Monthly Income</td><td>Applicant. Monthly. Income</td></tr>
+<tr><td class="name">Pre-Bureau Risk Category</td><td>Affordability. Pre-Bureau Risk Category</td></tr>
+<tr><td class="name">Installment Affordable</td><td>Affordability. Installment Affordable</td></tr>
+<tr><td colspan="2">if Pre-Bureau Risk Category = "DECLINE" or<br>Installment Affordable = false or<br>Age &lt; 18 or<br>Monthly Income &lt; 100 then<br>"INELIGIBLE" else<br>"ELIGIBLE"</td></tr>
+</tbody>
+</table>
+
+When decision tables are (non-result) context entries, the output cell can be used to name the entry, thus saving space. Any format decision table can be used in a vertical context. A jagged right edge is allowed. Whitespace between context entries may be helpful. See [Vertical context with decision table entry](#table-vertical-context-with-decision-table-entry).
+
+###### Table: Vertical context with decision table entry
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td>Value 1</td><td class="gap"></td></tr>
+<tr><td class="gap" colspan="3"></td></tr>
+<tr><td class="input" colspan="2"></td><td class="output">Name 2</td></tr>
+<tr><td colspan="2"></td><td></td></tr>
+<tr><td class="gap" colspan="3"></td></tr>
+<tr><td class="name">Name <em>n</em></td><td>Value <em>n</em></td><td class="gap"></td></tr>
+<tr><td colspan="2">Result</td><td class="gap"></td></tr>
+</tbody>
+</table>
 
 Color is suggested. The names SHALL be legal FEEL names. The values and optional result are boxed expressions.
 
-Boxed contexts may have a decision table as the result and use the named context entries to compute the inputs and give them names. For example (see [Use of boxed expressions with a decision table](Images/use-of-boxed-expressions-with-a-decision-table.svg)):
+Boxed contexts may have a decision table as the result and use the named context entries to compute the inputs and give them names. For example (see [Use of boxed expressions with a decision table](#table-use-of-boxed-expressions-with-a-decision-table)):
 
-> **Post-Bureau Risk Category**
+###### Table: Use of boxed expressions with a decision table
 
-![Use of boxed expressions with a decision table](Images/use-of-boxed-expressions-with-a-decision-table.svg)
+<table class="dmn-boxed-expression">
+<thead><tr><th colspan="5">Post-Bureau Risk Category</th></tr></thead>
+<tbody>
+<tr><td class="gap" colspan="5"></td></tr>
+<tr><td class="name" colspan="2">Existing Customer</td><td colspan="3">Applicant. ExistingCustomer</td></tr>
+<tr><td class="name" colspan="2">Credit Score</td><td colspan="3">Report. CreditScore</td></tr>
+<tr><td class="name" colspan="2">Application Risk Score</td><td colspan="3">Affordability Model(Applicant, Product). Application Risk Score</td></tr>
+<tr><td class="gap" colspan="5"></td></tr>
+<tr><td>U</td><td class="input">Existing Customer</td><td class="input">Application Risk Score</td><td class="input">Credit Score</td><td class="output">Post-Bureau Risk Category</td></tr>
+<tr><td>1</td><td rowspan="6">true</td><td rowspan="3">&lt;=120</td><td>&lt;590</td><td>"HIGH"</td></tr>
+<tr><td>2</td><td>[590..610]</td><td>"MEDIUM"</td></tr>
+<tr><td>3</td><td>&gt;610</td><td>"LOW"</td></tr>
+<tr><td>4</td><td rowspan="3">&gt;120</td><td>&lt;600</td><td>"HIGH"</td></tr>
+<tr><td>5</td><td>[600..625]</td><td>"MEDIUM"</td></tr>
+<tr><td>6</td><td>&gt;625</td><td>"LOW"</td></tr>
+<tr><td>7</td><td rowspan="6">false</td><td rowspan="3">&lt;=100</td><td>&lt;580</td><td>"HIGH"</td></tr>
+<tr><td>8</td><td>[580..600]</td><td>"MEDIUM"</td></tr>
+<tr><td>9</td><td>&gt;600</td><td>"LOW"</td></tr>
+<tr><td>10</td><td rowspan="3">&gt;100</td><td>&lt;590</td><td>"HIGH"</td></tr>
+<tr><td>11</td><td>[590..615]</td><td>"MEDIUM"</td></tr>
+<tr><td>12</td><td>&gt;615</td><td>"LOW"</td></tr>
+</tbody>
+</table>
 
 Formally, the meaning of a boxed context is { “Name 1”: Value 1, “Name 2”: Value 2, ..., “Name *n”*: Value *n* } if no Result is specified. Otherwise, the meaning is { “Name 1”: Value 1, “Name 2”: Value 2, ..., “Name *n”*: Value *n*, “result”: Result }.result. Recall that the bold face indicates elements in the FEEL Semantic Domain. The scope includes the context derived from the containing DRG as described in [Execution Semantics of Decision Services](#execution-semantics-of-decision-services).
 
@@ -126,19 +239,42 @@ Boxed context entries for contexts that do not have a result box are accessible 
 
 #### Boxed List
 
-A **boxed list** is a list of *n* items. Cells SHALL be arranged in one of the following ways (see [Vertical list](Images/vertical-list.svg), [Horizontal list](Images/horizontal-list.svg)):
+A **boxed list** is a list of *n* items. Cells SHALL be arranged in one of the following ways (see [Vertical list](#table-vertical-list), [Horizontal list](#table-horizontal-list)):
 
-![Vertical list](Images/vertical-list.svg)
+###### Table: Vertical list
 
-![Horizontal list](Images/horizontal-list.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td>Item 1</td></tr>
+<tr class="double-line"><td>Item 2</td></tr>
+<tr class="double-line"><td>Item <em>n</em></td></tr>
+</tbody>
+</table>
+
+###### Table: Horizontal list
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td>Item 1, Item 2, Item <em>n</em></td></tr>
+</tbody>
+</table>
 
 Line styles are normative. The items are boxed expressions. Formally, the meaning of a boxed list is just the meaning of the list, i.e., **\[ Item 1, Item 2, ..., Item *n* \]**. The scope includes the context derived from the containing DRG as described in [Execution Semantics of Decision Services](#execution-semantics-of-decision-services).
 
 #### Relation
 
-A vertical list of homogeneous horizontal contexts (with no result cells) can be displayed with the names appearing just once at the top of the list, like a relational table, as shown in [Relation](Images/relation.svg):
+A vertical list of homogeneous horizontal contexts (with no result cells) can be displayed with the names appearing just once at the top of the list, like a relational table, as shown in [Relation](#table-relation):
 
-![Relation](Images/relation.svg)
+###### Table: Relation
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">Name 1</td><td class="name">Name 2</td><td class="name">Name <em>n</em></td></tr>
+<tr><td>Value 1a</td><td>Value 2a</td><td>Value <em>n</em>a</td></tr>
+<tr><td>Value 1b</td><td>Value 2b</td><td>Value <em>n</em>b</td></tr>
+<tr><td>Value 1<em>m</em></td><td>Value 2<em>m</em></td><td>Value <em>nm</em></td></tr>
+</tbody>
+</table>
 
 #### Boxed Function
 
@@ -164,9 +300,16 @@ The **Kind** box can be omitted for FEEL functions, including decision tables.
 
 3.  Body: a boxed expression
 
-The 3 cells SHALL be arranged as shown in [Boxed function definition](Images/boxed-function-definition.svg):
+The 3 cells SHALL be arranged as shown in [Boxed function definition](#table-boxed-function-definition):
 
-![Boxed function definition](Images/boxed-function-definition.svg)
+###### Table: Boxed function definition
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td>K</td><td>(Parameter1, Parameter2, ...)</td></tr>
+<tr><td colspan="2">Body</td></tr>
+</tbody>
+</table>
 
 For FEEL functions, denoted by **Kind** FEEL or by omission of **Kind**, the Body SHALL be a FEEL expression that references the parameters. For externally defined functions denoted by **Kind** Java, the Body SHALL be a context as described in [Externally-defined functions](#externally-defined-functions) and the form of the mapping information SHALL be the *java* form. For externally defined functions denoted by **Kind** PMML, the Body SHALL be a context as described in [Externally-defined functions](#externally-defined-functions) and the form of the mapping information SHALL be the *pmml* form. For externally defined functions denoted by **Kind** ONNX, the Body SHALL be a context as described in [Externally-defined functions](#externally-defined-functions) and the form of the mapping information SHALL be the *onnx* form.
 
@@ -176,21 +319,57 @@ Formally, the meaning of a boxed function is just the meaning of the function, *
 
 Boxed conditional offers a visual representation of an **if** statement using three rows. The first one is labelled “if”; the second one is labelled “then” and the last one is labelled “else”. In the right part, another FEEL expression is expected. The expression in the “if” part MUST resolve to a boolean.
 
-![Boxed conditional](Images/boxed-conditional.svg)
+###### Table: Boxed conditional
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">if</td><td>FEEL expression</td></tr>
+<tr><td class="name">then</td><td>FEEL expression</td></tr>
+<tr><td class="name">else</td><td>FEEL expression</td></tr>
+</tbody>
+</table>
 
 Color is suggested.
 
-![Use of conditional expression with decision table and invocation](Images/use-of-conditional-expression-with-decision-table-and.svg)
+###### Table: Use of conditional expression with decision table and invocation
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">if</td><td colspan="2"><table class="dmn-decision-table"><colgroup><col class="hit-policy"><col class="input"><col class="output"></colgroup><thead><tr><th rowspan="2">U</th><th>Credit Score Rating</th><th>if</th></tr><tr><td class="values"><em>"Poor", "Bad", "Fair", "Good", "Excellent"</em></td><td class="values"></td></tr></thead><tbody><tr><td>1</td><td>"Good", "Excellent"</td><td>true</td></tr><tr><td>2</td><td>"Poor","Bad","Fair"</td><td>false</td></tr></tbody></table></td></tr>
+<tr><td class="name" rowspan="2">then</td><td colspan="2">Calculate interest rate</td></tr>
+<tr><td class="name">customer info</td><td>Customer Info</td></tr>
+<tr><td class="name" rowspan="2">else</td><td colspan="2">Calculate risky interest rate</td></tr>
+<tr><td class="name">customer info</td><td>Customer Info</td></tr>
+</tbody>
+</table>
 
 #### Boxed filter
 
 Boxed filter offers a visual representation of collection filtering. The top part is an expression that is the collection to be filtered. The bottom part, between the square brackets, holds the filter expression. The expression in the top part MUST resolve to a collection including implicit conversion to singleton list as defined in section [Type conversions](#type-conversions). The expression in the bottom part MUST resolve to a Boolean.
 
-![Filter expression](Images/filter-expression.svg)
+###### Table: Filter expression
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td colspan="3">FEEL Collection Expression</td></tr>
+<tr><td class="name">&#91;</td><td>FEEL Filter Expression</td><td class="name">&#93;</td></tr>
+</tbody>
+</table>
 
 Color is suggested but it is considered a good practice to have a different color for the square brackets, so the filtering expression is easier to see.
 
-![Use of filter expression with a list expression](Images/use-of-filter-expression-with-a-list-expression.svg)
+###### Table: Use of filter expression with a list expression
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td colspan="2">1</td><td colspan="2" rowspan="5"></td></tr>
+<tr><td colspan="2">2</td></tr>
+<tr><td colspan="2">3</td></tr>
+<tr><td colspan="2">22</td></tr>
+<tr><td colspan="2">31</td></tr>
+<tr><td class="name">&#91;</td><td colspan="2">even(item)</td><td class="name">&#93;</td></tr>
+</tbody>
+</table>
 
 #### Boxed iterator
 
@@ -198,19 +377,79 @@ Boxed iterator offers a visual representation of an iterator statement. There ar
 
 For the **for** loop, the three rows are labelled “for”, “in” and “return”. The right part of the “for” displays the iterator variable name. The second row holds an expression representing the collection that will be iterated over. The expression in the in row MUST resolve to a collection including implicit conversion to singleton list as defined in section [Type conversions](#type-conversions). The last row contains the expression that will process each element of the collection.
 
-![For expression](Images/for-expression.svg)
+###### Table: For expression
 
-![Use of for expression that returns a context](Images/use-of-for-expression-that-returns-a-context.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">for</td><td>Iterator variable name</td></tr>
+<tr><td class="name">in</td><td>FEEL Collection Expression</td></tr>
+<tr><td class="name">return</td><td>FEEL Expression</td></tr>
+</tbody>
+</table>
+
+###### Table: Use of for expression that returns a context
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">for</td><td colspan="2">letter</td></tr>
+<tr><td class="name">in</td><td colspan="2">["a", "b", "c", "d", "e"]</td></tr>
+<tr><td class="name" rowspan="2">return</td><td class="name">Upper case</td><td>upper case(letter)</td></tr>
+<tr><td class="name">Is it a vowel?</td><td>list contains(["a", "e", "i", "o", "u"], letter)</td></tr>
+</tbody>
+</table>
 
 **Every** and **some** expression have a similar structure. The only difference between the two is the caption on the first line which is “every” or “some”. The second line is labelled “in” and the last one “satisfies”. The right part of the first line is the iterator variable name. The expression defined in the second row is the collection that will be tested. The expression in the in row MUST resolve to a collection including implicit conversion to singleton list as defined in section [Type conversions](#type-conversions). The last line is an expression that will be evaluated on each item. The expression defined in the satisfies MUST resolve to a boolean.
 
-![Every expression](Images/every-expression.svg)
+###### Table: Every expression
 
-![Use of every with a list expression](Images/use-of-every-with-a-list-expression.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">every</td><td>Iterator variable name</td></tr>
+<tr><td class="name">in</td><td>FEEL Collection Expression</td></tr>
+<tr><td class="name">satisfies</td><td>FEEL Expression</td></tr>
+</tbody>
+</table>
 
-![Some expression](Images/some-expression.svg)
+###### Table: Use of every with a list expression
 
-![Use of some with a relation and a decision table](Images/use-of-some-with-a-relation-and-a-decision-table.svg)
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">every</td><td colspan="2">num</td></tr>
+<tr><td class="name" rowspan="6">in</td><td>1</td><td rowspan="6"></td></tr>
+<tr><td>2</td></tr>
+<tr><td>3</td></tr>
+<tr><td>4</td></tr>
+<tr><td>5</td></tr>
+<tr><td>6</td></tr>
+<tr><td class="name">satisfies</td><td colspan="2">num &gt; 5</td></tr>
+</tbody>
+</table>
+
+###### Table: Some expression
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">some</td><td>Iterator variable name</td></tr>
+<tr><td class="name">in</td><td>FEEL Collection Expression</td></tr>
+<tr><td class="name">satisfies</td><td>FEEL Expression</td></tr>
+</tbody>
+</table>
+
+###### Table: Use of some with a relation and a decision table
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name">some</td><td colspan="3">customer</td></tr>
+<tr><td class="name" rowspan="7">in</td><td class="name">Name</td><td class="name">Age</td><td rowspan="7"></td></tr>
+<tr><td><em>Text</em></td><td><em>Number</em></td></tr>
+<tr class="double-line"><td>"Georges"</td><td>55</td></tr>
+<tr><td>"Henry"</td><td>69</td></tr>
+<tr><td>"Alexander"</td><td>10</td></tr>
+<tr><td>"Emma"</td><td>5</td></tr>
+<tr><td>"Jane"</td><td>39</td></tr>
+<tr><td class="name">satisfies</td><td colspan="3"><table class="dmn-decision-table"><colgroup><col class="hit-policy"><col class="input"><col class="output"></colgroup><thead><tr><th rowspan="2">U</th><th>customer.Age</th><th>satisfies</th></tr><tr><td class="values"><em>Number</em></td><td class="values"><em>Boolean</em></td></tr></thead><tbody><tr><td>1</td><td>&lt;18</td><td>false</td></tr><tr><td>2</td><td>&gt;=18</td><td>true</td></tr></tbody></table></td></tr>
+</tbody>
+</table>
 
 ### FEEL
 
@@ -323,99 +562,96 @@ Note that the character range that includes all Unicode characters is *\[\\u0-\\
 The complete FEEL grammar is specified below. Grammar rules are numbered, and in some cases, alternatives are lettered, for later reference. Boxed expression syntax ([boxed expression](#rule-boxed-expression)) is used to give execution semantics to boxed expressions.
 
 1. <a id="rule-expression"></a>expression =
-   1. boxed expression |
-   1. textual expression ;
+   1. <a id="rule-expression-i"></a>boxed expression |
+   1. <a id="rule-expression-ii"></a>textual expression ;
 1. <a id="rule-textual-expression"></a>textual expression =
-   1. for expression | if expression | quantified expression |
-   1. disjunction |
-   1. conjunction |
-   1. comparison |
-   1. arithmetic expression |
-   1. instance of |
-   1. path expression | descendant expression | filter expression | function invocation |
-   1. literal | simple positive unary test | name | "(" , expression , ")" ;
-1. textual expressions = textual expression , { "," , textual expression } ;
+   1. <a id="rule-textual-expression-i"></a>for expression | if expression | quantified expression |
+   1. <a id="rule-textual-expression-ii"></a>disjunction |
+   1. <a id="rule-textual-expression-iii"></a>conjunction |
+   1. <a id="rule-textual-expression-iv"></a>comparison |
+   1. <a id="rule-textual-expression-v"></a>arithmetic expression |
+   1. <a id="rule-textual-expression-vi"></a>instance of |
+   1. <a id="rule-textual-expression-vii"></a>path expression | descendant expression | filter expression | function invocation |
+   1. <a id="rule-textual-expression-viii"></a>literal | simple positive unary test | name | "(" , expression , ")" ;
+1. <a id="rule-textual-expressions"></a>textual expressions = textual expression , { "," , textual expression } ;
 1. <a id="rule-arithmetic-expression"></a>arithmetic expression =
-   1. addition | subtraction |
-   1. multiplication | division |
-   1. exponentiation |
-   1. arithmetic negation ;
-1. simple expression = arithmetic expression | simple value ;
-1. simple expressions = simple expression , { "," , simple expression } ;
-1. simple positive unary test =
-   1. <a id="rule-simple-positive-unary-test-a"></a>( "\<" | "\<=" | "\>" | "\>=" | "=" | "!=" ) , endpoint |
-   1. <a id="rule-simple-positive-unary-test-b"></a>interval ;
-1. interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
-1. open interval start = "(" | "\]" ;
-1. closed interval start = "\[" ;
-1. open interval end = ")" | "\[" ;
-1. closed interval end = "\]" ;
-1. positive unary test = expression ;
-1. positive unary tests = positive unary test , { "," , positive unary test } ;
+   1. <a id="rule-arithmetic-expression-i"></a>addition | subtraction |
+   1. <a id="rule-arithmetic-expression-ii"></a>multiplication | division |
+   1. <a id="rule-arithmetic-expression-iii"></a>exponentiation |
+   1. <a id="rule-arithmetic-expression-iv"></a>arithmetic negation ;
+1. <a id="rule-simple-expression"></a>simple expression = arithmetic expression | simple value ;
+1. <a id="rule-simple-expressions"></a>simple expressions = simple expression , { "," , simple expression } ;
+1. <a id="rule-simple-positive-unary-test"></a>simple positive unary test =
+   1. <a id="rule-simple-positive-unary-test-i"></a>( "\<" | "\<=" | "\>" | "\>=" | "=" | "!=" ) , endpoint |
+   1. <a id="rule-simple-positive-unary-test-ii"></a>interval ;
+1. <a id="rule-interval"></a>interval = ( open interval start | closed interval start ) , endpoint , ".." , endpoint , ( open interval end | closed interval end ) ;
+1. <a id="rule-open-interval-start"></a>open interval start = "(" | "\]" ;
+1. <a id="rule-closed-interval-start"></a>closed interval start = "\[" ;
+1. <a id="rule-open-interval-end"></a>open interval end = ")" | "\[" ;
+1. <a id="rule-closed-interval-end"></a>closed interval end = "\]" ;
+1. <a id="rule-positive-unary-test"></a>positive unary test = expression ;
+1. <a id="rule-positive-unary-tests"></a>positive unary tests = positive unary test , { "," , positive unary test } ;
 1. <a id="rule-unary-tests"></a>unary tests =
-   1. <a id="rule-unary-tests-a"></a>positive unary tests |
-   1. <a id="rule-unary-tests-b"></a>"not", " (", positive unary tests, ")" |
-   1. <a id="rule-unary-tests-c"></a>"-"
+   1. <a id="rule-unary-tests-i"></a>positive unary tests |
+   1. <a id="rule-unary-tests-ii"></a>"not", " (", positive unary tests, ")" |
+   1. <a id="rule-unary-tests-iii"></a>"-"
 1. <a id="rule-endpoint"></a>endpoint = expression ;
-1. simple value = qualified name | simple literal ;
+1. <a id="rule-simple-value"></a>simple value = qualified name | simple literal ;
 1. <a id="rule-qualified-name"></a>qualified name = name , { "." , name } ;
-1. addition = expression , "+" , expression ;
-1. subtraction = expression , "-" , expression ;
-1. multiplication = expression , "\*" , expression ;
+1. <a id="rule-addition"></a>addition = expression , "+" , expression ;
+1. <a id="rule-subtraction"></a>subtraction = expression , "-" , expression ;
+1. <a id="rule-multiplication"></a>multiplication = expression , "\*" , expression ;
 1. <a id="rule-division"></a>division = expression , "/" , expression ;
 1. <a id="rule-exponentiation"></a>exponentiation = expression, "\*\*", expression ;
-1. arithmetic negation = "-" , expression ;
+1. <a id="rule-arithmetic-negation"></a>arithmetic negation = "-" , expression ;
 1. <a id="rule-name"></a>name = name start , { name part | additional name symbols } ;
 1. <a id="rule-name-start"></a>name start = name start char, { name part char } ;
 1. <a id="rule-name-part"></a>name part = name part char , { name part char } ;
 1. <a id="rule-name-start-char"></a>name start char = "?" | \[A-Z\] | "\_" | \[a-z\] | \[\\uC0-\\uD6\] | \[\\uD8-\\uF6\] | \[\\uF8-\\u2FF\] | \[\\u370-\\u37D\] | \[\\u37F-\\u1FFF\] | \[\\u200C-\\u200D\] | \[\\u2070-\\u21 8F\] | \[\\u2C00-\\u2FEF\] | \[\\u3001 -\\uD7FF\] | \[\\uF900-\\uFDCF\] | \[\\uFDF0-\\uFFFD\] | \[\\u10000-\\uEFFFF\] ;
 1. <a id="rule-name-part-char"></a>name part char = name start char | digit | \\uB7 | \[\\u0300-\\u036F\] | \[\\u203F-\\u2040\] ;
 1. <a id="rule-additional-name-symbols"></a>additional name symbols = "." | "/" | "-" | """'" | "+" | "\*" ;
-1. literal = simple literal | "null" ;
-1. simple literal = numeric literal | string literal | boolean literal | date time literal ;
+1. <a id="rule-literal"></a>literal = simple literal | "null" ;
+1. <a id="rule-simple-literal"></a>simple literal = numeric literal | string literal | boolean literal | date time literal ;
 1. <a id="rule-string-literal"></a>string literal = """, { character ""- (""" | vertical space) | string escape sequence}, """ ;
 1. <a id="rule-boolean-literal"></a>boolean literal = "true" | "false" ;
 1. <a id="rule-numeric-literal"></a>numeric literal = \[ "-" \] , ( digits , \[ ".", digits \] | "." , digits ), \[ ( "e" | "E" ) , \[ "+" | "-" \] , digits \] ;
-1. digit = \[0-9\] ;
+1. <a id="rule-digit"></a>digit = \[0-9\] ;
 1. <a id="rule-digits"></a>digits = digit , {digit} ;
 1. <a id="rule-function-invocation"></a>function invocation = expression , parameters ;
 1. <a id="rule-parameters"></a>parameters = "(" , ( named parameters | positional parameters ) , ")" ;
 1. <a id="rule-named-parameters"></a>named parameters = parameter name , ":" , expression , { "," , parameter name , ":" , expression } ;
 1. <a id="rule-parameter-name"></a>parameter name = name ;
-1. positional parameters = \[ expression , { "," , expression } \] ;
-1. path expression = expression , "." , name ;
-1. <a id="rule-for-expression"></a>for expression = "for" , name , "in" , iteration context { "," , name , "in" , iteration context } , "return" , expression
-
-;
-
-45. if expression = "if" , expression , "then" , expression , "else" expression ;
+1. <a id="rule-positional-parameters"></a>positional parameters = \[ expression , { "," , expression } \] ;
+1. <a id="rule-path-expression"></a>path expression = expression , "." , name ;
+1. <a id="rule-for-expression"></a>for expression = "for" , name , "in" , iteration context { "," , name , "in" , iteration context } , "return" , expression ;
+1. <a id="rule-if-expression"></a>if expression = "if" , expression , "then" , expression , "else" expression ;
 1. <a id="rule-quantified-expression"></a>quantified expression = ("some" | "every") , name , "in" , iteration context , { "," , name , "in" , iteration context } , "satisfies", expression ;
-1. disjunction = expression , "or" , expression ;
-1. conjunction = expression , "and" , expression ;
-1. comparison =
-   1. expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression |
-   1. expression , "between" , expression , "and" , expression |
-   1. expression , "in" , positive unary test |
-   1. expression , "in" , " (", positive unary tests, ")" ;
-1. filter expression = expression , "\[" , expression , "\]" ;
-1. instance of = expression , "instance" , "of" , type | expression , "as" , type ;
+1. <a id="rule-disjunction"></a>disjunction = expression , "or" , expression ;
+1. <a id="rule-conjunction"></a>conjunction = expression , "and" , expression ;
+1. <a id="rule-comparison"></a>comparison =
+   1. <a id="rule-comparison-i"></a>expression , ( "=" | "!=" | "\<" | "\<=" | "\>" | "\>=" ) , expression |
+   1. <a id="rule-comparison-ii"></a>expression , "between" , expression , "and" , expression |
+   1. <a id="rule-comparison-iii"></a>expression , "in" , positive unary test |
+   1. <a id="rule-comparison-iv"></a>expression , "in" , " (", positive unary tests, ")" ;
+1. <a id="rule-filter-expression"></a>filter expression = expression , "\[" , expression , "\]" ;
+1. <a id="rule-instance-of"></a>instance of = expression , "instance" , "of" , type | expression , "as" , type ;
 1. <a id="rule-type"></a>type = qualified name | "range" "\<" type "\>" | "list" "\<" type "\>" | "context" "\<" \[ name ":" type { "," name ":" type } \] "\>" | "function" "\<" \[ type { ", " type } \] "\>" "-\>" type ;
 1. <a id="rule-boxed-expression"></a>boxed expression = list | function definition | context ;
 1. <a id="rule-list"></a>list = "\[" , \[ expression , { "," , expression } \] , "\]" ;
 1. <a id="rule-function-definition"></a>function definition = "function" , "(" , \[ formal parameter { "," , formal parameter } \] , ")" , \[ "external" \] , expression ;
 1. <a id="rule-formal-parameter"></a>formal parameter = parameter name \[":" type \] \[ "?" | "..." \] ;
 1. <a id="rule-context"></a>context = "{" , \[context entry , { "," , context entry } \] , "}" ;
-1. context entry = key , ":" , expression ;
-1. key = name | string literal ;
+1. <a id="rule-context-entry"></a>context entry = key , ":" , expression ;
+1. <a id="rule-key"></a>key = name | string literal ;
 1. <a id="rule-date-time-literal"></a>date time literal = at literal | function invocation;
 1. <a id="rule-white-space"></a>white space = vertical space | \\u0009 | \\u0020 | \\u0085 | \\u00A0 | \\u1 680 | \\u1 80E | \[\\u2000-\\u200B\] | \\u2028 | \\u2029 | \\u202F | \\u205F | \\u3000 | \\uFEFF ;
-1. vertical space = \[\\u000A-\\u000D\]
+1. <a id="rule-vertical-space"></a>vertical space = \[\\u000A-\\u000D\]
 1. <a id="rule-iteration-context"></a>iteration context = expression, \[ """..""", expression \];
-1. string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | code point;
+1. <a id="rule-string-escape-sequence"></a>string escape sequence = "\\'" | "\\"" | "\\\\" | "\\n" | "\\r" | "\\t" | code point;
 1. <a id="rule-at-literal"></a>at literal = """@""", string literal
 1. <a id="rule-range-literal"></a>range literal = a. ( open range start | closed range start ) , range endpoint , ".." , range endpoint ( open range end | closed range end ) | b. open range start , ".." , range endpoint ( open range end | closed range end ) | c. ( open range start | closed range start ) , range endpoint , ".." , open range end ;
 1. <a id="rule-range-endpoint"></a>range endpoint = numeric literal | string literal | date time literal ;
-1. descendant expression = expression , "..." , name ;
+1. <a id="rule-descendant-expression"></a>descendant expression = expression , "..." , name ;
 
 Additional syntax rules:
 
@@ -568,9 +804,7 @@ There is no value for notANumber, positiveInfinity, or negativeInfinity. Use **n
 
 ##### string
 
-Grammar [string literal](#rule-string-literal) defines literal strings as a double-quoted sequence of Unicode characters (see
-
-<https://unicode.org/glossary/#character),> e.g., "abc". The supported Unicode character range is \[\\u0-\\u10FFFF\]. The string literals are described by [string literal](#rule-string-literal). The corresponding Unicode code points are used to encode a string literal.
+Grammar [string literal](#rule-string-literal) defines literal strings as a double-quoted sequence of Unicode characters (see <https://unicode.org/glossary/#character>), e.g., "abc". The supported Unicode character range is \[\\u0-\\u10FFFF\]. The string literals are described by [string literal](#rule-string-literal). The corresponding Unicode code points are used to encode a string literal.
 
 The literal string *"abc"* is mapped to the semantic domain as a sequence of three Unicode characters **a**, **b**, and **c**, written **"abc"**. The literal *"\\ U01F4 0E"* is mapped to a sequence of one Unicode character written **"ὀ"** corresponding to the code point U+1F40E. ![](Images/string-symbol.svg)
 
@@ -665,9 +899,9 @@ These references SHALL be acyclic and form a partial order. The expressions in a
 
 FEEL supports a compact syntax for a range of values, useful in decision table test cells and elsewhere. Ranges can be syntactically represented either:
 
-a\) as a comparison operator and a single endpoint (grammar [simple positive unary test](#rule-simple-positive-unary-test-a).)
+a\) as a comparison operator and a single endpoint (grammar [simple positive unary test](#rule-simple-positive-unary-test-i).)
 
-b\) or a pair of endpoints and endpoint inclusivity flags that indicate whether one or both endpoints are included in the range (grammar [simple positive unary test](#rule-simple-positive-unary-test-b).); on this case, endpoints must be of equivalent types (see section [Type Equivalence](#type-equivalence)for the definition of type equivalence) and the endpoints must be ordered such that range start \<= range end.
+b\) or a pair of endpoints and endpoint inclusivity flags that indicate whether one or both endpoints are included in the range (grammar [simple positive unary test](#rule-simple-positive-unary-test-ii).); on this case, endpoints must be of equivalent types (see section [Type Equivalence](#type-equivalence)for the definition of type equivalence) and the endpoints must be ordered such that range start \<= range end.
 
 Endpoints can be expressions (grammar [endpoint](#rule-endpoint)) of the following types: number, string, date, time, date and time, or duration. The following are examples of valid ranges:
 
@@ -696,7 +930,7 @@ Ranges are mapped into the semantic domain as a typed instance of the *range* ty
 | \<= 10    | false          | undefined | 10        | true         |
 | \> 1      | false          | 1         | undefined | false        |
 
-The semantics of comparison expressions involving ranges (grammar rules 49c and 49d) is defined in [Semantics of decision table syntax](#table-semantics-of-decision-table-syntax), [Specific semantics of inequality](#table-specific-semantics-of-inequality), [General semantics of equality and inequality](#table-general-semantics-of-equality-and-inequality), and [Semantics of conjunction and disjunction](#table-semantics-of-conjunction-and-disjunction). The same rules apply when ranges are created programmatically, e.g., using the range function.
+The semantics of comparison expressions involving ranges (grammar rules [49.iii](#rule-comparison-iii) and [49.iv](#rule-comparison-iv)) is defined in [Semantics of decision table syntax](#table-semantics-of-decision-table-syntax), [Specific semantics of inequality](#table-specific-semantics-of-inequality), [General semantics of equality and inequality](#table-general-semantics-of-equality-and-inequality), and [Semantics of conjunction and disjunction](#table-semantics-of-conjunction-and-disjunction). The same rules apply when ranges are created programmatically, e.g., using the range function.
 
 #### Functions
 
@@ -828,81 +1062,46 @@ The conformance relation (\<:) is defined as follows:
 
 Let us consider the following ItemDefinitions:
 
-\<itemDefinition name="Employee1"\>
-
-> \<itemComponent name="id"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="name"\>
->
-> \<typeRef\>string\</typeRef\>
->
-> \</itemComponent\>
-
-\</itemDefinition\>
-
-\<itemDefinition name="Employee2"\>
-
-> \<itemComponent name="name"\>
->
-> \<typeRef\>string\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="id"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
->
-> \</itemDefinition\>
-
-\<itemDefinition name="Employee3"\>
-
-> \<itemComponent name="id"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="name"\>
->
-> \<typeRef\>string\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="age"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
-
-\</itemDefinition\>
-
-\<itemDefinition isCollection=”true” name="Employee3List"\>
-
-> \<itemComponent name="id"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="name"\>
->
-> \<typeRef\>string\</typeRef\>
->
-> \</itemComponent\>
->
-> \<itemComponent name="age"\>
->
-> \<typeRef\>number\</typeRef\>
->
-> \</itemComponent\>
-
-\</itemDefinition\>
+```xml
+<itemDefinition name="Employee1">
+  <itemComponent name="id">
+    <typeRef>number</typeRef>
+  </itemComponent>
+  <itemComponent name="name">
+    <typeRef>string</typeRef>
+  </itemComponent>
+</itemDefinition>
+<itemDefinition name="Employee2">
+  <itemComponent name="name">
+    <typeRef>string</typeRef>
+  </itemComponent>
+  <itemComponent name="id">
+    <typeRef>number</typeRef>
+  </itemComponent>
+</itemDefinition>
+<itemDefinition name="Employee3">
+  <itemComponent name="id">
+    <typeRef>number</typeRef>
+  </itemComponent>
+  <itemComponent name="name">
+    <typeRef>string</typeRef>
+  </itemComponent>
+  <itemComponent name="age">
+    <typeRef>number</typeRef>
+  </itemComponent>
+</itemDefinition>
+<itemDefinition isCollection="true" name="Employee3List">
+  <itemComponent name="id">
+    <typeRef>number</typeRef>
+  </itemComponent>
+  <itemComponent name="name">
+    <typeRef>string</typeRef>
+  </itemComponent>
+  <itemComponent name="age">
+    <typeRef>number</typeRef>
+  </itemComponent>
+</itemDefinition>
+```
 
 > and the decisions *Decision1*, *Decision2, Decision3 and Decision4* with corresponding *typeRefs Employee1*, *Employee2,* *Employee3* and *Employee3List*.
 
@@ -1167,48 +1366,34 @@ The table below contains several examples for singleton list conversions.
 
 In the example below, before binding variable *decision_003* to value *"123"* the conversion to the target type (number) fails, hence the variable is bound to *null*.
 
-\<decision name="decision_003" id="\_decision_003"\>
-
-> \<variable name="decision_003" typeRef="number"/\>
->
-> \<literalExpression\>
->
-> \<text\>*”123*”\</text\>
->
-> \</literalExpression\>
-
-\</decision\>
+```xml
+<decision name="decision_003" id="_decision_003">
+  <variable name="decision_003" typeRef="number"/>
+  <literalExpression>
+    <text>"123"</text>
+  </literalExpression>
+</decision>
+```
 
 #### Decision Table
 
 The normative notation for decision tables is specified in [Decision Table](08_Decision_Table.md#decision-table). Each input expression SHALL be a textual expression (grammar [textual expression](#rule-textual-expression)). Each list of input values SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)). The value that is tested is the value of the input expression of the containing InputClause. Each list of output values SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)).  
 The value that is tested is the value of a selected output entry of the containing OutputClause. Each input entry SHALL be an instance of unary tests (grammar [unary tests](#rule-unary-tests)). Rule annotations are ignored in the execution semantics.
 
-The decision table components are shown in [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg): Rules as rows – schematic layout, and also correspond to the metamodel in clause [Metamodel](08_Decision_Table.md#metamodel) For convenience, [Rules as rows - schematic layout](Images/rules-as-rows-schematic-layout.svg) is reproduced here.
+The decision table components are shown in [Rules as rows - schematic layout](08_Decision_Table.md#table-rules-as-rows---schematic-layout): Rules as rows – schematic layout, and also correspond to the metamodel in clause [Metamodel](08_Decision_Table.md#metamodel) For convenience, [Rules as rows - schematic layout](08_Decision_Table.md#table-rules-as-rows---schematic-layout) is reproduced here.
 
-<table>
-<tr><th colspan="2">
-
-information item name
-
-</th><th></th><th></th></tr>
-<tr><td rowspan="2">H</td><td>input expression 1</td><td>input expression 2</td><td>Output label</td></tr>
-<tr><td>
-
-input value 1a,
-
-input value 1b
-
-</td><td>
-
-input value 2a,
-
-input value 2b
-
-</td><td>output value 1a, output value 1b</td></tr>
+<table class="dmn-decision-table">
+<colgroup><col class="hit-policy"><col class="input"><col class="input"><col class="output"></colgroup>
+<thead>
+<tr><th colspan="4">information item name</th></tr>
+<tr><th rowspan="2">H</th><th>input expression 1</th><th>input expression 2</th><th>Output label</th></tr>
+<tr><td class="values optional">input value 1a, input value 1b</td><td class="values optional">input value 2a, input value 2b</td><td class="values optional">output value 1a, output value 1b</td></tr>
+</thead>
+<tbody>
 <tr><td>1</td><td rowspan="2">input entry 1.1</td><td>input entry 2.1</td><td>output entry 1.1</td></tr>
 <tr><td>2</td><td>input entry 2.2</td><td>output entry 1.2</td></tr>
 <tr><td>3</td><td>input entry 1.2</td><td>-</td><td>output entry 1.3</td></tr>
+</tbody>
 </table>
 
 The semantics of a decision table is specified by first composing its literal expressions and unary tests into Boolean expressions that are mapped to the semantic domain and composed into rule matches then rule hits. Finally, some of the decision table output expressions are mapped to the semantic domain and comprise the result of the decision table interpretation. Decision table components are detailed in [Semantics of decision table](#table-semantics-of-decision-table).
@@ -1231,7 +1416,7 @@ Description
 
 A unary tests literal for the output.
 
-(In the event of M\>1 output components (see [Horizontal table with multiple output components](Images/horizontal-table-with-multiple-output-components.svg)), each output component may have its own output values)
+(In the event of M\>1 output components (see [Horizontal table with multiple output components](08_Decision_Table.md#table-horizontal-table-with-multiple-output-components)), each output component may have its own output values)
 
 </td></tr>
 <tr><td>rules</td><td>a list of R&gt;0 rules. A rule is a list of N input entries followed by M output entries. An input entry is a unary tests literal. An output entry is a literal expression.</td></tr>
@@ -1247,13 +1432,13 @@ one of: "U", "A", “P”, “F”, "R", "O", "C", "C+", "C#", "C\<",
 
 Unary tests (grammar [unary tests](#rule-unary-tests)) are used to represent both input values and input entries. An input expression *e* is said to *satisfy* an input entry *t* (with optional input values *v*), depending on the syntax of *t*, as follows:
 
-- grammar [unary tests](#rule-unary-tests-a): FEEL(*e in (t)*)**=true**
+- grammar [unary tests](#rule-unary-tests-i): FEEL(*e in (t)*)**=true**
 
-- grammar [unary tests](#rule-unary-tests-b): FEEL(*e in (t)*)**=false**
+- grammar [unary tests](#rule-unary-tests-ii): FEEL(*e in (t)*)**=false**
 
-- grammar [unary tests](#rule-unary-tests-c) when *v* is not provided: **e != null**
+- grammar [unary tests](#rule-unary-tests-iii) when *v* is not provided: **e != null**
 
-- grammar [unary tests](#rule-unary-tests-c) when *v* is provided: FEEL(*e in (v)*)**=true**
+- grammar [unary tests](#rule-unary-tests-iii) when *v* is provided: FEEL(*e in (v)*)**=true**
 
 A rule with input entries *t₁,t₂,...,tN* is said to *match* the input expression list *\[e₁,e₂,...,eN\]* (with optional input values list *\[v₁,v₂, ...vN\]*) if *eᵢ satisfies tᵢ* (with optional input values *vᵢ*) for all *i* in 1..N.
 
@@ -1609,8 +1794,8 @@ The meaning of each substantive grammar rule is given below by mapping the synta
 
 | Grammar Rule | FEEL Syntax | Mapped to Domain |
 |------------|-----------------------|--------------------------------------|
-| 55 | *function(n₁, ...nN) e* | **function(argument list: \[***n₁, ... nN***\], body:** *e***, scope: s)** |
-| 55 | *function(n₁, ...nN) external e* | **function(argument list: \[***n₁, ... nN***\], external: e)** |
+| [55](#rule-function-definition) | *function(n₁, ...nN) e* | **function(argument list: \[***n₁, ... nN***\], body:** *e***, scope: s)** |
+| [55](#rule-function-definition) | *function(n₁, ...nN) external e* | **function(argument list: \[***n₁, ... nN***\], external: e)** |
 
 See [Ranges](#ranges).
 
@@ -1632,7 +1817,7 @@ FEEL Syntax
 Mapped to Domain
 
 </th></tr>
-<tr><td>44</td><td>
+<tr><td><a href="#rule-for-expression">44</a></td><td>
 
 *for i₁ in ic₁, i₂ in ic₂, ... return e*
 
@@ -1641,7 +1826,7 @@ Mapped to Domain
 **\[ FEEL(***e*, **s'), FEEL(***e*, **si, ... \]**
 
 </td></tr>
-<tr><td>45</td><td>
+<tr><td><a href="#rule-if-expression">45</a></td><td>
 
 *if e₁ then e₂ else e₃*
 
@@ -1650,7 +1835,7 @@ Mapped to Domain
 **if FEEL(***e₁***) is true then FEEL(***e₂***) else FEEL(***e₃***)**
 
 </td></tr>
-<tr><td>46</td><td>
+<tr><td><a href="#rule-quantified-expression">46</a></td><td>
 
 *some n₁ in e₁, n₂ in e₂, ...*
 
@@ -1661,7 +1846,7 @@ Mapped to Domain
 **false or FEEL(***e,* **s') or FEEL(***e,* **s") or ...**
 
 </td></tr>
-<tr><td>46</td><td>
+<tr><td><a href="#rule-quantified-expression">46</a></td><td>
 
 *every n 1 in e 1, n2 in e2, ...*
 
@@ -1672,7 +1857,7 @@ Mapped to Domain
 **true and FEEL(***e,* **s') and FEEL(***e,* **s") and ...**
 
 </td></tr>
-<tr><td>47</td><td>
+<tr><td><a href="#rule-disjunction">47</a></td><td>
 
 *e₁ or e₂ or ...*
 
@@ -1681,7 +1866,7 @@ Mapped to Domain
 **FEEL(***e₁***) or FEEL(***e₂***) or** ...
 
 </td></tr>
-<tr><td>48</td><td>
+<tr><td><a href="#rule-conjunction">48</a></td><td>
 
 *e₁ and e₂ and ...*
 
@@ -1690,7 +1875,7 @@ Mapped to Domain
 **FEEL(***e₁***) and FEEL(***e₂***) and** ...
 
 </td></tr>
-<tr><td>49.a</td><td>
+<tr><td><a href="#rule-comparison-i">49.i</a></td><td>
 
 *e = null*
 
@@ -1699,7 +1884,7 @@ Mapped to Domain
 **FEEL(***e***) is null**
 
 </td></tr>
-<tr><td>49.a</td><td>
+<tr><td><a href="#rule-comparison-i">49.i</a></td><td>
 
 *null = e*
 
@@ -1708,7 +1893,7 @@ Mapped to Domain
 **FEEL(***e***) is null**
 
 </td></tr>
-<tr><td>49.a</td><td>
+<tr><td><a href="#rule-comparison-i">49.i</a></td><td>
 
 *e != null*
 
@@ -1717,7 +1902,7 @@ Mapped to Domain
 **FEEL(***e***) is not null**
 
 </td></tr>
-<tr><td>49.a</td><td>
+<tr><td><a href="#rule-comparison-i">49.i</a></td><td>
 
 *null != e*
 
@@ -1766,8 +1951,8 @@ Equality and inequality map to several kind- and datatype-specific tests, as sho
 
 | Grammar Rule | FEEL Syntax | Input Domain | Result |
 |------------|---------------|----------------------|------------------------|
-| 49.a | *e1 = e2* | **e1 and e2 must both be of the same kind/datatype – both numbers, both strings, etc.** | *See below* |
-| 49.a | *e₁ \< e₂* | **e₁** and **e₂** must both be of the same kind/datatype – both numbers, both strings, *etc.* | *See below* |
+| [49.i](#rule-comparison-i) | *e1 = e2* | **e1 and e2 must both be of the same kind/datatype – both numbers, both strings, etc.** | *See below* |
+| [49.i](#rule-comparison-i) | *e₁ \< e₂* | **e₁** and **e₂** must both be of the same kind/datatype – both numbers, both strings, *etc.* | *See below* |
 
 ###### Table: Specific semantics of equality
 
@@ -1904,7 +2089,7 @@ Equivalent FEEL Syntax
 applicability
 
 </th></tr>
-<tr><td>49.b</td><td>
+<tr><td><a href="#rule-comparison-ii">49.ii</a></td><td>
 
 *e₁ between e₂ and e₃*
 
@@ -1913,7 +2098,7 @@ applicability
 *e₁ \>= e₂ and e₁ \<= e₃*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \[e₂,e₃, ... \]*
 
@@ -1922,7 +2107,7 @@ applicability
 *e₁ = e₂ or e₁ = e₃ or...*
 
 </td><td>e₂ and e₃ are endpoints</td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \[e₂,e₃, ... \]*
 
@@ -1931,7 +2116,7 @@ applicability
 *e₁ in e₂ or e₁ in e₃ or...*
 
 </td><td>e₂ and e₃ are ranges</td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \<=e₂*
 
@@ -1940,7 +2125,7 @@ applicability
 *e₁ \<= e₂*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \<e₂*
 
@@ -1949,7 +2134,7 @@ applicability
 *e₁ \< e₂*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \>=e₂*
 
@@ -1958,7 +2143,7 @@ applicability
 *e₁ \>= e₂*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \>e₂*
 
@@ -1967,7 +2152,7 @@ applicability
 *e₁ \> e₂*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in (e₂..e₃)*
 
@@ -1976,7 +2161,7 @@ applicability
 *e₁ \> e₂ and e₁\<e₃*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in (e₂..e₃\]*
 
@@ -1985,7 +2170,7 @@ applicability
 *e₁ \> e₂ and e₁\<=e₃*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \[e₂..e₃)*
 
@@ -1994,7 +2179,7 @@ applicability
 *e₁ \>= e₂ and e₁\<e₃*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e₁ in \[e₂..e₃\]*
 
@@ -2003,7 +2188,7 @@ applicability
 *e₁ \>= e₂ and e₁\<=e₃*
 
 </td><td></td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e1 in e2*
 
@@ -2016,7 +2201,7 @@ applicability
 e2 is a qualified name that does *not* evaluate to a list
 
 </td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e1 in e2*
 
@@ -2025,7 +2210,7 @@ e2 is a qualified name that does *not* evaluate to a list
 *list contains( e2, e1 )*
 
 </td><td>e1 is a simple value that is not a list and e2 is a qualified name that evaluates to a list</td></tr>
-<tr><td>49.c</td><td>
+<tr><td><a href="#rule-comparison-iii">49.iii</a></td><td>
 
 *e1 in e2*
 
@@ -2042,8 +2227,8 @@ Addition and subtraction are defined in [General semantics of addition and subtr
 
 | Grammar Rule | FEEL      | Input Domain and Result |
 |--------------|-----------|-------------------------|
-| 19           | *e₁ + e₂* | *See below*             |
-| 20           | *e₁ – e₂* | *See below*             |
+| [19](#rule-addition)           | *e₁ + e₂* | *See below*             |
+| [20](#rule-subtraction)           | *e₁ – e₂* | *See below*             |
 
 ###### Table: Specific semantics of addition and subtraction
 
@@ -2143,8 +2328,8 @@ Multiplication and division are defined in [General semantics of multiplication 
 
 | Grammar Rule | FEEL       | Input Domain and Result |
 |--------------|------------|-------------------------|
-| 21           | *e₁ \* e₂* | *See below*             |
-| 22           | *e₁ / e₂*  | *See below*             |
+| [21](#rule-multiplication)           | *e₁ \* e₂* | *See below*             |
+| [22](#rule-division)           | *e₁ / e₂*  | *See below*             |
 
 ###### Table: Specific semantics of multiplication and division
 
@@ -2295,7 +2480,7 @@ Input Domain
 Result
 
 </th></tr>
-<tr><td>23</td><td>
+<tr><td><a href="#rule-exponentiation">23</a></td><td>
 
 *e₁ \*\* e₂*
 
@@ -2344,7 +2529,7 @@ Mapped to Domain
 Examples
 
 </th></tr>
-<tr><td>51</td><td>
+<tr><td><a href="#rule-instance-of">51</a></td><td>
 
 *e₁ instance of e₂*
 
@@ -2369,7 +2554,7 @@ Otherwise, the result is **false**.
 *123 instance of list* is **null** as a list type requires parameters (see [list](#rule-list)).
 
 </td></tr>
-<tr><td>51</td><td>
+<tr><td><a href="#rule-instance-of">51</a></td><td>
 
 *e1 as e2*
 
@@ -2395,7 +2580,7 @@ Negative numbers and negation of durations are defined in [Semantics of negative
 
 | Grammar Rule | FEEL Syntax | Equivalent FEEL Syntax |
 |--------------|-------------|------------------------|
-| 24           | *-e*        | *e\*-1*                |
+| [24](#rule-arithmetic-negation)           | *-e*        | *e\*-1*                |
 
 Invocation is defined in [Semantics of invocation](#table-semantics-of-invocation). An invocation can use positional arguments or named arguments. If positional, all arguments must be supplied. If named, unsupplied arguments are bound to **null**. Note that **e** can be a user-defined function, a user-defined external function, or a built-in function. The arguments are subject to implicit conversions ([Type conversions](#type-conversions)). If the argument types before or after conversion do not conform to the corresponding parameter types, the result of the invocation is **null**.
 
@@ -2403,8 +2588,8 @@ Invocation is defined in [Semantics of invocation](#table-semantics-of-invocatio
 
 | Grammar Rule | FEEL | Mapped to Domain | Applicability |
 |------------|-------------------|---------------------|---------------------|
-| 38, 39, 42 | *e(e₁,..)* | **e(e₁**,...**)** | **e** is a function with matching arity and conforming parameter types |
-| 38, 39, 40, 41 | *e(n₁:e₁,...)* | **e(***n₁***:e₁,...)** | **e** is a function with matching parameter names and conforming parameter types |
+| [38](#rule-function-invocation), [39](#rule-parameters), [42](#rule-positional-parameters) | *e(e₁,..)* | **e(e₁**,...**)** | **e** is a function with matching arity and conforming parameter types |
+| [38](#rule-function-invocation), [39](#rule-parameters), [40](#rule-named-parameters), [41](#rule-parameter-name) | *e(n₁:e₁,...)* | **e(***n₁***:e₁,...)** | **e** is a function with matching parameter names and conforming parameter types |
 
 Properties are defined in [General semantics of properties](#table-general-semantics-of-properties) and [List of properties per type](#table-list-of-properties-per-type). If **type(***e***)** is date and time, time, or duration, and **name** is a property name, then the meaning is given by [List of properties per type](#table-list-of-properties-per-type) and [Specific semantics of date, time, and duration properties](#table-specific-semantics-of-date-time-and-duration-properties). For example, FEEL(*date and time("2012-0307Z").year*) = **2012**.
 
@@ -2412,8 +2597,8 @@ Properties are defined in [General semantics of properties](#table-general-seman
 
 | Grammar Rule | FEEL     | Mapped to Domain | Applicability                       |
 |--------------|-------------------|---------------------|--------------------|
-| 18           | *e.name* | **e."name"**     | **type(e)** is a context            |
-| 18           | *e.name* | *see below*      | **type(e)** is a date/time/duration |
+| [18](#rule-qualified-name)           | *e.name* | **e."name"**     | **type(e)** is a context            |
+| [18](#rule-qualified-name)           | *e.name* | *see below*      | **type(e)** is a date/time/duration |
 
 ###### Table: List of properties per type
 
@@ -2585,7 +2770,7 @@ Mapped to Domain
 Applicability
 
 </th></tr>
-<tr><td>68</td><td>
+<tr><td><a href="#rule-descendant-expression">68</a></td><td>
 
 *e…name*
 
@@ -2626,7 +2811,7 @@ Mapped to Domain (scope s)
 Applicability
 
 </th></tr>
-<tr><td>54</td><td>
+<tr><td><a href="#rule-list">54</a></td><td>
 
 *e₁\[e₂\]*
 
@@ -2639,7 +2824,7 @@ Applicability
 **e₁** is a list and **e₂** is an integer (0 scale number)
 
 </td></tr>
-<tr><td>54</td><td>
+<tr><td><a href="#rule-list">54</a></td><td>
 
 *e₁\[e₂\]*
 
@@ -2654,7 +2839,7 @@ Applicability
 = **1**
 
 </td></tr>
-<tr><td>54</td><td>
+<tr><td><a href="#rule-list">54</a></td><td>
 
 *e₁\[e₂\]*
 
@@ -2667,7 +2852,7 @@ list of items **e** such that **i** is in **e** iff **i** is in **e₁** and FEE
 **e₁** is a list and **type(**FEEL(*e₂,* **s'**)**)** is boolean
 
 </td></tr>
-<tr><td>54</td><td>
+<tr><td><a href="#rule-list">54</a></td><td>
 
 *e₁\[e₂\]*
 
@@ -2716,8 +2901,8 @@ Mapped to Domain (scope s)
 *{ "n₁" : e₁, "n₂" : e₂, ...}*
 
 </td></tr>
-<tr><td>57</td><td></td></tr>
-<tr><td>54</td><td>
+<tr><td><a href="#rule-context">57</a></td><td></td></tr>
+<tr><td><a href="#rule-list">54</a></td><td>
 
 *\[e₁, e₂, ...\]*
 
@@ -2857,75 +3042,47 @@ The following schema and instance are equivalent to the following FEEL:
 
 ##### schema
 
-\<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org" targetNamespace="http://www.example.org" elementFormDefault="qualified"\>
-
-> \<xsd:element name="Context"\>
->
-> \<xsd:complexType\> \<xsd:sequence\>
->
-> \<xsd:element name="Employee"\>
->
-> \<xsd:complexType\> \<xsd:sequence\>
->
-> \<xsd:element name="salary" type="xsd:decimal"/\>
->
-> \</xsd:sequence\> \</xsd:complexType\>
->
-> \</xsd:element\>
->
-> \<xsd:element name="Customer" maxOccurs="unbounded"\>
->
-> \<xsd:complexType\> \<xsd:sequence\>
->
-> \<xsd:element name="loyalty_level" type="xsd:string"/\>
->
-> \<xsd:element name="credit_limit" type="xsd:decimal"/\>
->
-> \</xsd:sequence\> \</xsd:complexType\>
->
-> \</xsd:element\>
->
-> \</xsd:sequence\> \</xsd:complexType\>
->
-> \</xsd:element\>
-
-\</xsd:schema\>
+```xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org" targetNamespace="http://www.example.org" elementFormDefault="qualified">
+  <xsd:element name="Context">
+    <xsd:complexType> <xsd:sequence>
+      <xsd:element name="Employee">
+        <xsd:complexType> <xsd:sequence>
+          <xsd:element name="salary" type="xsd:decimal"/>
+        </xsd:sequence> </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Customer" maxOccurs="unbounded">
+        <xsd:complexType> <xsd:sequence>
+          <xsd:element name="loyalty_level" type="xsd:string"/>
+          <xsd:element name="credit_limit" type="xsd:decimal"/>
+        </xsd:sequence> </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence> </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+```
 
 ##### instance
 
-\<Context xmlns:tns="http://www.example.org" xmlns="http://www.example.org"\>
-
-> \<tns:Employee\>
->
-> \<tns:salary\>13000\</tns:salary\>
->
-> \</tns:Employee\>
->
-> \<Customer\>
->
-> \<loyalty_level\>gold\</loyalty_level\>
->
-> \<credit_limit\>10000\</credit_limit\>
->
-> \</Customer\>
->
-> \<Customer\>
->
-> \<loyalty_level\>gold\</loyalty_level\>
->
-> \<credit_limit\>20000\</credit_limit\>
->
-> \</Customer\>
->
-> \<Customer\>
->
-> \<loyalty_level\>silver\</loyalty_level\>
->
-> \<credit_limit\>5000\</credit_limit\>
->
-> \</Customer\>
-
-\</Context\>
+```xml
+<Context xmlns:tns="http://www.example.org" xmlns="http://www.example.org">
+  <tns:Employee>
+    <tns:salary>13000</tns:salary>
+  </tns:Employee>
+  <Customer>
+    <loyalty_level>gold</loyalty_level>
+    <credit_limit>10000</credit_limit>
+  </Customer>
+  <Customer>
+    <loyalty_level>gold</loyalty_level>
+    <credit_limit>20000</credit_limit>
+  </Customer>
+  <Customer>
+    <loyalty_level>silver</loyalty_level>
+    <credit_limit>5000</credit_limit>
+  </Customer>
+</Context>
+```
 
 ##### equivalent FEEL boxed context
 
@@ -5289,9 +5446,31 @@ FEEL expressions may reference other FEEL expressions by name. Named expressions
 
 ### Context
 
-[Example context](Images/example-context.svg) shows the boxed context used for the examples. Such a context could arise in several ways. It could be part of the decision logic for a single, complex decision. Or it could be a context that is equivalent to part of a DRG as defined in clause [Execution Semantics of Decision Services](#execution-semantics-of-decision-services), where *applicant, requested product,* and *credit history* are input data instances, *monthly income* and *monthly outgoings* are the results of other decisions linked through information requirements, and *PMT* is a business knowledge model.
+[Example context](#table-example-context) shows the boxed context used for the examples. Such a context could arise in several ways. It could be part of the decision logic for a single, complex decision. Or it could be a context that is equivalent to part of a DRG as defined in clause [Execution Semantics of Decision Services](#execution-semantics-of-decision-services), where *applicant, requested product,* and *credit history* are input data instances, *monthly income* and *monthly outgoings* are the results of other decisions linked through information requirements, and *PMT* is a business knowledge model.
 
-![Example context](Images/example-context.svg)
+###### Table: Example context
+
+<table class="dmn-boxed-expression">
+<tbody>
+<tr><td class="name" rowspan="6">applicant</td><td class="name">age</td><td colspan="2">51</td></tr>
+<tr><td class="name">maritalStatus</td><td colspan="2">"M"</td></tr>
+<tr><td class="name">existingCustomer</td><td colspan="2">false</td></tr>
+<tr><td class="name" rowspan="3">monthly</td><td class="name">income</td><td>10000</td></tr>
+<tr><td class="name">repayments</td><td>2500</td></tr>
+<tr><td class="name">expenses</td><td>3000</td></tr>
+<tr><td class="name" rowspan="4">requested product</td><td class="name" colspan="2">product type</td><td>"STANDARD LOAN"</td></tr>
+<tr><td class="name" colspan="2">rate</td><td>0.25</td></tr>
+<tr><td class="name" colspan="2">term</td><td>36</td></tr>
+<tr><td class="name" colspan="2">amount</td><td>100000.00</td></tr>
+<tr><td class="name">monthly income</td><td colspan="3">applicant.monthly.income</td></tr>
+<tr><td class="name">monthly outgoings</td><td colspan="3">applicant.monthly.repayments, applicant.monthly.expenses</td></tr>
+<tr><td class="name" rowspan="3">credit history</td><td class="name">record date</td><td class="name">event</td><td class="name">weight</td></tr>
+<tr><td>date("2008-03-12")</td><td>"home mortgage"</td><td>100</td></tr>
+<tr><td>date("2011-04-01")</td><td>"foreclosure warning"</td><td>150</td></tr>
+<tr><td class="name" rowspan="2">PMT</td><td colspan="3">(rate, term, amount)</td></tr>
+<tr><td colspan="3">(amount *rate/12) / (1 - (1 + rate/12)**-term)</td></tr>
+</tbody>
+</table>
 
 Notice that there are 6 top-level context entries, represented by the six rows of the table. The value of the context entry named 'applicant' is itself a context, and the value of the context entry named 'monthly' is itself a context. The value of the context entry named 'monthly outgoings' is a list, the value of the context entry named 'credit history' is a relation, *i.e.,* a list of two contexts, one context per row. The value of the context entry named 'PMT' is a function with parameters 'rate', 'term', and 'amount'.
 

@@ -534,7 +534,9 @@ end
 local function decision_table(tbl)
   local rows, cells = grid(tbl)
   local n, nhead = #tbl.colspecs, #tbl.head.rows
-  local inner = { 'cells={font=\\sffamily\\small}', ('row{1-%d}={font=\\sffamily\\small}'):format(math.max(nhead, 1)) }
+  local inner = { 'cells={font=\\sffamily\\small}', ('row{1-%d}={font=\\sffamily\\small}'):format(math.max(nhead, 1)),
+    -- vertical lines run through the gap of the double line below the clauses
+    'vlines={abovepos=1, belowpos=1}' }
   local first = name_box(tbl, n, inner)
   local align, hit
   if tbl.classes:includes('crosstab') then
@@ -562,7 +564,9 @@ local function boxed_lines(rows, owner, n)
   local function across_height(p) return p and p.last_row == R and (p.row == 1 or not real(owner[p.row - 1][p.col])) end
   local segments = {}
   local function add(kind_, i, from, to)
-    table.insert(segments, ('%s{%d}={1}{%d-%d}{solid}'):format(kind_, i, from, to))
+    -- vertical lines run through the gap of a double line (abovepos, belowpos)
+    local style = kind_ == 'vline' and 'solid, abovepos=1, belowpos=1' or 'solid'
+    table.insert(segments, ('%s{%d}={1}{%d-%d}{%s}'):format(kind_, i, from, to, style))
     -- a row of class double-line has a double line above it (e.g. between the
     -- items of a boxed list, Figure 10-12)
     if kind_ == 'hline' and rows[i] and rows[i].attr.classes:includes('double-line') then
