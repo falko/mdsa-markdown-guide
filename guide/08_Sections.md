@@ -43,8 +43,11 @@ third `#overview-2`.
 
 ## Unnumbered headings {-}
 
-A heading with `{-}` after its text is not numbered. This subclause is an
-example. GitHub shows the `{-}`, so use it sparingly.
+Headings in front matter files (`00_*.md`, such as a preface) are not
+numbered, as in the LaTeX template. Elsewhere, a heading with `{-}` after its
+text is not numbered; this subclause is an example. GitHub shows the `{-}`, so
+avoid it: a heading that should not be numbered is often better a numbered
+heading, a bold paragraph, or a note.
 
 ### Third-level heading
 
